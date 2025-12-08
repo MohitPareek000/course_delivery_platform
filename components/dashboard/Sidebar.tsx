@@ -3,7 +3,7 @@
 import * as React from "react";
 import { Home, BookOpen, User, LogOut, Menu, X, Briefcase } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 interface SidebarProps {
   userName?: string;
@@ -13,15 +13,25 @@ interface SidebarProps {
 export function Sidebar({ userName = "Mohit", userEmail }: SidebarProps) {
   const [isOpen, setIsOpen] = React.useState(false);
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleLogout = () => {
     sessionStorage.removeItem("user-session");
     router.push("/login");
   };
 
+  const handleNavigation = (href: string) => {
+    router.push(href);
+    setIsOpen(false);
+  };
+
+  // Determine which menu item is active based on pathname
+  const isCoursePage = pathname?.startsWith("/course");
+  const isDashboard = pathname === "/dashboard";
+
   const menuItems = [
-    { icon: Home, label: "Home", href: "/dashboard", active: true },
-    { icon: BookOpen, label: "My Courses", href: "/dashboard", active: false },
+    { icon: Home, label: "Home", href: "/dashboard", active: isDashboard },
+    { icon: BookOpen, label: "My Courses", href: "/dashboard", active: isCoursePage },
     { icon: User, label: "Profile", href: "/dashboard", active: false },
   ];
 
@@ -65,6 +75,7 @@ export function Sidebar({ userName = "Mohit", userEmail }: SidebarProps) {
           {menuItems.map((item) => (
             <button
               key={item.label}
+              onClick={() => handleNavigation(item.href)}
               className={cn(
                 "w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 text-sm font-medium",
                 item.active

@@ -507,7 +507,7 @@ export default function CourseDetailPage() {
                               {round.title}
                             </h3>
                           </div>
-                          {unlocked && (
+                          {unlocked ? (
                             <div className={cn(
                               "flex items-center gap-2 text-xs ml-8",
                               roundProgressData.progressPercentage === 100
@@ -525,6 +525,10 @@ export default function CourseDetailPage() {
                                 {roundProgressData.progressPercentage}% completed
                               </span>
                             </div>
+                          ) : (
+                            <p className="text-xs text-gray-500 font-medium ml-8">
+                              Complete Round {index} to unlock
+                            </p>
                           )}
                         </div>
                       </button>
