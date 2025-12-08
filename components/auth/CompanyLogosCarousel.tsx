@@ -2,64 +2,66 @@
 
 import * as React from "react";
 
+const BRANDFETCH_CLIENT_ID = "1idHfSqccAbp2Vb4wMw";
+
 const companies = [
   {
     name: "Swiggy",
-    logo: "https://logo.clearbit.com/swiggy.com",
+    logo: `https://cdn.brandfetch.io/swiggy.com/w/400/h/400?c=${BRANDFETCH_CLIENT_ID}`,
     bgColor: "#FC8019",
     textColor: "#FFFFFF"
   },
   {
     name: "Zomato",
-    logo: "https://logo.clearbit.com/zomato.com",
+    logo: `https://cdn.brandfetch.io/zomato.com/w/400/h/400?c=${BRANDFETCH_CLIENT_ID}`,
     bgColor: "#E23744",
     textColor: "#FFFFFF"
   },
   {
     name: "Cred",
-    logo: "https://logo.clearbit.com/cred.club",
+    logo: `https://cdn.brandfetch.io/cred.club/w/400/h/400?c=${BRANDFETCH_CLIENT_ID}`,
     bgColor: "#0B0B0B",
     textColor: "#FFFFFF"
   },
   {
     name: "Accenture",
-    logo: "https://logo.clearbit.com/accenture.com",
+    logo: `https://cdn.brandfetch.io/accenture.com/w/400/h/400?c=${BRANDFETCH_CLIENT_ID}`,
     bgColor: "#A100FF",
     textColor: "#FFFFFF"
   },
   {
     name: "PhonePe",
-    logo: "https://logo.clearbit.com/phonepe.com",
+    logo: `https://cdn.brandfetch.io/phonepe.com/w/400/h/400?c=${BRANDFETCH_CLIENT_ID}`,
     bgColor: "#5F259F",
     textColor: "#FFFFFF"
   },
   {
     name: "Paytm",
-    logo: "https://logo.clearbit.com/paytm.com",
+    logo: `https://cdn.brandfetch.io/paytm.com/w/400/h/400?c=${BRANDFETCH_CLIENT_ID}`,
     bgColor: "#00BAF2",
     textColor: "#FFFFFF"
   },
   {
     name: "Flipkart",
-    logo: "https://logo.clearbit.com/flipkart.com",
+    logo: `https://cdn.brandfetch.io/flipkart.com/w/400/h/400?c=${BRANDFETCH_CLIENT_ID}`,
     bgColor: "#2874F0",
     textColor: "#FFFFFF"
   },
   {
     name: "Amazon",
-    logo: "https://logo.clearbit.com/amazon.com",
+    logo: `https://cdn.brandfetch.io/amazon.com/w/400/h/400?c=${BRANDFETCH_CLIENT_ID}`,
     bgColor: "#FF9900",
     textColor: "#000000"
   },
   {
     name: "Google",
-    logo: "https://logo.clearbit.com/google.com",
+    logo: `https://cdn.brandfetch.io/google.com/w/400/h/400?c=${BRANDFETCH_CLIENT_ID}`,
     bgColor: "#4285F4",
     textColor: "#FFFFFF"
   },
   {
     name: "Microsoft",
-    logo: "https://logo.clearbit.com/microsoft.com",
+    logo: `https://cdn.brandfetch.io/microsoft.com/w/400/h/400?c=${BRANDFETCH_CLIENT_ID}`,
     bgColor: "#00A4EF",
     textColor: "#FFFFFF"
   },
@@ -106,10 +108,7 @@ export function CompanyLogosCarousel() {
                   key={`first-${index}`}
                   className="flex-shrink-0 mx-3 sm:mx-4 lg:mx-6"
                 >
-                  <div
-                    className="h-12 w-12 flex items-center justify-center p-2 hover:scale-110 transition-transform duration-300"
-                    style={{ backgroundColor: company.bgColor }}
-                  >
+                  <div className="h-16 w-16 flex items-center justify-center p-2 hover:scale-110 transition-transform duration-300">
                     {!failedLogos.includes(company.name) ? (
                       <img
                         src={company.logo}
@@ -121,8 +120,8 @@ export function CompanyLogosCarousel() {
                       />
                     ) : (
                       <span
-                        className="font-bold text-xs text-center"
-                        style={{ color: company.textColor }}
+                        className="font-bold text-sm text-center"
+                        style={{ color: company.bgColor }}
                       >
                         {company.name}
                       </span>
@@ -137,10 +136,7 @@ export function CompanyLogosCarousel() {
                   key={`second-${index}`}
                   className="flex-shrink-0 mx-3 sm:mx-4 lg:mx-6"
                 >
-                  <div
-                    className="h-12 w-12 flex items-center justify-center p-2 hover:scale-110 transition-transform duration-300"
-                    style={{ backgroundColor: company.bgColor }}
-                  >
+                  <div className="h-16 w-16 flex items-center justify-center p-2 hover:scale-110 transition-transform duration-300">
                     {!failedLogos.includes(company.name) ? (
                       <img
                         src={company.logo}
@@ -152,8 +148,8 @@ export function CompanyLogosCarousel() {
                       />
                     ) : (
                       <span
-                        className="font-bold text-xs text-center"
-                        style={{ color: company.textColor }}
+                        className="font-bold text-sm text-center"
+                        style={{ color: company.bgColor }}
                       >
                         {company.name}
                       </span>

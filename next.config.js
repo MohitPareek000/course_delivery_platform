@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['localhost', 'logo.clearbit.com', 'asset.brandfetch.io', 'cdn.brandfetch.io', 'img.logo.dev'],
+    domains: ['localhost', 'logo.clearbit.com', 'asset.brandfetch.io', 'cdn.brandfetch.io', 'api.brandfetch.io', 'img.logo.dev'],
     remotePatterns: [
       {
         protocol: 'https',
@@ -14,6 +14,10 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'cdn.brandfetch.io',
+      },
+      {
+        protocol: 'https',
+        hostname: 'api.brandfetch.io',
       },
       {
         protocol: 'https',

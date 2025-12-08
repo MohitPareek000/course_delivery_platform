@@ -210,3 +210,45 @@ export function getPreviousModule(currentModuleId: string) {
 
   return null;
 }
+
+// Check if a module is locked for a user
+export function isModuleLocked(userId: string, moduleId: string): boolean {
+  const currentModule = getModuleById(moduleId);
+  if (!currentModule) return true;
+
+  // Get all modules in the same topic
+  const topicModules = getTopicModules(currentModule.topicId);
+  const currentIndex = topicModules.findIndex((m) => m.id === moduleId);
+
+  // First module in a topic is always unlocked (unless round is locked)
+  if (currentIndex === 0) {
+    const currentTopic = mockTopics.find((t) => t.id === currentModule.topicId);
+    if (!currentTopic) return false;
+
+    // If it's the first topic in a course/round, it's unlocked
+    if (currentTopic.order === 1) return false;
+
+    // Check if previous topic's last module is completed
+    const previousTopic = mockTopics.find(
+      (t) =>
+        t.courseId === currentTopic.courseId &&
+        t.roundId === currentTopic.roundId &&
+        t.order === currentTopic.order - 1
+    );
+
+    if (previousTopic) {
+      const prevTopicModules = getTopicModules(previousTopic.id);
+      const lastModule = prevTopicModules[prevTopicModules.length - 1];
+      if (lastModule) {
+        const progress = getUserModuleProgress(userId, lastModule.id);
+        return !(progress?.isCompleted || false);
+      }
+    }
+    return false;
+  }
+
+  // For other modules, check if the previous module is completed
+  const previousModule = topicModules[currentIndex - 1];
+  const progress = getUserModuleProgress(userId, previousModule.id);
+  return !(progress?.isCompleted || false);
+}

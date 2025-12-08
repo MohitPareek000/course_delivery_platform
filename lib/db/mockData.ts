@@ -308,6 +308,7 @@ export const mockModules: Module[] = [
 
 // Mock User Progress
 export const mockUserProgress: UserProgress[] = [
+  // Round 1 modules - ALL COMPLETED
   {
     id: "progress-1",
     userId: "user-1",
@@ -321,9 +322,55 @@ export const mockUserProgress: UserProgress[] = [
     id: "progress-2",
     userId: "user-1",
     moduleId: "module-1-2",
+    watchedDuration: 1200,
+    isCompleted: true,
+    lastWatchedAt: new Date("2024-01-16"),
+    completedAt: new Date("2024-01-16"),
+  },
+  {
+    id: "progress-3",
+    userId: "user-1",
+    moduleId: "module-1-3",
+    watchedDuration: 1800,
+    isCompleted: true,
+    lastWatchedAt: new Date("2024-01-17"),
+    completedAt: new Date("2024-01-17"),
+  },
+  {
+    id: "progress-4",
+    userId: "user-1",
+    moduleId: "module-2-1",
+    watchedDuration: 900,
+    isCompleted: true,
+    lastWatchedAt: new Date("2024-01-18"),
+    completedAt: new Date("2024-01-18"),
+  },
+  {
+    id: "progress-5",
+    userId: "user-1",
+    moduleId: "module-2-2",
+    watchedDuration: 1200,
+    isCompleted: true,
+    lastWatchedAt: new Date("2024-01-19"),
+    completedAt: new Date("2024-01-19"),
+  },
+  {
+    id: "progress-6",
+    userId: "user-1",
+    moduleId: "module-3-1",
+    watchedDuration: 1500,
+    isCompleted: true,
+    lastWatchedAt: new Date("2024-01-20"),
+    completedAt: new Date("2024-01-20"),
+  },
+  // Round 2 module - IN PROGRESS
+  {
+    id: "progress-7",
+    userId: "user-1",
+    moduleId: "module-4-1",
     watchedDuration: 600,
     isCompleted: false,
-    lastWatchedAt: new Date("2024-01-16"),
+    lastWatchedAt: new Date("2024-01-21"),
   },
 ];
 

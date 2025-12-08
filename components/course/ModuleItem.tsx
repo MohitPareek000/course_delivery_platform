@@ -2,6 +2,7 @@ import { Module, UserProgress } from "@/types";
 import { PlayCircle, CheckCircle2, Lock, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { Tooltip } from "@/components/ui/tooltip";
 
 interface ModuleItemProps {
   module: Module;
@@ -93,7 +94,11 @@ export function ModuleItem({ module, progress, courseId, isLocked = false }: Mod
   );
 
   if (isLocked) {
-    return content;
+    return (
+      <Tooltip content="Complete the previous module to unlock">
+        {content}
+      </Tooltip>
+    );
   }
 
   return <Link href={`/course/${courseId}/module/${module.id}`}>{content}</Link>;

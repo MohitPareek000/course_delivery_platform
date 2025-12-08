@@ -7,34 +7,36 @@ import { Briefcase, BookOpen, ArrowRight, PlayCircle, Code, Database, Cloud, Sma
 import Link from "next/link";
 import * as React from "react";
 
-// Company logo mapping
+// Company logo mapping using Brandfetch CDN with client ID
+const BRANDFETCH_CLIENT_ID = "1idHfSqccAbp2Vb4wMw";
+
 const companyLogos: Record<string, { logo: string; bgColor: string }> = {
   "TCS": {
-    logo: "https://logo.clearbit.com/tcs.com",
+    logo: `https://cdn.brandfetch.io/tcs.com/w/400/h/400?c=${BRANDFETCH_CLIENT_ID}`,
     bgColor: "#0066B2"
   },
   "Infosys": {
-    logo: "https://logo.clearbit.com/infosys.com",
+    logo: `https://cdn.brandfetch.io/infosys.com/w/400/h/400?c=${BRANDFETCH_CLIENT_ID}`,
     bgColor: "#007CC3"
   },
   "Wipro": {
-    logo: "https://logo.clearbit.com/wipro.com",
+    logo: `https://cdn.brandfetch.io/wipro.com/w/400/h/400?c=${BRANDFETCH_CLIENT_ID}`,
     bgColor: "#7B2482"
   },
   "Accenture": {
-    logo: "https://logo.clearbit.com/accenture.com",
+    logo: `https://cdn.brandfetch.io/accenture.com/w/400/h/400?c=${BRANDFETCH_CLIENT_ID}`,
     bgColor: "#A100FF"
   },
   "Amazon": {
-    logo: "https://logo.clearbit.com/amazon.com",
+    logo: `https://cdn.brandfetch.io/amazon.com/w/400/h/400?c=${BRANDFETCH_CLIENT_ID}`,
     bgColor: "#FF9900"
   },
   "Google": {
-    logo: "https://logo.clearbit.com/google.com",
+    logo: `https://cdn.brandfetch.io/google.com/w/400/h/400?c=${BRANDFETCH_CLIENT_ID}`,
     bgColor: "#4285F4"
   },
   "Microsoft": {
-    logo: "https://logo.clearbit.com/microsoft.com",
+    logo: `https://cdn.brandfetch.io/microsoft.com/w/400/h/400?c=${BRANDFETCH_CLIENT_ID}`,
     bgColor: "#00A4EF"
   },
 };

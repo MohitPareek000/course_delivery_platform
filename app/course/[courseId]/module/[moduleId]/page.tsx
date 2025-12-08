@@ -6,6 +6,7 @@ import { Sidebar } from "@/components/dashboard/Sidebar";
 import { VideoPlayer } from "@/components/video/VideoPlayer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Tooltip } from "@/components/ui/tooltip";
 import {
   ArrowLeft,
   ChevronLeft,
@@ -113,14 +114,29 @@ export default function ModulePlayerPage() {
           Back to Course
         </Button>
 
+        {/* Module Title Bar */}
+        <div className="bg-white rounded-lg p-4 mb-4 shadow-sm border">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div className="flex-1 min-w-0">
+              <h1 className="text-xl font-bold text-gray-900">{module.title}</h1>
+              <p className="text-sm text-gray-500">{course.title}</p>
+            </div>
+            <Badge
+              variant="secondary"
+              className={`${isCompleted ? "bg-green-500" : "bg-blue-500"} self-start sm:self-auto shrink-0`}
+            >
+              <CheckCircle2 className="w-3 h-3 mr-1" />
+              {isCompleted ? "Completed" : "In Progress"}
+            </Badge>
+          </div>
+        </div>
+
         {/* Completion Message */}
         {showCompletionMessage && (
-          <div className="mb-6 bg-green-50 border border-green-200 rounded-lg p-4 flex items-center gap-3">
+          <div className="mb-4 bg-green-50 border border-green-200 rounded-lg p-4 flex items-center gap-3">
             <CheckCircle2 className="w-6 h-6 text-green-500" />
             <div>
-              <h3 className="font-semibold text-green-900">
-                Module Completed!
-              </h3>
+              <h3 className="font-semibold text-green-900">Module Completed!</h3>
               <p className="text-sm text-green-700">
                 Great job! You've completed this module.
               </p>
@@ -128,57 +144,35 @@ export default function ModulePlayerPage() {
           </div>
         )}
 
-        {/* Video Player Section */}
-        <div className="bg-white rounded-lg p-6 mb-6 shadow-sm border">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900 mb-1">
-                {module.title}
-              </h1>
-              <p className="text-sm text-gray-500">{course.title}</p>
+        {/* Two Column Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+          {/* Left Column - Video Player (2/3 width) */}
+          <div className="lg:col-span-2">
+            <div className="bg-white rounded-lg p-4 shadow-sm border">
+              <VideoPlayer
+                videoUrl={module.videoUrl}
+                onProgressUpdate={handleProgressUpdate}
+                initialProgress={initialProgress?.watchedDuration || 0}
+                moduleId={moduleId}
+              />
             </div>
-            {isCompleted && (
-              <Badge variant="secondary" className="bg-green-500">
-                <CheckCircle2 className="w-3 h-3 mr-1" />
-                Completed
-              </Badge>
-            )}
           </div>
 
-          <VideoPlayer
-            videoUrl={module.videoUrl}
-            onProgressUpdate={handleProgressUpdate}
-            initialProgress={initialProgress?.watchedDuration || 0}
-            moduleId={moduleId}
-          />
-        </div>
+          {/* Right Column - Module Info (1/3 width) */}
+          <div className="lg:col-span-1">
+            <div className="bg-white rounded-lg p-5 shadow-sm border h-full">
+              <div className="flex items-center gap-2 mb-4">
+                <FileText className="w-5 h-5 text-primary" />
+                <h2 className="text-lg font-bold text-gray-900">Description</h2>
+              </div>
 
-        {/* Module Info Panel */}
-        <div className="bg-white rounded-lg p-6 mb-6 shadow-sm border">
-          <div className="flex items-center gap-2 mb-3">
-            <FileText className="w-5 h-5 text-primary" />
-            <h2 className="text-xl font-bold text-gray-900">Module Information</h2>
-          </div>
-
-          {module.description && (
-            <div className="mb-4">
-              <h3 className="font-semibold text-gray-900 mb-2">Description</h3>
-              <p className="text-gray-700">{module.description}</p>
-            </div>
-          )}
-
-          <div className="grid grid-cols-2 gap-4 p-4 bg-gray-50 rounded-lg">
-            <div>
-              <p className="text-sm text-gray-600">Duration</p>
-              <p className="font-semibold text-gray-900">
-                {Math.ceil(module.duration / 60)} minutes
-              </p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">Status</p>
-              <p className="font-semibold text-gray-900">
-                {isCompleted ? "Completed" : "In Progress"}
-              </p>
+              {module.description && (
+                <div>
+                  <p className="text-sm text-gray-700 leading-relaxed">
+                    {module.description}
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -203,14 +197,23 @@ export default function ModulePlayerPage() {
 
           <div>
             {nextModule ? (
-              <Button
-                onClick={() =>
-                  router.push(`/course/${courseId}/module/${nextModule.id}`)
-                }
-              >
-                Next Module
-                <ChevronRight className="w-4 h-4 ml-2" />
-              </Button>
+              isCompleted ? (
+                <Button
+                  onClick={() =>
+                    router.push(`/course/${courseId}/module/${nextModule.id}`)
+                  }
+                >
+                  Next Module
+                  <ChevronRight className="w-4 h-4 ml-2" />
+                </Button>
+              ) : (
+                <Tooltip content="Complete current module to unlock">
+                  <Button disabled className="cursor-not-allowed">
+                    Next Module
+                    <ChevronRight className="w-4 h-4 ml-2" />
+                  </Button>
+                </Tooltip>
+              )
             ) : (
               <Button
                 variant="secondary"
