@@ -39,6 +39,7 @@ export default function ModulePlayerPage() {
     initialProgress?.isCompleted || false
   );
   const [showCompletionMessage, setShowCompletionMessage] = React.useState(false);
+  const [isMarkingComplete, setIsMarkingComplete] = React.useState(false);
   const hasShownCompletionRef = React.useRef(false);
 
   const handleProgressUpdate = (watchedDuration: number, totalDuration: number) => {
@@ -172,13 +173,28 @@ export default function ModulePlayerPage() {
           <div className="mb-4 sm:hidden">
             <Button
               onClick={() => {
-                const estimatedDuration = module.duration || 600;
-                handleProgressUpdate(estimatedDuration, estimatedDuration);
+                setIsMarkingComplete(true);
+                setTimeout(() => {
+                  const estimatedDuration = module.duration || 600;
+                  handleProgressUpdate(estimatedDuration, estimatedDuration);
+                  setIsMarkingComplete(false);
+                }, 800);
               }}
-              className="bg-green-600 hover:bg-green-700 w-full"
+              disabled={isMarkingComplete}
+              className={`bg-green-600 hover:bg-green-700 w-full transition-all duration-300 ${
+                isMarkingComplete ? 'scale-95 opacity-90' : 'scale-100'
+              }`}
             >
-              <CheckCircle2 className="w-4 h-4 mr-2" />
-              Mark as Complete
+              <CheckCircle2
+                className={`w-4 h-4 mr-2 transition-all duration-500 ${
+                  isMarkingComplete ? 'rotate-[360deg] scale-110' : 'rotate-0 scale-100'
+                }`}
+              />
+              {isMarkingComplete ? (
+                <span className="animate-pulse">Completing...</span>
+              ) : (
+                'Mark as Complete'
+              )}
             </Button>
           </div>
         )}
@@ -207,13 +223,28 @@ export default function ModulePlayerPage() {
             {module.videoUrl.includes('youtube.com') && !isCompleted && (
               <Button
                 onClick={() => {
-                  const estimatedDuration = module.duration || 600;
-                  handleProgressUpdate(estimatedDuration, estimatedDuration);
+                  setIsMarkingComplete(true);
+                  setTimeout(() => {
+                    const estimatedDuration = module.duration || 600;
+                    handleProgressUpdate(estimatedDuration, estimatedDuration);
+                    setIsMarkingComplete(false);
+                  }, 800);
                 }}
-                className="bg-green-600 hover:bg-green-700"
+                disabled={isMarkingComplete}
+                className={`bg-green-600 hover:bg-green-700 transition-all duration-300 ${
+                  isMarkingComplete ? 'scale-95 opacity-90' : 'scale-100'
+                }`}
               >
-                <CheckCircle2 className="w-4 h-4 mr-2" />
-                Mark as Complete
+                <CheckCircle2
+                  className={`w-4 h-4 mr-2 transition-all duration-500 ${
+                    isMarkingComplete ? 'rotate-[360deg] scale-110' : 'rotate-0 scale-100'
+                  }`}
+                />
+                {isMarkingComplete ? (
+                  <span className="animate-pulse">Completing...</span>
+                ) : (
+                  'Mark as Complete'
+                )}
               </Button>
             )}
 
