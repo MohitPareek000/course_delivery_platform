@@ -31,9 +31,12 @@ export interface Round {
   learningOutcomes: string[];
 }
 
+// Alias for Round - more generic naming for all course types
+export type Section = Round;
+
 export interface Topic {
   id: string;
-  roundId?: string;
+  roundId?: string; // Can also be called sectionId
   courseId: string;
   title: string;
   order: number;

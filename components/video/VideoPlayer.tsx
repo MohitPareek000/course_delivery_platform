@@ -9,6 +9,7 @@ interface VideoPlayerProps {
   onProgressUpdate: (watchedDuration: number, totalDuration: number) => void;
   initialProgress?: number;
   moduleId: string;
+  onMarkComplete?: () => void;
 }
 
 export function VideoPlayer({
@@ -26,6 +27,8 @@ export function VideoPlayer({
   const [showControls, setShowControls] = React.useState(true);
   const [watchedDuration, setWatchedDuration] = React.useState(initialProgress);
   const hideControlsTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
+  const [youtubePlayer, setYoutubePlayer] = React.useState<any>(null);
+  const iframeRef = React.useRef<HTMLIFrameElement>(null);
 
   const playbackSpeeds = [0.5, 0.75, 1, 1.25, 1.5, 2];
 
@@ -36,6 +39,144 @@ export function VideoPlayer({
   };
 
   const videoId = getYouTubeVideoId(videoUrl);
+
+  // Check if URL is an iframe-embeddable link (Scaler, YouTube, etc.)
+  const isIframeUrl = videoUrl.includes('scaler.com') || videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be');
+
+  // Check if it's a Scaler meeting URL (not embeddable)
+  const isScalerMeeting = videoUrl.includes('scaler.com/meetings/');
+
+  // Load YouTube IFrame API
+  React.useEffect(() => {
+    if (!isIframeUrl || isScalerMeeting || !videoId) return;
+
+    let progressInterval: NodeJS.Timeout | null = null;
+    let player: any = null;
+    let maxWatchedTime = initialProgress;
+
+    // Load YouTube IFrame API script
+    if (!(window as any).YT) {
+      const tag = document.createElement('script');
+      tag.src = 'https://www.youtube.com/iframe_api';
+      const firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
+    }
+
+    // Initialize player when API is ready
+    const initPlayer = () => {
+      const container = document.getElementById(`youtube-player-${moduleId}`);
+      if (!container || !videoId) return;
+
+      // Clear any existing iframe in the container
+      container.innerHTML = '';
+
+      player = new (window as any).YT.Player(`youtube-player-${moduleId}`, {
+        videoId: videoId,
+        width: '100%',
+        height: '100%',
+        playerVars: {
+          autoplay: 0,
+          controls: 1,
+          modestbranding: 1,
+          rel: 0
+        },
+        events: {
+          onStateChange: (event: any) => {
+            // When video ends, mark as 100% watched
+            if (event.data === (window as any).YT.PlayerState.ENDED) {
+              try {
+                if (player && typeof player.getDuration === 'function') {
+                  const videoDuration = player.getDuration();
+                  if (videoDuration > 0) {
+                    setDuration(videoDuration);
+                    setWatchedDuration(videoDuration);
+                    setCurrentTime(videoDuration);
+                    onProgressUpdate(videoDuration, videoDuration);
+                  }
+                } else if (duration > 0) {
+                  // Fallback to stored duration
+                  setWatchedDuration(duration);
+                  setCurrentTime(duration);
+                  onProgressUpdate(duration, duration);
+                }
+              } catch (error) {
+                console.error('Error getting duration on video end:', error);
+              }
+            }
+          },
+          onReady: (event: any) => {
+            try {
+              if (event.target && typeof event.target.getDuration === 'function') {
+                const videoDuration = event.target.getDuration();
+                if (videoDuration > 0) {
+                  setDuration(videoDuration);
+                }
+
+                // Set up interval to track progress
+                if (progressInterval) {
+                  clearInterval(progressInterval);
+                }
+
+                progressInterval = setInterval(() => {
+                  try {
+                    if (player && typeof player.getCurrentTime === 'function') {
+                      const current = player.getCurrentTime();
+                      setCurrentTime(current);
+
+                      // Track maximum watched time
+                      if (current > maxWatchedTime) {
+                        maxWatchedTime = current;
+                        setWatchedDuration(current);
+
+                        // Save progress immediately when we reach a new maximum
+                        onProgressUpdate(current, videoDuration);
+                      }
+                    }
+                  } catch (error) {
+                    console.error('Error tracking progress:', error);
+                  }
+                }, 1000);
+              }
+            } catch (error) {
+              console.error('Error in onReady callback:', error);
+            }
+          }
+        }
+      });
+      setYoutubePlayer(player);
+    };
+
+    // Set up the callback
+    const currentCallback = (window as any).onYouTubeIframeAPIReady;
+    (window as any).onYouTubeIframeAPIReady = () => {
+      if (currentCallback) currentCallback();
+      initPlayer();
+    };
+
+    // If API is already loaded
+    if ((window as any).YT && (window as any).YT.Player) {
+      initPlayer();
+    }
+
+    return () => {
+      if (progressInterval) {
+        clearInterval(progressInterval);
+      }
+      if (player && player.destroy) {
+        player.destroy();
+      }
+    };
+  }, [videoId, isIframeUrl, isScalerMeeting, moduleId]);
+
+  // Manual complete button handler for iframe videos
+  const handleMarkComplete = () => {
+    // Mark the video as fully watched
+    const estimatedDuration = 600; // 10 minutes default
+    const finalDuration = duration > 0 ? duration : estimatedDuration;
+    setWatchedDuration(finalDuration);
+    setCurrentTime(finalDuration);
+    onProgressUpdate(finalDuration, finalDuration);
+  };
 
   React.useEffect(() => {
     const video = videoRef.current;
@@ -69,8 +210,10 @@ export function VideoPlayer({
     };
   }, [watchedDuration]);
 
-  // Save progress every 5 seconds
+  // Save progress every 5 seconds (for native video only)
   React.useEffect(() => {
+    if (isIframeUrl) return; // Skip for YouTube videos - they save progress immediately
+
     const interval = setInterval(() => {
       if (watchedDuration > 0 && duration > 0) {
         onProgressUpdate(watchedDuration, duration);
@@ -78,7 +221,7 @@ export function VideoPlayer({
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [watchedDuration, duration, onProgressUpdate]);
+  }, [watchedDuration, duration, onProgressUpdate, isIframeUrl]);
 
   // Hide controls after 3 seconds of inactivity
   const resetHideControlsTimeout = () => {
@@ -159,18 +302,45 @@ export function VideoPlayer({
       onMouseMove={resetHideControlsTimeout}
       onMouseLeave={() => isPlaying && setShowControls(false)}
     >
-      {/* Video Element */}
-      <video
-        ref={videoRef}
-        className="w-full aspect-video"
-        onClick={togglePlay}
-        src={videoUrl}
-      >
-        Your browser does not support the video tag.
-      </video>
+      {/* Video Element or Iframe */}
+      {isScalerMeeting ? (
+        <div className="w-full aspect-video flex flex-col items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white p-8">
+          <div className="text-center space-y-6">
+            <div className="text-7xl mb-4">🎥</div>
+            <h3 className="text-2xl font-bold">Watch Video Lesson</h3>
+            <p className="text-gray-300 max-w-md text-base leading-relaxed">
+              Click the button below to start watching this video lesson.
+            </p>
+            <a
+              href={videoUrl}
+              className="inline-flex items-center gap-2 mt-6 px-8 py-4 bg-primary text-white rounded-lg hover:bg-primary/90 transition-all hover:scale-105 font-semibold text-lg shadow-lg"
+            >
+              <Play className="w-5 h-5" />
+              Watch Video
+            </a>
+          </div>
+        </div>
+      ) : isIframeUrl ? (
+        <div className="relative">
+          <div
+            ref={iframeRef}
+            id={`youtube-player-${moduleId}`}
+            className="w-full aspect-video"
+          />
+        </div>
+      ) : (
+        <video
+          ref={videoRef}
+          className="w-full aspect-video"
+          onClick={togglePlay}
+          src={videoUrl}
+        >
+          Your browser does not support the video tag.
+        </video>
+      )}
 
-      {/* Play/Pause Overlay */}
-      {!isPlaying && (
+      {/* Play/Pause Overlay - Only for native video */}
+      {!isIframeUrl && !isScalerMeeting && !isPlaying && (
         <div className="absolute inset-0 flex items-center justify-center bg-black/30">
           <button
             onClick={togglePlay}
@@ -181,91 +351,93 @@ export function VideoPlayer({
         </div>
       )}
 
-      {/* Controls */}
-      <div
-        className={cn(
-          "absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-4 transition-opacity duration-300",
-          showControls ? "opacity-100" : "opacity-0"
-        )}
-      >
-        {/* Progress Bar */}
-        <div className="mb-3">
-          <div className="relative h-1.5 bg-gray-600 rounded-full cursor-pointer">
-            {/* Watched portion (in light gray) */}
-            <div
-              className="absolute h-full bg-gray-400 rounded-full"
-              style={{ width: `${watchedPercentage}%` }}
-            />
-            {/* Current playback position */}
-            <div
-              className="absolute h-full bg-secondary rounded-full"
-              style={{ width: `${progressPercentage}%` }}
-            />
-            <input
-              type="range"
-              min="0"
-              max={duration}
-              value={currentTime}
-              onChange={handleSeek}
-              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-            />
+      {/* Controls - Only for native video */}
+      {!isIframeUrl && !isScalerMeeting && (
+        <div
+          className={cn(
+            "absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-4 transition-opacity duration-300",
+            showControls ? "opacity-100" : "opacity-0"
+          )}
+        >
+          {/* Progress Bar */}
+          <div className="mb-3">
+            <div className="relative h-1.5 bg-gray-600 rounded-full cursor-pointer">
+              {/* Watched portion (in light gray) */}
+              <div
+                className="absolute h-full bg-gray-400 rounded-full"
+                style={{ width: `${watchedPercentage}%` }}
+              />
+              {/* Current playback position */}
+              <div
+                className="absolute h-full bg-secondary rounded-full"
+                style={{ width: `${progressPercentage}%` }}
+              />
+              <input
+                type="range"
+                min="0"
+                max={duration}
+                value={currentTime}
+                onChange={handleSeek}
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+              />
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between text-white">
+            <div className="flex items-center gap-3">
+              {/* Play/Pause Button */}
+              <button
+                onClick={togglePlay}
+                className="hover:bg-white/20 p-2 rounded transition-colors"
+              >
+                {isPlaying ? (
+                  <Pause className="w-5 h-5" />
+                ) : (
+                  <Play className="w-5 h-5" />
+                )}
+              </button>
+
+              {/* Volume Button */}
+              <button
+                onClick={toggleMute}
+                className="hover:bg-white/20 p-2 rounded transition-colors"
+              >
+                {isMuted ? (
+                  <VolumeX className="w-5 h-5" />
+                ) : (
+                  <Volume2 className="w-5 h-5" />
+                )}
+              </button>
+
+              {/* Time */}
+              <span className="text-sm">
+                {formatTime(currentTime)} / {formatTime(duration)}
+              </span>
+            </div>
+
+            <div className="flex items-center gap-2">
+              {/* Playback Speed */}
+              <button
+                onClick={changePlaybackSpeed}
+                className="hover:bg-white/20 px-3 py-1 rounded text-sm transition-colors"
+              >
+                {playbackRate}x
+              </button>
+
+              {/* Fullscreen Button */}
+              <button
+                onClick={toggleFullscreen}
+                className="hover:bg-white/20 p-2 rounded transition-colors"
+              >
+                <Maximize className="w-5 h-5" />
+              </button>
+            </div>
           </div>
         </div>
+      )}
 
-        <div className="flex items-center justify-between text-white">
-          <div className="flex items-center gap-3">
-            {/* Play/Pause Button */}
-            <button
-              onClick={togglePlay}
-              className="hover:bg-white/20 p-2 rounded transition-colors"
-            >
-              {isPlaying ? (
-                <Pause className="w-5 h-5" />
-              ) : (
-                <Play className="w-5 h-5" />
-              )}
-            </button>
-
-            {/* Volume Button */}
-            <button
-              onClick={toggleMute}
-              className="hover:bg-white/20 p-2 rounded transition-colors"
-            >
-              {isMuted ? (
-                <VolumeX className="w-5 h-5" />
-              ) : (
-                <Volume2 className="w-5 h-5" />
-              )}
-            </button>
-
-            {/* Time */}
-            <span className="text-sm">
-              {formatTime(currentTime)} / {formatTime(duration)}
-            </span>
-          </div>
-
-          <div className="flex items-center gap-2">
-            {/* Playback Speed */}
-            <button
-              onClick={changePlaybackSpeed}
-              className="hover:bg-white/20 px-3 py-1 rounded text-sm transition-colors"
-            >
-              {playbackRate}x
-            </button>
-
-            {/* Fullscreen Button */}
-            <button
-              onClick={toggleFullscreen}
-              className="hover:bg-white/20 p-2 rounded transition-colors"
-            >
-              <Maximize className="w-5 h-5" />
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Watch Progress Indicator */}
-      {watchedPercentage >= 98 && watchedPercentage < 100 && (
+      {/* Watch Progress Indicator - Only for native video */}
+      {!isIframeUrl && !isScalerMeeting && watchedPercentage >= 98 && watchedPercentage < 100 && (
         <div className="absolute top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg animate-pulse">
           Almost done! Keep watching to complete.
         </div>

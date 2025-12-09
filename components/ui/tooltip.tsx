@@ -46,7 +46,7 @@ export function Tooltip({ children, content, disabled = false }: TooltipProps) {
         ref={triggerRef}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        className="w-full"
+        className="inline-flex"
       >
         {children}
       </div>

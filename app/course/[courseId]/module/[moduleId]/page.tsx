@@ -144,7 +144,7 @@ export default function ModulePlayerPage() {
         )}
 
         {/* Video Player - Constrained */}
-        <div className="mb-6">
+        <div className="mb-4">
           <div className="max-w-4xl mx-auto">
             <div className="bg-white rounded-lg p-4 shadow-sm border">
               <VideoPlayer
@@ -157,25 +157,57 @@ export default function ModulePlayerPage() {
           </div>
         </div>
 
-        {/* Navigation Buttons */}
-        <div className="flex justify-between items-center">
-          <div>
-            {previousModule ? (
-              <Button
-                variant="outline"
-                onClick={() =>
-                  router.push(`/course/${courseId}/module/${previousModule.id}`)
-                }
-              >
-                <ChevronLeft className="w-4 h-4 mr-2" />
-                Previous Module
-              </Button>
-            ) : (
-              <div></div>
-            )}
+        {/* Mark as Complete Button - Mobile only (below video) */}
+        {module.videoUrl.includes('youtube.com') && !isCompleted && (
+          <div className="mb-4 sm:hidden">
+            <Button
+              onClick={() => {
+                const estimatedDuration = module.duration || 600;
+                handleProgressUpdate(estimatedDuration, estimatedDuration);
+              }}
+              className="bg-green-600 hover:bg-green-700 w-full"
+            >
+              <CheckCircle2 className="w-4 h-4 mr-2" />
+              Mark as Complete
+            </Button>
           </div>
+        )}
 
-          <div>
+        {/* Navigation Buttons - Mobile: side by side, Desktop: Previous left, Mark Complete & Next right */}
+        <div className="flex gap-3 items-center justify-between max-w-4xl mx-auto">
+          {/* Previous Button */}
+          {previousModule ? (
+            <Button
+              variant="outline"
+              onClick={() =>
+                router.push(`/course/${courseId}/module/${previousModule.id}`)
+              }
+              className="flex-1 sm:flex-none"
+            >
+              <ChevronLeft className="w-4 h-4 mr-2" />
+              Previous Class
+            </Button>
+          ) : (
+            <div className="flex-1 sm:flex-none"></div>
+          )}
+
+          {/* Right side button group - Desktop only */}
+          <div className="hidden sm:flex gap-3 items-center">
+            {/* Mark as Complete Button - Desktop only */}
+            {module.videoUrl.includes('youtube.com') && !isCompleted && (
+              <Button
+                onClick={() => {
+                  const estimatedDuration = module.duration || 600;
+                  handleProgressUpdate(estimatedDuration, estimatedDuration);
+                }}
+                className="bg-green-600 hover:bg-green-700"
+              >
+                <CheckCircle2 className="w-4 h-4 mr-2" />
+                Mark as Complete
+              </Button>
+            )}
+
+            {/* Next/Back Button - Desktop */}
             {nextModule ? (
               isCompleted ? (
                 <Button
@@ -187,7 +219,7 @@ export default function ModulePlayerPage() {
                   <ChevronRight className="w-4 h-4 ml-2" />
                 </Button>
               ) : (
-                <Tooltip content="Complete this Module to Unlock">
+                <Tooltip content="Complete this Class to Unlock">
                   <Button disabled className="cursor-not-allowed">
                     Next Class
                     <ChevronRight className="w-4 h-4 ml-2" />
@@ -195,10 +227,40 @@ export default function ModulePlayerPage() {
                 </Tooltip>
               )
             ) : (
+              <Button onClick={() => router.push(`/course/${courseId}`)}>
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back to Course
+              </Button>
+            )}
+          </div>
+
+          {/* Next/Back Button - Mobile only */}
+          <div className="flex-1 sm:hidden">
+            {nextModule ? (
+              isCompleted ? (
+                <Button
+                  onClick={() =>
+                    router.push(`/course/${courseId}/module/${nextModule.id}`)
+                  }
+                  className="w-full"
+                >
+                  Next Class
+                  <ChevronRight className="w-4 h-4 ml-2" />
+                </Button>
+              ) : (
+                <Tooltip content="Complete this Class to Unlock">
+                  <Button disabled className="cursor-not-allowed w-full">
+                    Next Class
+                    <ChevronRight className="w-4 h-4 ml-2" />
+                  </Button>
+                </Tooltip>
+              )
+            ) : (
               <Button
-                variant="secondary"
                 onClick={() => router.push(`/course/${courseId}`)}
+                className="w-full"
               >
+                <ArrowLeft className="w-4 h-4 mr-2" />
                 Back to Course
               </Button>
             )}
