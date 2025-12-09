@@ -14,7 +14,7 @@ interface ModuleItemProps {
 export function ModuleItem({ module, progress, courseId, isLocked = false }: ModuleItemProps) {
   const isCompleted = progress?.isCompleted || false;
   const watchedPercentage = progress
-    ? Math.round((progress.watchedDuration / module.duration) * 100)
+    ? Math.min(100, Math.round((progress.watchedDuration / module.duration) * 100))
     : 0;
 
   // Format duration (seconds to minutes)

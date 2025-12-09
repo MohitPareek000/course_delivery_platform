@@ -78,7 +78,13 @@ export function VideoPlayer({
           autoplay: 0,
           controls: 1,
           modestbranding: 1,
-          rel: 0
+          rel: 0,
+          fs: 1, // Allow fullscreen
+          disablekb: 0, // Enable keyboard controls
+          iv_load_policy: 3, // Hide video annotations
+          cc_load_policy: 0, // Hide closed captions by default
+          playsinline: 1, // Play inline on iOS
+          origin: window.location.origin // Set origin for security
         },
         events: {
           onStateChange: (event: any) => {
@@ -112,6 +118,15 @@ export function VideoPlayer({
                   setDuration(videoDuration);
                 }
 
+                // Resume from saved position if available
+                if (initialProgress > 0 && typeof event.target.seekTo === 'function') {
+                  // Don't resume if video is almost complete (within last 5 seconds)
+                  if (initialProgress < videoDuration - 5) {
+                    event.target.seekTo(initialProgress, true);
+                    setCurrentTime(initialProgress);
+                  }
+                }
+
                 // Set up interval to track progress
                 if (progressInterval) {
                   clearInterval(progressInterval);
@@ -123,13 +138,13 @@ export function VideoPlayer({
                       const current = player.getCurrentTime();
                       setCurrentTime(current);
 
-                      // Track maximum watched time
+                      // Track maximum watched time (cap at video duration)
                       if (current > maxWatchedTime) {
-                        maxWatchedTime = current;
-                        setWatchedDuration(current);
+                        maxWatchedTime = Math.min(current, videoDuration);
+                        setWatchedDuration(maxWatchedTime);
 
                         // Save progress immediately when we reach a new maximum
-                        onProgressUpdate(current, videoDuration);
+                        onProgressUpdate(maxWatchedTime, videoDuration);
                       }
                     }
                   } catch (error) {
@@ -184,14 +199,24 @@ export function VideoPlayer({
 
     const handleLoadedMetadata = () => {
       setDuration(video.duration);
+
+      // Resume from saved position if available
+      if (initialProgress > 0) {
+        // Don't resume if video is almost complete (within last 5 seconds)
+        if (initialProgress < video.duration - 5) {
+          video.currentTime = initialProgress;
+          setCurrentTime(initialProgress);
+        }
+      }
     };
 
     const handleTimeUpdate = () => {
       setCurrentTime(video.currentTime);
 
-      // Update watched duration
+      // Update watched duration (cap at video duration)
       if (video.currentTime > watchedDuration) {
-        setWatchedDuration(video.currentTime);
+        const cappedDuration = Math.min(video.currentTime, video.duration);
+        setWatchedDuration(cappedDuration);
       }
     };
 
@@ -208,7 +233,7 @@ export function VideoPlayer({
       video.removeEventListener("timeupdate", handleTimeUpdate);
       video.removeEventListener("ended", handleEnded);
     };
-  }, [watchedDuration]);
+  }, [watchedDuration, initialProgress]);
 
   // Save progress every 5 seconds (for native video only)
   React.useEffect(() => {
@@ -327,6 +352,8 @@ export function VideoPlayer({
             id={`youtube-player-${moduleId}`}
             className="w-full aspect-video"
           />
+          {/* Overlay to discourage clicking on YouTube logo/link (Note: This may violate YouTube ToS) */}
+          <div className="absolute top-0 right-0 w-48 h-16 pointer-events-none z-10" />
         </div>
       ) : (
         <video

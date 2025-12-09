@@ -441,7 +441,7 @@ export const mockModules: Module[] = [
   },
   // TCS Round 3 - Array and String Problems Modules
   {
-    id: "module-3-1",
+    id: "module-tcs-3-1",
     topicId: "topic-3-1",
     title: "Array Manipulation Techniques",
     description: "Learn essential array manipulation techniques and algorithms",
@@ -450,7 +450,7 @@ export const mockModules: Module[] = [
     order: 1,
   },
   {
-    id: "module-3-2",
+    id: "module-tcs-3-2",
     topicId: "topic-3-1",
     title: "Two Pointer and Sliding Window",
     description: "Master two pointer technique and sliding window approach",
@@ -459,7 +459,7 @@ export const mockModules: Module[] = [
     order: 2,
   },
   {
-    id: "module-3-3",
+    id: "module-tcs-3-3",
     topicId: "topic-3-1",
     title: "String Algorithms and Pattern Matching",
     description: "Understanding string manipulation and pattern matching algorithms",
@@ -469,7 +469,7 @@ export const mockModules: Module[] = [
   },
   // TCS Round 3 - Dynamic Programming Modules
   {
-    id: "module-3-4",
+    id: "module-tcs-3-4",
     topicId: "topic-3-2",
     title: "Introduction to Dynamic Programming",
     description: "Understanding DP concepts and when to use them",
@@ -478,7 +478,7 @@ export const mockModules: Module[] = [
     order: 1,
   },
   {
-    id: "module-3-5",
+    id: "module-tcs-3-5",
     topicId: "topic-3-2",
     title: "Common DP Patterns",
     description: "Learn common dynamic programming patterns and problems",
@@ -487,7 +487,7 @@ export const mockModules: Module[] = [
     order: 2,
   },
   {
-    id: "module-3-6",
+    id: "module-tcs-3-6",
     topicId: "topic-3-2",
     title: "DP Optimization Techniques",
     description: "Advanced optimization techniques in dynamic programming",
@@ -497,7 +497,7 @@ export const mockModules: Module[] = [
   },
   // TCS Round 3 - Sorting and Searching Modules
   {
-    id: "module-3-7",
+    id: "module-tcs-3-7",
     topicId: "topic-3-3",
     title: "Sorting Algorithms Overview",
     description: "Understanding various sorting algorithms and their complexities",
@@ -506,7 +506,7 @@ export const mockModules: Module[] = [
     order: 1,
   },
   {
-    id: "module-3-8",
+    id: "module-tcs-3-8",
     topicId: "topic-3-3",
     title: "Binary Search and Variations",
     description: "Master binary search technique and its variations",
@@ -515,7 +515,7 @@ export const mockModules: Module[] = [
     order: 2,
   },
   {
-    id: "module-3-9",
+    id: "module-tcs-3-9",
     topicId: "topic-3-3",
     title: "Advanced Searching Techniques",
     description: "Learn ternary search and other advanced searching methods",
@@ -525,7 +525,7 @@ export const mockModules: Module[] = [
   },
   // TCS Round 3 - Recursion and Backtracking Modules
   {
-    id: "module-3-10",
+    id: "module-tcs-3-10",
     topicId: "topic-3-4",
     title: "Recursion Fundamentals",
     description: "Understanding recursion and recursive problem solving",
@@ -534,7 +534,7 @@ export const mockModules: Module[] = [
     order: 1,
   },
   {
-    id: "module-3-11",
+    id: "module-tcs-3-11",
     topicId: "topic-3-4",
     title: "Backtracking Patterns",
     description: "Learn backtracking technique for constraint satisfaction problems",
@@ -543,7 +543,7 @@ export const mockModules: Module[] = [
     order: 2,
   },
   {
-    id: "module-3-12",
+    id: "module-tcs-3-12",
     topicId: "topic-3-4",
     title: "Common Backtracking Problems",
     description: "Solving N-Queens, Sudoku, and other classic problems",
@@ -553,7 +553,7 @@ export const mockModules: Module[] = [
   },
   // TCS Round 3 - Trees and Graphs Modules
   {
-    id: "module-3-13",
+    id: "module-tcs-3-13",
     topicId: "topic-3-5",
     title: "Tree Data Structures and Traversals",
     description: "Understanding trees, binary trees, and traversal techniques",
@@ -562,7 +562,7 @@ export const mockModules: Module[] = [
     order: 1,
   },
   {
-    id: "module-3-14",
+    id: "module-tcs-3-14",
     topicId: "topic-3-5",
     title: "Binary Search Trees and AVL Trees",
     description: "Learn about BST operations and self-balancing trees",
@@ -571,7 +571,7 @@ export const mockModules: Module[] = [
     order: 2,
   },
   {
-    id: "module-3-15",
+    id: "module-tcs-3-15",
     topicId: "topic-3-5",
     title: "Graph Algorithms - BFS and DFS",
     description: "Master graph traversal algorithms and their applications",
@@ -580,7 +580,7 @@ export const mockModules: Module[] = [
     order: 3,
   },
   {
-    id: "module-3-16",
+    id: "module-tcs-3-16",
     topicId: "topic-3-5",
     title: "Shortest Path Algorithms",
     description: "Learn Dijkstra's, Bellman-Ford, and Floyd-Warshall algorithms",
@@ -1005,14 +1005,15 @@ export const mockUserProgress: UserProgress[] = [
     lastWatchedAt: new Date("2024-01-20"),
     completedAt: new Date("2024-01-20"),
   },
-  // Round 2 module - IN PROGRESS
+  // Round 2 module - COMPLETED
   {
     id: "progress-7",
     userId: "user-1",
     moduleId: "module-4-1",
-    watchedDuration: 600,
-    isCompleted: false,
+    watchedDuration: 1200,
+    isCompleted: true,
     lastWatchedAt: new Date("2024-01-21"),
+    completedAt: new Date("2024-01-21"),
   },
 ];
 

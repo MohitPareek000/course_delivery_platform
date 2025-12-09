@@ -39,6 +39,7 @@ export default function ModulePlayerPage() {
     initialProgress?.isCompleted || false
   );
   const [showCompletionMessage, setShowCompletionMessage] = React.useState(false);
+  const hasShownCompletionRef = React.useRef(false);
 
   const handleProgressUpdate = (watchedDuration: number, totalDuration: number) => {
     const watchPercentage = (watchedDuration / totalDuration) * 100;
@@ -52,34 +53,39 @@ export default function ModulePlayerPage() {
 
     if (existingProgressIndex !== -1) {
       // Update existing progress
+      const wasAlreadyCompleted = mockUserProgress[existingProgressIndex].isCompleted;
+      const shouldMarkComplete = watchPercentage >= 90;
+
       mockUserProgress[existingProgressIndex] = {
         ...mockUserProgress[existingProgressIndex],
         watchedDuration,
         lastWatchedAt: now,
-        isCompleted: watchPercentage >= 98,
+        // Once completed, always keep it completed
+        isCompleted: wasAlreadyCompleted || shouldMarkComplete,
         completedAt:
-          watchPercentage >= 98
-            ? mockUserProgress[existingProgressIndex].completedAt || now
-            : undefined,
+          wasAlreadyCompleted
+            ? mockUserProgress[existingProgressIndex].completedAt
+            : (shouldMarkComplete ? now : undefined),
       };
     } else {
       // Create new progress entry
+      const shouldMarkComplete = watchPercentage >= 90;
       mockUserProgress.push({
         id: `progress-${Date.now()}`,
         userId,
         moduleId,
         watchedDuration,
-        isCompleted: watchPercentage >= 98,
+        isCompleted: shouldMarkComplete,
         lastWatchedAt: now,
-        completedAt: watchPercentage >= 98 ? now : undefined,
+        completedAt: shouldMarkComplete ? now : undefined,
       });
     }
 
-    // Mark as completed if watch percentage >= 98%
-    if (watchPercentage >= 98 && !isCompleted) {
+    // Mark as completed if watch percentage >= 90% (only once)
+    if (watchPercentage >= 90 && !isCompleted && !hasShownCompletionRef.current) {
+      hasShownCompletionRef.current = true;
       setIsCompleted(true);
       setShowCompletionMessage(true);
-      setTimeout(() => setShowCompletionMessage(false), 5000);
     }
   };
 
@@ -103,15 +109,17 @@ export default function ModulePlayerPage() {
       <Sidebar />
 
       <main className="flex-1 p-4 lg:p-8">
-        {/* Back Button */}
-        <Button
-          variant="ghost"
-          onClick={() => router.push(`/course/${courseId}`)}
-          className="mb-6"
-        >
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Course
-        </Button>
+        {/* Back Button - Below hamburger menu on mobile, normal position on desktop */}
+        <div className="pt-12 lg:pt-0">
+          <Button
+            variant="ghost"
+            onClick={() => router.push(`/course/${courseId}`)}
+            className="mb-6 text-sm px-3 py-2 h-auto lg:px-4 lg:py-2 lg:text-base"
+          >
+            <ArrowLeft className="w-3 h-3 mr-1.5 lg:w-4 lg:h-4 lg:mr-2" />
+            Back to Course
+          </Button>
+        </div>
 
         {/* Module Title Bar */}
         <div className="bg-white rounded-lg p-4 mb-4 shadow-sm border">
@@ -130,18 +138,20 @@ export default function ModulePlayerPage() {
           </div>
         </div>
 
-        {/* Completion Message */}
-        {showCompletionMessage && (
-          <div className="mb-4 bg-green-50 border border-green-200 rounded-lg p-4 flex items-center gap-3">
-            <CheckCircle2 className="w-6 h-6 text-green-500" />
-            <div>
-              <h3 className="font-semibold text-green-900">Module Completed!</h3>
-              <p className="text-sm text-green-700">
-                Great job! You've completed this module.
-              </p>
+        {/* Completion Message - Fixed height to prevent flicker */}
+        <div className="mb-4" style={{ minHeight: showCompletionMessage ? 'auto' : '0' }}>
+          {showCompletionMessage && (
+            <div className="bg-green-50 border border-green-200 rounded-lg p-4 flex items-center gap-3">
+              <CheckCircle2 className="w-6 h-6 text-green-500 flex-shrink-0" />
+              <div>
+                <h3 className="font-semibold text-green-900">Module Completed!</h3>
+                <p className="text-sm text-green-700">
+                  Great job! You've completed this module.
+                </p>
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
 
         {/* Video Player - Constrained */}
         <div className="mb-4">
