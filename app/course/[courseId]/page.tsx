@@ -9,8 +9,7 @@ import { ModuleItem } from "@/components/course/ModuleItem";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Tooltip } from "@/components/ui/tooltip";
-import { ArrowLeft, Briefcase, BookOpen, Code, Database, Cloud, Smartphone, Palette, TrendingUp, CheckCircle2, Lock, ChevronRight } from "lucide-react";
+import { ArrowLeft, BookOpen, Code, Database, Cloud, Smartphone, Palette, TrendingUp, CheckCircle2, Lock, ChevronRight, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   getCourseById,
@@ -101,6 +100,7 @@ export default function CourseDetailPage() {
   const isCompanySpecific = course?.type === "company-specific";
   const [logoError, setLogoError] = React.useState(false);
   const [selectedRoundId, setSelectedRoundId] = React.useState<string | null>(null);
+  const hasAutoOpened = React.useRef(false);
 
   const companyLogo = course?.companyName && companyLogos[course.companyName];
   const SkillIcon = course && !isCompanySpecific ? getSkillIcon(course.title) : BookOpen;
@@ -124,17 +124,24 @@ export default function CourseDetailPage() {
   const rounds = isCompanySpecific ? getCourseRounds(courseId) : [];
   const skillTopics = !isCompanySpecific ? getTopics(courseId) : [];
 
-  // Set initial selected round to the first unlocked round
+  // Auto-open the active round on page load (only once)
   React.useEffect(() => {
-    if (isCompanySpecific && rounds.length > 0 && !selectedRoundId) {
-      const firstUnlockedRound = rounds.find(round =>
-        isRoundUnlocked(userId, courseId, round.order)
-      );
-      setSelectedRoundId(firstUnlockedRound?.id || rounds[0].id);
-    }
-  }, [isCompanySpecific, rounds, selectedRoundId, userId, courseId]);
+    if (isCompanySpecific && rounds.length > 0 && !hasAutoOpened.current) {
+      // Find the first incomplete round
+      const activeRound = rounds.find((round) => {
+        const unlocked = isRoundUnlocked(userId, courseId, round.order);
+        const roundProgress = getRoundProgress(userId, courseId, round.id);
+        return unlocked && roundProgress.progressPercentage < 100;
+      });
 
-  const selectedRound = rounds.find(r => r.id === selectedRoundId);
+      // If no incomplete round found, open the last round (all completed)
+      const roundToOpen = activeRound || rounds[rounds.length - 1];
+      if (roundToOpen && isRoundUnlocked(userId, courseId, roundToOpen.order)) {
+        setSelectedRoundId(roundToOpen.id);
+        hasAutoOpened.current = true;
+      }
+    }
+  }, [isCompanySpecific, rounds, userId, courseId]);
 
   return (
     <div className="flex min-h-screen bg-gray-50">
@@ -167,7 +174,7 @@ export default function CourseDetailPage() {
                 </div>
               ) : isCompanySpecific ? (
                 <div className="w-12 h-12 sm:w-14 sm:h-14 bg-white rounded-xl shadow-md flex items-center justify-center flex-shrink-0">
-                  <Briefcase className="w-6 h-6 sm:w-7 sm:h-7 text-primary" />
+                  <BookOpen className="w-6 h-6 sm:w-7 sm:h-7 text-primary" />
                 </div>
               ) : (
                 <div className="w-12 h-12 sm:w-14 sm:h-14 bg-white rounded-xl shadow-md flex items-center justify-center flex-shrink-0">
@@ -210,8 +217,8 @@ export default function CourseDetailPage() {
         {/* Company-Specific: Rounds Layout */}
         {isCompanySpecific && (
           <div className="space-y-4">
-            {/* Mobile: Vertical Accordion-style Cards */}
-            <div className="md:hidden space-y-3">
+            {/* Vertical Accordion-style Cards - Both Mobile and Desktop */}
+            <div className="space-y-3">
               {rounds.map((round, index) => {
                 const unlocked = isRoundUnlocked(userId, courseId, round.order);
                 const roundProgressData = getRoundProgress(userId, courseId, round.id);
@@ -308,31 +315,41 @@ export default function CourseDetailPage() {
                                 {round.description}
                               </p>
 
-                              {/* Progress Bar */}
-                              <div className="space-y-1">
-                                <div className="flex items-center justify-between text-xs">
-                                  <span className="text-gray-500">Round Progress</span>
-                                  <span className={cn(
-                                    "font-semibold",
-                                    roundProgressData.progressPercentage === 100
-                                      ? "text-green-600"
-                                      : "text-secondary"
-                                  )}>
-                                    {roundProgressData.completedModules}/{roundProgressData.totalModules} modules
-                                  </span>
+                              {/* Progress Bar or Completion Badge */}
+                              {roundProgressData.progressPercentage === 100 ? (
+                                <div className="inline-flex items-center gap-1.5 bg-green-100 text-green-700 px-3 py-1.5 rounded-full">
+                                  <CheckCircle2 className="w-3.5 h-3.5" />
+                                  <span className="text-xs font-semibold">Completed</span>
                                 </div>
-                                <div className="w-full bg-gray-200 rounded-full h-1.5">
-                                  <div
-                                    className={cn(
-                                      "h-1.5 rounded-full transition-all",
-                                      roundProgressData.progressPercentage === 100
-                                        ? "bg-green-500"
-                                        : "bg-secondary"
-                                    )}
-                                    style={{ width: `${roundProgressData.progressPercentage}%` }}
-                                  />
+                              ) : (
+                                <div className="space-y-1">
+                                  <div className="flex items-center justify-between text-xs">
+                                    <span className="text-gray-500">Round Progress</span>
+                                    <span className="font-semibold text-secondary">
+                                      {roundProgressData.completedModules}/{roundProgressData.totalModules} modules
+                                    </span>
+                                  </div>
+                                  <div className="w-full bg-gray-200 rounded-full h-1.5">
+                                    <div
+                                      className="h-1.5 rounded-full transition-all bg-secondary"
+                                      style={{ width: `${roundProgressData.progressPercentage}%` }}
+                                    />
+                                  </div>
                                 </div>
-                              </div>
+                              )}
+                            </div>
+
+                            {/* Expand/Collapse Icon */}
+                            <div className="flex-shrink-0 ml-2">
+                              <ChevronDown
+                                className={cn(
+                                  "w-5 h-5 transition-transform duration-200",
+                                  isSelected ? "rotate-180" : "",
+                                  roundProgressData.progressPercentage === 100
+                                    ? "text-green-600"
+                                    : "text-gray-500"
+                                )}
+                              />
                             </div>
                           </div>
                         </button>
@@ -395,241 +412,6 @@ export default function CourseDetailPage() {
                 );
               })}
             </div>
-
-            {/* Desktop: Horizontal Tabs */}
-            <div className="hidden md:block bg-white rounded-lg border shadow-sm overflow-hidden">
-              <div className="overflow-x-auto scrollbar-hide">
-                <div className="flex min-w-max">
-                  {rounds.map((round, index) => {
-                    const unlocked = isRoundUnlocked(userId, courseId, round.order);
-                    const roundProgressData = getRoundProgress(userId, courseId, round.id);
-                    const isSelected = selectedRoundId === round.id;
-
-                    const buttonContent = (
-                      <button
-                        key={round.id}
-                        onClick={() => unlocked && setSelectedRoundId(round.id)}
-                        disabled={!unlocked}
-                        className={cn(
-                          "w-full px-6 py-4 transition-all duration-200 text-left relative",
-                          isSelected && roundProgressData.progressPercentage === 100
-                            ? "bg-green-100 border-b-4 border-b-green-500"
-                            : isSelected
-                            ? "bg-primary/10 border-b-4 border-b-primary"
-                            : unlocked && roundProgressData.progressPercentage === 100
-                            ? "bg-green-50 hover:bg-green-100 border-b-2 border-b-transparent"
-                            : unlocked
-                            ? "bg-white hover:bg-gray-50 border-b-2 border-b-transparent"
-                            : "bg-gray-100 cursor-not-allowed border-b-2 border-b-transparent"
-                        )}
-                      >
-                        <div>
-                          <div className="flex items-center gap-3 mb-2">
-                            {unlocked ? (
-                              roundProgressData.progressPercentage === 100 ? (
-                                <div className="relative w-5 h-5 flex-shrink-0">
-                                  <svg
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="w-5 h-5"
-                                  >
-                                    {/* Outer circle with gradient */}
-                                    <circle
-                                      cx="12"
-                                      cy="12"
-                                      r="10"
-                                      className={cn(
-                                        isSelected ? "fill-green-600" : "fill-green-500"
-                                      )}
-                                    />
-                                    {/* Inner lighter circle for depth */}
-                                    <circle
-                                      cx="12"
-                                      cy="12"
-                                      r="8.5"
-                                      className={cn(
-                                        isSelected ? "fill-green-500" : "fill-green-400"
-                                      )}
-                                      opacity="0.9"
-                                    />
-                                    {/* Checkmark */}
-                                    <path
-                                      d="M7.5 12L10.5 15L16.5 9"
-                                      stroke="white"
-                                      strokeWidth="2.5"
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      fill="none"
-                                    />
-                                  </svg>
-                                </div>
-                              ) : (
-                                <svg
-                                  className={cn(
-                                    "w-5 h-5 flex-shrink-0",
-                                    isSelected ? "text-primary" : ""
-                                  )}
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <circle
-                                    cx="12"
-                                    cy="12"
-                                    r="9"
-                                    stroke="currentColor"
-                                    strokeWidth="2.5"
-                                    className="text-primary"
-                                  />
-                                  <circle
-                                    cx="12"
-                                    cy="12"
-                                    r="4"
-                                    fill="currentColor"
-                                    className="text-primary"
-                                  />
-                                </svg>
-                              )
-                            ) : (
-                              <Lock className="w-5 h-5 text-gray-400 flex-shrink-0" />
-                            )}
-                            <h3
-                              className={cn(
-                                "font-semibold text-sm",
-                                roundProgressData.progressPercentage === 100
-                                  ? "text-green-700"
-                                  : unlocked
-                                  ? "text-gray-900"
-                                  : "text-gray-400"
-                              )}
-                            >
-                              {round.title}
-                            </h3>
-                          </div>
-                          {unlocked ? (
-                            <div className={cn(
-                              "flex items-center gap-2 text-xs ml-8",
-                              roundProgressData.progressPercentage === 100
-                                ? "text-green-600"
-                                : "text-gray-600"
-                            )}>
-                              <span>{roundProgressData.completedModules}/{roundProgressData.totalModules} modules</span>
-                              <span>•</span>
-                              <span className={cn(
-                                "font-semibold",
-                                roundProgressData.progressPercentage === 100
-                                  ? "text-green-700"
-                                  : "text-secondary"
-                              )}>
-                                {roundProgressData.progressPercentage}% completed
-                              </span>
-                            </div>
-                          ) : (
-                            <p className="text-xs text-gray-500 font-medium ml-8">
-                              Complete Round {index} to unlock
-                            </p>
-                          )}
-                        </div>
-                      </button>
-                    );
-
-                    return (
-                      <div
-                        key={round.id}
-                        className={cn(
-                          "flex-1 min-w-[200px] border-r border-r-gray-300",
-                          index === rounds.length - 1 && "border-r-0",
-                          !unlocked && "bg-gray-100",
-                          unlocked && roundProgressData.progressPercentage === 100 && "bg-green-50"
-                        )}
-                      >
-                        {!unlocked ? (
-                          <Tooltip content="Complete Previous Rounds to Unlock">
-                            {buttonContent}
-                          </Tooltip>
-                        ) : (
-                          buttonContent
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-
-            {/* Selected Round Content - Desktop Only */}
-            {selectedRound && (() => {
-              const unlocked = isRoundUnlocked(userId, courseId, selectedRound.order);
-              const roundProgressData = getRoundProgress(userId, courseId, selectedRound.id);
-              const roundTopics = getTopics(courseId, selectedRound.id);
-
-              return (
-                <div className="hidden md:block bg-white rounded-lg p-4 sm:p-6 border shadow-sm">
-                  {/* Round Info */}
-                  <div className="mb-4 sm:mb-6 pb-4 sm:pb-6 border-b">
-                    <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-2">
-                      {selectedRound.title}
-                    </h2>
-                    <p className="text-sm text-gray-700 mb-4">
-                      {selectedRound.description}
-                    </p>
-
-                    {/* Learning Outcomes */}
-                    {selectedRound.learningOutcomes && selectedRound.learningOutcomes.length > 0 && (
-                      <div>
-                        <h4 className="font-semibold text-xs text-gray-900 mb-2">
-                          What you'll learn:
-                        </h4>
-                        <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                          {selectedRound.learningOutcomes.map((outcome, index) => (
-                            <li key={index} className="flex items-start gap-2 text-xs text-gray-600">
-                              <CheckCircle2 className="w-3.5 h-3.5 text-green-500 mt-0.5 flex-shrink-0" />
-                              <span>{outcome}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Topics and Modules */}
-                  {unlocked ? (
-                    <div className="space-y-6">
-                      {roundTopics.map((topic) => {
-                        const modules = getTopicModules(topic.id);
-                        return (
-                          <TopicSection key={topic.id} topic={topic}>
-                            {modules.map((module) => {
-                              const progress = getUserModuleProgress(userId, module.id);
-                              const locked = isModuleLocked(userId, module.id);
-                              return (
-                                <ModuleItem
-                                  key={module.id}
-                                  module={module}
-                                  progress={progress}
-                                  courseId={courseId}
-                                  isLocked={locked}
-                                />
-                              );
-                            })}
-                          </TopicSection>
-                        );
-                      })}
-                    </div>
-                  ) : (
-                    <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 text-center">
-                      <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center mx-auto mb-3">
-                        <div className="w-6 h-6 rounded-full bg-gray-400" />
-                      </div>
-                      <p className="text-sm text-gray-600">
-                        Complete the previous round to unlock this round
-                      </p>
-                    </div>
-                  )}
-                </div>
-              );
-            })()}
           </div>
         )}
 

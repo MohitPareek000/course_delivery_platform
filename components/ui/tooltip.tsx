@@ -13,16 +13,6 @@ export function Tooltip({ children, content, disabled = false }: TooltipProps) {
   const [position, setPosition] = React.useState({ top: 0, left: 0 });
   const triggerRef = React.useRef<HTMLDivElement>(null);
 
-  const updatePosition = () => {
-    if (triggerRef.current && isVisible) {
-      const rect = triggerRef.current.getBoundingClientRect();
-      setPosition({
-        top: rect.top - 8,
-        left: rect.left + rect.width / 2,
-      });
-    }
-  };
-
   const handleMouseEnter = () => {
     if (disabled) return;
     setIsVisible(true);
@@ -56,7 +46,7 @@ export function Tooltip({ children, content, disabled = false }: TooltipProps) {
         ref={triggerRef}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        className="contents"
+        className="w-full"
       >
         {children}
       </div>

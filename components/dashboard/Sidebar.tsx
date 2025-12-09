@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Home, BookOpen, User, LogOut, Menu, X, Briefcase } from "lucide-react";
+import { Home, BookOpen, LogOut, Menu, X, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useRouter, usePathname } from "next/navigation";
 
@@ -32,7 +32,6 @@ export function Sidebar({ userName = "Mohit", userEmail }: SidebarProps) {
   const menuItems = [
     { icon: Home, label: "Home", href: "/dashboard", active: isDashboard },
     { icon: BookOpen, label: "My Courses", href: "/dashboard", active: isCoursePage },
-    { icon: User, label: "Profile", href: "/dashboard", active: false },
   ];
 
   return (
@@ -64,7 +63,7 @@ export function Sidebar({ userName = "Mohit", userEmail }: SidebarProps) {
         <div className="p-5 border-b border-gray-100">
           <div className="flex items-center gap-2.5">
             <div className="bg-primary rounded-lg p-2 shadow-sm">
-              <Briefcase className="w-5 h-5 text-white" />
+              <BookOpen className="w-5 h-5 text-white" />
             </div>
             <span className="text-lg font-bold text-gray-900">InterviewPrep</span>
           </div>

@@ -71,25 +71,49 @@ export function ModuleItem({ module, progress, courseId, isLocked = false }: Mod
         <div className="flex items-center gap-1.5 mt-0.5">
           <Clock className="w-3 h-3 text-gray-400" />
           <span className="text-xs text-gray-500">{durationMinutes} min</span>
-          {!isLocked && !isCompleted && watchedPercentage > 0 && (
-            <span className="text-xs text-secondary font-medium">
-              {watchedPercentage}% watched
-            </span>
-          )}
         </div>
       </div>
 
-      {/* Progress Indicator */}
-      {!isLocked && !isCompleted && watchedPercentage > 0 && (
-        <div className="w-14">
-          <div className="w-full bg-gray-200 rounded-full h-1.5">
-            <div
-              className="bg-secondary h-1.5 rounded-full transition-all"
-              style={{ width: `${watchedPercentage}%` }}
+      {/* Right side - Progress Indicator or Spacer */}
+      <div className="flex-shrink-0 w-10 h-10">
+        {!isLocked && !isCompleted && watchedPercentage > 0 && (
+          <svg className="w-10 h-10 transform -rotate-90" viewBox="0 0 36 36">
+            {/* Background circle */}
+            <circle
+              cx="18"
+              cy="18"
+              r="14"
+              fill="none"
+              stroke="#FED7AA"
+              strokeWidth="3"
             />
-          </div>
-        </div>
-      )}
+            {/* Progress circle */}
+            <circle
+              cx="18"
+              cy="18"
+              r="14"
+              fill="none"
+              stroke="#F97316"
+              strokeWidth="3"
+              strokeDasharray={`${watchedPercentage * 0.88} 88`}
+              strokeLinecap="round"
+            />
+            {/* Percentage text */}
+            <text
+              x="18"
+              y="18"
+              fill="#EA580C"
+              fontSize="10"
+              fontWeight="600"
+              textAnchor="middle"
+              dominantBaseline="central"
+              transform="rotate(90 18 18)"
+            >
+              {watchedPercentage}%
+            </text>
+          </svg>
+        )}
+      </div>
     </div>
   );
 

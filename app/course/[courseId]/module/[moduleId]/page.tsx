@@ -12,7 +12,6 @@ import {
   ChevronLeft,
   ChevronRight,
   CheckCircle2,
-  FileText,
 } from "lucide-react";
 import {
   getModuleById,
@@ -144,10 +143,9 @@ export default function ModulePlayerPage() {
           </div>
         )}
 
-        {/* Two Column Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
-          {/* Left Column - Video Player (2/3 width) */}
-          <div className="lg:col-span-2">
+        {/* Video Player - Constrained */}
+        <div className="mb-6">
+          <div className="max-w-4xl mx-auto">
             <div className="bg-white rounded-lg p-4 shadow-sm border">
               <VideoPlayer
                 videoUrl={module.videoUrl}
@@ -155,24 +153,6 @@ export default function ModulePlayerPage() {
                 initialProgress={initialProgress?.watchedDuration || 0}
                 moduleId={moduleId}
               />
-            </div>
-          </div>
-
-          {/* Right Column - Module Info (1/3 width) */}
-          <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg p-5 shadow-sm border h-full">
-              <div className="flex items-center gap-2 mb-4">
-                <FileText className="w-5 h-5 text-primary" />
-                <h2 className="text-lg font-bold text-gray-900">Description</h2>
-              </div>
-
-              {module.description && (
-                <div>
-                  <p className="text-sm text-gray-700 leading-relaxed">
-                    {module.description}
-                  </p>
-                </div>
-              )}
             </div>
           </div>
         </div>
@@ -203,13 +183,13 @@ export default function ModulePlayerPage() {
                     router.push(`/course/${courseId}/module/${nextModule.id}`)
                   }
                 >
-                  Next Module
+                  Next Class
                   <ChevronRight className="w-4 h-4 ml-2" />
                 </Button>
               ) : (
-                <Tooltip content="Complete current module to unlock">
+                <Tooltip content="Complete this Module to Unlock">
                   <Button disabled className="cursor-not-allowed">
-                    Next Module
+                    Next Class
                     <ChevronRight className="w-4 h-4 ml-2" />
                   </Button>
                 </Tooltip>
