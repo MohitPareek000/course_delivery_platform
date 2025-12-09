@@ -74,6 +74,17 @@ const getSkillIcon = (title: string): React.ElementType => {
   return BookOpen; // Default icon
 };
 
+// Function to extract skill category from course title
+const getSkillCategory = (title: string): string => {
+  const titleLower = title.toLowerCase();
+  for (const key of Object.keys(skillIcons)) {
+    if (titleLower.includes(key.toLowerCase())) {
+      return key.toUpperCase();
+    }
+  }
+  return "SKILL"; // Default category
+};
+
 interface CourseCardProps {
   course: Course;
   progress: CourseProgress;
@@ -87,7 +98,7 @@ export function CourseCard({ course, progress }: CourseCardProps) {
 
   return (
     <Link href={`/course/${course.id}`}>
-      <Card className="overflow-hidden hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5 cursor-pointer border border-gray-100">
+      <Card className="h-full overflow-hidden hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5 cursor-pointer border border-gray-100 flex flex-col">
         {/* Card Header with Icon/Logo */}
         <div className="h-32 bg-gradient-to-br from-primary/5 via-primary/10 to-secondary/5 flex items-center justify-center relative">
           {isCompanySpecific && companyLogo && !logoError ? (
@@ -120,11 +131,15 @@ export function CourseCard({ course, progress }: CourseCardProps) {
         </div>
 
         {/* Card Content */}
-        <div className="p-4 space-y-3">
-          {/* Company Name */}
-          {course.companyName && (
+        <div className="p-4 space-y-3 flex-1 flex flex-col">
+          {/* Company Name or Skill Category */}
+          {course.companyName ? (
             <p className="text-xs font-bold text-secondary uppercase tracking-wide">
               {course.companyName}
+            </p>
+          ) : (
+            <p className="text-xs font-bold text-secondary uppercase tracking-wide">
+              {getSkillCategory(course.title)}
             </p>
           )}
 
@@ -134,12 +149,13 @@ export function CourseCard({ course, progress }: CourseCardProps) {
           </h3>
 
           {/* Description */}
-          <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed">
+          <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed flex-1">
             {course.description}
           </p>
 
-          {/* Progress Section */}
-          <div className="space-y-2 pt-1">
+          {/* Progress Section and Button - Pinned to bottom */}
+          <div className="space-y-3 mt-auto">
+            <div className="space-y-2">
             <div className="flex justify-between items-center">
               <span className="text-xs font-semibold text-gray-700">Progress</span>
               <span className="text-sm font-bold text-secondary">
@@ -150,10 +166,10 @@ export function CourseCard({ course, progress }: CourseCardProps) {
             <p className="text-xs text-gray-500 font-medium">
               {progress.completedModules} of {progress.totalModules} modules completed
             </p>
-          </div>
+            </div>
 
-          {/* Action Button */}
-          <Button className="w-full h-9 text-sm font-semibold group mt-3">
+            {/* Action Button */}
+            <Button className="w-full h-9 text-sm font-semibold group">
             {progress.progressPercentage > 0 ? (
               <>
                 <PlayCircle className="w-4 h-4 mr-1.5" />
@@ -166,6 +182,7 @@ export function CourseCard({ course, progress }: CourseCardProps) {
             )}
             <ArrowRight className="w-4 h-4 ml-1.5 group-hover:translate-x-1 transition-transform" />
           </Button>
+          </div>
         </div>
       </Card>
     </Link>
