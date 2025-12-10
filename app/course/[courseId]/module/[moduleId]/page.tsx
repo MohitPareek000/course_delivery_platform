@@ -208,13 +208,13 @@ export default function ModulePlayerPage() {
               onClick={() =>
                 router.push(`/course/${courseId}/module/${previousModule.id}`)
               }
-              className="flex-1 sm:flex-none sm:min-w-[160px]"
+              className="flex-1 sm:flex-none sm:min-w-[140px]"
             >
               <ChevronLeft className="w-4 h-4 mr-2" />
               Previous Class
             </Button>
           ) : (
-            <div className="flex-1 sm:flex-none sm:min-w-[160px]"></div>
+            <div className="flex-1 sm:flex-none sm:min-w-[140px]"></div>
           )}
 
           {/* Right side button group - Desktop only */}
@@ -254,6 +254,7 @@ export default function ModulePlayerPage() {
                 onClick={() =>
                   router.push(`/course/${courseId}/module/${nextModule.id}`)
                 }
+                className="min-w-[140px]"
               >
                 Next Class
                 <ChevronRight className="w-4 h-4 ml-2" />
