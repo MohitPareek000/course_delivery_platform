@@ -208,18 +208,18 @@ export default function ModulePlayerPage() {
               onClick={() =>
                 router.push(`/course/${courseId}/module/${previousModule.id}`)
               }
-              className="flex-1 sm:flex-none"
+              className="flex-1 sm:flex-none sm:min-w-[160px]"
             >
               <ChevronLeft className="w-4 h-4 mr-2" />
               Previous Class
             </Button>
           ) : (
-            <div className="flex-1 sm:flex-none"></div>
+            <div className="flex-1 sm:flex-none sm:min-w-[160px]"></div>
           )}
 
           {/* Right side button group - Desktop only */}
           <div className="hidden sm:flex gap-3 items-center">
-            {/* Mark as Complete Button - Desktop only */}
+            {/* Show Mark as Complete button only when not completed */}
             {module.videoUrl.includes('youtube.com') && !isCompleted && (
               <Button
                 onClick={() => {
@@ -248,27 +248,21 @@ export default function ModulePlayerPage() {
               </Button>
             )}
 
-            {/* Next/Back Button - Desktop */}
-            {nextModule ? (
-              isCompleted ? (
-                <Button
-                  onClick={() =>
-                    router.push(`/course/${courseId}/module/${nextModule.id}`)
-                  }
-                >
-                  Next Class
-                  <ChevronRight className="w-4 h-4 ml-2" />
-                </Button>
-              ) : (
-                <Tooltip content="Complete this Class to Unlock">
-                  <Button disabled className="cursor-not-allowed">
-                    Next Class
-                    <ChevronRight className="w-4 h-4 ml-2" />
-                  </Button>
-                </Tooltip>
-              )
-            ) : (
-              <Button onClick={() => router.push(`/course/${courseId}`)}>
+            {/* Show Next Class button only when completed */}
+            {isCompleted && nextModule && (
+              <Button
+                onClick={() =>
+                  router.push(`/course/${courseId}/module/${nextModule.id}`)
+                }
+              >
+                Next Class
+                <ChevronRight className="w-4 h-4 ml-2" />
+              </Button>
+            )}
+
+            {/* Show Back to Course button when completed and no next module */}
+            {isCompleted && !nextModule && (
+              <Button onClick={() => router.push(`/course/${courseId}`)} className="min-w-[160px]">
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back to Course
               </Button>
