@@ -168,36 +168,6 @@ export default function ModulePlayerPage() {
           </div>
         </div>
 
-        {/* Mark as Complete Button - Mobile only (below video) */}
-        {module.videoUrl.includes('youtube.com') && !isCompleted && (
-          <div className="mb-4 sm:hidden">
-            <Button
-              onClick={() => {
-                setIsMarkingComplete(true);
-                setTimeout(() => {
-                  const estimatedDuration = module.duration || 600;
-                  handleProgressUpdate(estimatedDuration, estimatedDuration);
-                  setIsMarkingComplete(false);
-                }, 800);
-              }}
-              disabled={isMarkingComplete}
-              className={`bg-green-600 hover:bg-green-700 w-full transition-all duration-300 ${
-                isMarkingComplete ? 'scale-95 opacity-90' : 'scale-100'
-              }`}
-            >
-              <CheckCircle2
-                className={`w-4 h-4 mr-2 transition-all duration-500 ${
-                  isMarkingComplete ? 'rotate-[360deg] scale-110' : 'rotate-0 scale-100'
-                }`}
-              />
-              {isMarkingComplete ? (
-                <span className="animate-pulse">Completing...</span>
-              ) : (
-                'Mark as Complete'
-              )}
-            </Button>
-          </div>
-        )}
 
         {/* Navigation Buttons - Mobile: side by side, Desktop: Previous left, Mark Complete & Next right */}
         <div className="flex gap-3 items-center justify-between max-w-4xl mx-auto">
@@ -270,28 +240,52 @@ export default function ModulePlayerPage() {
             )}
           </div>
 
-          {/* Next/Back Button - Mobile only */}
+          {/* Right Button - Mobile only */}
           <div className="flex-1 sm:hidden">
-            {nextModule ? (
-              isCompleted ? (
-                <Button
-                  onClick={() =>
-                    router.push(`/course/${courseId}/module/${nextModule.id}`)
-                  }
-                  className="w-full"
-                >
-                  Next Class
-                  <ChevronRight className="w-4 h-4 ml-2" />
-                </Button>
-              ) : (
-                <Tooltip content="Complete this Class to Unlock">
-                  <Button disabled className="cursor-not-allowed w-full">
-                    Next Class
-                    <ChevronRight className="w-4 h-4 ml-2" />
-                  </Button>
-                </Tooltip>
-              )
-            ) : (
+            {/* Show Mark as Complete button when not completed */}
+            {module.videoUrl.includes('youtube.com') && !isCompleted && (
+              <Button
+                onClick={() => {
+                  setIsMarkingComplete(true);
+                  setTimeout(() => {
+                    const estimatedDuration = module.duration || 600;
+                    handleProgressUpdate(estimatedDuration, estimatedDuration);
+                    setIsMarkingComplete(false);
+                  }, 800);
+                }}
+                disabled={isMarkingComplete}
+                className={`bg-green-600 hover:bg-green-700 w-full transition-all duration-300 ${
+                  isMarkingComplete ? 'scale-95 opacity-90' : 'scale-100'
+                }`}
+              >
+                <CheckCircle2
+                  className={`w-4 h-4 mr-2 transition-all duration-500 ${
+                    isMarkingComplete ? 'rotate-[360deg] scale-110' : 'rotate-0 scale-100'
+                  }`}
+                />
+                {isMarkingComplete ? (
+                  <span className="animate-pulse">Completing...</span>
+                ) : (
+                  'Mark as Complete'
+                )}
+              </Button>
+            )}
+
+            {/* Show Next Class button when completed and next module exists */}
+            {isCompleted && nextModule && (
+              <Button
+                onClick={() =>
+                  router.push(`/course/${courseId}/module/${nextModule.id}`)
+                }
+                className="w-full"
+              >
+                Next Class
+                <ChevronRight className="w-4 h-4 ml-2" />
+              </Button>
+            )}
+
+            {/* Show Back to Course button when completed and no next module */}
+            {isCompleted && !nextModule && (
               <Button
                 onClick={() => router.push(`/course/${courseId}`)}
                 className="w-full"
