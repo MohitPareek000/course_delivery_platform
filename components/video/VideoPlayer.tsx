@@ -29,8 +29,21 @@ export function VideoPlayer({
   const hideControlsTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
   const [youtubePlayer, setYoutubePlayer] = React.useState<any>(null);
   const iframeRef = React.useRef<HTMLIFrameElement>(null);
+  const containerRef = React.useRef<HTMLDivElement>(null);
+  const [isFullscreen, setIsFullscreen] = React.useState(false);
+  const [isMobile, setIsMobile] = React.useState(false);
 
   const playbackSpeeds = [0.5, 0.75, 1, 1.25, 1.5, 2];
+
+  // Detect mobile device
+  React.useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Extract video ID from YouTube URL
   const getYouTubeVideoId = (url: string) => {
@@ -76,20 +89,27 @@ export function VideoPlayer({
         height: '100%',
         playerVars: {
           autoplay: 0,
-          controls: 1,
+          controls: 0, // Hide YouTube controls - we'll use custom controls
           modestbranding: 1,
           rel: 0,
-          fs: 1, // Allow fullscreen
+          fs: 0, // Disable native fullscreen - we'll use custom fullscreen
           disablekb: 0, // Enable keyboard controls
           iv_load_policy: 3, // Hide video annotations
           cc_load_policy: 0, // Hide closed captions by default
           playsinline: 1, // Play inline on iOS
-          origin: window.location.origin // Set origin for security
+          origin: window.location.origin, // Set origin for security
+          enablejsapi: 1 // Enable JS API for better control
         },
         events: {
           onStateChange: (event: any) => {
-            // When video ends, mark as 100% watched
-            if (event.data === (window as any).YT.PlayerState.ENDED) {
+            // Update playing state based on YouTube player state
+            if (event.data === (window as any).YT.PlayerState.PLAYING) {
+              setIsPlaying(true);
+            } else if (event.data === (window as any).YT.PlayerState.PAUSED) {
+              setIsPlaying(false);
+            } else if (event.data === (window as any).YT.PlayerState.ENDED) {
+              setIsPlaying(false);
+              // When video ends, mark as 100% watched
               try {
                 if (player && typeof player.getDuration === 'function') {
                   const videoDuration = player.getDuration();
@@ -262,6 +282,21 @@ export function VideoPlayer({
   };
 
   const togglePlay = () => {
+    // Handle YouTube player
+    if (youtubePlayer) {
+      try {
+        if (isPlaying) {
+          youtubePlayer.pauseVideo();
+        } else {
+          youtubePlayer.playVideo();
+        }
+      } catch (error) {
+        console.error('Error toggling YouTube playback:', error);
+      }
+      return;
+    }
+
+    // Handle native video
     const video = videoRef.current;
     if (!video) return;
 
@@ -274,6 +309,22 @@ export function VideoPlayer({
   };
 
   const toggleMute = () => {
+    // Handle YouTube player
+    if (youtubePlayer) {
+      try {
+        if (isMuted) {
+          youtubePlayer.unMute();
+        } else {
+          youtubePlayer.mute();
+        }
+        setIsMuted(!isMuted);
+      } catch (error) {
+        console.error('Error toggling YouTube mute:', error);
+      }
+      return;
+    }
+
+    // Handle native video
     const video = videoRef.current;
     if (!video) return;
 
@@ -282,10 +333,23 @@ export function VideoPlayer({
   };
 
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newTime = parseFloat(e.target.value);
+
+    // Handle YouTube player
+    if (youtubePlayer) {
+      try {
+        youtubePlayer.seekTo(newTime, true);
+        setCurrentTime(newTime);
+      } catch (error) {
+        console.error('Error seeking YouTube video:', error);
+      }
+      return;
+    }
+
+    // Handle native video
     const video = videoRef.current;
     if (!video) return;
 
-    const newTime = parseFloat(e.target.value);
     video.currentTime = newTime;
     setCurrentTime(newTime);
   };
@@ -295,22 +359,121 @@ export function VideoPlayer({
     const nextIndex = (currentIndex + 1) % playbackSpeeds.length;
     const newRate = playbackSpeeds[nextIndex];
 
+    // Handle YouTube player
+    if (youtubePlayer) {
+      try {
+        youtubePlayer.setPlaybackRate(newRate);
+        setPlaybackRate(newRate);
+      } catch (error) {
+        console.error('Error changing YouTube playback speed:', error);
+      }
+      return;
+    }
+
+    // Handle native video
     if (videoRef.current) {
       videoRef.current.playbackRate = newRate;
     }
     setPlaybackRate(newRate);
   };
 
-  const toggleFullscreen = () => {
-    const video = videoRef.current;
-    if (!video) return;
+  const toggleFullscreen = async () => {
+    const container = containerRef.current;
+    if (!container) return;
 
-    if (document.fullscreenElement) {
-      document.exitFullscreen();
-    } else {
-      video.requestFullscreen();
+    try {
+      if (document.fullscreenElement) {
+        await document.exitFullscreen();
+      } else {
+        // Try different fullscreen methods for better mobile compatibility
+        if (container.requestFullscreen) {
+          await container.requestFullscreen();
+        } else if ((container as any).webkitRequestFullscreen) {
+          // Safari
+          await (container as any).webkitRequestFullscreen();
+        } else if ((container as any).mozRequestFullScreen) {
+          // Firefox
+          await (container as any).mozRequestFullScreen();
+        } else if ((container as any).msRequestFullscreen) {
+          // IE/Edge
+          await (container as any).msRequestFullscreen();
+        }
+
+        // On mobile, try to lock orientation to landscape
+        if (isMobile && 'screen' in window && 'orientation' in window.screen) {
+          try {
+            await (window.screen.orientation as any).lock('landscape').catch(() => {
+              // Orientation lock might fail, that's okay
+            });
+          } catch (e) {
+            // Orientation lock not supported
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Fullscreen error:', error);
     }
   };
+
+  // Handle fullscreen change events
+  React.useEffect(() => {
+    const handleFullscreenChange = () => {
+      const isCurrentlyFullscreen = !!(
+        document.fullscreenElement ||
+        (document as any).webkitFullscreenElement ||
+        (document as any).mozFullScreenElement ||
+        (document as any).msFullscreenElement
+      );
+      setIsFullscreen(isCurrentlyFullscreen);
+
+      // Unlock orientation when exiting fullscreen
+      if (!isCurrentlyFullscreen && isMobile && 'screen' in window && 'orientation' in window.screen) {
+        try {
+          (window.screen.orientation as any).unlock();
+        } catch (e) {
+          // Ignore
+        }
+      }
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+    document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+    document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+      document.removeEventListener('mozfullscreenchange', handleFullscreenChange);
+      document.removeEventListener('MSFullscreenChange', handleFullscreenChange);
+    };
+  }, [isMobile]);
+
+  // Handle orientation changes on mobile
+  React.useEffect(() => {
+    if (!isMobile) return;
+
+    const handleOrientationChange = () => {
+      // Auto-enter fullscreen when device rotates to landscape
+      if (window.matchMedia('(orientation: landscape)').matches && !isFullscreen && isPlaying) {
+        toggleFullscreen();
+      }
+      // Auto-exit fullscreen when device rotates to portrait
+      else if (window.matchMedia('(orientation: portrait)').matches && isFullscreen) {
+        if (document.fullscreenElement) {
+          document.exitFullscreen();
+        }
+      }
+    };
+
+    window.addEventListener('orientationchange', handleOrientationChange);
+    window.matchMedia('(orientation: landscape)').addEventListener('change', handleOrientationChange);
+
+    return () => {
+      window.removeEventListener('orientationchange', handleOrientationChange);
+      window.matchMedia('(orientation: landscape)').removeEventListener('change', handleOrientationChange);
+    };
+  }, [isMobile, isFullscreen, isPlaying]);
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -322,11 +485,89 @@ export function VideoPlayer({
   const watchedPercentage = duration > 0 ? (watchedDuration / duration) * 100 : 0;
 
   return (
-    <div
-      className="relative bg-black rounded-lg overflow-hidden group"
-      onMouseMove={resetHideControlsTimeout}
-      onMouseLeave={() => isPlaying && setShowControls(false)}
-    >
+    <>
+      {/* Global styles to hide YouTube branding in fullscreen */}
+      <style jsx global>{`
+        /* Hide YouTube branding and controls in fullscreen */
+        :fullscreen .ytp-chrome-top,
+        :fullscreen .ytp-watermark,
+        :fullscreen .ytp-show-cards-title,
+        :fullscreen .ytp-youtube-button,
+        :fullscreen .ytp-title,
+        :fullscreen .ytp-title-link,
+        :fullscreen .ytp-gradient-top,
+        :fullscreen .ytp-cards-teaser,
+        :fullscreen .ytp-endscreen-content {
+          display: none !important;
+          opacity: 0 !important;
+          visibility: hidden !important;
+          pointer-events: none !important;
+        }
+
+        /* Webkit fullscreen (Safari, Chrome) */
+        :-webkit-full-screen .ytp-chrome-top,
+        :-webkit-full-screen .ytp-watermark,
+        :-webkit-full-screen .ytp-show-cards-title,
+        :-webkit-full-screen .ytp-youtube-button,
+        :-webkit-full-screen .ytp-title,
+        :-webkit-full-screen .ytp-title-link,
+        :-webkit-full-screen .ytp-gradient-top,
+        :-webkit-full-screen .ytp-cards-teaser,
+        :-webkit-full-screen .ytp-endscreen-content {
+          display: none !important;
+          opacity: 0 !important;
+          visibility: hidden !important;
+          pointer-events: none !important;
+        }
+
+        /* Mozilla fullscreen (Firefox) */
+        :-moz-full-screen .ytp-chrome-top,
+        :-moz-full-screen .ytp-watermark,
+        :-moz-full-screen .ytp-show-cards-title,
+        :-moz-full-screen .ytp-youtube-button,
+        :-moz-full-screen .ytp-title,
+        :-moz-full-screen .ytp-title-link,
+        :-moz-full-screen .ytp-gradient-top,
+        :-moz-full-screen .ytp-cards-teaser,
+        :-moz-full-screen .ytp-endscreen-content {
+          display: none !important;
+          opacity: 0 !important;
+          visibility: hidden !important;
+          pointer-events: none !important;
+        }
+
+        /* MS fullscreen (Edge) */
+        :-ms-fullscreen .ytp-chrome-top,
+        :-ms-fullscreen .ytp-watermark,
+        :-ms-fullscreen .ytp-show-cards-title,
+        :-ms-fullscreen .ytp-youtube-button,
+        :-ms-fullscreen .ytp-title,
+        :-ms-fullscreen .ytp-title-link,
+        :-ms-fullscreen .ytp-gradient-top,
+        :-ms-fullscreen .ytp-cards-teaser,
+        :-ms-fullscreen .ytp-endscreen-content {
+          display: none !important;
+          opacity: 0 !important;
+          visibility: hidden !important;
+          pointer-events: none !important;
+        }
+
+        /* Target the YouTube iframe specifically when its container is in fullscreen */
+        div:fullscreen iframe[src*="youtube.com"] {
+          pointer-events: none !important;
+        }
+
+        div:fullscreen iframe[src*="youtube.com"] + * {
+          pointer-events: auto !important;
+        }
+      `}</style>
+
+      <div
+        ref={containerRef}
+        className="relative bg-black rounded-lg overflow-hidden group"
+        onMouseMove={resetHideControlsTimeout}
+        onMouseLeave={() => isPlaying && setShowControls(false)}
+      >
       {/* Video Element or Iframe */}
       {isScalerMeeting ? (
         <div className="w-full aspect-video flex flex-col items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white p-8">
@@ -351,9 +592,8 @@ export function VideoPlayer({
             ref={iframeRef}
             id={`youtube-player-${moduleId}`}
             className="w-full aspect-video"
+            onClick={togglePlay}
           />
-          {/* Overlay to discourage clicking on YouTube logo/link (Note: This may violate YouTube ToS) */}
-          <div className="absolute top-0 right-0 w-48 h-16 pointer-events-none z-10" />
         </div>
       ) : (
         <video
@@ -366,20 +606,23 @@ export function VideoPlayer({
         </video>
       )}
 
-      {/* Play/Pause Overlay - Only for native video */}
-      {!isIframeUrl && !isScalerMeeting && !isPlaying && (
-        <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+      {/* Play/Pause Overlay - For both YouTube and native video */}
+      {!isScalerMeeting && !isPlaying && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black/30 pointer-events-none">
           <button
             onClick={togglePlay}
-            className="w-20 h-20 rounded-full bg-primary flex items-center justify-center hover:bg-primary/90 transition-colors"
+            className={cn(
+              "rounded-full bg-primary flex items-center justify-center hover:bg-primary/90 transition-colors pointer-events-auto",
+              isMobile ? "w-24 h-24" : "w-20 h-20"
+            )}
           >
-            <Play className="w-10 h-10 text-white ml-1" />
+            <Play className={cn("text-white ml-1", isMobile ? "w-12 h-12" : "w-10 h-10")} />
           </button>
         </div>
       )}
 
-      {/* Controls - Only for native video */}
-      {!isIframeUrl && !isScalerMeeting && (
+      {/* Controls - For both YouTube and native video */}
+      {!isScalerMeeting && (
         <div
           className={cn(
             "absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-4 transition-opacity duration-300",
@@ -388,7 +631,10 @@ export function VideoPlayer({
         >
           {/* Progress Bar */}
           <div className="mb-3">
-            <div className="relative h-1.5 bg-gray-600 rounded-full cursor-pointer">
+            <div className={cn(
+              "relative bg-gray-600 rounded-full cursor-pointer",
+              isMobile ? "h-2" : "h-1.5"
+            )}>
               {/* Watched portion (in light gray) */}
               <div
                 className="absolute h-full bg-gray-400 rounded-full"
@@ -405,48 +651,60 @@ export function VideoPlayer({
                 max={duration}
                 value={currentTime}
                 onChange={handleSeek}
-                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                className={cn(
+                  "absolute inset-0 w-full opacity-0 cursor-pointer",
+                  isMobile ? "h-8 -translate-y-3" : "h-full"
+                )}
               />
             </div>
           </div>
 
           <div className="flex items-center justify-between text-white">
-            <div className="flex items-center gap-3">
+            <div className={cn("flex items-center", isMobile ? "gap-2" : "gap-3")}>
               {/* Play/Pause Button */}
               <button
                 onClick={togglePlay}
-                className="hover:bg-white/20 p-2 rounded transition-colors"
+                className={cn(
+                  "hover:bg-white/20 rounded transition-colors touch-manipulation",
+                  isMobile ? "p-3" : "p-2"
+                )}
               >
                 {isPlaying ? (
-                  <Pause className="w-5 h-5" />
+                  <Pause className={cn(isMobile ? "w-6 h-6" : "w-5 h-5")} />
                 ) : (
-                  <Play className="w-5 h-5" />
+                  <Play className={cn(isMobile ? "w-6 h-6" : "w-5 h-5")} />
                 )}
               </button>
 
               {/* Volume Button */}
               <button
                 onClick={toggleMute}
-                className="hover:bg-white/20 p-2 rounded transition-colors"
+                className={cn(
+                  "hover:bg-white/20 rounded transition-colors touch-manipulation",
+                  isMobile ? "p-3" : "p-2"
+                )}
               >
                 {isMuted ? (
-                  <VolumeX className="w-5 h-5" />
+                  <VolumeX className={cn(isMobile ? "w-6 h-6" : "w-5 h-5")} />
                 ) : (
-                  <Volume2 className="w-5 h-5" />
+                  <Volume2 className={cn(isMobile ? "w-6 h-6" : "w-5 h-5")} />
                 )}
               </button>
 
               {/* Time */}
-              <span className="text-sm">
+              <span className={cn(isMobile ? "text-xs" : "text-sm")}>
                 {formatTime(currentTime)} / {formatTime(duration)}
               </span>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className={cn("flex items-center", isMobile ? "gap-1" : "gap-2")}>
               {/* Playback Speed */}
               <button
                 onClick={changePlaybackSpeed}
-                className="hover:bg-white/20 px-3 py-1 rounded text-sm transition-colors"
+                className={cn(
+                  "hover:bg-white/20 rounded transition-colors touch-manipulation",
+                  isMobile ? "px-2 py-2 text-xs" : "px-3 py-1 text-sm"
+                )}
               >
                 {playbackRate}x
               </button>
@@ -454,21 +712,25 @@ export function VideoPlayer({
               {/* Fullscreen Button */}
               <button
                 onClick={toggleFullscreen}
-                className="hover:bg-white/20 p-2 rounded transition-colors"
+                className={cn(
+                  "hover:bg-white/20 rounded transition-colors touch-manipulation",
+                  isMobile ? "p-3" : "p-2"
+                )}
               >
-                <Maximize className="w-5 h-5" />
+                <Maximize className={cn(isMobile ? "w-6 h-6" : "w-5 h-5")} />
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* Watch Progress Indicator - Only for native video */}
-      {!isIframeUrl && !isScalerMeeting && watchedPercentage >= 98 && watchedPercentage < 100 && (
+      {/* Watch Progress Indicator - For both YouTube and native video */}
+      {!isScalerMeeting && watchedPercentage >= 98 && watchedPercentage < 100 && (
         <div className="absolute top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg animate-pulse">
           Almost done! Keep watching to complete.
         </div>
       )}
-    </div>
+      </div>
+    </>
   );
 }

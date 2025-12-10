@@ -277,7 +277,7 @@ export default function ModulePlayerPage() {
                 onClick={() =>
                   router.push(`/course/${courseId}/module/${nextModule.id}`)
                 }
-                className="w-full"
+                className="w-full text-sm px-3 py-2 h-auto sm:text-base sm:px-4 sm:py-2 sm:h-10"
               >
                 Next Class
                 <ChevronRight className="w-4 h-4 ml-2" />

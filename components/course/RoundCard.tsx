@@ -1,8 +1,6 @@
 import { Round } from "@/types";
 import { AccordionItem } from "@/components/ui/accordion";
 import { Lock, CheckCircle2, Circle } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
 
 interface RoundCardProps {
   round: Round;
@@ -51,19 +49,6 @@ export function RoundCard({ round, isUnlocked, progress, children }: RoundCardPr
                 </li>
               ))}
             </ul>
-          </div>
-        )}
-
-        {/* Progress */}
-        {isUnlocked && (
-          <div className="space-y-1.5">
-            <div className="flex justify-between items-center text-xs">
-              <span className="text-gray-600">Round Progress</span>
-              <span className="font-semibold text-secondary">
-                {progress.completedModules}/{progress.totalModules} modules
-              </span>
-            </div>
-            <Progress value={progress.progressPercentage} max={100} className="h-2" />
           </div>
         )}
 

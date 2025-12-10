@@ -13,9 +13,6 @@ interface ModuleItemProps {
 
 export function ModuleItem({ module, progress, courseId, isLocked = false }: ModuleItemProps) {
   const isCompleted = progress?.isCompleted || false;
-  const watchedPercentage = progress
-    ? Math.min(100, Math.round((progress.watchedDuration / module.duration) * 100))
-    : 0;
 
   // Format duration (seconds to minutes)
   const durationMinutes = Math.ceil(module.duration / 60);
@@ -72,47 +69,6 @@ export function ModuleItem({ module, progress, courseId, isLocked = false }: Mod
           <Clock className="w-3 h-3 text-gray-400" />
           <span className="text-xs text-gray-500">{durationMinutes} min</span>
         </div>
-      </div>
-
-      {/* Right side - Progress Indicator or Spacer */}
-      <div className="flex-shrink-0 w-10 h-10">
-        {!isLocked && !isCompleted && watchedPercentage > 0 && (
-          <svg className="w-10 h-10 transform -rotate-90" viewBox="0 0 36 36">
-            {/* Background circle */}
-            <circle
-              cx="18"
-              cy="18"
-              r="14"
-              fill="none"
-              stroke="#FED7AA"
-              strokeWidth="3"
-            />
-            {/* Progress circle */}
-            <circle
-              cx="18"
-              cy="18"
-              r="14"
-              fill="none"
-              stroke="#F97316"
-              strokeWidth="3"
-              strokeDasharray={`${watchedPercentage * 0.88} 88`}
-              strokeLinecap="round"
-            />
-            {/* Percentage text */}
-            <text
-              x="18"
-              y="18"
-              fill="#EA580C"
-              fontSize="10"
-              fontWeight="600"
-              textAnchor="middle"
-              dominantBaseline="central"
-              transform="rotate(90 18 18)"
-            >
-              {watchedPercentage}%
-            </text>
-          </svg>
-        )}
       </div>
     </div>
   );

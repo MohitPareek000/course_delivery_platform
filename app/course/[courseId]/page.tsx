@@ -6,9 +6,9 @@ import { Sidebar } from "@/components/dashboard/Sidebar";
 import { RoundCard } from "@/components/course/RoundCard";
 import { TopicSection } from "@/components/course/TopicSection";
 import { ModuleItem } from "@/components/course/ModuleItem";
-import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 import { ArrowLeft, BookOpen, Code, Database, Cloud, Smartphone, Palette, TrendingUp, CheckCircle2, Lock, ChevronRight, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
