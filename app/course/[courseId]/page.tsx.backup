@@ -3,9 +3,9 @@
 import * as React from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Sidebar } from "@/components/dashboard/Sidebar";
-import { ModuleCard } from "@/components/course/ModuleCard";
+import { RoundCard } from "@/components/course/RoundCard";
 import { TopicSection } from "@/components/course/TopicSection";
-import { ClassItem } from "@/components/course/ClassItem";
+import { ModuleItem } from "@/components/course/ModuleItem";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -14,7 +14,6 @@ import { cn } from "@/lib/utils";
 import { useUserProgress } from "@/hooks/useUserProgress";
 import { useCourseData } from "@/hooks/useCourseData";
 import { getCurrentUserSession } from "@/lib/auth";
-import { LoadingPage } from "@/components/ui/loading-spinner";
 
 // Additional icons
 import { Briefcase, BarChart3, PenTool, Megaphone, Users, Settings, Building2 } from "lucide-react";
@@ -143,12 +142,12 @@ export default function CourseDetailPage() {
   const isRoleSpecific = course?.type === "role-specific";
   const isCompanySpecific = course?.type === "company-specific";
   const isSkillBased = course?.type === "skill-based";
-  const [selectedModuleId, setSelectedModuleId] = React.useState<string | null>(null);
+  const [selectedRoundId, setSelectedRoundId] = React.useState<string | null>(null);
   const [logoError, setLogoError] = React.useState(false);
   const hasAutoOpened = React.useRef(false);
 
   // Fetch user progress from database
-  const { progress, isLoading: progressLoading, getClassProgress, isClassCompleted, refreshProgress } = useUserProgress(userId);
+  const { progress, isLoading: progressLoading, getModuleProgress, isModuleCompleted, refreshProgress } = useUserProgress(userId);
 
   const isLoading = courseLoading || progressLoading;
 
@@ -179,87 +178,93 @@ export default function CourseDetailPage() {
   };
 
   // Calculate course progress from database data (must be after all hooks)
-  const allClasses = course ? course.modules.flatMap(m => m.topics.flatMap(t => t.classes))
-    .concat(course.topics.flatMap(t => t.classes)) : [];
-  const totalClasses = allClasses.length;
-  const completedClasses = allClasses.filter((classItem) =>
-    isClassCompleted(classItem.id)
+  const allModules = course ? course.rounds.flatMap(r => r.topics.flatMap(t => t.modules))
+    .concat(course.topics.flatMap(t => t.modules)) : [];
+  const totalModules = allModules.length;
+  const completedModules = allModules.filter((module) =>
+    isModuleCompleted(module.id)
   ).length;
   const courseProgress = {
     courseId,
-    totalClasses,
-    completedClasses,
+    totalModules,
+    completedModules,
     progressPercentage:
-      totalClasses > 0 ? Math.round((completedClasses / totalClasses) * 100) : 0,
+      totalModules > 0 ? Math.round((completedModules / totalModules) * 100) : 0,
   };
 
-  const modules = (isRoleSpecific || isCompanySpecific) && course ? course.modules : [];
-  const skillTopics = isSkillBased && course ? course.topics : [];
+  const rounds = isRoleSpecific && course ? course.rounds : [];
+  const skillTopics = !isRoleSpecific && course ? course.topics : [];
 
-  // Helper: Check if a module is unlocked
-  const isModuleUnlockedFn = (moduleOrder: number) => {
-    if (moduleOrder === 1) return true;
-    const previousModule = modules.find((m) => m.order === moduleOrder - 1);
-    if (!previousModule) return false;
-    const previousClasses = previousModule.topics.flatMap((topic) => topic.classes);
-    return previousClasses.every((classItem) => isClassCompleted(classItem.id));
+  // Helper: Check if a round is unlocked
+  const isRoundUnlockedFn = (roundOrder: number) => {
+    if (roundOrder === 1) return true;
+    const previousRound = rounds.find((r) => r.order === roundOrder - 1);
+    if (!previousRound) return false;
+    const previousModules = previousRound.topics.flatMap((topic) => topic.modules);
+    return previousModules.every((module) => isModuleCompleted(module.id));
   };
 
-  // Helper: Get module progress
-  const getModuleProgressFn = (moduleId: string) => {
-    const module = modules.find((m) => m.id === moduleId);
-    if (!module) return { totalClasses: 0, completedClasses: 0, progressPercentage: 0 };
-    const moduleClasses = module.topics.flatMap((topic) => topic.classes);
-    const totalClasses = moduleClasses.length;
-    const completedClasses = moduleClasses.filter((classItem) =>
-      isClassCompleted(classItem.id)
+  // Helper: Get round progress
+  const getRoundProgressFn = (roundId: string) => {
+    const round = rounds.find((r) => r.id === roundId);
+    if (!round) return { totalModules: 0, completedModules: 0, progressPercentage: 0 };
+    const roundModules = round.topics.flatMap((topic) => topic.modules);
+    const totalModules = roundModules.length;
+    const completedModules = roundModules.filter((module) =>
+      isModuleCompleted(module.id)
     ).length;
     return {
-      totalClasses,
-      completedClasses,
+      totalModules,
+      completedModules,
       progressPercentage:
-        totalClasses > 0 ? Math.round((completedClasses / totalClasses) * 100) : 0,
+        totalModules > 0 ? Math.round((completedModules / totalModules) * 100) : 0,
     };
   };
 
-  // Helper: Check if class is locked
-  const isClassLockedFn = (classId: string) => {
-    const currentClass = allClasses.find((c) => c.id === classId);
-    if (!currentClass) return true;
+  // Helper: Check if module is locked
+  const isModuleLockedFn = (moduleId: string) => {
+    const currentModule = allModules.find((m) => m.id === moduleId);
+    if (!currentModule) return true;
 
-    // Find the current class's position in all classes
-    const currentIndex = allClasses.findIndex((c) => c.id === classId);
+    // Find the current module's position in all modules
+    const currentIndex = allModules.findIndex((m) => m.id === moduleId);
 
-    // First class in the course is always unlocked
+    // First module in the course is always unlocked
     if (currentIndex === 0) return false;
 
-    // Check if the previous class (in the entire course) is completed
-    const previousClass = allClasses[currentIndex - 1];
-    return !isClassCompleted(previousClass.id);
+    // Check if the previous module (in the entire course) is completed
+    const previousModule = allModules[currentIndex - 1];
+    return !isModuleCompleted(previousModule.id);
   };
 
-  // Auto-open the active module on page load (only once)
+  // Auto-open the active round on page load (only once)
   React.useEffect(() => {
-    if ((isRoleSpecific || isCompanySpecific) && modules.length > 0 && !hasAutoOpened.current && !isLoading) {
-      // Find the first incomplete module
-      const activeModule = modules.find((module) => {
-        const unlocked = isModuleUnlockedFn(module.order);
-        const moduleProgress = getModuleProgressFn(module.id);
-        return unlocked && moduleProgress.progressPercentage < 100;
+    if ((isRoleSpecific || isCompanySpecific) && rounds.length > 0 && !hasAutoOpened.current && !isLoading) {
+      // Find the first incomplete round
+      const activeRound = rounds.find((round) => {
+        const unlocked = isRoundUnlockedFn(round.order);
+        const roundProgress = getRoundProgressFn(round.id);
+        return unlocked && roundProgress.progressPercentage < 100;
       });
 
-      // If no incomplete module found, open the last module (all completed)
-      const moduleToOpen = activeModule || modules[modules.length - 1];
-      if (moduleToOpen && isModuleUnlockedFn(moduleToOpen.order)) {
-        setSelectedModuleId(moduleToOpen.id);
+      // If no incomplete round found, open the last round (all completed)
+      const roundToOpen = activeRound || rounds[rounds.length - 1];
+      if (roundToOpen && isRoundUnlockedFn(roundToOpen.order)) {
+        setSelectedRoundId(roundToOpen.id);
         hasAutoOpened.current = true;
       }
     }
-  }, [isRoleSpecific, modules, isLoading]);
+  }, [isRoleSpecific, rounds, isLoading]);
 
   // Loading state
   if (isLoading) {
-    return <LoadingPage message="Loading course..." />;
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="text-center">
+          <p className="text-gray-600">Loading course...</p>
+        </div>
+      </div>
+    );
   }
 
   // Course not found
@@ -350,7 +355,7 @@ export default function CourseDetailPage() {
             </div>
             <Progress value={courseProgress.progressPercentage} max={100} className="h-2" />
             <p className="text-xs text-gray-500">
-              {courseProgress.completedClasses} of {courseProgress.totalClasses}{" "}
+              {courseProgress.completedModules} of {courseProgress.totalModules}{" "}
               classes completed
             </p>
           </div>
@@ -361,14 +366,14 @@ export default function CourseDetailPage() {
           <div className="space-y-4">
             {/* Vertical Accordion-style Cards - Both Mobile and Desktop */}
             <div className="space-y-3">
-              {modules.map((module, index) => {
-                const unlocked = isModuleUnlockedFn(module.order);
-                const moduleProgressData = getModuleProgressFn(module.id);
-                const isSelected = selectedModuleId === module.id;
-                const moduleTopics = module.topics;
+              {rounds.map((round, index) => {
+                const unlocked = isRoundUnlockedFn(round.order);
+                const roundProgressData = getRoundProgressFn(round.id);
+                const isSelected = selectedRoundId === round.id;
+                const roundTopics = round.topics;
 
                 return (
-                  <div key={module.id}>
+                  <div key={round.id}>
                     {/* Locked Round - Gray background with lock icon */}
                     {!unlocked ? (
                       <div className="bg-gray-50 rounded-lg border border-gray-200 p-4">
@@ -381,10 +386,10 @@ export default function CourseDetailPage() {
                           {/* Round Info */}
                           <div className="flex-1 min-w-0">
                             <h3 className="font-bold text-base text-gray-400 mb-1">
-                              {module.title}
+                              {round.title}
                             </h3>
                             <p className="text-xs text-gray-500 mb-2">
-                              {module.description}
+                              {round.description}
                             </p>
                             <p className="text-xs text-gray-500 font-medium">
                               Complete Module {index} to unlock
@@ -396,28 +401,28 @@ export default function CourseDetailPage() {
                       /* Active/Unlocked Round */
                       <div className={cn(
                         "rounded-lg border overflow-hidden transition-all duration-200",
-                        isSelected && moduleProgressData.progressPercentage === 100
+                        isSelected && roundProgressData.progressPercentage === 100
                           ? "bg-green-50 border-green-200 shadow-md"
                           : isSelected
                           ? "bg-primary/5 border-primary shadow-md"
-                          : moduleProgressData.progressPercentage === 100
+                          : roundProgressData.progressPercentage === 100
                           ? "bg-green-50 border-green-200 shadow-sm"
                           : "bg-white border-gray-200 shadow-sm"
                       )}>
                         {/* Round Header - Clickable */}
                         <button
-                          onClick={() => setSelectedModuleId(isSelected ? null : module.id)}
+                          onClick={() => setSelectedRoundId(isSelected ? null : round.id)}
                           className="w-full p-4 text-left active:bg-primary/10 transition-colors"
                         >
                           <div className="flex items-start gap-3">
                             {/* Round Icon/Status Circle */}
                             <div className={cn(
                               "w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0",
-                              moduleProgressData.progressPercentage === 100
+                              roundProgressData.progressPercentage === 100
                                 ? "bg-green-500"
                                 : "bg-primary"
                             )}>
-                              {moduleProgressData.progressPercentage === 100 ? (
+                              {roundProgressData.progressPercentage === 100 ? (
                                 <CheckCircle2 className="w-6 h-6 text-white" />
                               ) : (
                                 <svg
@@ -447,18 +452,18 @@ export default function CourseDetailPage() {
                             <div className="flex-1 min-w-0">
                               <h3 className={cn(
                                 "font-bold text-base mb-1",
-                                moduleProgressData.progressPercentage === 100
+                                roundProgressData.progressPercentage === 100
                                   ? "text-green-700"
                                   : "text-gray-900"
                               )}>
-                                {module.title}
+                                {round.title}
                               </h3>
                               <p className="text-xs text-gray-600 mb-3 line-clamp-2">
-                                {module.description}
+                                {round.description}
                               </p>
 
                               {/* Progress Bar or Completion Badge */}
-                              {moduleProgressData.progressPercentage === 100 ? (
+                              {roundProgressData.progressPercentage === 100 ? (
                                 <div className="inline-flex items-center gap-1.5 bg-green-100 text-green-700 px-3 py-1.5 rounded-full">
                                   <CheckCircle2 className="w-3.5 h-3.5" />
                                   <span className="text-xs font-semibold">Completed</span>
@@ -468,13 +473,13 @@ export default function CourseDetailPage() {
                                   <div className="flex items-center justify-between text-xs">
                                     <span className="text-gray-500">Module Progress</span>
                                     <span className="font-semibold text-secondary">
-                                      {moduleProgressData.completedClasses}/{moduleProgressData.totalClasses} classes
+                                      {roundProgressData.completedModules}/{roundProgressData.totalModules} classes
                                     </span>
                                   </div>
                                   <div className="w-full bg-gray-200 rounded-full h-1.5">
                                     <div
                                       className="h-1.5 rounded-full transition-all bg-secondary"
-                                      style={{ width: `${moduleProgressData.progressPercentage}%` }}
+                                      style={{ width: `${roundProgressData.progressPercentage}%` }}
                                     />
                                   </div>
                                 </div>
@@ -487,7 +492,7 @@ export default function CourseDetailPage() {
                                 className={cn(
                                   "w-5 h-5 transition-transform duration-200",
                                   isSelected ? "rotate-180" : "",
-                                  moduleProgressData.progressPercentage === 100
+                                  roundProgressData.progressPercentage === 100
                                     ? "text-green-600"
                                     : "text-gray-500"
                                 )}
@@ -500,19 +505,19 @@ export default function CourseDetailPage() {
                         {isSelected && (
                           <div className={cn(
                             "px-4 pb-4 border-t bg-white",
-                            moduleProgressData.progressPercentage === 100
+                            roundProgressData.progressPercentage === 100
                               ? "border-green-200"
                               : "border-primary/20"
                           )}>
                             <div className="pt-4">
                               {/* Learning Outcomes */}
-                              {module.learningOutcomes && module.learningOutcomes.length > 0 && (
+                              {round.learningOutcomes && round.learningOutcomes.length > 0 && (
                                 <div className="mb-4">
                                   <h4 className="font-bold text-sm text-gray-900 mb-3">
                                     Why it is Important:
                                   </h4>
                                   <ul className="space-y-2">
-                                    {module.learningOutcomes.map((outcome, idx) => (
+                                    {round.learningOutcomes.map((outcome, idx) => (
                                       <li key={idx} className="flex items-start gap-2 text-xs text-gray-600">
                                         <CheckCircle2 className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
                                         <span>{outcome}</span>
@@ -522,18 +527,18 @@ export default function CourseDetailPage() {
                                 </div>
                               )}
 
-                              {/* Topics and Classes */}
+                              {/* Topics and Modules */}
                               <div className="space-y-3">
-                                {moduleTopics.map((topic) => {
+                                {roundTopics.map((topic) => {
                                   return (
                                     <TopicSection key={topic.id} topic={topic}>
-                                      {topic.classes.map((classItem) => {
-                                        const progress = getClassProgress(classItem.id);
-                                        const locked = isClassLockedFn(classItem.id);
+                                      {topic.modules.map((module) => {
+                                        const progress = getModuleProgress(module.id);
+                                        const locked = isModuleLockedFn(module.id);
                                         return (
-                                          <ClassItem
-                                            key={classItem.id}
-                                            class={classItem}
+                                          <ModuleItem
+                                            key={module.id}
+                                            module={module}
                                             progress={progress}
                                             courseId={courseId}
                                             isLocked={locked}
@@ -563,13 +568,13 @@ export default function CourseDetailPage() {
             {skillTopics.map((topic) => {
               return (
                 <TopicSection key={topic.id} topic={topic}>
-                  {topic.classes.map((classItem) => {
-                    const progress = getClassProgress(classItem.id);
-                    const locked = isClassLockedFn(classItem.id);
+                  {topic.modules.map((module) => {
+                    const progress = getModuleProgress(module.id);
+                    const locked = isModuleLockedFn(module.id);
                     return (
-                      <ClassItem
-                        key={classItem.id}
-                        class={classItem}
+                      <ModuleItem
+                        key={module.id}
+                        module={module}
                         progress={progress}
                         courseId={courseId}
                         isLocked={locked}

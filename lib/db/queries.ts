@@ -211,6 +211,11 @@ export function getPreviousModule(currentModuleId: string) {
   return null;
 }
 
+// Aliases for new naming convention (Class = Module in code)
+export const getClassById = getModuleById;
+export const getNextClass = getNextModule;
+export const getPreviousClass = getPreviousModule;
+
 // Check if a module is locked for a user
 export function isModuleLocked(userId: string, moduleId: string): boolean {
   const currentModule = getModuleById(moduleId);

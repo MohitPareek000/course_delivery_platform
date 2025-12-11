@@ -18,19 +18,19 @@ import {
   ExternalLink,
 } from "lucide-react";
 import {
-  getModuleById,
-  getNextModule,
-  getPreviousModule,
+  getClassById,
+  getNextClass,
+  getPreviousClass,
   getCourseById,
 } from "@/lib/db/queries";
 import { getUserModuleProgressFromDB } from "@/lib/db/dbQueries";
 import { getCurrentUserSession } from "@/lib/auth";
 
-export default function ModulePlayerPage() {
+export default function ClassPlayerPage() {
   const params = useParams();
   const router = useRouter();
   const courseId = params.courseId as string;
-  const moduleId = params.moduleId as string;
+  const classId = params.classId as string;
 
   // Get user session
   const [userSession, setUserSession] = React.useState<{
@@ -50,10 +50,10 @@ export default function ModulePlayerPage() {
 
   const userId = userSession?.userId || "";
 
-  const module = getModuleById(moduleId);
+  const classItem = getClassById(classId);
   const course = getCourseById(courseId);
-  const nextModule = getNextModule(moduleId);
-  const previousModule = getPreviousModule(moduleId);
+  const nextClass = getNextClass(classId);
+  const previousClass = getPreviousClass(classId);
 
   const [initialProgress, setInitialProgress] = React.useState<number>(0);
   const [isCompleted, setIsCompleted] = React.useState(false);
@@ -62,7 +62,7 @@ export default function ModulePlayerPage() {
   // Fetch progress from database on mount
   React.useEffect(() => {
     async function fetchProgress() {
-      const progress = await getUserModuleProgressFromDB(userId, moduleId);
+      const progress = await getUserModuleProgressFromDB(userId, classId);
       if (progress) {
         setInitialProgress(progress.watchedDuration || 0);
         setIsCompleted(progress.isCompleted || false);
@@ -70,7 +70,7 @@ export default function ModulePlayerPage() {
       setIsLoading(false);
     }
     fetchProgress();
-  }, [userId, moduleId]);
+  }, [userId, classId]);
   const [showCompletionMessage, setShowCompletionMessage] = React.useState(false);
   const [isMarkingComplete, setIsMarkingComplete] = React.useState(false);
   const hasShownCompletionRef = React.useRef(false);
@@ -85,7 +85,7 @@ export default function ModulePlayerPage() {
         },
         body: JSON.stringify({
           userId,
-          moduleId,
+          classId,
           watchedDuration: Math.floor(watchedDuration),
           isCompleted: false, // Never auto-complete, only manual completion via button
         }),
@@ -139,7 +139,7 @@ export default function ModulePlayerPage() {
         <div className="bg-white rounded-lg p-4 mb-4 shadow-sm border">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div className="flex-1 min-w-0">
-              <h1 className="text-xl font-bold text-gray-900">{module.title}</h1>
+              <h1 className="text-xl font-bold text-gray-900">{classItem.title}</h1>
               <p className="text-sm text-gray-500">{course.title}</p>
             </div>
             <Badge
@@ -170,7 +170,7 @@ export default function ModulePlayerPage() {
         {/* Content Area - Video or Text */}
         <div className="mb-4">
           <div className="max-w-4xl mx-auto">
-            {module.contentType === 'text' ? (
+            {classItem.contentType === 'text' ? (
               /* Text Content */
               <div className="bg-white rounded-lg shadow-sm border">
                 <div className="p-6 border-b flex items-center gap-3">
@@ -181,16 +181,16 @@ export default function ModulePlayerPage() {
                     <span className="text-sm font-medium text-gray-500">Reading Material</span>
                     <div className="flex items-center gap-1.5 text-xs text-gray-400">
                       <Clock className="w-3 h-3" />
-                      <span>{Math.ceil(module.duration / 60)} min read</span>
+                      <span>{Math.ceil(classItem.duration / 60)} min read</span>
                     </div>
                   </div>
                 </div>
                 <div className="p-6 prose prose-gray max-w-none">
-                  {module.textContent ? (
+                  {classItem.textContent ? (
                     <div
                       className="text-gray-700 leading-relaxed"
                       dangerouslySetInnerHTML={{
-                        __html: module.textContent
+                        __html: classItem.textContent
                           .replace(/\n\n/g, '</p><p class="mb-4">')
                           .replace(/\n/g, '<br />')
                           .replace(/^/, '<p class="mb-4">')
@@ -207,7 +207,7 @@ export default function ModulePlayerPage() {
                   )}
                 </div>
               </div>
-            ) : module.contentType === 'contest' ? (
+            ) : classItem.contentType === 'contest' ? (
               /* Contest/Assessment Content */
               <div className="bg-white rounded-lg shadow-sm border">
                 <div className="p-6 border-b flex items-center gap-3">
@@ -220,7 +220,7 @@ export default function ModulePlayerPage() {
                     </span>
                     <div className="flex items-center gap-1.5 text-xs text-gray-400">
                       <Clock className="w-3 h-3" />
-                      <span>{Math.ceil(module.duration / 60)} min</span>
+                      <span>{Math.ceil(classItem.duration / 60)} min</span>
                     </div>
                   </div>
                 </div>
@@ -231,9 +231,9 @@ export default function ModulePlayerPage() {
                   <h3 className="text-lg font-semibold text-gray-900 mb-6">
                     Ready to Test Your Skills?
                   </h3>
-                  {module.contestUrl ? (
+                  {classItem.contestUrl ? (
                     <a
-                      href={module.contestUrl}
+                      href={classItem.contestUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors"
@@ -252,12 +252,12 @@ export default function ModulePlayerPage() {
             ) : (
               /* Video Content */
               <div className="bg-white rounded-lg p-4 shadow-sm border">
-                {!isLoading && module.videoUrl && (
+                {!isLoading && classItem.videoUrl && (
                   <VideoPlayer
-                    videoUrl={module.videoUrl}
+                    videoUrl={classItem.videoUrl}
                     onProgressUpdate={handleProgressUpdate}
                     initialProgress={initialProgress}
-                    moduleId={moduleId}
+                    classId={classId}
                   />
                 )}
                 {isLoading && (
@@ -274,11 +274,11 @@ export default function ModulePlayerPage() {
         {/* Navigation Buttons - Mobile: side by side, Desktop: Previous left, Mark Complete & Next right */}
         <div className="flex gap-3 items-center justify-between max-w-4xl mx-auto">
           {/* Previous Button */}
-          {previousModule ? (
+          {previousClass ? (
             <Button
               variant="outline"
               onClick={() =>
-                router.push(`/course/${courseId}/module/${previousModule.id}`)
+                router.push(`/course/${courseId}/class/${previousClass.id}`)
               }
               className="flex-1 sm:flex-none sm:min-w-[140px]"
             >
@@ -306,8 +306,8 @@ export default function ModulePlayerPage() {
                       },
                       body: JSON.stringify({
                         userId,
-                        moduleId,
-                        watchedDuration: module.duration || 600,
+                        classId,
+                        watchedDuration: classItem.duration || 600,
                         isCompleted: true,
                       }),
                     });
@@ -347,10 +347,10 @@ export default function ModulePlayerPage() {
             )}
 
             {/* Show Next Class button only when completed */}
-            {isCompleted && nextModule && (
+            {isCompleted && nextClass && (
               <Button
                 onClick={() =>
-                  router.push(`/course/${courseId}/module/${nextModule.id}`)
+                  router.push(`/course/${courseId}/class/${nextClass.id}`)
                 }
                 className="min-w-[140px]"
               >
@@ -360,7 +360,7 @@ export default function ModulePlayerPage() {
             )}
 
             {/* Show Back to Course button when completed and no next module */}
-            {isCompleted && !nextModule && (
+            {isCompleted && !nextClass && (
               <Button onClick={() => router.push(`/course/${courseId}`)} className="min-w-[160px]">
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back to Course
@@ -385,8 +385,8 @@ export default function ModulePlayerPage() {
                       },
                       body: JSON.stringify({
                         userId,
-                        moduleId,
-                        watchedDuration: module.duration || 600,
+                        classId,
+                        watchedDuration: classItem.duration || 600,
                         isCompleted: true,
                       }),
                     });
@@ -426,10 +426,10 @@ export default function ModulePlayerPage() {
             )}
 
             {/* Show Next Class button when completed and next module exists */}
-            {isCompleted && nextModule && (
+            {isCompleted && nextClass && (
               <Button
                 onClick={() =>
-                  router.push(`/course/${courseId}/module/${nextModule.id}`)
+                  router.push(`/course/${courseId}/class/${nextClass.id}`)
                 }
                 className="w-full text-sm px-3 py-2 h-auto sm:text-base sm:px-4 sm:py-2 sm:h-10"
               >
@@ -439,7 +439,7 @@ export default function ModulePlayerPage() {
             )}
 
             {/* Show Back to Course button when completed and no next module */}
-            {isCompleted && !nextModule && (
+            {isCompleted && !nextClass && (
               <Button
                 onClick={() => router.push(`/course/${courseId}`)}
                 className="w-full"

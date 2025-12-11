@@ -8,7 +8,7 @@ interface VideoPlayerProps {
   videoUrl: string;
   onProgressUpdate: (watchedDuration: number, totalDuration: number) => void;
   initialProgress?: number;
-  moduleId: string;
+  classId: string;
   onMarkComplete?: () => void;
 }
 
@@ -16,7 +16,7 @@ export function VideoPlayer({
   videoUrl,
   onProgressUpdate,
   initialProgress = 0,
-  moduleId,
+  classId,
 }: VideoPlayerProps) {
   const videoRef = React.useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = React.useState(false);
@@ -77,13 +77,13 @@ export function VideoPlayer({
 
     // Initialize player when API is ready
     const initPlayer = () => {
-      const container = document.getElementById(`youtube-player-${moduleId}`);
+      const container = document.getElementById(`youtube-player-${classId}`);
       if (!container || !videoId) return;
 
       // Clear any existing iframe in the container
       container.innerHTML = '';
 
-      player = new (window as any).YT.Player(`youtube-player-${moduleId}`, {
+      player = new (window as any).YT.Player(`youtube-player-${classId}`, {
         videoId: videoId,
         width: '100%',
         height: '100%',
@@ -201,7 +201,7 @@ export function VideoPlayer({
         player.destroy();
       }
     };
-  }, [videoId, isIframeUrl, isScalerMeeting, moduleId]);
+  }, [videoId, isIframeUrl, isScalerMeeting, classId]);
 
   // Manual complete button handler for iframe videos
   const handleMarkComplete = () => {
@@ -590,7 +590,7 @@ export function VideoPlayer({
         <div className="relative">
           <div
             ref={iframeRef}
-            id={`youtube-player-${moduleId}`}
+            id={`youtube-player-${classId}`}
             className="w-full aspect-video"
             onClick={togglePlay}
           />

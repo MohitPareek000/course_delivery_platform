@@ -51,10 +51,10 @@ async function main() {
   }
   console.log('✅ Courses created');
 
-  // Create rounds
-  console.log('Creating rounds/sections...');
+  // Create modules (previously called rounds)
+  console.log('Creating modules...');
   for (const round of mockRounds) {
-    await prisma.round.upsert({
+    await prisma.module.upsert({
       where: { id: round.id },
       update: {},
       create: {
@@ -67,7 +67,7 @@ async function main() {
       },
     });
   }
-  console.log('✅ Rounds/sections created');
+  console.log('✅ Modules created');
 
   // Create topics
   console.log('Creating topics...');
@@ -77,7 +77,7 @@ async function main() {
       update: {},
       create: {
         id: topic.id,
-        roundId: topic.roundId,
+        moduleId: topic.roundId, // roundId in mock data maps to moduleId in new schema
         courseId: topic.courseId,
         title: topic.title,
         order: topic.order,
@@ -86,10 +86,10 @@ async function main() {
   }
   console.log('✅ Topics created');
 
-  // Create modules
-  console.log('Creating modules...');
+  // Create classes (previously called modules)
+  console.log('Creating classes...');
   for (const module of mockModules) {
-    await prisma.module.upsert({
+    await prisma.class.upsert({
       where: { id: module.id },
       update: {},
       create: {
@@ -106,7 +106,7 @@ async function main() {
       },
     });
   }
-  console.log('✅ Modules created');
+  console.log('✅ Classes created');
 
   // Create course access
   console.log('Creating course access records...');

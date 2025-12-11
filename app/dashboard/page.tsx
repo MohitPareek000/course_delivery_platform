@@ -10,6 +10,7 @@ import { TrendingUp, BookOpen, CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useUserProgress } from "@/hooks/useUserProgress";
 import { getCurrentUserSession } from "@/lib/auth";
+import { LoadingPage } from "@/components/ui/loading-spinner";
 
 export default function DashboardPage() {
   const [userSession, setUserSession] = React.useState<{
@@ -36,9 +37,9 @@ export default function DashboardPage() {
   const userId = userSession?.userId || "";
 
   // Fetch progress from database
-  const { isModuleCompleted, isLoading, refreshProgress } = useUserProgress(userId);
+  const { isClassCompleted, isLoading, refreshProgress } = useUserProgress(userId);
 
-  // Fetch user's courses from database
+  // Fetch user's courses from database - always fetch fresh on mount
   React.useEffect(() => {
     async function fetchCourses() {
       if (!userId) return;
@@ -49,7 +50,10 @@ export default function DashboardPage() {
       setCoursesLoading(false);
     }
 
-    fetchCourses();
+    // Always fetch fresh data when dashboard mounts
+    if (userId) {
+      fetchCourses();
+    }
   }, [userId]);
 
   // Refresh progress when returning to dashboard
@@ -60,7 +64,7 @@ export default function DashboardPage() {
     const allModules = getCourseModules(course.id);
     const totalModules = allModules.length;
     const completedModules = allModules.filter((module) =>
-      isModuleCompleted(module.id)
+      isClassCompleted(module.id)
     ).length;
     return {
       course,
@@ -91,6 +95,20 @@ export default function DashboardPage() {
     (sum, c) => sum + c.progress.completedModules,
     0
   );
+
+  // Show loading state while fetching initial data
+  if (coursesLoading || isLoading) {
+    return (
+      <LoadingPage
+        message="Loading your courses"
+        showSidebar={true}
+        sidebarProps={{
+          userName: userSession?.name || "",
+          userEmail: userSession?.email || ""
+        }}
+      />
+    );
+  }
 
   return (
     <div className="flex min-h-screen bg-gray-50">

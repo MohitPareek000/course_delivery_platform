@@ -9,14 +9,17 @@ export function useUserProgress(userId: string) {
   const hasFetchedOnce = useRef(false);
 
   const fetchProgress = async () => {
+    if (!userId) {
+      setIsLoading(false);
+      return;
+    }
+
     try {
-      // Only show loading on initial fetch, not on refresh
-      // This prevents progress from "fading" when navigating back
-      if (!hasFetchedOnce.current) {
-        setIsLoading(true);
-      }
+      // Always show loading briefly to indicate refresh
+      setIsLoading(true);
       const data = await getAllUserProgressFromDB(userId);
       setProgress(data);
+
       hasFetchedOnce.current = true;
     } catch (err) {
       setError(err as Error);
@@ -26,26 +29,8 @@ export function useUserProgress(userId: string) {
   };
 
   useEffect(() => {
+    // Always fetch fresh data when userId changes or component mounts
     fetchProgress();
-  }, [userId]);
-
-  // Refetch progress when page becomes visible (user returns from another page)
-  useEffect(() => {
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === 'visible') {
-        fetchProgress();
-      }
-    };
-
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-
-    // Also refetch when window gains focus
-    window.addEventListener('focus', fetchProgress);
-
-    return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-      window.removeEventListener('focus', fetchProgress);
-    };
   }, [userId]);
 
   // Helper function to get progress for a specific class

@@ -18,14 +18,14 @@ export async function getUserCoursesFromDB(userId: string) {
   }
 }
 
-// Get user progress for a module from database
+// Get user progress for a class from database
 export async function getUserModuleProgressFromDB(
   userId: string,
-  moduleId: string
+  classId: string
 ): Promise<UserProgress | null> {
   try {
     const response = await fetch(
-      `/api/progress?userId=${userId}&moduleId=${moduleId}`
+      `/api/progress?userId=${userId}&classId=${classId}`
     );
 
     if (!response.ok) {
@@ -35,7 +35,7 @@ export async function getUserModuleProgressFromDB(
     const data = await response.json();
     return data.progress || null;
   } catch (error) {
-    console.error("Error fetching module progress:", error);
+    console.error("Error fetching class progress:", error);
     return null;
   }
 }
