@@ -26,6 +26,7 @@ export function ClassItem({ class: classItem, progress, courseId, isLocked = fal
 
   const content = (
     <div
+      id={`class-${classItem.id}`}
       className={cn(
         "flex items-center gap-3 p-3 rounded-lg border transition-all",
         isLocked

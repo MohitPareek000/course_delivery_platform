@@ -238,24 +238,62 @@ export default function CourseDetailPage() {
     return !isClassCompleted(previousClass.id);
   };
 
-  // Auto-open the active module on page load (only once)
+  // Auto-open the active module and scroll to current class on page load (only once)
   React.useEffect(() => {
     if ((isRoleSpecific || isCompanySpecific) && modules.length > 0 && !hasAutoOpened.current && !isLoading) {
-      // Find the first incomplete module
-      const activeModule = modules.find((module) => {
-        const unlocked = isModuleUnlockedFn(module.order);
-        const moduleProgress = getModuleProgressFn(module.id);
-        return unlocked && moduleProgress.progressPercentage < 100;
-      });
+      // Find the first incomplete class in the entire course
+      let currentClassId: string | null = null;
+      let moduleWithCurrentClass: typeof modules[0] | null = null;
 
-      // If no incomplete module found, open the last module (all completed)
-      const moduleToOpen = activeModule || modules[modules.length - 1];
-      if (moduleToOpen && isModuleUnlockedFn(moduleToOpen.order)) {
-        setSelectedModuleId(moduleToOpen.id);
+      for (const module of modules) {
+        const unlocked = isModuleUnlockedFn(module.order);
+        if (!unlocked) continue;
+
+        const moduleClasses = module.topics.flatMap(t => t.classes);
+        const firstIncompleteClass = moduleClasses.find(c => !isClassCompleted(c.id));
+
+        if (firstIncompleteClass) {
+          currentClassId = firstIncompleteClass.id;
+          moduleWithCurrentClass = module;
+          break;
+        }
+      }
+
+      // If no incomplete class found, use the last class of the last module
+      if (!currentClassId) {
+        const lastModule = modules[modules.length - 1];
+        const lastModuleClasses = lastModule.topics.flatMap(t => t.classes);
+        if (lastModuleClasses.length > 0) {
+          currentClassId = lastModuleClasses[lastModuleClasses.length - 1].id;
+          moduleWithCurrentClass = lastModule;
+        }
+      }
+
+      // Open the module containing the current class
+      if (moduleWithCurrentClass && isModuleUnlockedFn(moduleWithCurrentClass.order)) {
+        setSelectedModuleId(moduleWithCurrentClass.id);
         hasAutoOpened.current = true;
+
+        // Scroll to the current class after a short delay to ensure DOM is ready
+        if (currentClassId) {
+          setTimeout(() => {
+            const classElement = document.getElementById(`class-${currentClassId}`);
+            if (classElement) {
+              classElement.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center'
+              });
+              // Add a brief highlight animation
+              classElement.classList.add('ring-2', 'ring-primary', 'ring-offset-2');
+              setTimeout(() => {
+                classElement.classList.remove('ring-2', 'ring-primary', 'ring-offset-2');
+              }, 2000);
+            }
+          }, 500);
+        }
       }
     }
-  }, [isRoleSpecific, modules, isLoading]);
+  }, [isRoleSpecific, modules, isLoading, progress]);
 
   // Loading state
   if (isLoading) {
