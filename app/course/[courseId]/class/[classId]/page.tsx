@@ -62,6 +62,11 @@ export default function ClassPlayerPage() {
   // Fetch progress from database on mount
   React.useEffect(() => {
     async function fetchProgress() {
+      if (!userId) {
+        setIsLoading(false);
+        return;
+      }
+
       const progress = await getUserModuleProgressFromDB(userId, classId);
       if (progress) {
         setInitialProgress(progress.watchedDuration || 0);
@@ -103,7 +108,7 @@ export default function ClassPlayerPage() {
     }
   };
 
-  if (!module || !course) {
+  if (!classItem || !course) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <div className="text-center">

@@ -198,10 +198,14 @@ export function VideoPlayer({
         clearInterval(progressInterval);
       }
       if (player && player.destroy) {
-        player.destroy();
+        try {
+          player.destroy();
+        } catch (error) {
+          console.error('Error destroying player:', error);
+        }
       }
     };
-  }, [videoId, isIframeUrl, isScalerMeeting, classId]);
+  }, [videoId, isIframeUrl, isScalerMeeting]);
 
   // Manual complete button handler for iframe videos
   const handleMarkComplete = () => {
