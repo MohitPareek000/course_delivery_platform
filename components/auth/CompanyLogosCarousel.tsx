@@ -92,7 +92,7 @@ export function CompanyLogosCarousel() {
         {/* Company Logos - Horizontal Scrolling */}
         <div className="pt-2 sm:pt-4">
           <p className="text-gray-500 text-xs sm:text-sm uppercase tracking-wider mb-4 sm:mb-6 lg:mb-8">
-            Preparation guides for top companies
+            Preparation guides for top companies & roles
           </p>
 
           <div className="relative overflow-hidden py-4 sm:py-6">

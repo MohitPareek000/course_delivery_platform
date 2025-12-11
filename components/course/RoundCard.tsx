@@ -39,7 +39,7 @@ export function RoundCard({ round, isUnlocked, progress, children }: RoundCardPr
         {round.learningOutcomes && round.learningOutcomes.length > 0 && (
           <div>
             <h4 className="font-semibold text-xs text-gray-900 mb-1.5">
-              What you'll learn:
+              Why it is Important:
             </h4>
             <ul className="space-y-1">
               {round.learningOutcomes.map((outcome, index) => (
@@ -57,7 +57,7 @@ export function RoundCard({ round, isUnlocked, progress, children }: RoundCardPr
           <div className="bg-gray-50 border border-gray-200 rounded-lg p-3 flex items-center gap-2.5">
             <Lock className="w-4 h-4 text-gray-400" />
             <p className="text-xs text-gray-600">
-              Complete the previous round to unlock this round
+              Complete the previous module to unlock this module
             </p>
           </div>
         )}

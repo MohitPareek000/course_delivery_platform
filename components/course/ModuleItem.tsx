@@ -1,5 +1,5 @@
 import { Module, UserProgress } from "@/types";
-import { PlayCircle, CheckCircle2, Lock, Clock } from "lucide-react";
+import { PlayCircle, CheckCircle2, Lock, Clock, FileText, Trophy } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Tooltip } from "@/components/ui/tooltip";
@@ -13,9 +13,16 @@ interface ModuleItemProps {
 
 export function ModuleItem({ module, progress, courseId, isLocked = false }: ModuleItemProps) {
   const isCompleted = progress?.isCompleted || false;
+  const isTextContent = module.contentType === 'text';
+  const isContest = module.contentType === 'contest';
 
   // Format duration (seconds to minutes)
   const durationMinutes = Math.ceil(module.duration / 60);
+  const durationLabel = isTextContent
+    ? `${durationMinutes} min read`
+    : isContest
+    ? `${durationMinutes} min assessment`
+    : `${durationMinutes} min`;
 
   const content = (
     <div
@@ -37,6 +44,14 @@ export function ModuleItem({ module, progress, courseId, isLocked = false }: Mod
         ) : isCompleted ? (
           <div className="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center">
             <CheckCircle2 className="w-4 h-4 text-white" />
+          </div>
+        ) : isTextContent ? (
+          <div className="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center">
+            <FileText className="w-4 h-4 text-amber-600" />
+          </div>
+        ) : isContest ? (
+          <div className="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center">
+            <Trophy className="w-4 h-4 text-purple-600" />
           </div>
         ) : (
           <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
@@ -67,7 +82,7 @@ export function ModuleItem({ module, progress, courseId, isLocked = false }: Mod
         )}
         <div className="flex items-center gap-1.5 mt-0.5">
           <Clock className="w-3 h-3 text-gray-400" />
-          <span className="text-xs text-gray-500">{durationMinutes} min</span>
+          <span className="text-xs text-gray-500">{durationLabel}</span>
         </div>
       </div>
     </div>
@@ -75,7 +90,7 @@ export function ModuleItem({ module, progress, courseId, isLocked = false }: Mod
 
   if (isLocked) {
     return (
-      <Tooltip content="Complete the previous module to unlock">
+      <Tooltip content="Complete the previous class to unlock">
         {content}
       </Tooltip>
     );

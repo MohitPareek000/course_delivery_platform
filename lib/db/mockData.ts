@@ -381,6 +381,45 @@ export const mockModules: Module[] = [
     duration: 1800, // 30 minutes
     order: 3,
   },
+  {
+    id: "module-1-4",
+    topicId: "topic-1-1",
+    title: "Important Formulas and Tips",
+    description: "Key formulas and shortcuts for aptitude",
+    contentType: "text",
+    textContent: `# Important Formulas for Quantitative Aptitude
+
+## Number Systems
+- Sum of first n natural numbers: n(n+1)/2
+- Sum of squares: n(n+1)(2n+1)/6
+- Sum of cubes: [n(n+1)/2]²
+
+## Percentages
+- Percentage increase: (Increase/Original) × 100
+- Percentage decrease: (Decrease/Original) × 100
+- Successive percentages: Final = Original × (1 ± %1/100) × (1 ± %2/100)
+
+## Time and Work
+- Work = Rate × Time
+- If A can do work in x days and B in y days, together: 1/(1/x + 1/y) days
+
+## Important Tips
+- Practice mental math for faster calculations
+- Learn to eliminate wrong answers first
+- Time management is crucial in aptitude tests`,
+    duration: 600, // 10 minutes read time
+    order: 4,
+  },
+  {
+    id: "module-1-5",
+    topicId: "topic-1-1",
+    title: "Quantitative Aptitude Practice Test",
+    description: "Test your quantitative skills with timed practice",
+    contentType: "contest",
+    contestUrl: "https://hiretest.com/assessment/quant-practice-001",
+    duration: 1800, // 30 minutes
+    order: 5,
+  },
   // Logical Reasoning Modules
   {
     id: "module-2-1",

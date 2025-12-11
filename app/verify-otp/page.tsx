@@ -41,22 +41,42 @@ export default function VerifyOTPPage() {
     setIsLoading(true);
     setError("");
 
-    // Simulate API call
-    setTimeout(() => {
+    try {
       // For demo, accept 1234 as valid OTP
-      if (otpValue === "1234") {
-        // Store session
-        sessionStorage.setItem("user-session", JSON.stringify({
-          email,
-          loggedIn: true,
-        }));
-        sessionStorage.removeItem("login-email");
-        router.push("/dashboard");
-      } else {
+      if (otpValue !== "1234") {
         setError("Invalid OTP. Please try again.");
         setIsLoading(false);
+        return;
       }
-    }, 1000);
+
+      // Call API to find or create user
+      const response = await fetch("/api/auth/user", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to authenticate user");
+      }
+
+      const { user } = await response.json();
+
+      // Store session with userId
+      sessionStorage.setItem("user-session", JSON.stringify({
+        userId: user.id,
+        email: user.email,
+        name: user.name,
+        loggedIn: true,
+      }));
+      sessionStorage.removeItem("login-email");
+      router.push("/dashboard");
+    } catch (err) {
+      setError("Authentication failed. Please try again.");
+      setIsLoading(false);
+    }
   };
 
   const handleResendOTP = () => {

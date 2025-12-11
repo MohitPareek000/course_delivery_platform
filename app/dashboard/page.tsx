@@ -3,36 +3,76 @@
 import * as React from "react";
 import { Sidebar } from "@/components/dashboard/Sidebar";
 import { CourseCard } from "@/components/dashboard/CourseCard";
-import { getUserCourses, calculateCourseProgress } from "@/lib/db/queries";
+import { getCourseModules } from "@/lib/db/queries";
+import { getUserCoursesFromDB } from "@/lib/db/dbQueries";
 import { useRouter } from "next/navigation";
 import { TrendingUp, BookOpen, CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useUserProgress } from "@/hooks/useUserProgress";
+import { getCurrentUserSession } from "@/lib/auth";
 
 export default function DashboardPage() {
-  const [userEmail, setUserEmail] = React.useState("");
+  const [userSession, setUserSession] = React.useState<{
+    userId: string;
+    email: string;
+    name: string;
+  } | null>(null);
+  const [userCourses, setUserCourses] = React.useState<any[]>([]);
+  const [coursesLoading, setCoursesLoading] = React.useState(true);
   const router = useRouter();
 
   React.useEffect(() => {
     // Check if user is logged in
-    const session = sessionStorage.getItem("user-session");
+    const session = getCurrentUserSession();
     if (!session) {
       router.push("/login");
       return;
     }
 
-    const sessionData = JSON.parse(session);
-    setUserEmail(sessionData.email);
+    setUserSession(session);
   }, [router]);
 
-  // Mock user ID (in real app, this would come from session)
-  const userId = "user-1";
+  // Get user ID from session
+  const userId = userSession?.userId || "";
 
-  // Get user's courses and calculate progress
-  const userCourses = getUserCourses(userId);
-  const coursesWithProgress = userCourses.map((course) => ({
-    course,
-    progress: calculateCourseProgress(userId, course.id),
-  }));
+  // Fetch progress from database
+  const { isModuleCompleted, isLoading, refreshProgress } = useUserProgress(userId);
+
+  // Fetch user's courses from database
+  React.useEffect(() => {
+    async function fetchCourses() {
+      if (!userId) return;
+
+      setCoursesLoading(true);
+      const courses = await getUserCoursesFromDB(userId);
+      setUserCourses(courses);
+      setCoursesLoading(false);
+    }
+
+    fetchCourses();
+  }, [userId]);
+
+  // Refresh progress when returning to dashboard
+  React.useEffect(() => {
+    refreshProgress();
+  }, []); // Refresh when dashboard is accessed
+  const coursesWithProgress = userCourses.map((course) => {
+    const allModules = getCourseModules(course.id);
+    const totalModules = allModules.length;
+    const completedModules = allModules.filter((module) =>
+      isModuleCompleted(module.id)
+    ).length;
+    return {
+      course,
+      progress: {
+        courseId: course.id,
+        totalModules,
+        completedModules,
+        progressPercentage:
+          totalModules > 0 ? Math.round((completedModules / totalModules) * 100) : 0,
+      },
+    };
+  });
 
   // Calculate stats
   const totalCourses = userCourses.length;
@@ -54,13 +94,13 @@ export default function DashboardPage() {
 
   return (
     <div className="flex min-h-screen bg-gray-50">
-      <Sidebar userName="Mohit" userEmail={userEmail} />
+      <Sidebar userName={userSession?.name || ""} userEmail={userSession?.email || ""} />
 
       <main className="flex-1 p-4 lg:p-8 pt-16 lg:pt-8">
         {/* Welcome Section */}
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-gray-900 mb-1">
-            Welcome back, Mohit! 👋
+            Welcome back, {userSession?.name || "Guest"}!
           </h1>
           <p className="text-sm text-gray-600">
             Continue your learning journey and ace your interviews
@@ -93,7 +133,7 @@ export default function DashboardPage() {
 
           <div className="bg-white rounded-lg p-4 border shadow-sm">
             <div className="flex items-center justify-between mb-1">
-              <p className="text-xs font-medium text-gray-600">Modules Completed</p>
+              <p className="text-xs font-medium text-gray-600">Classes Completed</p>
               <TrendingUp className="w-4 h-4 text-secondary" />
             </div>
             <p className="text-2xl font-bold text-gray-900">

@@ -1,0 +1,145 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model - represents learners
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  phone     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  progress     UserProgress[]
+  courseAccess CourseAccess[]
+
+  @@map("users")
+}
+
+// Course model
+model Course {
+  id              String   @id @default(cuid())
+  title           String
+  description     String
+  type            String   @default("role-specific") // 'role-specific' | 'skill-based' | 'company-specific'
+  role            String?  // For role-specific courses
+  skill           String?  // For skill-based courses
+  companyName     String?  // For company-specific courses
+  thumbnailUrl    String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  rounds       Round[]
+  topics       Topic[]
+  courseAccess CourseAccess[]
+
+  @@map("courses")
+}
+
+// Round/Section model
+model Round {
+  id               String   @id @default(cuid())
+  courseId         String
+  title            String
+  description      String
+  order            Int
+  learningOutcomes String[]
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  // Relations
+  course Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  topics Topic[]
+
+  @@map("rounds")
+}
+
+// Topic model
+model Topic {
+  id        String   @id @default(cuid())
+  roundId   String?
+  courseId  String
+  title     String
+  order     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  round   Round?   @relation(fields: [roundId], references: [id], onDelete: Cascade)
+  course  Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  modules Module[]
+
+  @@map("topics")
+}
+
+// Module model - represents individual lessons (video, text, or contest)
+model Module {
+  id              String   @id @default(cuid())
+  topicId         String
+  title           String
+  description     String?
+  contentType     String?  @default("video") // 'video' | 'text' | 'contest'
+  videoUrl        String?  // For video content
+  textContent     String?  @db.Text // For text-based content (supports markdown)
+  contestUrl      String?  // For contest/assessment (e.g., Hiretest link)
+  duration        Int      // Duration in seconds
+  order           Int
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  topic    Topic          @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  progress UserProgress[]
+
+  @@map("modules")
+}
+
+// UserProgress model - tracks watch time and completion for each learner
+model UserProgress {
+  id              String    @id @default(cuid())
+  userId          String
+  moduleId        String
+  watchedDuration Int       // Actual seconds watched
+  isCompleted     Boolean   @default(false)
+  lastWatchedAt   DateTime  @default(now())
+  completedAt     DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  // Relations
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  module Module @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+
+  // Ensure one progress record per user per module
+  @@unique([userId, moduleId])
+  @@map("user_progress")
+}
+
+// CourseAccess model - tracks which courses are assigned to which learners
+model CourseAccess {
+  id         String   @id @default(cuid())
+  userId     String
+  courseId   String
+  assignedAt DateTime @default(now())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Relations
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  // Ensure one access record per user per course
+  @@unique([userId, courseId])
+  @@map("course_access")
+}

@@ -11,19 +11,14 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { ArrowLeft, BookOpen, Code, Database, Cloud, Smartphone, Palette, TrendingUp, CheckCircle2, Lock, ChevronRight, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
-import {
-  getCourseById,
-  getCourseRounds,
-  getTopics,
-  getTopicModules,
-  isRoundUnlocked,
-  getRoundProgress,
-  calculateCourseProgress,
-  getUserModuleProgress,
-  isModuleLocked,
-} from "@/lib/db/queries";
+import { useUserProgress } from "@/hooks/useUserProgress";
+import { useCourseData } from "@/hooks/useCourseData";
+import { getCurrentUserSession } from "@/lib/auth";
 
-// Company logo mapping using Brandfetch CDN with client ID
+// Additional icons
+import { Briefcase, BarChart3, PenTool, Megaphone, Users, Settings, Building2 } from "lucide-react";
+
+// Company logo mapping using Brandfetch CDN
 const BRANDFETCH_CLIENT_ID = "1idHfSqccAbp2Vb4wMw";
 
 const companyLogos: Record<string, { logo: string; bgColor: string }> = {
@@ -35,25 +30,53 @@ const companyLogos: Record<string, { logo: string; bgColor: string }> = {
     logo: `https://cdn.brandfetch.io/infosys.com/w/400/h/400?c=${BRANDFETCH_CLIENT_ID}`,
     bgColor: "#007CC3"
   },
-  "Wipro": {
-    logo: `https://cdn.brandfetch.io/wipro.com/w/400/h/400?c=${BRANDFETCH_CLIENT_ID}`,
-    bgColor: "#7B2482"
-  },
-  "Accenture": {
-    logo: `https://cdn.brandfetch.io/accenture.com/w/400/h/400?c=${BRANDFETCH_CLIENT_ID}`,
-    bgColor: "#A100FF"
+  "Google": {
+    logo: `https://cdn.brandfetch.io/google.com/w/400/h/400?c=${BRANDFETCH_CLIENT_ID}`,
+    bgColor: "#4285F4"
   },
   "Amazon": {
     logo: `https://cdn.brandfetch.io/amazon.com/w/400/h/400?c=${BRANDFETCH_CLIENT_ID}`,
     bgColor: "#FF9900"
   },
-  "Google": {
-    logo: `https://cdn.brandfetch.io/google.com/w/400/h/400?c=${BRANDFETCH_CLIENT_ID}`,
-    bgColor: "#4285F4"
-  },
   "Microsoft": {
     logo: `https://cdn.brandfetch.io/microsoft.com/w/400/h/400?c=${BRANDFETCH_CLIENT_ID}`,
     bgColor: "#00A4EF"
+  },
+};
+
+// Role icons mapping
+const roleIcons: Record<string, { icon: React.ElementType; bgColor: string }> = {
+  "Software Engineer": {
+    icon: Code,
+    bgColor: "#4285F4"
+  },
+  "Data Analyst": {
+    icon: BarChart3,
+    bgColor: "#34A853"
+  },
+  "Data Scientist": {
+    icon: Database,
+    bgColor: "#9333EA"
+  },
+  "Product Manager": {
+    icon: Briefcase,
+    bgColor: "#EA4335"
+  },
+  "UX Designer": {
+    icon: PenTool,
+    bgColor: "#FF6D00"
+  },
+  "Marketing Manager": {
+    icon: Megaphone,
+    bgColor: "#00BCD4"
+  },
+  "HR Manager": {
+    icon: Users,
+    bgColor: "#E91E63"
+  },
+  "DevOps Engineer": {
+    icon: Settings,
+    bgColor: "#607D8B"
   },
 };
 
@@ -94,17 +117,157 @@ export default function CourseDetailPage() {
   const params = useParams();
   const router = useRouter();
   const courseId = params.courseId as string;
-  const userId = "user-1"; // Mock user ID
 
-  const course = getCourseById(courseId);
+  // Get user session
+  const [userSession, setUserSession] = React.useState<{
+    userId: string;
+    email: string;
+    name: string;
+  } | null>(null);
+
+  React.useEffect(() => {
+    const session = getCurrentUserSession();
+    if (!session) {
+      router.push("/login");
+      return;
+    }
+    setUserSession(session);
+  }, [router]);
+
+  const userId = userSession?.userId || "";
+
+  // Fetch course data from database
+  const { course, isLoading: courseLoading, error: courseError } = useCourseData(courseId);
+
+  const isRoleSpecific = course?.type === "role-specific";
   const isCompanySpecific = course?.type === "company-specific";
-  const [logoError, setLogoError] = React.useState(false);
+  const isSkillBased = course?.type === "skill-based";
   const [selectedRoundId, setSelectedRoundId] = React.useState<string | null>(null);
+  const [logoError, setLogoError] = React.useState(false);
   const hasAutoOpened = React.useRef(false);
 
-  const companyLogo = course?.companyName && companyLogos[course.companyName];
-  const SkillIcon = course && !isCompanySpecific ? getSkillIcon(course.title) : BookOpen;
+  // Fetch user progress from database
+  const { progress, isLoading: progressLoading, getModuleProgress, isModuleCompleted, refreshProgress } = useUserProgress(userId);
 
+  const isLoading = courseLoading || progressLoading;
+
+  // Refresh progress when returning to this page
+  React.useEffect(() => {
+    if (userId) {
+      refreshProgress();
+    }
+  }, [courseId, userId, refreshProgress]); // Refresh when course page is accessed
+
+  const roleIcon = course?.role ? roleIcons[course.role] : null;
+  const RoleIcon = roleIcon?.icon || Briefcase;
+  const companyLogo = course?.companyName ? companyLogos[course.companyName] : null;
+  const SkillIcon = isSkillBased && course ? getSkillIcon(course.title) : BookOpen;
+
+  // Badge and category helpers
+  const getBadgeText = () => {
+    if (isRoleSpecific) return "Role-Specific";
+    if (isCompanySpecific) return "Company-Specific";
+    return "Skill-Based";
+  };
+
+  const getCategoryLabel = () => {
+    if (course?.role) return course.role;
+    if (course?.companyName) return course.companyName;
+    if (course?.skill) return course.skill;
+    return "";
+  };
+
+  // Calculate course progress from database data (must be after all hooks)
+  const allModules = course ? course.rounds.flatMap(r => r.topics.flatMap(t => t.modules))
+    .concat(course.topics.flatMap(t => t.modules)) : [];
+  const totalModules = allModules.length;
+  const completedModules = allModules.filter((module) =>
+    isModuleCompleted(module.id)
+  ).length;
+  const courseProgress = {
+    courseId,
+    totalModules,
+    completedModules,
+    progressPercentage:
+      totalModules > 0 ? Math.round((completedModules / totalModules) * 100) : 0,
+  };
+
+  const rounds = isRoleSpecific && course ? course.rounds : [];
+  const skillTopics = !isRoleSpecific && course ? course.topics : [];
+
+  // Helper: Check if a round is unlocked
+  const isRoundUnlockedFn = (roundOrder: number) => {
+    if (roundOrder === 1) return true;
+    const previousRound = rounds.find((r) => r.order === roundOrder - 1);
+    if (!previousRound) return false;
+    const previousModules = previousRound.topics.flatMap((topic) => topic.modules);
+    return previousModules.every((module) => isModuleCompleted(module.id));
+  };
+
+  // Helper: Get round progress
+  const getRoundProgressFn = (roundId: string) => {
+    const round = rounds.find((r) => r.id === roundId);
+    if (!round) return { totalModules: 0, completedModules: 0, progressPercentage: 0 };
+    const roundModules = round.topics.flatMap((topic) => topic.modules);
+    const totalModules = roundModules.length;
+    const completedModules = roundModules.filter((module) =>
+      isModuleCompleted(module.id)
+    ).length;
+    return {
+      totalModules,
+      completedModules,
+      progressPercentage:
+        totalModules > 0 ? Math.round((completedModules / totalModules) * 100) : 0,
+    };
+  };
+
+  // Helper: Check if module is locked
+  const isModuleLockedFn = (moduleId: string) => {
+    const currentModule = allModules.find((m) => m.id === moduleId);
+    if (!currentModule) return true;
+
+    // Find the current module's position in all modules
+    const currentIndex = allModules.findIndex((m) => m.id === moduleId);
+
+    // First module in the course is always unlocked
+    if (currentIndex === 0) return false;
+
+    // Check if the previous module (in the entire course) is completed
+    const previousModule = allModules[currentIndex - 1];
+    return !isModuleCompleted(previousModule.id);
+  };
+
+  // Auto-open the active round on page load (only once)
+  React.useEffect(() => {
+    if ((isRoleSpecific || isCompanySpecific) && rounds.length > 0 && !hasAutoOpened.current && !isLoading) {
+      // Find the first incomplete round
+      const activeRound = rounds.find((round) => {
+        const unlocked = isRoundUnlockedFn(round.order);
+        const roundProgress = getRoundProgressFn(round.id);
+        return unlocked && roundProgress.progressPercentage < 100;
+      });
+
+      // If no incomplete round found, open the last round (all completed)
+      const roundToOpen = activeRound || rounds[rounds.length - 1];
+      if (roundToOpen && isRoundUnlockedFn(roundToOpen.order)) {
+        setSelectedRoundId(roundToOpen.id);
+        hasAutoOpened.current = true;
+      }
+    }
+  }, [isRoleSpecific, rounds, isLoading]);
+
+  // Loading state
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="text-center">
+          <p className="text-gray-600">Loading course...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Course not found
   if (!course) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -119,29 +282,6 @@ export default function CourseDetailPage() {
       </div>
     );
   }
-
-  const courseProgress = calculateCourseProgress(userId, courseId);
-  const rounds = isCompanySpecific ? getCourseRounds(courseId) : [];
-  const skillTopics = !isCompanySpecific ? getTopics(courseId) : [];
-
-  // Auto-open the active round on page load (only once)
-  React.useEffect(() => {
-    if (isCompanySpecific && rounds.length > 0 && !hasAutoOpened.current) {
-      // Find the first incomplete round
-      const activeRound = rounds.find((round) => {
-        const unlocked = isRoundUnlocked(userId, courseId, round.order);
-        const roundProgress = getRoundProgress(userId, courseId, round.id);
-        return unlocked && roundProgress.progressPercentage < 100;
-      });
-
-      // If no incomplete round found, open the last round (all completed)
-      const roundToOpen = activeRound || rounds[rounds.length - 1];
-      if (roundToOpen && isRoundUnlocked(userId, courseId, roundToOpen.order)) {
-        setSelectedRoundId(roundToOpen.id);
-        hasAutoOpened.current = true;
-      }
-    }
-  }, [isCompanySpecific, rounds, userId, courseId]);
 
   return (
     <div className="flex min-h-screen bg-gray-50">
@@ -174,7 +314,14 @@ export default function CourseDetailPage() {
                 </div>
               ) : isCompanySpecific ? (
                 <div className="w-12 h-12 sm:w-14 sm:h-14 bg-white rounded-xl shadow-md flex items-center justify-center flex-shrink-0">
-                  <BookOpen className="w-6 h-6 sm:w-7 sm:h-7 text-primary" />
+                  <Building2 className="w-6 h-6 sm:w-7 sm:h-7 text-primary" />
+                </div>
+              ) : isRoleSpecific ? (
+                <div
+                  className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl shadow-md flex items-center justify-center flex-shrink-0"
+                  style={{ backgroundColor: roleIcon?.bgColor || "#4285F4" }}
+                >
+                  <RoleIcon className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
                 </div>
               ) : (
                 <div className="w-12 h-12 sm:w-14 sm:h-14 bg-white rounded-xl shadow-md flex items-center justify-center flex-shrink-0">
@@ -182,9 +329,9 @@ export default function CourseDetailPage() {
                 </div>
               )}
               <div className="flex-1 min-w-0">
-                {course.companyName && (
+                {getCategoryLabel() && (
                   <p className="text-xs font-semibold text-secondary uppercase tracking-wide mb-1">
-                    {course.companyName}
+                    {getCategoryLabel()}
                   </p>
                 )}
                 <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1.5">
@@ -193,8 +340,8 @@ export default function CourseDetailPage() {
                 <p className="text-sm text-gray-600">{course.description}</p>
               </div>
             </div>
-            <Badge variant={isCompanySpecific ? "default" : "secondary"} className="text-xs self-start sm:self-auto flex-shrink-0">
-              {isCompanySpecific ? "Company-Specific" : "Skill-Based"}
+            <Badge variant={isCompanySpecific || isRoleSpecific ? "default" : "secondary"} className="text-xs self-start sm:self-auto flex-shrink-0">
+              {getBadgeText()}
             </Badge>
           </div>
 
@@ -209,21 +356,21 @@ export default function CourseDetailPage() {
             <Progress value={courseProgress.progressPercentage} max={100} className="h-2" />
             <p className="text-xs text-gray-500">
               {courseProgress.completedModules} of {courseProgress.totalModules}{" "}
-              modules completed
+              classes completed
             </p>
           </div>
         </div>
 
-        {/* Company-Specific: Rounds Layout */}
-        {isCompanySpecific && (
+        {/* Role/Company-Specific: Modules Layout */}
+        {(isRoleSpecific || isCompanySpecific) && (
           <div className="space-y-4">
             {/* Vertical Accordion-style Cards - Both Mobile and Desktop */}
             <div className="space-y-3">
               {rounds.map((round, index) => {
-                const unlocked = isRoundUnlocked(userId, courseId, round.order);
-                const roundProgressData = getRoundProgress(userId, courseId, round.id);
+                const unlocked = isRoundUnlockedFn(round.order);
+                const roundProgressData = getRoundProgressFn(round.id);
                 const isSelected = selectedRoundId === round.id;
-                const roundTopics = getTopics(courseId, round.id);
+                const roundTopics = round.topics;
 
                 return (
                   <div key={round.id}>
@@ -245,7 +392,7 @@ export default function CourseDetailPage() {
                               {round.description}
                             </p>
                             <p className="text-xs text-gray-500 font-medium">
-                              Complete Round {index} to unlock
+                              Complete Module {index} to unlock
                             </p>
                           </div>
                         </div>
@@ -324,9 +471,9 @@ export default function CourseDetailPage() {
                               ) : (
                                 <div className="space-y-1">
                                   <div className="flex items-center justify-between text-xs">
-                                    <span className="text-gray-500">Round Progress</span>
+                                    <span className="text-gray-500">Module Progress</span>
                                     <span className="font-semibold text-secondary">
-                                      {roundProgressData.completedModules}/{roundProgressData.totalModules} modules
+                                      {roundProgressData.completedModules}/{roundProgressData.totalModules} classes
                                     </span>
                                   </div>
                                   <div className="w-full bg-gray-200 rounded-full h-1.5">
@@ -367,7 +514,7 @@ export default function CourseDetailPage() {
                               {round.learningOutcomes && round.learningOutcomes.length > 0 && (
                                 <div className="mb-4">
                                   <h4 className="font-bold text-sm text-gray-900 mb-3">
-                                    What you'll learn:
+                                    Why it is Important:
                                   </h4>
                                   <ul className="space-y-2">
                                     {round.learningOutcomes.map((outcome, idx) => (
@@ -383,12 +530,11 @@ export default function CourseDetailPage() {
                               {/* Topics and Modules */}
                               <div className="space-y-3">
                                 {roundTopics.map((topic) => {
-                                  const modules = getTopicModules(topic.id);
                                   return (
                                     <TopicSection key={topic.id} topic={topic}>
-                                      {modules.map((module) => {
-                                        const progress = getUserModuleProgress(userId, module.id);
-                                        const locked = isModuleLocked(userId, module.id);
+                                      {topic.modules.map((module) => {
+                                        const progress = getModuleProgress(module.id);
+                                        const locked = isModuleLockedFn(module.id);
                                         return (
                                           <ModuleItem
                                             key={module.id}
@@ -416,16 +562,15 @@ export default function CourseDetailPage() {
         )}
 
         {/* Skill-Based: Simple Topics Layout */}
-        {!isCompanySpecific && (
+        {isSkillBased && (
           <div className="bg-white rounded-lg p-4 sm:p-6 border shadow-sm space-y-4 sm:space-y-6">
             <h2 className="text-lg sm:text-xl font-bold text-gray-900">Course Content</h2>
             {skillTopics.map((topic) => {
-              const modules = getTopicModules(topic.id);
               return (
                 <TopicSection key={topic.id} topic={topic}>
-                  {modules.map((module) => {
-                    const progress = getUserModuleProgress(userId, module.id);
-                    const locked = isModuleLocked(userId, module.id);
+                  {topic.modules.map((module) => {
+                    const progress = getModuleProgress(module.id);
+                    const locked = isModuleLockedFn(module.id);
                     return (
                       <ModuleItem
                         key={module.id}

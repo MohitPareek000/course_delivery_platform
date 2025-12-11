@@ -1,0 +1,19 @@
+{
+  "learners": [
+    {
+      "email": "mohit@gmail.com",
+      "name": "Mohit Pareek",
+      "courses": ["course-1", "course-2"]
+    },
+    {
+      "email": "jane.smith@company.com",
+      "name": "Jane Smith",
+      "courses": ["course-1", "course-3"]
+    },
+    {
+      "email": "bob.wilson@company.com",
+      "name": "Bob Wilson",
+      "courses": ["course-2"]
+    }
+  ]
+}

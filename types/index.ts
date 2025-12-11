@@ -9,8 +9,10 @@ export interface Course {
   id: string;
   title: string;
   description: string;
-  companyName?: string;
-  type: 'company-specific' | 'skill-based';
+  role?: string;           // For role-specific courses (e.g., "Software Engineer")
+  skill?: string;          // For skill-based courses (e.g., "Java", "React")
+  companyName?: string;    // For company-specific courses (e.g., "Google", "Amazon")
+  type: 'role-specific' | 'skill-based' | 'company-specific';
   thumbnailUrl?: string;
   createdAt: Date;
 }
@@ -47,8 +49,11 @@ export interface Module {
   topicId: string;
   title: string;
   description?: string;
-  videoUrl: string;
-  duration: number;
+  contentType?: 'video' | 'text' | 'contest'; // Type of content (defaults to 'video' if not specified)
+  videoUrl?: string;              // For video content
+  textContent?: string;           // For text-based content (supports markdown)
+  contestUrl?: string;            // For contest/assessment (e.g., Hiretest link)
+  duration: number;               // For video: seconds, for text: read time, for contest: estimated time
   order: number;
 }
 

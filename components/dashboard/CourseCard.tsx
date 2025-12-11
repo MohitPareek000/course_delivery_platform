@@ -3,11 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Briefcase, BookOpen, ArrowRight, PlayCircle, Code, Database, Cloud, Smartphone, Palette, TrendingUp } from "lucide-react";
+import { Briefcase, BookOpen, ArrowRight, PlayCircle, Code, Database, Cloud, Smartphone, Palette, TrendingUp, BarChart3, PenTool, Megaphone, Users, Settings, Building2 } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";
 
-// Company logo mapping using Brandfetch CDN with client ID
+// Company logo mapping using Brandfetch CDN
 const BRANDFETCH_CLIENT_ID = "1idHfSqccAbp2Vb4wMw";
 
 const companyLogos: Record<string, { logo: string; bgColor: string }> = {
@@ -19,25 +19,53 @@ const companyLogos: Record<string, { logo: string; bgColor: string }> = {
     logo: `https://cdn.brandfetch.io/infosys.com/w/400/h/400?c=${BRANDFETCH_CLIENT_ID}`,
     bgColor: "#007CC3"
   },
-  "Wipro": {
-    logo: `https://cdn.brandfetch.io/wipro.com/w/400/h/400?c=${BRANDFETCH_CLIENT_ID}`,
-    bgColor: "#7B2482"
-  },
-  "Accenture": {
-    logo: `https://cdn.brandfetch.io/accenture.com/w/400/h/400?c=${BRANDFETCH_CLIENT_ID}`,
-    bgColor: "#A100FF"
+  "Google": {
+    logo: `https://cdn.brandfetch.io/google.com/w/400/h/400?c=${BRANDFETCH_CLIENT_ID}`,
+    bgColor: "#4285F4"
   },
   "Amazon": {
     logo: `https://cdn.brandfetch.io/amazon.com/w/400/h/400?c=${BRANDFETCH_CLIENT_ID}`,
     bgColor: "#FF9900"
   },
-  "Google": {
-    logo: `https://cdn.brandfetch.io/google.com/w/400/h/400?c=${BRANDFETCH_CLIENT_ID}`,
-    bgColor: "#4285F4"
-  },
   "Microsoft": {
     logo: `https://cdn.brandfetch.io/microsoft.com/w/400/h/400?c=${BRANDFETCH_CLIENT_ID}`,
     bgColor: "#00A4EF"
+  },
+};
+
+// Role icons mapping
+const roleIcons: Record<string, { icon: React.ElementType; bgColor: string }> = {
+  "Software Engineer": {
+    icon: Code,
+    bgColor: "#4285F4"
+  },
+  "Data Analyst": {
+    icon: BarChart3,
+    bgColor: "#34A853"
+  },
+  "Data Scientist": {
+    icon: Database,
+    bgColor: "#9333EA"
+  },
+  "Product Manager": {
+    icon: Briefcase,
+    bgColor: "#EA4335"
+  },
+  "UX Designer": {
+    icon: PenTool,
+    bgColor: "#FF6D00"
+  },
+  "Marketing Manager": {
+    icon: Megaphone,
+    bgColor: "#00BCD4"
+  },
+  "HR Manager": {
+    icon: Users,
+    bgColor: "#E91E63"
+  },
+  "DevOps Engineer": {
+    icon: Settings,
+    bgColor: "#607D8B"
   },
 };
 
@@ -91,10 +119,32 @@ interface CourseCardProps {
 }
 
 export function CourseCard({ course, progress }: CourseCardProps) {
+  const isRoleSpecific = course.type === "role-specific";
   const isCompanySpecific = course.type === "company-specific";
+  const isSkillBased = course.type === "skill-based";
+
   const [logoError, setLogoError] = React.useState(false);
-  const companyLogo = course.companyName && companyLogos[course.companyName];
-  const SkillIcon = !isCompanySpecific ? getSkillIcon(course.title) : BookOpen;
+
+  // Get icons/logos based on course type
+  const roleIcon = course.role ? roleIcons[course.role] : null;
+  const RoleIcon = roleIcon?.icon || Briefcase;
+  const companyLogo = course.companyName ? companyLogos[course.companyName] : null;
+  const SkillIcon = isSkillBased ? getSkillIcon(course.title) : BookOpen;
+
+  // Get badge text
+  const getBadgeText = () => {
+    if (isRoleSpecific) return "Role-Specific";
+    if (isCompanySpecific) return "Company-Specific";
+    return "Skill-Based";
+  };
+
+  // Get category label
+  const getCategoryLabel = () => {
+    if (course.role) return course.role;
+    if (course.companyName) return course.companyName;
+    if (course.skill) return course.skill;
+    return getSkillCategory(course.title);
+  };
 
   return (
     <Link href={`/course/${course.id}`}>
@@ -113,7 +163,14 @@ export function CourseCard({ course, progress }: CourseCardProps) {
             </div>
           ) : isCompanySpecific ? (
             <div className="w-20 h-20 bg-white rounded-2xl shadow-lg flex items-center justify-center">
-              <Briefcase className="w-10 h-10 text-primary" />
+              <Building2 className="w-10 h-10 text-primary" />
+            </div>
+          ) : isRoleSpecific ? (
+            <div
+              className="w-20 h-20 rounded-2xl shadow-lg flex items-center justify-center"
+              style={{ backgroundColor: roleIcon?.bgColor || "#4285F4" }}
+            >
+              <RoleIcon className="w-10 h-10 text-white" />
             </div>
           ) : (
             <div className="w-20 h-20 bg-white rounded-2xl shadow-lg flex items-center justify-center">
@@ -122,26 +179,20 @@ export function CourseCard({ course, progress }: CourseCardProps) {
           )}
           <div className="absolute top-3 right-3">
             <Badge
-              variant={isCompanySpecific ? "default" : "secondary"}
+              variant={isCompanySpecific ? "default" : isRoleSpecific ? "default" : "secondary"}
               className="text-xs px-2 py-0.5 font-medium"
             >
-              {isCompanySpecific ? "Company-Specific" : "Skill-Based"}
+              {getBadgeText()}
             </Badge>
           </div>
         </div>
 
         {/* Card Content */}
         <div className="p-4 space-y-3 flex-1 flex flex-col">
-          {/* Company Name or Skill Category */}
-          {course.companyName ? (
-            <p className="text-xs font-bold text-secondary uppercase tracking-wide">
-              {course.companyName}
-            </p>
-          ) : (
-            <p className="text-xs font-bold text-secondary uppercase tracking-wide">
-              {getSkillCategory(course.title)}
-            </p>
-          )}
+          {/* Category Label */}
+          <p className="text-xs font-bold text-secondary uppercase tracking-wide">
+            {getCategoryLabel()}
+          </p>
 
           {/* Course Title */}
           <h3 className="text-base font-bold text-gray-900 line-clamp-2 leading-snug">
@@ -164,7 +215,7 @@ export function CourseCard({ course, progress }: CourseCardProps) {
             </div>
             <Progress value={progress.progressPercentage} max={100} className="h-2" />
             <p className="text-xs text-gray-500 font-medium">
-              {progress.completedModules} of {progress.totalModules} modules completed
+              {progress.completedModules} of {progress.totalModules} classes completed
             </p>
             </div>
 

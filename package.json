@@ -6,15 +6,18 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "seed:learners": "npx tsx prisma/seed-learners.ts"
   },
   "dependencies": {
+    "@prisma/client": "^6.19.0",
     "@types/node": "^24.10.1",
     "@types/react": "^18.3.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.555.0",
     "next": "^14.2.5",
+    "prisma": "^6.19.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "tailwind-merge": "^3.4.0",

@@ -12,81 +12,94 @@ import {
   ChevronLeft,
   ChevronRight,
   CheckCircle2,
+  FileText,
+  Clock,
+  Trophy,
+  ExternalLink,
 } from "lucide-react";
 import {
   getModuleById,
   getNextModule,
   getPreviousModule,
-  getUserModuleProgress,
   getCourseById,
 } from "@/lib/db/queries";
-import { mockUserProgress } from "@/lib/db/mockData";
+import { getUserModuleProgressFromDB } from "@/lib/db/dbQueries";
+import { getCurrentUserSession } from "@/lib/auth";
 
 export default function ModulePlayerPage() {
   const params = useParams();
   const router = useRouter();
   const courseId = params.courseId as string;
   const moduleId = params.moduleId as string;
-  const userId = "user-1"; // Mock user ID
+
+  // Get user session
+  const [userSession, setUserSession] = React.useState<{
+    userId: string;
+    email: string;
+    name: string;
+  } | null>(null);
+
+  React.useEffect(() => {
+    const session = getCurrentUserSession();
+    if (!session) {
+      router.push("/login");
+      return;
+    }
+    setUserSession(session);
+  }, [router]);
+
+  const userId = userSession?.userId || "";
 
   const module = getModuleById(moduleId);
   const course = getCourseById(courseId);
-  const initialProgress = getUserModuleProgress(userId, moduleId);
   const nextModule = getNextModule(moduleId);
   const previousModule = getPreviousModule(moduleId);
 
-  const [isCompleted, setIsCompleted] = React.useState(
-    initialProgress?.isCompleted || false
-  );
+  const [initialProgress, setInitialProgress] = React.useState<number>(0);
+  const [isCompleted, setIsCompleted] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(true);
+
+  // Fetch progress from database on mount
+  React.useEffect(() => {
+    async function fetchProgress() {
+      const progress = await getUserModuleProgressFromDB(userId, moduleId);
+      if (progress) {
+        setInitialProgress(progress.watchedDuration || 0);
+        setIsCompleted(progress.isCompleted || false);
+      }
+      setIsLoading(false);
+    }
+    fetchProgress();
+  }, [userId, moduleId]);
   const [showCompletionMessage, setShowCompletionMessage] = React.useState(false);
   const [isMarkingComplete, setIsMarkingComplete] = React.useState(false);
   const hasShownCompletionRef = React.useRef(false);
 
-  const handleProgressUpdate = (watchedDuration: number, totalDuration: number) => {
-    const watchPercentage = (watchedDuration / totalDuration) * 100;
-
-    // Find or create progress entry
-    const existingProgressIndex = mockUserProgress.findIndex(
-      (p) => p.userId === userId && p.moduleId === moduleId
-    );
-
-    const now = new Date();
-
-    if (existingProgressIndex !== -1) {
-      // Update existing progress
-      const wasAlreadyCompleted = mockUserProgress[existingProgressIndex].isCompleted;
-      const shouldMarkComplete = watchPercentage >= 90;
-
-      mockUserProgress[existingProgressIndex] = {
-        ...mockUserProgress[existingProgressIndex],
-        watchedDuration,
-        lastWatchedAt: now,
-        // Once completed, always keep it completed
-        isCompleted: wasAlreadyCompleted || shouldMarkComplete,
-        completedAt:
-          wasAlreadyCompleted
-            ? mockUserProgress[existingProgressIndex].completedAt
-            : (shouldMarkComplete ? now : undefined),
-      };
-    } else {
-      // Create new progress entry
-      const shouldMarkComplete = watchPercentage >= 90;
-      mockUserProgress.push({
-        id: `progress-${Date.now()}`,
-        userId,
-        moduleId,
-        watchedDuration,
-        isCompleted: shouldMarkComplete,
-        lastWatchedAt: now,
-        completedAt: shouldMarkComplete ? now : undefined,
+  const handleProgressUpdate = async (watchedDuration: number, totalDuration: number) => {
+    try {
+      // Save progress to database via API (only watch time, not completion status)
+      const response = await fetch('/api/progress', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId,
+          moduleId,
+          watchedDuration: Math.floor(watchedDuration),
+          isCompleted: false, // Never auto-complete, only manual completion via button
+        }),
       });
-    }
 
-    // Mark as completed if watch percentage >= 90% (only once)
-    if (watchPercentage >= 90 && !isCompleted && !hasShownCompletionRef.current) {
-      hasShownCompletionRef.current = true;
-      setIsCompleted(true);
-      setShowCompletionMessage(true);
+      if (!response.ok) {
+        console.error('Failed to save progress');
+        return;
+      }
+
+      const data = await response.json();
+      console.log('Progress saved:', data);
+    } catch (error) {
+      console.error('Error saving progress:', error);
     }
   };
 
@@ -95,7 +108,7 @@ export default function ModulePlayerPage() {
       <div className="flex min-h-screen items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900 mb-2">
-            Module not found
+            Class not found
           </h1>
           <Button onClick={() => router.push("/dashboard")}>
             Back to Dashboard
@@ -145,26 +158,115 @@ export default function ModulePlayerPage() {
             <div className="bg-green-50 border border-green-200 rounded-lg p-4 flex items-center gap-3">
               <CheckCircle2 className="w-6 h-6 text-green-500 flex-shrink-0" />
               <div>
-                <h3 className="font-semibold text-green-900">Module Completed!</h3>
+                <h3 className="font-semibold text-green-900">Class Completed!</h3>
                 <p className="text-sm text-green-700">
-                  Great job! You've completed this module.
+                  Great job! You've completed this class.
                 </p>
               </div>
             </div>
           )}
         </div>
 
-        {/* Video Player - Constrained */}
+        {/* Content Area - Video or Text */}
         <div className="mb-4">
           <div className="max-w-4xl mx-auto">
-            <div className="bg-white rounded-lg p-4 shadow-sm border">
-              <VideoPlayer
-                videoUrl={module.videoUrl}
-                onProgressUpdate={handleProgressUpdate}
-                initialProgress={initialProgress?.watchedDuration || 0}
-                moduleId={moduleId}
-              />
-            </div>
+            {module.contentType === 'text' ? (
+              /* Text Content */
+              <div className="bg-white rounded-lg shadow-sm border">
+                <div className="p-6 border-b flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center">
+                    <FileText className="w-5 h-5 text-amber-600" />
+                  </div>
+                  <div>
+                    <span className="text-sm font-medium text-gray-500">Reading Material</span>
+                    <div className="flex items-center gap-1.5 text-xs text-gray-400">
+                      <Clock className="w-3 h-3" />
+                      <span>{Math.ceil(module.duration / 60)} min read</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-6 prose prose-gray max-w-none">
+                  {module.textContent ? (
+                    <div
+                      className="text-gray-700 leading-relaxed"
+                      dangerouslySetInnerHTML={{
+                        __html: module.textContent
+                          .replace(/\n\n/g, '</p><p class="mb-4">')
+                          .replace(/\n/g, '<br />')
+                          .replace(/^/, '<p class="mb-4">')
+                          .replace(/$/, '</p>')
+                          .replace(/## (.*?)(?=<|$)/g, '<h2 class="text-xl font-bold text-gray-900 mt-6 mb-3">$1</h2>')
+                          .replace(/### (.*?)(?=<|$)/g, '<h3 class="text-lg font-semibold text-gray-900 mt-4 mb-2">$1</h3>')
+                          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                          .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                          .replace(/`(.*?)`/g, '<code class="bg-gray-100 px-1.5 py-0.5 rounded text-sm font-mono">$1</code>')
+                      }}
+                    />
+                  ) : (
+                    <p className="text-gray-500">No content available.</p>
+                  )}
+                </div>
+              </div>
+            ) : module.contentType === 'contest' ? (
+              /* Contest/Assessment Content */
+              <div className="bg-white rounded-lg shadow-sm border">
+                <div className="p-6 border-b flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center">
+                    <Trophy className="w-5 h-5 text-purple-600" />
+                  </div>
+                  <div>
+                    <span className="text-sm font-medium text-gray-500">
+                      Assessment
+                    </span>
+                    <div className="flex items-center gap-1.5 text-xs text-gray-400">
+                      <Clock className="w-3 h-3" />
+                      <span>{Math.ceil(module.duration / 60)} min</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-8 text-center">
+                  <div className="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center mx-auto mb-4">
+                    <Trophy className="w-8 h-8 text-purple-600" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-6">
+                    Ready to Test Your Skills?
+                  </h3>
+                  {module.contestUrl ? (
+                    <a
+                      href={module.contestUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors"
+                    >
+                      Start Assessment
+                      <ExternalLink className="w-4 h-4" />
+                    </a>
+                  ) : (
+                    <p className="text-gray-500">Assessment link not available.</p>
+                  )}
+                  <p className="text-xs text-gray-400 mt-4">
+                    Opens in a new tab • Come back here to mark as complete
+                  </p>
+                </div>
+              </div>
+            ) : (
+              /* Video Content */
+              <div className="bg-white rounded-lg p-4 shadow-sm border">
+                {!isLoading && module.videoUrl && (
+                  <VideoPlayer
+                    videoUrl={module.videoUrl}
+                    onProgressUpdate={handleProgressUpdate}
+                    initialProgress={initialProgress}
+                    moduleId={moduleId}
+                  />
+                )}
+                {isLoading && (
+                  <div className="w-full aspect-video flex items-center justify-center bg-gray-100 rounded-lg">
+                    <p className="text-gray-500">Loading video...</p>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
 
@@ -190,15 +292,41 @@ export default function ModulePlayerPage() {
           {/* Right side button group - Desktop only */}
           <div className="hidden sm:flex gap-3 items-center">
             {/* Show Mark as Complete button only when not completed */}
-            {module.videoUrl.includes('youtube.com') && !isCompleted && (
+            {!isCompleted && (
               <Button
-                onClick={() => {
+                onClick={async () => {
                   setIsMarkingComplete(true);
-                  setTimeout(() => {
-                    const estimatedDuration = module.duration || 600;
-                    handleProgressUpdate(estimatedDuration, estimatedDuration);
+
+                  try {
+                    // Save progress to database via API
+                    const response = await fetch('/api/progress', {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json',
+                      },
+                      body: JSON.stringify({
+                        userId,
+                        moduleId,
+                        watchedDuration: module.duration || 600,
+                        isCompleted: true,
+                      }),
+                    });
+
+                    if (response.ok) {
+                      // Only update state if API call was successful
+                      setIsCompleted(true);
+                      setShowCompletionMessage(true);
+                      hasShownCompletionRef.current = true;
+                    } else {
+                      console.error('Failed to mark as complete');
+                      alert('Failed to mark as complete. Please try again.');
+                    }
+                  } catch (error) {
+                    console.error('Error marking as complete:', error);
+                    alert('Failed to mark as complete. Please try again.');
+                  } finally {
                     setIsMarkingComplete(false);
-                  }, 800);
+                  }
                 }}
                 disabled={isMarkingComplete}
                 className={`bg-green-600 hover:bg-green-700 transition-all duration-300 ${
@@ -243,15 +371,41 @@ export default function ModulePlayerPage() {
           {/* Right Button - Mobile only */}
           <div className="flex-1 sm:hidden">
             {/* Show Mark as Complete button when not completed */}
-            {module.videoUrl.includes('youtube.com') && !isCompleted && (
+            {!isCompleted && (
               <Button
-                onClick={() => {
+                onClick={async () => {
                   setIsMarkingComplete(true);
-                  setTimeout(() => {
-                    const estimatedDuration = module.duration || 600;
-                    handleProgressUpdate(estimatedDuration, estimatedDuration);
+
+                  try {
+                    // Save progress to database via API
+                    const response = await fetch('/api/progress', {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json',
+                      },
+                      body: JSON.stringify({
+                        userId,
+                        moduleId,
+                        watchedDuration: module.duration || 600,
+                        isCompleted: true,
+                      }),
+                    });
+
+                    if (response.ok) {
+                      // Only update state if API call was successful
+                      setIsCompleted(true);
+                      setShowCompletionMessage(true);
+                      hasShownCompletionRef.current = true;
+                    } else {
+                      console.error('Failed to mark as complete');
+                      alert('Failed to mark as complete. Please try again.');
+                    }
+                  } catch (error) {
+                    console.error('Error marking as complete:', error);
+                    alert('Failed to mark as complete. Please try again.');
+                  } finally {
                     setIsMarkingComplete(false);
-                  }, 800);
+                  }
                 }}
                 disabled={isMarkingComplete}
                 className={`bg-green-600 hover:bg-green-700 w-full transition-all duration-300 ${
