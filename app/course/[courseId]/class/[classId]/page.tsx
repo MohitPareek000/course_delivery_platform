@@ -57,22 +57,22 @@ export default function ClassPlayerPage() {
 
   const [initialProgress, setInitialProgress] = React.useState<number>(0);
   const [isCompleted, setIsCompleted] = React.useState(false);
-  const [isLoading, setIsLoading] = React.useState(true);
+  const [progressLoading, setProgressLoading] = React.useState(false);
 
   // Fetch progress from database on mount
   React.useEffect(() => {
     async function fetchProgress() {
       if (!userId) {
-        setIsLoading(false);
         return;
       }
 
+      setProgressLoading(true);
       const progress = await getUserModuleProgressFromDB(userId, classId);
       if (progress) {
         setInitialProgress(progress.watchedDuration || 0);
         setIsCompleted(progress.isCompleted || false);
       }
-      setIsLoading(false);
+      setProgressLoading(false);
     }
     fetchProgress();
   }, [userId, classId]);
@@ -257,17 +257,16 @@ export default function ClassPlayerPage() {
             ) : (
               /* Video Content */
               <div className="bg-white rounded-lg p-4 shadow-sm border">
-                {!isLoading && classItem.videoUrl && (
+                {classItem.videoUrl ? (
                   <VideoPlayer
                     videoUrl={classItem.videoUrl}
                     onProgressUpdate={handleProgressUpdate}
                     initialProgress={initialProgress}
                     classId={classId}
                   />
-                )}
-                {isLoading && (
+                ) : (
                   <div className="w-full aspect-video flex items-center justify-center bg-gray-100 rounded-lg">
-                    <p className="text-gray-500">Loading video...</p>
+                    <p className="text-gray-500">No video available</p>
                   </div>
                 )}
               </div>

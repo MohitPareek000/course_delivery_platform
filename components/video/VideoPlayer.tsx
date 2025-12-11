@@ -78,6 +78,22 @@ export function VideoPlayer({
     // Initialize player when API is ready
     const initPlayer = () => {
       const container = document.getElementById(`youtube-player-${classId}`);
+      if (!container || !videoId) {
+        // Retry after a short delay if container not found
+        setTimeout(() => {
+          const retryContainer = document.getElementById(`youtube-player-${classId}`);
+          if (retryContainer && videoId) {
+            initPlayerNow();
+          }
+        }, 100);
+        return;
+      }
+
+      initPlayerNow();
+    };
+
+    const initPlayerNow = () => {
+      const container = document.getElementById(`youtube-player-${classId}`);
       if (!container || !videoId) return;
 
       // Clear any existing iframe in the container
