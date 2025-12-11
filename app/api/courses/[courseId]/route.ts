@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
-// GET - Retrieve full course details with rounds, topics, and modules
+// GET - Retrieve full course details with modules, topics, and classes
 export async function GET(
   request: NextRequest,
   { params }: { params: { courseId: string } }
@@ -20,11 +20,11 @@ export async function GET(
     const course = await prisma.course.findUnique({
       where: { id: courseId },
       include: {
-        rounds: {
+        modules: {
           include: {
             topics: {
               include: {
-                modules: {
+                classes: {
                   orderBy: { order: 'asc' }
                 }
               },
@@ -35,10 +35,10 @@ export async function GET(
         },
         topics: {
           where: {
-            roundId: null // Topics without a round (for skill-based courses)
+            moduleId: null // Topics without a module (for skill-based courses)
           },
           include: {
-            modules: {
+            classes: {
               orderBy: { order: 'asc' }
             }
           },

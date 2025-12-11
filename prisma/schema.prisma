@@ -40,15 +40,15 @@ model Course {
   updatedAt       DateTime @updatedAt
 
   // Relations
-  rounds       Round[]
+  modules      Module[]  // Previously rounds
   topics       Topic[]
   courseAccess CourseAccess[]
 
   @@map("courses")
 }
 
-// Round/Section model
-model Round {
+// Module model - Previously called "Round"
+model Module {
   id               String   @id @default(cuid())
   courseId         String
   title            String
@@ -62,13 +62,13 @@ model Round {
   course Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
   topics Topic[]
 
-  @@map("rounds")
+  @@map("modules")  // Maps to "modules" table in database
 }
 
 // Topic model
 model Topic {
   id        String   @id @default(cuid())
-  roundId   String?
+  moduleId  String?  // Previously roundId
   courseId  String
   title     String
   order     Int
@@ -76,15 +76,15 @@ model Topic {
   updatedAt DateTime @updatedAt
 
   // Relations
-  round   Round?   @relation(fields: [roundId], references: [id], onDelete: Cascade)
+  module  Module?  @relation(fields: [moduleId], references: [id], onDelete: Cascade)  // Previously round
   course  Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  modules Module[]
+  classes Class[]  // Previously modules
 
   @@map("topics")
 }
 
-// Module model - represents individual lessons (video, text, or contest)
-model Module {
+// Class model - represents individual lessons (video, text, or contest) - Previously called "Module"
+model Class {
   id              String   @id @default(cuid())
   topicId         String
   title           String
@@ -102,14 +102,14 @@ model Module {
   topic    Topic          @relation(fields: [topicId], references: [id], onDelete: Cascade)
   progress UserProgress[]
 
-  @@map("modules")
+  @@map("classes")  // Maps to "classes" table in database
 }
 
 // UserProgress model - tracks watch time and completion for each learner
 model UserProgress {
   id              String    @id @default(cuid())
   userId          String
-  moduleId        String
+  classId         String    // Previously moduleId
   watchedDuration Int       // Actual seconds watched
   isCompleted     Boolean   @default(false)
   lastWatchedAt   DateTime  @default(now())
@@ -119,10 +119,10 @@ model UserProgress {
 
   // Relations
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  module Module @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  class  Class  @relation(fields: [classId], references: [id], onDelete: Cascade)  // Previously module
 
-  // Ensure one progress record per user per module
-  @@unique([userId, moduleId])
+  // Ensure one progress record per user per class
+  @@unique([userId, classId])  // Previously userId_moduleId
   @@map("user_progress")
 }
 

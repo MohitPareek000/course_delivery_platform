@@ -24,7 +24,8 @@ export interface CourseAccess {
   assignedAt: Date;
 }
 
-export interface Round {
+// Module - Previously called "Round"
+export interface Module {
   id: string;
   courseId: string;
   title: string;
@@ -33,18 +34,16 @@ export interface Round {
   learningOutcomes: string[];
 }
 
-// Alias for Round - more generic naming for all course types
-export type Section = Round;
-
 export interface Topic {
   id: string;
-  roundId?: string; // Can also be called sectionId
+  moduleId?: string;  // Previously roundId
   courseId: string;
   title: string;
   order: number;
 }
 
-export interface Module {
+// Class - represents individual lessons (video, text, or contest) - Previously called "Module"
+export interface Class {
   id: string;
   topicId: string;
   title: string;
@@ -60,7 +59,7 @@ export interface Module {
 export interface UserProgress {
   id: string;
   userId: string;
-  moduleId: string;
+  classId: string;  // Previously moduleId
   watchedDuration: number;
   isCompleted: boolean;
   lastWatchedAt: Date;
