@@ -66,39 +66,56 @@ export function VideoPlayer({
     let progressInterval: NodeJS.Timeout | null = null;
     let player: any = null;
     let maxWatchedTime = initialProgress;
+    let isPlayerInitialized = false;
 
-    // Load YouTube IFrame API script
-    if (!(window as any).YT) {
-      const tag = document.createElement('script');
-      tag.src = 'https://www.youtube.com/iframe_api';
-      const firstScriptTag = document.getElementsByTagName('script')[0];
-      firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
-    }
-
-    // Initialize player when API is ready
+    // Initialize player when API is ready - using MutationObserver for DOM readiness
     const initPlayer = () => {
+      // If already initialized, don't do it again
+      if (isPlayerInitialized) return;
+
       const container = document.getElementById(`youtube-player-${classId}`);
-      if (!container || !videoId) {
-        // Retry after a short delay if container not found
-        setTimeout(() => {
-          const retryContainer = document.getElementById(`youtube-player-${classId}`);
-          if (retryContainer && videoId) {
+
+      if (container && videoId) {
+        console.log('DOM element found, initializing YouTube player...');
+        isPlayerInitialized = true;
+        initPlayerNow();
+      } else {
+        console.log('DOM element not ready yet, setting up observer...');
+        // Use MutationObserver to watch for when the element appears
+        const observer = new MutationObserver((mutations, obs) => {
+          const element = document.getElementById(`youtube-player-${classId}`);
+          if (element && !isPlayerInitialized) {
+            console.log('DOM element appeared, initializing player...');
+            obs.disconnect();
+            isPlayerInitialized = true;
             initPlayerNow();
           }
-        }, 100);
-        return;
-      }
+        });
 
-      initPlayerNow();
+        // Start observing the document body for added nodes
+        observer.observe(document.body, {
+          childList: true,
+          subtree: true
+        });
+
+        // Fallback: disconnect observer after 5 seconds
+        setTimeout(() => {
+          observer.disconnect();
+        }, 5000);
+      }
     };
 
     const initPlayerNow = () => {
       const container = document.getElementById(`youtube-player-${classId}`);
-      if (!container || !videoId) return;
+      if (!container || !videoId) {
+        console.error('Container or videoId missing during init');
+        return;
+      }
 
       // Clear any existing iframe in the container
       container.innerHTML = '';
 
+      console.log('Creating new YouTube player instance...');
       player = new (window as any).YT.Player(`youtube-player-${classId}`, {
         videoId: videoId,
         width: '100%',
@@ -147,6 +164,11 @@ export function VideoPlayer({
             }
           },
           onReady: (event: any) => {
+            console.log('YouTube player ready!');
+
+            // IMPORTANT: Only set the youtubePlayer state when it's actually ready
+            setYoutubePlayer(player);
+
             try {
               if (event.target && typeof event.target.getDuration === 'function') {
                 const videoDuration = event.target.getDuration();
@@ -194,18 +216,29 @@ export function VideoPlayer({
           }
         }
       });
-      setYoutubePlayer(player);
+      // Don't set youtubePlayer here - wait for onReady callback
     };
+
+    // Load YouTube IFrame API script if not already loaded
+    if (!(window as any).YT) {
+      console.log('Loading YouTube IFrame API script...');
+      const tag = document.createElement('script');
+      tag.src = 'https://www.youtube.com/iframe_api';
+      const firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
+    }
 
     // Set up the callback
     const currentCallback = (window as any).onYouTubeIframeAPIReady;
     (window as any).onYouTubeIframeAPIReady = () => {
+      console.log('YouTube IFrame API ready callback fired');
       if (currentCallback) currentCallback();
       initPlayer();
     };
 
-    // If API is already loaded
+    // If API is already loaded, initialize immediately
     if ((window as any).YT && (window as any).YT.Player) {
+      console.log('YouTube API already loaded, initializing...');
       initPlayer();
     }
 
