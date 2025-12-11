@@ -38,6 +38,7 @@ export default function ClassPlayerPage() {
     email: string;
     name: string;
   } | null>(null);
+  const [sessionLoaded, setSessionLoaded] = React.useState(false);
 
   React.useEffect(() => {
     const session = getCurrentUserSession();
@@ -46,6 +47,7 @@ export default function ClassPlayerPage() {
       return;
     }
     setUserSession(session);
+    setSessionLoaded(true);
   }, [router]);
 
   const userId = userSession?.userId || "";
@@ -56,6 +58,7 @@ export default function ClassPlayerPage() {
   const previousClass = getPreviousClass(classId);
 
   const [initialProgress, setInitialProgress] = React.useState<number>(0);
+  const [lastPosition, setLastPosition] = React.useState<number>(0);
   const [isCompleted, setIsCompleted] = React.useState(false);
   const [progressLoading, setProgressLoading] = React.useState(false);
 
@@ -69,7 +72,15 @@ export default function ClassPlayerPage() {
       setProgressLoading(true);
       const progress = await getUserModuleProgressFromDB(userId, classId);
       if (progress) {
+        // Handle undefined/null lastPosition from existing records
+        const resumePos = progress.lastPosition ?? 0;
+        console.log('🔄 Loading progress from DB:', {
+          watchedDuration: progress.watchedDuration,
+          lastPosition: resumePos,
+          isCompleted: progress.isCompleted
+        });
         setInitialProgress(progress.watchedDuration || 0);
+        setLastPosition(resumePos);
         setIsCompleted(progress.isCompleted || false);
       }
       setProgressLoading(false);
@@ -80,20 +91,39 @@ export default function ClassPlayerPage() {
   const [isMarkingComplete, setIsMarkingComplete] = React.useState(false);
   const hasShownCompletionRef = React.useRef(false);
 
-  const handleProgressUpdate = async (watchedDuration: number, totalDuration: number) => {
+  const handleProgressUpdate = async (watchedDuration: number, currentPosition: number, totalDuration: number) => {
     try {
+      // Don't save progress if userId is not available yet
+      if (!userId) {
+        console.log('⏸️ Skipping progress save - userId not available yet');
+        return;
+      }
+
+      console.log('📊 handleProgressUpdate called with:', {
+        watchedDuration,
+        currentPosition,
+        totalDuration,
+        flooredWatchedDuration: Math.floor(watchedDuration),
+        flooredCurrentPosition: Math.floor(currentPosition)
+      });
+
+      const progressData = {
+        userId,
+        classId,
+        watchedDuration: Math.floor(watchedDuration),
+        lastPosition: Math.floor(currentPosition),
+        isCompleted: false, // Never auto-complete, only manual completion via button
+      };
+
+      console.log('💾 Saving progress to DB:', progressData);
+
       // Save progress to database via API (only watch time, not completion status)
       const response = await fetch('/api/progress', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          userId,
-          classId,
-          watchedDuration: Math.floor(watchedDuration),
-          isCompleted: false, // Never auto-complete, only manual completion via button
-        }),
+        body: JSON.stringify(progressData),
       });
 
       if (!response.ok) {
@@ -258,12 +288,19 @@ export default function ClassPlayerPage() {
               /* Video Content */
               <div className="bg-white rounded-lg p-4 shadow-sm border">
                 {classItem.videoUrl ? (
-                  <VideoPlayer
-                    videoUrl={classItem.videoUrl}
-                    onProgressUpdate={handleProgressUpdate}
-                    initialProgress={initialProgress}
-                    classId={classId}
-                  />
+                  sessionLoaded && userId ? (
+                    <VideoPlayer
+                      videoUrl={classItem.videoUrl}
+                      onProgressUpdate={handleProgressUpdate}
+                      initialProgress={initialProgress}
+                      resumePosition={lastPosition}
+                      classId={classId}
+                    />
+                  ) : (
+                    <div className="w-full aspect-video flex items-center justify-center bg-gray-100 rounded-lg">
+                      <p className="text-gray-500">Loading player...</p>
+                    </div>
+                  )
                 ) : (
                   <div className="w-full aspect-video flex items-center justify-center bg-gray-100 rounded-lg">
                     <p className="text-gray-500">No video available</p>

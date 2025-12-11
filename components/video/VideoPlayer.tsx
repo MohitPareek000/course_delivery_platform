@@ -6,8 +6,9 @@ import { cn } from "@/lib/utils";
 
 interface VideoPlayerProps {
   videoUrl: string;
-  onProgressUpdate: (watchedDuration: number, totalDuration: number) => void;
+  onProgressUpdate: (watchedDuration: number, currentPosition: number, totalDuration: number) => void;
   initialProgress?: number;
+  resumePosition?: number;
   classId: string;
   onMarkComplete?: () => void;
 }
@@ -16,8 +17,11 @@ export function VideoPlayer({
   videoUrl,
   onProgressUpdate,
   initialProgress = 0,
+  resumePosition = 0,
   classId,
 }: VideoPlayerProps) {
+  console.log('🎬 VideoPlayer mounted with:', { initialProgress, resumePosition, classId });
+
   const videoRef = React.useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = React.useState(false);
   const [isMuted, setIsMuted] = React.useState(false);
@@ -32,6 +36,14 @@ export function VideoPlayer({
   const containerRef = React.useRef<HTMLDivElement>(null);
   const [isFullscreen, setIsFullscreen] = React.useState(false);
   const [isMobile, setIsMobile] = React.useState(false);
+
+  // Store resumePosition in a ref so it doesn't get lost during re-renders
+  const resumePositionRef = React.useRef(resumePosition);
+
+  // Update ref when prop changes
+  React.useEffect(() => {
+    resumePositionRef.current = resumePosition;
+  }, [resumePosition]);
 
   const playbackSpeeds = [0.5, 0.75, 1, 1.25, 1.5, 2];
 
@@ -122,10 +134,10 @@ export function VideoPlayer({
         height: '100%',
         playerVars: {
           autoplay: 0,
-          controls: 0, // Hide YouTube controls - we'll use custom controls
+          controls: 1, // Show YouTube controls
           modestbranding: 1,
           rel: 0,
-          fs: 0, // Disable native fullscreen - we'll use custom fullscreen
+          fs: 1, // Enable native fullscreen
           disablekb: 0, // Enable keyboard controls
           iv_load_policy: 3, // Hide video annotations
           cc_load_policy: 0, // Hide closed captions by default
@@ -150,13 +162,13 @@ export function VideoPlayer({
                     setDuration(videoDuration);
                     setWatchedDuration(videoDuration);
                     setCurrentTime(videoDuration);
-                    onProgressUpdate(videoDuration, videoDuration);
+                    onProgressUpdate(videoDuration, videoDuration, videoDuration);
                   }
                 } else if (duration > 0) {
                   // Fallback to stored duration
                   setWatchedDuration(duration);
                   setCurrentTime(duration);
-                  onProgressUpdate(duration, duration);
+                  onProgressUpdate(duration, duration, duration);
                 }
               } catch (error) {
                 console.error('Error getting duration on video end:', error);
@@ -176,13 +188,21 @@ export function VideoPlayer({
                   setDuration(videoDuration);
                 }
 
-                // Resume from saved position if available
-                if (initialProgress > 0 && typeof event.target.seekTo === 'function') {
+                // Resume from saved position if available (use ref to get latest value)
+                const savedPosition = resumePositionRef.current;
+                console.log('🔍 Resume check:', { savedPosition, videoDuration, hasSeekTo: typeof event.target.seekTo === 'function' });
+
+                if (savedPosition > 0 && typeof event.target.seekTo === 'function') {
                   // Don't resume if video is almost complete (within last 5 seconds)
-                  if (initialProgress < videoDuration - 5) {
-                    event.target.seekTo(initialProgress, true);
-                    setCurrentTime(initialProgress);
+                  if (savedPosition < videoDuration - 5) {
+                    console.log('▶️ Resuming YouTube video at position:', savedPosition);
+                    event.target.seekTo(savedPosition, true);
+                    setCurrentTime(savedPosition);
+                  } else {
+                    console.log('⏭️ Skipping resume (video almost complete)');
                   }
+                } else {
+                  console.log('⚠️ Cannot resume - savedPosition:', savedPosition, 'hasSeekTo:', typeof event.target.seekTo);
                 }
 
                 // Set up interval to track progress
@@ -190,20 +210,39 @@ export function VideoPlayer({
                   clearInterval(progressInterval);
                 }
 
+                let lastTrackedTime = savedPosition || 0;
+                let accumulatedWatchTime = initialProgress || 0;
+
                 progressInterval = setInterval(() => {
                   try {
                     if (player && typeof player.getCurrentTime === 'function') {
                       const current = player.getCurrentTime();
                       setCurrentTime(current);
 
-                      // Track maximum watched time (cap at video duration)
-                      if (current > maxWatchedTime) {
-                        maxWatchedTime = Math.min(current, videoDuration);
-                        setWatchedDuration(maxWatchedTime);
+                      // Calculate time difference
+                      const timeDiff = current - lastTrackedTime;
 
-                        // Save progress immediately when we reach a new maximum
-                        onProgressUpdate(maxWatchedTime, videoDuration);
+                      // Only count as watched if:
+                      // 1. Time moved forward
+                      // 2. Time difference is reasonable (between 0.5s and 2s to account for buffering)
+                      // 3. Not a forward skip (timeDiff <= 2 seconds)
+                      if (timeDiff > 0.5 && timeDiff <= 2) {
+                        // Continuous playback - increment accumulated watch time
+                        accumulatedWatchTime += timeDiff;
+                        accumulatedWatchTime = Math.min(accumulatedWatchTime, videoDuration);
+
+                        // Update maxWatchedTime to track furthest point reached through continuous watching
+                        if (accumulatedWatchTime > maxWatchedTime) {
+                          maxWatchedTime = accumulatedWatchTime;
+                          setWatchedDuration(maxWatchedTime);
+                          onProgressUpdate(maxWatchedTime, current, videoDuration);
+                        }
                       }
+                      // If user seeks backward (timeDiff < 0), just update lastTrackedTime without counting
+                      // If user seeks forward (timeDiff > 2), don't count the skipped time
+
+                      // Always update lastTrackedTime for next comparison
+                      lastTrackedTime = current;
                     }
                   } catch (error) {
                     console.error('Error tracking progress:', error);
@@ -263,7 +302,7 @@ export function VideoPlayer({
     const finalDuration = duration > 0 ? duration : estimatedDuration;
     setWatchedDuration(finalDuration);
     setCurrentTime(finalDuration);
-    onProgressUpdate(finalDuration, finalDuration);
+    onProgressUpdate(finalDuration, finalDuration, finalDuration);
   };
 
   React.useEffect(() => {
@@ -274,12 +313,17 @@ export function VideoPlayer({
       setDuration(video.duration);
 
       // Resume from saved position if available
-      if (initialProgress > 0) {
+      if (resumePosition > 0) {
         // Don't resume if video is almost complete (within last 5 seconds)
-        if (initialProgress < video.duration - 5) {
-          video.currentTime = initialProgress;
-          setCurrentTime(initialProgress);
+        if (resumePosition < video.duration - 5) {
+          console.log('▶️ Resuming native video at position:', resumePosition);
+          video.currentTime = resumePosition;
+          setCurrentTime(resumePosition);
+        } else {
+          console.log('⏭️ Skipping resume (video almost complete)');
         }
+      } else {
+        console.log('ℹ️ No resume position (starting from beginning)');
       }
     };
 
@@ -306,7 +350,7 @@ export function VideoPlayer({
       video.removeEventListener("timeupdate", handleTimeUpdate);
       video.removeEventListener("ended", handleEnded);
     };
-  }, [watchedDuration, initialProgress]);
+  }, [watchedDuration, resumePosition]);
 
   // Save progress every 5 seconds (for native video only)
   React.useEffect(() => {
@@ -314,12 +358,12 @@ export function VideoPlayer({
 
     const interval = setInterval(() => {
       if (watchedDuration > 0 && duration > 0) {
-        onProgressUpdate(watchedDuration, duration);
+        onProgressUpdate(watchedDuration, currentTime, duration);
       }
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [watchedDuration, duration, onProgressUpdate, isIframeUrl]);
+  }, [watchedDuration, currentTime, duration, onProgressUpdate, isIframeUrl]);
 
   // Hide controls after 3 seconds of inactivity
   const resetHideControlsTimeout = () => {
@@ -340,8 +384,10 @@ export function VideoPlayer({
       try {
         if (isPlaying) {
           youtubePlayer.pauseVideo();
+          setIsPlaying(false);
         } else {
           youtubePlayer.playVideo();
+          setIsPlaying(true);
         }
       } catch (error) {
         console.error('Error toggling YouTube playback:', error);
@@ -617,172 +663,51 @@ export function VideoPlayer({
 
       <div
         ref={containerRef}
-        className="relative bg-black rounded-lg overflow-hidden group"
-        onMouseMove={resetHideControlsTimeout}
-        onMouseLeave={() => isPlaying && setShowControls(false)}
+        className="relative bg-black rounded-lg overflow-hidden"
       >
-      {/* Video Element or Iframe */}
-      {isScalerMeeting ? (
-        <div className="w-full aspect-video flex flex-col items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white p-8">
-          <div className="text-center space-y-6">
-            <div className="text-7xl mb-4">🎥</div>
-            <h3 className="text-2xl font-bold">Watch Video Lesson</h3>
-            <p className="text-gray-300 max-w-md text-base leading-relaxed">
-              Click the button below to start watching this video lesson.
-            </p>
-            <a
-              href={videoUrl}
-              className="inline-flex items-center gap-2 mt-6 px-8 py-4 bg-primary text-white rounded-lg hover:bg-primary/90 transition-all hover:scale-105 font-semibold text-lg shadow-lg"
-            >
-              <Play className="w-5 h-5" />
-              Watch Video
-            </a>
+        {/* Video Element or Iframe */}
+        {isScalerMeeting ? (
+          <div className="w-full aspect-video flex flex-col items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white p-8">
+            <div className="text-center space-y-6">
+              <div className="text-7xl mb-4">🎥</div>
+              <h3 className="text-2xl font-bold">Watch Video Lesson</h3>
+              <p className="text-gray-300 max-w-md text-base leading-relaxed">
+                Click the button below to start watching this video lesson.
+              </p>
+              <a
+                href={videoUrl}
+                className="inline-flex items-center gap-2 mt-6 px-8 py-4 bg-primary text-white rounded-lg hover:bg-primary/90 transition-all hover:scale-105 font-semibold text-lg shadow-lg"
+              >
+                <Play className="w-5 h-5" />
+                Watch Video
+              </a>
+            </div>
           </div>
-        </div>
-      ) : isIframeUrl ? (
-        <div className="relative">
-          <div
-            ref={iframeRef}
-            id={`youtube-player-${classId}`}
+        ) : isIframeUrl ? (
+          <div className="relative">
+            <div
+              ref={iframeRef}
+              id={`youtube-player-${classId}`}
+              className="w-full aspect-video"
+            />
+          </div>
+        ) : (
+          <video
+            ref={videoRef}
             className="w-full aspect-video"
-            onClick={togglePlay}
-          />
-        </div>
-      ) : (
-        <video
-          ref={videoRef}
-          className="w-full aspect-video"
-          onClick={togglePlay}
-          src={videoUrl}
-        >
-          Your browser does not support the video tag.
-        </video>
-      )}
-
-      {/* Play/Pause Overlay - For both YouTube and native video */}
-      {!isScalerMeeting && !isPlaying && (
-        <div className="absolute inset-0 flex items-center justify-center bg-black/30 pointer-events-none">
-          <button
-            onClick={togglePlay}
-            className={cn(
-              "rounded-full bg-primary flex items-center justify-center hover:bg-primary/90 transition-colors pointer-events-auto",
-              isMobile ? "w-24 h-24" : "w-20 h-20"
-            )}
+            controls
+            src={videoUrl}
           >
-            <Play className={cn("text-white ml-1", isMobile ? "w-12 h-12" : "w-10 h-10")} />
-          </button>
-        </div>
-      )}
+            Your browser does not support the video tag.
+          </video>
+        )}
 
-      {/* Controls - For both YouTube and native video */}
-      {!isScalerMeeting && (
-        <div
-          className={cn(
-            "absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-4 transition-opacity duration-300",
-            showControls ? "opacity-100" : "opacity-0"
-          )}
-        >
-          {/* Progress Bar */}
-          <div className="mb-3">
-            <div className={cn(
-              "relative bg-gray-600 rounded-full cursor-pointer",
-              isMobile ? "h-2" : "h-1.5"
-            )}>
-              {/* Watched portion (in light gray) */}
-              <div
-                className="absolute h-full bg-gray-400 rounded-full"
-                style={{ width: `${watchedPercentage}%` }}
-              />
-              {/* Current playback position */}
-              <div
-                className="absolute h-full bg-secondary rounded-full"
-                style={{ width: `${progressPercentage}%` }}
-              />
-              <input
-                type="range"
-                min="0"
-                max={duration}
-                value={currentTime}
-                onChange={handleSeek}
-                className={cn(
-                  "absolute inset-0 w-full opacity-0 cursor-pointer",
-                  isMobile ? "h-8 -translate-y-3" : "h-full"
-                )}
-              />
-            </div>
+        {/* Watch Progress Indicator */}
+        {!isScalerMeeting && watchedPercentage >= 98 && watchedPercentage < 100 && (
+          <div className="absolute top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg animate-pulse z-10">
+            Almost done! Keep watching to complete.
           </div>
-
-          <div className="flex items-center justify-between text-white">
-            <div className={cn("flex items-center", isMobile ? "gap-2" : "gap-3")}>
-              {/* Play/Pause Button */}
-              <button
-                onClick={togglePlay}
-                className={cn(
-                  "hover:bg-white/20 rounded transition-colors touch-manipulation",
-                  isMobile ? "p-3" : "p-2"
-                )}
-              >
-                {isPlaying ? (
-                  <Pause className={cn(isMobile ? "w-6 h-6" : "w-5 h-5")} />
-                ) : (
-                  <Play className={cn(isMobile ? "w-6 h-6" : "w-5 h-5")} />
-                )}
-              </button>
-
-              {/* Volume Button */}
-              <button
-                onClick={toggleMute}
-                className={cn(
-                  "hover:bg-white/20 rounded transition-colors touch-manipulation",
-                  isMobile ? "p-3" : "p-2"
-                )}
-              >
-                {isMuted ? (
-                  <VolumeX className={cn(isMobile ? "w-6 h-6" : "w-5 h-5")} />
-                ) : (
-                  <Volume2 className={cn(isMobile ? "w-6 h-6" : "w-5 h-5")} />
-                )}
-              </button>
-
-              {/* Time */}
-              <span className={cn(isMobile ? "text-xs" : "text-sm")}>
-                {formatTime(currentTime)} / {formatTime(duration)}
-              </span>
-            </div>
-
-            <div className={cn("flex items-center", isMobile ? "gap-1" : "gap-2")}>
-              {/* Playback Speed */}
-              <button
-                onClick={changePlaybackSpeed}
-                className={cn(
-                  "hover:bg-white/20 rounded transition-colors touch-manipulation",
-                  isMobile ? "px-2 py-2 text-xs" : "px-3 py-1 text-sm"
-                )}
-              >
-                {playbackRate}x
-              </button>
-
-              {/* Fullscreen Button */}
-              <button
-                onClick={toggleFullscreen}
-                className={cn(
-                  "hover:bg-white/20 rounded transition-colors touch-manipulation",
-                  isMobile ? "p-3" : "p-2"
-                )}
-              >
-                <Maximize className={cn(isMobile ? "w-6 h-6" : "w-5 h-5")} />
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Watch Progress Indicator - For both YouTube and native video */}
-      {!isScalerMeeting && watchedPercentage >= 98 && watchedPercentage < 100 && (
-        <div className="absolute top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg animate-pulse">
-          Almost done! Keep watching to complete.
-        </div>
-      )}
+        )}
       </div>
     </>
   );

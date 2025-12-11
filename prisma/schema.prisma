@@ -110,7 +110,8 @@ model UserProgress {
   id              String    @id @default(cuid())
   userId          String
   classId         String    // Previously moduleId
-  watchedDuration Int       // Actual seconds watched
+  watchedDuration Int       // Actual seconds watched (continuous time, no skips)
+  lastPosition    Int       @default(0) // Video timestamp where user stopped (for resume)
   isCompleted     Boolean   @default(false)
   lastWatchedAt   DateTime  @default(now())
   completedAt     DateTime?

@@ -38,7 +38,9 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { userId, classId, watchedDuration, isCompleted } = body;
+    const { userId, classId, watchedDuration, lastPosition, isCompleted } = body;
+
+    console.log('📥 API received progress data:', { userId, classId, watchedDuration, lastPosition, isCompleted });
 
     if (!userId || !classId || typeof watchedDuration !== 'number') {
       return NextResponse.json(
@@ -66,6 +68,7 @@ export async function POST(request: NextRequest) {
     // Prepare update data
     const updateData: any = {
       watchedDuration,
+      lastPosition: lastPosition !== undefined ? lastPosition : 0,
       isCompleted: shouldBeCompleted,
       lastWatchedAt: now,
     };
@@ -80,6 +83,7 @@ export async function POST(request: NextRequest) {
       userId,
       classId,
       watchedDuration,
+      lastPosition: lastPosition !== undefined ? lastPosition : 0,
       isCompleted: isCompleted || false,
       lastWatchedAt: now,
     };
@@ -99,6 +103,12 @@ export async function POST(request: NextRequest) {
       },
       update: updateData,
       create: createData,
+    });
+
+    console.log('✅ Progress saved to database:', {
+      watchedDuration: progress.watchedDuration,
+      lastPosition: progress.lastPosition,
+      isCompleted: progress.isCompleted
     });
 
     return NextResponse.json({ progress }, { status: 200 });

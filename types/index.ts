@@ -61,6 +61,7 @@ export interface UserProgress {
   userId: string;
   classId: string;  // Previously moduleId
   watchedDuration: number;
+  lastPosition: number;  // Video timestamp where user stopped (for resume)
   isCompleted: boolean;
   lastWatchedAt: Date;
   completedAt?: Date;
