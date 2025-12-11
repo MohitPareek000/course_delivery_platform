@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
-import { Course, Round, Topic, Module } from '@/types';
+import { Course, Module, Topic, Class } from '@/types';
 
 interface CourseWithStructure extends Course {
-  rounds: (Round & {
+  modules: (Module & {
     topics: (Topic & {
-      modules: Module[];
+      classes: Class[];
     })[];
   })[];
   topics: (Topic & {
-    modules: Module[];
+    classes: Class[];
   })[];
 }
 

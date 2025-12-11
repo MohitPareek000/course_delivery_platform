@@ -1,25 +1,25 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
-// GET - Retrieve progress for a specific user and module
+// GET - Retrieve progress for a specific user and class
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
     const userId = searchParams.get('userId');
-    const moduleId = searchParams.get('moduleId');
+    const classId = searchParams.get('classId');
 
-    if (!userId || !moduleId) {
+    if (!userId || !classId) {
       return NextResponse.json(
-        { error: 'userId and moduleId are required' },
+        { error: 'userId and classId are required' },
         { status: 400 }
       );
     }
 
     const progress = await prisma.userProgress.findUnique({
       where: {
-        userId_moduleId: {
+        userId_classId: {
           userId,
-          moduleId,
+          classId,
         },
       },
     });
@@ -38,11 +38,11 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { userId, moduleId, watchedDuration, isCompleted } = body;
+    const { userId, classId, watchedDuration, isCompleted } = body;
 
-    if (!userId || !moduleId || typeof watchedDuration !== 'number') {
+    if (!userId || !classId || typeof watchedDuration !== 'number') {
       return NextResponse.json(
-        { error: 'userId, moduleId, and watchedDuration are required' },
+        { error: 'userId, classId, and watchedDuration are required' },
         { status: 400 }
       );
     }
@@ -52,9 +52,9 @@ export async function POST(request: NextRequest) {
     // Check if progress already exists and is completed
     const existingProgress = await prisma.userProgress.findUnique({
       where: {
-        userId_moduleId: {
+        userId_classId: {
           userId,
-          moduleId,
+          classId,
         },
       },
     });
@@ -78,7 +78,7 @@ export async function POST(request: NextRequest) {
     // Prepare create data
     const createData: any = {
       userId,
-      moduleId,
+      classId,
       watchedDuration,
       isCompleted: isCompleted || false,
       lastWatchedAt: now,
@@ -92,9 +92,9 @@ export async function POST(request: NextRequest) {
     // Upsert progress (create or update)
     const progress = await prisma.userProgress.upsert({
       where: {
-        userId_moduleId: {
+        userId_classId: {
           userId,
-          moduleId,
+          classId,
         },
       },
       update: updateData,

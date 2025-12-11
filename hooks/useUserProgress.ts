@@ -48,19 +48,19 @@ export function useUserProgress(userId: string) {
     };
   }, [userId]);
 
-  // Helper function to get progress for a specific module
-  const getModuleProgress = (moduleId: string) => {
-    return progress.find((p) => p.moduleId === moduleId);
+  // Helper function to get progress for a specific class
+  const getClassProgress = (classId: string) => {
+    return progress.find((p) => p.classId === classId);
   };
 
-  // Helper function to check if module is completed
-  const isModuleCompleted = (moduleId: string) => {
-    return getModuleProgress(moduleId)?.isCompleted || false;
+  // Helper function to check if class is completed
+  const isClassCompleted = (classId: string) => {
+    return getClassProgress(classId)?.isCompleted || false;
   };
 
-  // Helper function to get all completed module IDs
-  const getCompletedModuleIds = () => {
-    return progress.filter((p) => p.isCompleted).map((p) => p.moduleId);
+  // Helper function to get all completed class IDs
+  const getCompletedClassIds = () => {
+    return progress.filter((p) => p.isCompleted).map((p) => p.classId);
   };
 
   // Refresh progress
@@ -77,9 +77,9 @@ export function useUserProgress(userId: string) {
     progress,
     isLoading,
     error,
-    getModuleProgress,
-    isModuleCompleted,
-    getCompletedModuleIds,
+    getClassProgress,
+    isClassCompleted,
+    getCompletedClassIds,
     refreshProgress,
   };
 }

@@ -21,7 +21,7 @@ export async function GET(
         userId,
       },
       include: {
-        module: true,
+        class: true,
       },
     });
 
