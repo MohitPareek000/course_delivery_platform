@@ -77,6 +77,8 @@ const skillIcons: Record<string, React.ElementType> = {
   "React": Code,
   "Node": Code,
   "Full Stack": Code,
+  "Stack": Code,
+  "Bootcamp": Code,
   "Database": Database,
   "SQL": Database,
   "Cloud": Cloud,

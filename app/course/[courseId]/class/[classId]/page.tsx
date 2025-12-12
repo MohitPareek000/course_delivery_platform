@@ -177,7 +177,7 @@ export default function ClassPlayerPage() {
 
   return (
     <div className="flex min-h-screen bg-gray-50">
-      <Sidebar />
+      <Sidebar userName={userSession?.name || ""} userEmail={userSession?.email || ""} />
 
       <main className="flex-1 p-4 lg:p-8">
         {/* Back Button - Below hamburger menu on mobile, normal position on desktop */}

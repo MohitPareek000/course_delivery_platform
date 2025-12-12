@@ -340,7 +340,7 @@ export default function CourseDetailPage() {
 
   return (
     <div className="flex min-h-screen bg-gray-50">
-      <Sidebar />
+      <Sidebar userName={userSession?.name || ""} userEmail={userSession?.email || ""} />
 
       <main className="flex-1 p-4 lg:p-8 pt-16 lg:pt-8">
         {/* Back Button */}

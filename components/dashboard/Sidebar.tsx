@@ -4,6 +4,7 @@ import * as React from "react";
 import { Home, BookOpen, LogOut, Menu, X, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useRouter, usePathname } from "next/navigation";
+import { ProfileModal } from "./ProfileModal";
 
 interface SidebarProps {
   userName?: string;
@@ -12,6 +13,7 @@ interface SidebarProps {
 
 export function Sidebar({ userName = "Mohit", userEmail }: SidebarProps) {
   const [isOpen, setIsOpen] = React.useState(false);
+  const [isProfileModalOpen, setIsProfileModalOpen] = React.useState(false);
   const router = useRouter();
   const pathname = usePathname();
 
@@ -31,7 +33,6 @@ export function Sidebar({ userName = "Mohit", userEmail }: SidebarProps) {
 
   const menuItems = [
     { icon: Home, label: "Home", href: "/dashboard", active: isDashboard },
-    { icon: BookOpen, label: "My Courses", href: "/dashboard", active: isCoursePage },
   ];
 
   return (
@@ -90,7 +91,10 @@ export function Sidebar({ userName = "Mohit", userEmail }: SidebarProps) {
 
         {/* User Section */}
         <div className="p-4 border-t border-gray-100">
-          <div className="flex items-center gap-2.5 mb-3 p-2 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">
+          <div
+            onClick={() => setIsProfileModalOpen(true)}
+            className="flex items-center gap-2.5 mb-3 p-2 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
+          >
             <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center ring-2 ring-primary/20">
               <User className="w-5 h-5 text-primary" />
             </div>
@@ -112,6 +116,14 @@ export function Sidebar({ userName = "Mohit", userEmail }: SidebarProps) {
           </button>
         </div>
       </aside>
+
+      {/* Profile Modal */}
+      <ProfileModal
+        isOpen={isProfileModalOpen}
+        onClose={() => setIsProfileModalOpen(false)}
+        userName={userName}
+        userEmail={userEmail}
+      />
     </>
   );
 }
