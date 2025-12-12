@@ -31,14 +31,8 @@ export function LoadingSpinner({
 
   return (
     <div className={cn("text-center", className)}>
-      {/* Animated spinner with gradient */}
-      <div className={cn("relative mx-auto mb-4", sizeClasses[size])}>
-        <div className="absolute inset-0 rounded-full border-3 border-gray-200"></div>
-        <div className="absolute inset-0 rounded-full border-3 border-transparent border-t-primary border-r-primary animate-spin"></div>
-      </div>
-
-      {/* Loading text with pulse animation */}
-      <div className="space-y-2">
+      {/* Loading text with bouncing balls animation */}
+      <div className="space-y-3">
         <p className={cn("font-medium text-gray-700", textSizes[size])}>{message}</p>
         <div className="flex items-center justify-center gap-1">
           <span className={cn("bg-primary rounded-full animate-bounce", dotSizes[size])} style={{ animationDelay: '0ms' }}></span>
