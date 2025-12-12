@@ -315,7 +315,7 @@ export default function CourseDetailPage() {
         }
       }
     }
-  }, [isRoleSpecific, modules, isLoading, progress]);
+  }, [isRoleSpecific, modules, isLoading]);
 
   // Loading state
   if (isLoading) {
