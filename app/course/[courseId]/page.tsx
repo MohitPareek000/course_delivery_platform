@@ -146,16 +146,20 @@ export default function CourseDetailPage() {
   const [selectedModuleId, setSelectedModuleId] = React.useState<string | null>(null);
   const [logoError, setLogoError] = React.useState(false);
   const hasAutoOpened = React.useRef(false);
+  const highlightTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
+  const lastHighlightedClassRef = React.useRef<string | null>(null);
 
   // Fetch user progress from database
   const { progress, isLoading: progressLoading, getClassProgress, isClassCompleted, refreshProgress } = useUserProgress(userId);
 
   const isLoading = courseLoading || progressLoading;
 
-  // Refresh progress when returning to this page
+  // Refresh progress when returning to this page and reset scroll flag
   React.useEffect(() => {
     if (userId) {
       refreshProgress();
+      // Reset the auto-open flag so scrolling happens again when returning to the course page
+      hasAutoOpened.current = false;
     }
   }, [courseId, userId, refreshProgress]); // Refresh when course page is accessed
 
@@ -277,16 +281,34 @@ export default function CourseDetailPage() {
         // Scroll to the current class after a short delay to ensure DOM is ready
         if (currentClassId) {
           setTimeout(() => {
+            // Clean up previous highlight if it exists
+            if (lastHighlightedClassRef.current) {
+              const prevElement = document.getElementById(`class-${lastHighlightedClassRef.current}`);
+              if (prevElement) {
+                prevElement.classList.remove('ring-2', 'ring-primary', 'ring-offset-2');
+              }
+            }
+
+            // Clear any existing highlight timeout
+            if (highlightTimeoutRef.current) {
+              clearTimeout(highlightTimeoutRef.current);
+            }
+
             const classElement = document.getElementById(`class-${currentClassId}`);
             if (classElement) {
               classElement.scrollIntoView({
                 behavior: 'smooth',
                 block: 'center'
               });
+
               // Add a brief highlight animation
               classElement.classList.add('ring-2', 'ring-primary', 'ring-offset-2');
-              setTimeout(() => {
+              lastHighlightedClassRef.current = currentClassId;
+
+              // Remove highlight after 2 seconds
+              highlightTimeoutRef.current = setTimeout(() => {
                 classElement.classList.remove('ring-2', 'ring-primary', 'ring-offset-2');
+                lastHighlightedClassRef.current = null;
               }, 2000);
             }
           }, 500);
