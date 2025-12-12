@@ -59,8 +59,19 @@ export function VideoPlayer({
 
   // Extract video ID from YouTube URL
   const getYouTubeVideoId = (url: string) => {
-    const match = url.match(/embed\/([a-zA-Z0-9_-]+)/);
-    return match ? match[1] : null;
+    // Match embed URLs: youtube.com/embed/VIDEO_ID
+    let match = url.match(/embed\/([a-zA-Z0-9_-]+)/);
+    if (match) return match[1];
+
+    // Match watch URLs: youtube.com/watch?v=VIDEO_ID
+    match = url.match(/[?&]v=([a-zA-Z0-9_-]+)/);
+    if (match) return match[1];
+
+    // Match short URLs: youtu.be/VIDEO_ID
+    match = url.match(/youtu\.be\/([a-zA-Z0-9_-]+)/);
+    if (match) return match[1];
+
+    return null;
   };
 
   const videoId = getYouTubeVideoId(videoUrl);

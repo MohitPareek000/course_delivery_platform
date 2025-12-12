@@ -7,6 +7,7 @@ import { VideoPlayer } from "@/components/video/VideoPlayer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip } from "@/components/ui/tooltip";
+import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
 import {
   ArrowLeft,
   ChevronLeft,
@@ -17,13 +18,7 @@ import {
   Trophy,
   ExternalLink,
 } from "lucide-react";
-import {
-  getClassById,
-  getNextClass,
-  getPreviousClass,
-  getCourseById,
-} from "@/lib/db/queries";
-import { getUserModuleProgressFromDB } from "@/lib/db/dbQueries";
+import { getUserModuleProgressFromDB, getClassByIdFromDB } from "@/lib/db/dbQueries";
 import { getCurrentUserSession } from "@/lib/auth";
 
 export default function ClassPlayerPage() {
@@ -52,10 +47,24 @@ export default function ClassPlayerPage() {
 
   const userId = userSession?.userId || "";
 
-  const classItem = getClassById(classId);
-  const course = getCourseById(courseId);
-  const nextClass = getNextClass(classId);
-  const previousClass = getPreviousClass(classId);
+  const [classData, setClassData] = React.useState<any>(null);
+  const [dataLoading, setDataLoading] = React.useState(true);
+
+  // Fetch class data from database
+  React.useEffect(() => {
+    async function fetchClassData() {
+      setDataLoading(true);
+      const data = await getClassByIdFromDB(classId);
+      setClassData(data);
+      setDataLoading(false);
+    }
+    fetchClassData();
+  }, [classId]);
+
+  const classItem = classData?.class;
+  const course = classData?.course;
+  const nextClass = classData?.nextClass;
+  const previousClass = classData?.previousClass;
 
   const [initialProgress, setInitialProgress] = React.useState<number>(0);
   const [lastPosition, setLastPosition] = React.useState<number>(0);
@@ -138,6 +147,19 @@ export default function ClassPlayerPage() {
     }
   };
 
+  // Show loading state
+  if (dataLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading class...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show not found if class doesn't exist
   if (!classItem || !course) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -220,23 +242,9 @@ export default function ClassPlayerPage() {
                     </div>
                   </div>
                 </div>
-                <div className="p-6 prose prose-gray max-w-none">
+                <div className="p-6">
                   {classItem.textContent ? (
-                    <div
-                      className="text-gray-700 leading-relaxed"
-                      dangerouslySetInnerHTML={{
-                        __html: classItem.textContent
-                          .replace(/\n\n/g, '</p><p class="mb-4">')
-                          .replace(/\n/g, '<br />')
-                          .replace(/^/, '<p class="mb-4">')
-                          .replace(/$/, '</p>')
-                          .replace(/## (.*?)(?=<|$)/g, '<h2 class="text-xl font-bold text-gray-900 mt-6 mb-3">$1</h2>')
-                          .replace(/### (.*?)(?=<|$)/g, '<h3 class="text-lg font-semibold text-gray-900 mt-4 mb-2">$1</h3>')
-                          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                          .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                          .replace(/`(.*?)`/g, '<code class="bg-gray-100 px-1.5 py-0.5 rounded text-sm font-mono">$1</code>')
-                      }}
-                    />
+                    <MarkdownRenderer content={classItem.textContent} />
                   ) : (
                     <p className="text-gray-500">No content available.</p>
                   )}
@@ -349,6 +357,7 @@ export default function ClassPlayerPage() {
                         userId,
                         classId,
                         watchedDuration: classItem.duration || 600,
+                        lastPosition: lastPosition || 0,
                         isCompleted: true,
                       }),
                     });
@@ -428,6 +437,7 @@ export default function ClassPlayerPage() {
                         userId,
                         classId,
                         watchedDuration: classItem.duration || 600,
+                        lastPosition: lastPosition || 0,
                         isCompleted: true,
                       }),
                     });

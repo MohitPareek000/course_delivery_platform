@@ -1,0 +1,491 @@
+{
+  "course_information": {
+    "course_type": "role-specific",
+    "role": "DevOps Engineer",
+    "course_title": "DevOps Mastery Path",
+    "course_description": "Complete DevOps learning path from Linux fundamentals to Kubernetes orchestration. Master the tools and practices used by top DevOps engineers.",
+    "course_thumbnail": ""
+  },
+  "modules": {
+    "module_1": {
+      "title": "DevOps Foundations",
+      "description": "Understand DevOps culture, principles, and practices",
+      "order": 1,
+      "learning_outcomes": [
+        "Understand DevOps philosophy and culture",
+        "Learn about CI/CD pipelines",
+        "Grasp infrastructure as code concepts"
+      ],
+      "topics": {
+        "topic_1_1": {
+          "title": "Introduction to DevOps",
+          "order": 1,
+          "classes": {
+            "class_1_1_1": {
+              "title": "What is DevOps?",
+              "description": "Introduction to DevOps culture and practices",
+              "content_type": "video",
+              "duration": 720,
+              "order": 1,
+              "video_url": "https://www.youtube.com/watch?v=Xrgk023l4lI"
+            },
+            "class_1_1_2": {
+              "title": "DevOps Lifecycle",
+              "description": "Understanding the DevOps workflow and stages",
+              "content_type": "video",
+              "duration": 600,
+              "order": 2,
+              "video_url": "https://www.youtube.com/watch?v=Me3ea4nUt0U"
+            },
+            "class_1_1_3": {
+              "title": "DevOps vs Traditional IT",
+              "description": "Key differences and benefits",
+              "content_type": "text",
+              "duration": 300,
+              "order": 3,
+              "text_content": "## DevOps vs Traditional IT\n\nDevOps represents a fundamental shift in how software is developed and deployed.\n\n### Traditional IT:\n- **Siloed teams**: Development and Operations work separately\n- **Manual processes**: Deployments done manually\n- **Long release cycles**: Months between releases\n- **Reactive**: Issues addressed after they occur\n\n### DevOps:\n- **Collaborative culture**: Dev and Ops work together\n- **Automation**: CI/CD pipelines automate deployments\n- **Continuous delivery**: Multiple deployments per day\n- **Proactive**: Monitoring and prevention\n\n### Key Benefits:\n1. **Faster time to market**\n2. **Higher quality software**\n3. **Better collaboration**\n4. **Improved customer satisfaction**\n5. **Reduced costs**"
+            }
+          }
+        },
+        "topic_1_2": {
+          "title": "DevOps Tools Overview",
+          "order": 2,
+          "classes": {
+            "class_1_2_1": {
+              "title": "DevOps Toolchain",
+              "description": "Overview of essential DevOps tools",
+              "content_type": "video",
+              "duration": 900,
+              "order": 1,
+              "video_url": "https://www.youtube.com/watch?v=UMQGyeAnfFE"
+            }
+          }
+        }
+      }
+    },
+    "module_2": {
+      "title": "Linux & Shell Scripting",
+      "description": "Master Linux fundamentals and automation with bash scripting",
+      "order": 2,
+      "learning_outcomes": [
+        "Navigate Linux file system efficiently",
+        "Manage users, permissions, and processes",
+        "Write bash scripts for automation"
+      ],
+      "topics": {
+        "topic_2_1": {
+          "title": "Linux Fundamentals",
+          "order": 1,
+          "classes": {
+            "class_2_1_1": {
+              "title": "Introduction to Linux",
+              "description": "Understanding Linux OS and distributions",
+              "content_type": "video",
+              "duration": 600,
+              "order": 1,
+              "video_url": "https://www.youtube.com/watch?v=ROjZy1WbCIA"
+            },
+            "class_2_1_2": {
+              "title": "Linux File System",
+              "description": "Understanding directory structure and navigation",
+              "content_type": "video",
+              "duration": 720,
+              "order": 2,
+              "video_url": "https://www.youtube.com/watch?v=HIXzJ3Rz9po"
+            },
+            "class_2_1_3": {
+              "title": "Essential Linux Commands",
+              "description": "ls, cd, pwd, mkdir, rm, cp, mv",
+              "content_type": "video",
+              "duration": 900,
+              "order": 3,
+              "video_url": "https://www.youtube.com/watch?v=ZtqBQ68cfJc"
+            }
+          }
+        },
+        "topic_2_2": {
+          "title": "User & Permission Management",
+          "order": 2,
+          "classes": {
+            "class_2_2_1": {
+              "title": "Linux Users and Groups",
+              "description": "Managing users and groups in Linux",
+              "content_type": "video",
+              "duration": 600,
+              "order": 1,
+              "video_url": "https://www.youtube.com/watch?v=jwnvKOjmtEA"
+            },
+            "class_2_2_2": {
+              "title": "File Permissions",
+              "description": "Understanding chmod, chown, and permission modes",
+              "content_type": "video",
+              "duration": 720,
+              "order": 2,
+              "video_url": "https://www.youtube.com/watch?v=LnKoncbQBsM"
+            }
+          }
+        },
+        "topic_2_3": {
+          "title": "Bash Scripting",
+          "order": 3,
+          "classes": {
+            "class_2_3_1": {
+              "title": "Introduction to Bash Scripting",
+              "description": "Writing your first bash script",
+              "content_type": "video",
+              "duration": 900,
+              "order": 1,
+              "video_url": "https://www.youtube.com/watch?v=tK9Oc6AEnR4"
+            },
+            "class_2_3_2": {
+              "title": "Variables and Control Structures",
+              "description": "If statements, loops, and functions in bash",
+              "content_type": "video",
+              "duration": 1200,
+              "order": 2,
+              "video_url": "https://www.youtube.com/watch?v=e7BufAVwDiM"
+            }
+          }
+        }
+      }
+    },
+    "module_3": {
+      "title": "Git & Version Control",
+      "description": "Master Git for collaboration and version control",
+      "order": 3,
+      "learning_outcomes": [
+        "Understand version control concepts",
+        "Use Git for daily development workflow",
+        "Collaborate using branching strategies"
+      ],
+      "topics": {
+        "topic_3_1": {
+          "title": "Git Basics",
+          "order": 1,
+          "classes": {
+            "class_3_1_1": {
+              "title": "What is Git?",
+              "description": "Introduction to version control with Git",
+              "content_type": "video",
+              "duration": 600,
+              "order": 1,
+              "video_url": "https://www.youtube.com/watch?v=2ReR1YJrNOM"
+            },
+            "class_3_1_2": {
+              "title": "Git Installation and Setup",
+              "description": "Installing Git and configuring user settings",
+              "content_type": "text",
+              "duration": 240,
+              "order": 2,
+              "text_content": "## Installing Git\n\n### For Ubuntu/Debian:\n```bash\nsudo apt update\nsudo apt install git\n```\n\n### For macOS:\n```bash\nbrew install git\n```\n\n### For Windows:\nDownload from [git-scm.com](https://git-scm.com/download/win)\n\n## Initial Configuration:\n```bash\n# Set your name\ngit config --global user.name \"Your Name\"\n\n# Set your email\ngit config --global user.email \"your.email@example.com\"\n\n# Check configuration\ngit config --list\n```\n\n### Verify Installation:\n```bash\ngit --version\n```"
+            },
+            "class_3_1_3": {
+              "title": "Git Basic Commands",
+              "description": "init, add, commit, status, log",
+              "content_type": "video",
+              "duration": 900,
+              "order": 3,
+              "video_url": "https://www.youtube.com/watch?v=USjZcfj8yxE"
+            }
+          }
+        },
+        "topic_3_2": {
+          "title": "Branching and Merging",
+          "order": 2,
+          "classes": {
+            "class_3_2_1": {
+              "title": "Git Branches",
+              "description": "Creating and managing branches",
+              "content_type": "video",
+              "duration": 720,
+              "order": 1,
+              "video_url": "https://www.youtube.com/watch?v=FyAAIHHClqI"
+            },
+            "class_3_2_2": {
+              "title": "Merging Strategies",
+              "description": "Merge, rebase, and resolving conflicts",
+              "content_type": "video",
+              "duration": 900,
+              "order": 2,
+              "video_url": "https://www.youtube.com/watch?v=0chZFIZLR_0"
+            }
+          }
+        },
+        "topic_3_3": {
+          "title": "GitHub & Collaboration",
+          "order": 3,
+          "classes": {
+            "class_3_3_1": {
+              "title": "GitHub Basics",
+              "description": "Using GitHub for remote repositories",
+              "content_type": "video",
+              "duration": 720,
+              "order": 1,
+              "video_url": "https://www.youtube.com/watch?v=nhNq2kIvi9s"
+            },
+            "class_3_3_2": {
+              "title": "Pull Requests and Code Review",
+              "description": "Collaborative development workflow",
+              "content_type": "video",
+              "duration": 600,
+              "order": 2,
+              "video_url": "https://www.youtube.com/watch?v=8lGpZkjnkt4"
+            }
+          }
+        }
+      }
+    },
+    "module_4": {
+      "title": "CI/CD with Jenkins",
+      "description": "Implement continuous integration and deployment pipelines",
+      "order": 4,
+      "learning_outcomes": [
+        "Set up Jenkins for CI/CD",
+        "Create automated build pipelines",
+        "Implement deployment automation"
+      ],
+      "topics": {
+        "topic_4_1": {
+          "title": "Jenkins Fundamentals",
+          "order": 1,
+          "classes": {
+            "class_4_1_1": {
+              "title": "What is CI/CD?",
+              "description": "Understanding continuous integration and deployment",
+              "content_type": "video",
+              "duration": 600,
+              "order": 1,
+              "video_url": "https://www.youtube.com/watch?v=scEDHsr3APg"
+            },
+            "class_4_1_2": {
+              "title": "Jenkins Installation",
+              "description": "Installing and configuring Jenkins",
+              "content_type": "video",
+              "duration": 900,
+              "order": 2,
+              "video_url": "https://www.youtube.com/watch?v=FX322RVNGj4"
+            },
+            "class_4_1_3": {
+              "title": "Your First Jenkins Job",
+              "description": "Creating a simple build job",
+              "content_type": "video",
+              "duration": 720,
+              "order": 3,
+              "video_url": "https://www.youtube.com/watch?v=89yWXXIOisk"
+            }
+          }
+        },
+        "topic_4_2": {
+          "title": "Jenkins Pipelines",
+          "order": 2,
+          "classes": {
+            "class_4_2_1": {
+              "title": "Declarative Pipelines",
+              "description": "Writing Jenkins pipeline as code",
+              "content_type": "video",
+              "duration": 1200,
+              "order": 1,
+              "video_url": "https://www.youtube.com/watch?v=pMO26j2OUME"
+            },
+            "class_4_2_2": {
+              "title": "Pipeline Best Practices",
+              "description": "Organizing and optimizing pipelines",
+              "content_type": "text",
+              "duration": 420,
+              "order": 2,
+              "text_content": "## Jenkins Pipeline Best Practices\n\n### 1. Use Declarative Pipeline Syntax\nDeclarative pipelines are easier to read and maintain:\n```groovy\npipeline {\n    agent any\n    stages {\n        stage('Build') {\n            steps {\n                sh 'make build'\n            }\n        }\n    }\n}\n```\n\n### 2. Store Pipelines in Source Control\n- Use Jenkinsfile in your repository\n- Version control your pipeline code\n- Enable code review for pipeline changes\n\n### 3. Use Shared Libraries\n- Reuse common pipeline code\n- Reduce duplication across projects\n- Maintain consistency\n\n### 4. Implement Proper Error Handling\n```groovy\ntry {\n    // build steps\n} catch (Exception e) {\n    // handle errors\n} finally {\n    // cleanup\n}\n```\n\n### 5. Use Parameters and Environment Variables\n- Make pipelines configurable\n- Avoid hardcoding values\n- Support multiple environments\n\n### 6. Implement Notifications\n- Email on build failures\n- Slack integration\n- Status badges\n\n### 7. Optimize Build Times\n- Use parallel stages\n- Implement caching\n- Clean workspace selectively"
+            }
+          }
+        }
+      }
+    },
+    "module_5": {
+      "title": "Docker Containerization",
+      "description": "Master Docker for building and managing containers",
+      "order": 5,
+      "learning_outcomes": [
+        "Understand containerization concepts",
+        "Build and manage Docker images",
+        "Orchestrate multi-container applications"
+      ],
+      "topics": {
+        "topic_5_1": {
+          "title": "Docker Basics",
+          "order": 1,
+          "classes": {
+            "class_5_1_1": {
+              "title": "Introduction to Docker",
+              "description": "What is Docker and why use containers?",
+              "content_type": "video",
+              "duration": 720,
+              "order": 1,
+              "video_url": "https://www.youtube.com/watch?v=Gjnup-PuquQ"
+            },
+            "class_5_1_2": {
+              "title": "Docker Installation",
+              "description": "Installing Docker on different platforms",
+              "content_type": "text",
+              "duration": 300,
+              "order": 2,
+              "text_content": "## Installing Docker\n\n### For Ubuntu:\n```bash\n# Update package index\nsudo apt update\n\n# Install prerequisites\nsudo apt install apt-transport-https ca-certificates curl software-properties-common\n\n# Add Docker's official GPG key\ncurl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -\n\n# Add Docker repository\nsudo add-apt-repository \"deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable\"\n\n# Install Docker\nsudo apt update\nsudo apt install docker-ce\n\n# Verify installation\nsudo docker --version\n```\n\n### For macOS:\n1. Download Docker Desktop from [docker.com](https://www.docker.com/products/docker-desktop)\n2. Install the .dmg file\n3. Start Docker Desktop\n\n### For Windows:\n1. Download Docker Desktop from [docker.com](https://www.docker.com/products/docker-desktop)\n2. Run the installer\n3. Enable WSL 2 if prompted\n\n### Post-Installation:\n```bash\n# Add your user to docker group (Linux)\nsudo usermod -aG docker $USER\n\n# Verify Docker is running\ndocker run hello-world\n```"
+            },
+            "class_5_1_3": {
+              "title": "Docker Commands",
+              "description": "Essential Docker CLI commands",
+              "content_type": "video",
+              "duration": 900,
+              "order": 3,
+              "video_url": "https://www.youtube.com/watch?v=xGn7cFR3ARU"
+            }
+          }
+        },
+        "topic_5_2": {
+          "title": "Docker Images and Containers",
+          "order": 2,
+          "classes": {
+            "class_5_2_1": {
+              "title": "Working with Docker Images",
+              "description": "Pulling, building, and managing images",
+              "content_type": "video",
+              "duration": 900,
+              "order": 1,
+              "video_url": "https://www.youtube.com/watch?v=LQjaJINkQXY"
+            },
+            "class_5_2_2": {
+              "title": "Creating Dockerfiles",
+              "description": "Writing efficient Dockerfiles",
+              "content_type": "video",
+              "duration": 1200,
+              "order": 2,
+              "video_url": "https://www.youtube.com/watch?v=WmcdMiyqfZs"
+            },
+            "class_5_2_3": {
+              "title": "Container Lifecycle",
+              "description": "Running, stopping, and managing containers",
+              "content_type": "video",
+              "duration": 720,
+              "order": 3,
+              "video_url": "https://www.youtube.com/watch?v=8vXoMqWgbQQ"
+            }
+          }
+        },
+        "topic_5_3": {
+          "title": "Docker Compose",
+          "order": 3,
+          "classes": {
+            "class_5_3_1": {
+              "title": "Introduction to Docker Compose",
+              "description": "Multi-container application management",
+              "content_type": "video",
+              "duration": 900,
+              "order": 1,
+              "video_url": "https://www.youtube.com/watch?v=HG6yIjZapSA"
+            },
+            "class_5_3_2": {
+              "title": "Docker Compose YAML",
+              "description": "Writing docker-compose.yml files",
+              "content_type": "video",
+              "duration": 720,
+              "order": 2,
+              "video_url": "https://www.youtube.com/watch?v=SBUCYJgg4Mk"
+            }
+          }
+        }
+      }
+    },
+    "module_6": {
+      "title": "Kubernetes Orchestration",
+      "description": "Deploy and manage containerized applications at scale",
+      "order": 6,
+      "learning_outcomes": [
+        "Understand Kubernetes architecture",
+        "Deploy applications to Kubernetes",
+        "Manage scaling and updates"
+      ],
+      "topics": {
+        "topic_6_1": {
+          "title": "Kubernetes Fundamentals",
+          "order": 1,
+          "classes": {
+            "class_6_1_1": {
+              "title": "What is Kubernetes?",
+              "description": "Introduction to container orchestration",
+              "content_type": "video",
+              "duration": 720,
+              "order": 1,
+              "video_url": "https://www.youtube.com/watch?v=X48VuDVv0do"
+            },
+            "class_6_1_2": {
+              "title": "Kubernetes Architecture",
+              "description": "Understanding pods, nodes, and clusters",
+              "content_type": "video",
+              "duration": 900,
+              "order": 2,
+              "video_url": "https://www.youtube.com/watch?v=umXEmn3cMWY"
+            },
+            "class_6_1_3": {
+              "title": "Setting Up Kubernetes",
+              "description": "Installing kubectl and minikube",
+              "content_type": "text",
+              "duration": 360,
+              "order": 3,
+              "text_content": "## Setting Up Kubernetes\n\n### Install kubectl (Kubernetes CLI)\n\n#### For Linux:\n```bash\ncurl -LO \"https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl\"\nsudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl\nkubectl version --client\n```\n\n#### For macOS:\n```bash\nbrew install kubectl\nkubectl version --client\n```\n\n### Install Minikube (Local Kubernetes)\n\n#### For Linux:\n```bash\ncurl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64\nsudo install minikube-linux-amd64 /usr/local/bin/minikube\n```\n\n#### For macOS:\n```bash\nbrew install minikube\n```\n\n### Start Minikube:\n```bash\nminikube start\nminikube status\n```\n\n### Verify Installation:\n```bash\nkubectl cluster-info\nkubectl get nodes\n```\n\n### Useful Minikube Commands:\n```bash\n# Start cluster\nminikube start\n\n# Stop cluster\nminikube stop\n\n# Delete cluster\nminikube delete\n\n# Access dashboard\nminikube dashboard\n```"
+            }
+          }
+        },
+        "topic_6_2": {
+          "title": "Kubernetes Objects",
+          "order": 2,
+          "classes": {
+            "class_6_2_1": {
+              "title": "Pods and Deployments",
+              "description": "Creating and managing pods",
+              "content_type": "video",
+              "duration": 1200,
+              "order": 1,
+              "video_url": "https://www.youtube.com/watch?v=PH-2FfFD2PU"
+            },
+            "class_6_2_2": {
+              "title": "Services and Networking",
+              "description": "Exposing applications in Kubernetes",
+              "content_type": "video",
+              "duration": 900,
+              "order": 2,
+              "video_url": "https://www.youtube.com/watch?v=T4Z7visMM4E"
+            },
+            "class_6_2_3": {
+              "title": "ConfigMaps and Secrets",
+              "description": "Managing configuration and sensitive data",
+              "content_type": "video",
+              "duration": 720,
+              "order": 3,
+              "video_url": "https://www.youtube.com/watch?v=FAnQTgr04mU"
+            }
+          }
+        },
+        "topic_6_3": {
+          "title": "Kubernetes Advanced",
+          "order": 3,
+          "classes": {
+            "class_6_3_1": {
+              "title": "Rolling Updates and Rollbacks",
+              "description": "Managing application updates",
+              "content_type": "video",
+              "duration": 720,
+              "order": 1,
+              "video_url": "https://www.youtube.com/watch?v=JT1Mxp3FBlg"
+            },
+            "class_6_3_2": {
+              "title": "Scaling Applications",
+              "description": "Horizontal pod autoscaling",
+              "content_type": "video",
+              "duration": 600,
+              "order": 2,
+              "video_url": "https://www.youtube.com/watch?v=y_VHBD3WxFo"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -58,3 +58,20 @@ export async function getAllUserProgressFromDB(
     return [];
   }
 }
+
+// Get class details by ID from database
+export async function getClassByIdFromDB(classId: string) {
+  try {
+    const response = await fetch(`/api/classes/${classId}`);
+
+    if (!response.ok) {
+      return null;
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching class:", error);
+    return null;
+  }
+}
