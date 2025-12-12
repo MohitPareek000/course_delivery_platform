@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import { useUserProgress } from "@/hooks/useUserProgress";
 import { getCurrentUserSession } from "@/lib/auth";
 import { LoadingPage } from "@/components/ui/loading-spinner";
+import { useSession } from "next-auth/react";
 
 export default function DashboardPage() {
   const [userSession, setUserSession] = React.useState<{
@@ -20,9 +21,30 @@ export default function DashboardPage() {
   const [userCourses, setUserCourses] = React.useState<any[]>([]);
   const [coursesLoading, setCoursesLoading] = React.useState(true);
   const router = useRouter();
+  const { data: nextAuthSession, status } = useSession();
 
   React.useEffect(() => {
-    // Check if user is logged in
+    // If NextAuth is still loading, wait
+    if (status === "loading") {
+      return;
+    }
+
+    // Check for NextAuth session (Google OAuth)
+    if (nextAuthSession?.user) {
+      const session = {
+        userId: (nextAuthSession.user as any).id || "",
+        email: nextAuthSession.user.email || "",
+        name: nextAuthSession.user.name || nextAuthSession.user.email?.split('@')[0] || "Guest",
+        loggedIn: true,
+      };
+
+      // Store in sessionStorage for consistency
+      sessionStorage.setItem("user-session", JSON.stringify(session));
+      setUserSession(session);
+      return;
+    }
+
+    // Check for OTP session in sessionStorage
     const session = getCurrentUserSession();
     if (!session) {
       router.push("/login");
@@ -30,7 +52,7 @@ export default function DashboardPage() {
     }
 
     setUserSession(session);
-  }, [router]);
+  }, [router, nextAuthSession, status]);
 
   // Get user ID from session
   const userId = userSession?.userId || "";

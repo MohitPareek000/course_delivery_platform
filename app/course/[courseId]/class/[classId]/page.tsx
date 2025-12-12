@@ -151,9 +151,13 @@ export default function ClassPlayerPage() {
   if (dataLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading class...</p>
+        <div className="flex flex-col items-center gap-3">
+          <p className="text-gray-700 text-sm font-medium">Loading class...</p>
+          <div className="flex items-center justify-center gap-1">
+            <span className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
+            <span className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
+            <span className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
+          </div>
         </div>
       </div>
     );
@@ -296,7 +300,7 @@ export default function ClassPlayerPage() {
               /* Video Content */
               <div className="bg-white rounded-lg p-4 shadow-sm border">
                 {classItem.videoUrl ? (
-                  sessionLoaded && userId ? (
+                  sessionLoaded && userId && !progressLoading ? (
                     <VideoPlayer
                       videoUrl={classItem.videoUrl}
                       onProgressUpdate={handleProgressUpdate}
@@ -306,7 +310,14 @@ export default function ClassPlayerPage() {
                     />
                   ) : (
                     <div className="w-full aspect-video flex items-center justify-center bg-gray-100 rounded-lg">
-                      <p className="text-gray-500">Loading player...</p>
+                      <div className="flex flex-col items-center gap-3">
+                        <p className="text-gray-700 text-sm font-medium">Loading player...</p>
+                        <div className="flex items-center justify-center gap-1">
+                          <span className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
+                          <span className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
+                          <span className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
+                        </div>
+                      </div>
                     </div>
                   )
                 ) : (

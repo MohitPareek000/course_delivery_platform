@@ -1,3 +1,8 @@
+import NextAuth from "next-auth";
+import { authConfig } from "./auth.config";
+
+export const { handlers, auth, signIn, signOut } = NextAuth(authConfig);
+
 /**
  * Get the current logged-in user's ID from session storage
  * @returns User ID or null if not logged in

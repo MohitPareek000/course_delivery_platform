@@ -42,15 +42,40 @@ export default function VerifyOTPPage() {
     setError("");
 
     try {
-      // For demo, accept 1234 as valid OTP
-      if (otpValue !== "1234") {
-        setError("Invalid OTP. Please try again.");
-        setIsLoading(false);
-        return;
+      // Call the verify-otp API
+      const response = await fetch("/api/auth/verify-otp", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, otp: otpValue }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Invalid OTP");
       }
 
-      // Call API to find or create user
-      const response = await fetch("/api/auth/user", {
+      // Session is now handled by NextAuth via cookie
+      // No need to store in sessionStorage anymore
+      sessionStorage.removeItem("login-email");
+
+      // Redirect to dashboard - NextAuth will handle the session
+      router.push("/dashboard");
+      router.refresh(); // Refresh to pick up new session
+    } catch (err: any) {
+      setError(err.message || "Invalid OTP. Please try again.");
+      setIsLoading(false);
+    }
+  };
+
+  const handleResendOTP = async () => {
+    setError("");
+
+    try {
+      // Call the send-otp API again
+      const response = await fetch("/api/auth/send-otp", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -58,43 +83,33 @@ export default function VerifyOTPPage() {
         body: JSON.stringify({ email }),
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
-        throw new Error("Failed to authenticate user");
+        throw new Error(data.error || "Failed to resend OTP");
       }
 
-      const { user } = await response.json();
+      // In development, log the OTP
+      if (data.otp) {
+        console.log("Development OTP:", data.otp);
+      }
 
-      // Store session with userId
-      sessionStorage.setItem("user-session", JSON.stringify({
-        userId: user.id,
-        email: user.email,
-        name: user.name,
-        loggedIn: true,
-      }));
-      sessionStorage.removeItem("login-email");
-      router.push("/dashboard");
-    } catch (err) {
-      setError("Authentication failed. Please try again.");
-      setIsLoading(false);
+      // Reset timer
+      setResendTimer(30);
+
+      // Restart timer
+      const interval = setInterval(() => {
+        setResendTimer((prev) => {
+          if (prev <= 1) {
+            clearInterval(interval);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    } catch (err: any) {
+      setError(err.message || "Failed to resend OTP. Please try again.");
     }
-  };
-
-  const handleResendOTP = () => {
-    setResendTimer(30);
-    setError("");
-    // Simulate resending OTP
-    console.log("Resending OTP to:", email);
-
-    // Restart timer
-    const interval = setInterval(() => {
-      setResendTimer((prev) => {
-        if (prev <= 1) {
-          clearInterval(interval);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
   };
 
   return (
@@ -169,9 +184,7 @@ export default function VerifyOTPPage() {
             {/* Help Text */}
             <div className="bg-blue-50 border border-blue-200 p-4">
               <p className="text-sm text-gray-700">
-                <span className="font-semibold">For demo:</span> Use OTP{" "}
-                <span className="font-mono font-bold text-primary">1234</span> to
-                login
+                <span className="font-semibold">Development mode:</span> Check the browser console for the OTP code.
               </p>
             </div>
           </div>

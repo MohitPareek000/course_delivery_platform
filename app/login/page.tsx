@@ -22,7 +22,7 @@ export default function LoginPage() {
               Log in to your Account
             </h1>
             <p className="text-sm text-gray-600">
-              Welcome back! Select method to log in:
+              Hey Learners, Select a method to login
             </p>
           </div>
 
