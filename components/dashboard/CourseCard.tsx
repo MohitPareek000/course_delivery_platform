@@ -168,11 +168,8 @@ export function CourseCard({ course, progress }: CourseCardProps) {
               <Building2 className="w-10 h-10 text-primary" />
             </div>
           ) : isRoleSpecific ? (
-            <div
-              className="w-20 h-20 rounded-2xl shadow-lg flex items-center justify-center"
-              style={{ backgroundColor: roleIcon?.bgColor || "#4285F4" }}
-            >
-              <RoleIcon className="w-10 h-10 text-white" />
+            <div className="w-20 h-20 bg-white rounded-2xl shadow-lg flex items-center justify-center">
+              <RoleIcon className="w-10 h-10" style={{ color: roleIcon?.bgColor || "#4285F4" }} />
             </div>
           ) : (
             <div className="w-20 h-20 bg-white rounded-2xl shadow-lg flex items-center justify-center">

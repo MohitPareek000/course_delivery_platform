@@ -372,11 +372,8 @@ export default function CourseDetailPage() {
                   <Building2 className="w-6 h-6 sm:w-7 sm:h-7 text-primary" />
                 </div>
               ) : isRoleSpecific ? (
-                <div
-                  className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl shadow-md flex items-center justify-center flex-shrink-0"
-                  style={{ backgroundColor: roleIcon?.bgColor || "#4285F4" }}
-                >
-                  <RoleIcon className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
+                <div className="w-12 h-12 sm:w-14 sm:h-14 bg-white rounded-xl shadow-md flex items-center justify-center flex-shrink-0">
+                  <RoleIcon className="w-6 h-6 sm:w-7 sm:h-7" style={{ color: roleIcon?.bgColor || "#4285F4" }} />
                 </div>
               ) : (
                 <div className="w-12 h-12 sm:w-14 sm:h-14 bg-white rounded-xl shadow-md flex items-center justify-center flex-shrink-0">
