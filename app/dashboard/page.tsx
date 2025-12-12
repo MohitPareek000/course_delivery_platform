@@ -3,7 +3,6 @@
 import * as React from "react";
 import { Sidebar } from "@/components/dashboard/Sidebar";
 import { CourseCard } from "@/components/dashboard/CourseCard";
-import { getCourseModules } from "@/lib/db/queries";
 import { getUserCoursesFromDB } from "@/lib/db/dbQueries";
 import { useRouter } from "next/navigation";
 import { TrendingUp, BookOpen, CheckCircle2 } from "lucide-react";
@@ -60,16 +59,29 @@ export default function DashboardPage() {
   React.useEffect(() => {
     refreshProgress();
   }, []); // Refresh when dashboard is accessed
-  const coursesWithProgress = userCourses.map((course) => {
-    const allModules = getCourseModules(course.id);
-    const totalModules = allModules.length;
-    const completedModules = allModules.filter((module) =>
-      isClassCompleted(module.id)
+  const coursesWithProgress = userCourses.map((courseData) => {
+    // Calculate total classes from database data
+    const moduleClasses = courseData.modules
+      ? courseData.modules.flatMap((m: any) =>
+          (m.topics || []).flatMap((t: any) => t.classes || [])
+        )
+      : [];
+
+    const topicClasses = courseData.topics
+      ? courseData.topics.flatMap((t: any) => t.classes || [])
+      : [];
+
+    const allClasses = [...moduleClasses, ...topicClasses];
+
+    const totalModules = allClasses.length;
+    const completedModules = allClasses.filter((classItem: any) =>
+      isClassCompleted(classItem.id)
     ).length;
+
     return {
-      course,
+      course: courseData,
       progress: {
-        courseId: course.id,
+        courseId: courseData.id,
         totalModules,
         completedModules,
         progressPercentage:

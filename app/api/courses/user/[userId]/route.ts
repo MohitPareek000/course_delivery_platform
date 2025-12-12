@@ -22,22 +22,46 @@ export async function GET(
         userId,
       },
       include: {
-        course: true, // Include the full course details
+        course: {
+          include: {
+            modules: {
+              include: {
+                topics: {
+                  include: {
+                    classes: {
+                      orderBy: {
+                        order: 'asc',
+                      },
+                    },
+                  },
+                  orderBy: {
+                    order: 'asc',
+                  },
+                },
+              },
+              orderBy: {
+                order: 'asc',
+              },
+            },
+            topics: {
+              include: {
+                classes: {
+                  orderBy: {
+                    order: 'asc',
+                  },
+                },
+              },
+              orderBy: {
+                order: 'asc',
+              },
+            },
+          },
+        },
       },
     });
 
-    // Extract just the courses
-    const courses = courseAccess.map((access) => ({
-      id: access.course.id,
-      title: access.course.title,
-      description: access.course.description,
-      type: access.course.type,
-      role: access.course.role,
-      skill: access.course.skill,
-      companyName: access.course.companyName,
-      thumbnailUrl: access.course.thumbnailUrl,
-      createdAt: access.course.createdAt,
-    }));
+    // Extract courses with full nested data
+    const courses = courseAccess.map((access) => access.course);
 
     return NextResponse.json({ courses });
   } catch (error) {

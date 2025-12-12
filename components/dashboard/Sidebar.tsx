@@ -61,7 +61,7 @@ export function Sidebar({ userName = "Mohit", userEmail }: SidebarProps) {
         )}
       >
         {/* Logo */}
-        <div className="p-5 border-b border-gray-100">
+        <div className="p-5 pt-16 lg:pt-5 border-b border-gray-100">
           <div className="flex items-center gap-2.5">
             <div className="bg-primary rounded-lg p-2 shadow-sm">
               <BookOpen className="w-5 h-5 text-white" />
