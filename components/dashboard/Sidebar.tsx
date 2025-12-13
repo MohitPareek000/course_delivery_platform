@@ -29,8 +29,13 @@ export function Sidebar({ userName = "Mohit", userEmail, isCollapsed: externalCo
       setIsCollapsed(true);
     }
 
-    // Mark as mounted immediately to prevent flicker
-    setMounted(true);
+    // Small delay to prevent animation on initial load
+    // This ensures the width change happens before transitions are enabled
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setMounted(true);
+      });
+    });
   }, []);
 
   // Use external collapse state if provided
@@ -84,18 +89,16 @@ export function Sidebar({ userName = "Mohit", userEmail, isCollapsed: externalCo
       {/* Sidebar */}
       <aside
         suppressHydrationWarning
+        style={{
+          width: collapsed ? (typeof window !== 'undefined' && window.innerWidth >= 1024 ? '5rem' : '16rem') : '16rem'
+        }}
         className={cn(
           "fixed lg:sticky top-0 left-0 h-screen bg-white border-r border-gray-200 flex flex-col z-40",
-          // Mobile behavior - always full width, slide in/out
-          "w-64",
+          // Mobile behavior - slide in/out
           "lg:translate-x-0",
           isMobileOpen ? "translate-x-0" : "-translate-x-full",
-          // Desktop collapse behavior only
-          collapsed && "lg:w-20",
-          // Only enable transitions after mount to prevent animation on load
-          mounted && "transition-all duration-300",
-          // Hide until mounted to prevent flicker
-          !mounted && "lg:opacity-0"
+          // Only enable width transition after mount (for user interactions)
+          mounted && "transition-[width] duration-300"
         )}
       >
         {/* Logo Section */}
