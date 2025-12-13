@@ -15,22 +15,21 @@ interface SidebarProps {
 
 export function Sidebar({ userName = "Mohit", userEmail, isCollapsed: externalCollapsed, onCollapse }: SidebarProps) {
   const [isMobileOpen, setIsMobileOpen] = React.useState(false);
-  // Initialize from localStorage if available (client-side only)
-  const [isCollapsed, setIsCollapsed] = React.useState(() => {
-    if (typeof window !== 'undefined') {
-      const savedState = localStorage.getItem("sidebar-collapsed");
-      return savedState === "true";
-    }
-    return false;
-  });
+  const [isCollapsed, setIsCollapsed] = React.useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = React.useState(false);
   const [mounted, setMounted] = React.useState(false);
   const router = useRouter();
   const pathname = usePathname();
 
-  // Enable transitions after mount to prevent animation on initial load
+  // Load from localStorage and enable transitions after mount
   React.useEffect(() => {
-    // Small delay to ensure DOM is ready
+    // Load saved state immediately
+    const savedState = localStorage.getItem("sidebar-collapsed");
+    if (savedState === "true") {
+      setIsCollapsed(true);
+    }
+
+    // Enable transitions after a small delay
     const timer = setTimeout(() => setMounted(true), 100);
     return () => clearTimeout(timer);
   }, []);
@@ -85,6 +84,7 @@ export function Sidebar({ userName = "Mohit", userEmail, isCollapsed: externalCo
 
       {/* Sidebar */}
       <aside
+        suppressHydrationWarning
         className={cn(
           "fixed lg:sticky top-0 left-0 h-screen bg-white border-r border-gray-200 flex flex-col z-40",
           // Mobile behavior - always full width, slide in/out
@@ -98,42 +98,29 @@ export function Sidebar({ userName = "Mohit", userEmail, isCollapsed: externalCo
         )}
       >
         {/* Logo Section */}
-        <div className={cn(
-          "p-5 pt-16 lg:pt-5 border-b border-gray-100",
-          mounted && "lg:transition-all lg:duration-300",
-          collapsed && "lg:p-2 lg:pt-2"
-        )}>
-          <div className={cn(
-            "flex items-center gap-2.5",
+        <div
+          suppressHydrationWarning
+          className={cn(
+            "p-5 pt-16 lg:pt-5 border-b border-gray-100",
             mounted && "lg:transition-all lg:duration-300",
-            collapsed && "lg:justify-center"
+            collapsed && "lg:p-2 lg:pt-2"
           )}>
-            {/* Logo icon - clickable when collapsed */}
-            <button
-              onClick={collapsed ? toggleCollapse : undefined}
-              className={cn(
-                "bg-primary rounded-lg shadow-sm flex-shrink-0 group relative",
-                "flex items-center justify-center p-2",
-                collapsed && "lg:w-10 lg:h-10 lg:p-0 lg:border lg:border-gray-300 lg:hover:bg-gray-50 lg:transition-colors lg:cursor-pointer lg:bg-white lg:shadow-none"
-              )}
-              disabled={!collapsed}
-            >
-              {collapsed ? (
-                <ChevronRight className="hidden lg:block w-4 h-4 text-gray-700" />
-              ) : null}
-              <BookOpen className={cn(
-                "w-5 h-5 text-white",
-                collapsed && "lg:hidden"
-              )} />
+          <div
+            suppressHydrationWarning
+            className={cn(
+              "flex items-center gap-2.5",
+              mounted && "lg:transition-all lg:duration-300",
+              collapsed && "lg:justify-center"
+            )}>
+            {/* Logo icon - hidden when collapsed */}
+            <div className={cn(
+              "bg-primary rounded-lg shadow-sm flex-shrink-0 flex items-center justify-center p-2",
+              collapsed && "lg:hidden"
+            )}>
+              <BookOpen className="w-5 h-5 text-white" />
+            </div>
 
-              {/* Tooltip for uncollapse */}
-              {collapsed && (
-                <div className="hidden lg:block absolute left-full ml-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">
-                  Expand sidebar
-                </div>
-              )}
-            </button>
-
+            {/* Platform name - hidden when collapsed */}
             <span className={cn(
               "text-lg font-bold text-gray-900 flex-1",
               collapsed && "lg:hidden"
@@ -141,19 +128,23 @@ export function Sidebar({ userName = "Mohit", userEmail, isCollapsed: externalCo
               InterviewPrep
             </span>
 
-            {/* Desktop Collapse Toggle - inline with logo */}
+            {/* Collapse/Expand Toggle Button */}
             <button
               onClick={toggleCollapse}
               className={cn(
                 "hidden lg:flex items-center justify-center p-1.5 rounded-lg hover:bg-gray-100 transition-colors group relative",
-                collapsed && "lg:hidden"
+                collapsed && "lg:w-10 lg:h-10 lg:p-0"
               )}
             >
-              <ChevronLeft className="w-4 h-4 text-gray-600" />
+              {collapsed ? (
+                <ChevronRight className="w-4 h-4 text-gray-600" />
+              ) : (
+                <ChevronLeft className="w-4 h-4 text-gray-600" />
+              )}
 
-              {/* Tooltip for collapse */}
+              {/* Tooltip */}
               <div className="hidden lg:block absolute left-full ml-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50">
-                Collapse sidebar
+                {collapsed ? "Expand sidebar" : "Collapse sidebar"}
               </div>
             </button>
           </div>
