@@ -27,12 +27,13 @@ export function Sidebar({ userName = "Mohit", userEmail }: SidebarProps) {
     setIsOpen(false);
   };
 
-  // Determine which menu item is active based on pathname
-  const isCoursePage = pathname?.startsWith("/course");
-  const isDashboard = pathname === "/dashboard";
-
   const menuItems = [
-    { icon: Home, label: "Home", href: "/dashboard", active: isDashboard },
+    {
+      icon: Home,
+      label: "Home",
+      href: "/dashboard",
+      active: true,
+    },
   ];
 
   return (
