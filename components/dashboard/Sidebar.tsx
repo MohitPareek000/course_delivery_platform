@@ -15,17 +15,25 @@ interface SidebarProps {
 
 export function Sidebar({ userName = "Mohit", userEmail, isCollapsed: externalCollapsed, onCollapse }: SidebarProps) {
   const [isMobileOpen, setIsMobileOpen] = React.useState(false);
+  // Initialize from localStorage if available (client-side only)
   const [isCollapsed, setIsCollapsed] = React.useState(() => {
-    // Initialize from localStorage immediately to prevent animation on mount
     if (typeof window !== 'undefined') {
-      const savedCollapsedState = localStorage.getItem("sidebar-collapsed");
-      return savedCollapsedState === "true";
+      const savedState = localStorage.getItem("sidebar-collapsed");
+      return savedState === "true";
     }
     return false;
   });
   const [isProfileModalOpen, setIsProfileModalOpen] = React.useState(false);
+  const [mounted, setMounted] = React.useState(false);
   const router = useRouter();
   const pathname = usePathname();
+
+  // Enable transitions after mount to prevent animation on initial load
+  React.useEffect(() => {
+    // Small delay to ensure DOM is ready
+    const timer = setTimeout(() => setMounted(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   // Use external collapse state if provided
   const collapsed = externalCollapsed !== undefined ? externalCollapsed : isCollapsed;
@@ -78,24 +86,26 @@ export function Sidebar({ userName = "Mohit", userEmail, isCollapsed: externalCo
       {/* Sidebar */}
       <aside
         className={cn(
-          "fixed lg:sticky top-0 left-0 h-screen bg-white border-r border-gray-200 flex flex-col z-40 transition-all duration-300",
+          "fixed lg:sticky top-0 left-0 h-screen bg-white border-r border-gray-200 flex flex-col z-40",
           // Mobile behavior - always full width, slide in/out
           "w-64",
           "lg:translate-x-0",
           isMobileOpen ? "translate-x-0" : "-translate-x-full",
           // Desktop collapse behavior only
-          collapsed && "lg:w-20"
+          collapsed && "lg:w-20",
+          // Only enable transitions after mount to prevent animation on load
+          mounted && "transition-all duration-300"
         )}
       >
         {/* Logo Section */}
         <div className={cn(
           "p-5 pt-16 lg:pt-5 border-b border-gray-100",
-          "lg:transition-all lg:duration-300",
+          mounted && "lg:transition-all lg:duration-300",
           collapsed && "lg:p-2 lg:pt-2"
         )}>
           <div className={cn(
             "flex items-center gap-2.5",
-            "lg:transition-all lg:duration-300",
+            mounted && "lg:transition-all lg:duration-300",
             collapsed && "lg:justify-center"
           )}>
             {/* Logo icon - clickable when collapsed */}
@@ -152,7 +162,7 @@ export function Sidebar({ userName = "Mohit", userEmail, isCollapsed: externalCo
         {/* Navigation */}
         <nav className={cn(
           "flex-1 p-4 space-y-1.5",
-          "lg:transition-all lg:duration-300",
+          mounted && "lg:transition-all lg:duration-300",
           collapsed && "lg:p-2"
         )}>
           {menuItems.map((item) => (
@@ -161,7 +171,7 @@ export function Sidebar({ userName = "Mohit", userEmail, isCollapsed: externalCo
               onClick={() => handleNavigation(item.href)}
               className={cn(
                 "group w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium relative",
-                "lg:transition-all lg:duration-200",
+                mounted && "lg:transition-all lg:duration-200",
                 item.active
                   ? "bg-primary text-white shadow-sm"
                   : "text-gray-700 hover:bg-gray-50",
@@ -192,7 +202,7 @@ export function Sidebar({ userName = "Mohit", userEmail, isCollapsed: externalCo
         {/* User Section */}
         <div className={cn(
           "p-4 border-t border-gray-100",
-          "lg:transition-all lg:duration-300",
+          mounted && "lg:transition-all lg:duration-300",
           collapsed && "lg:p-2"
         )}>
           <div
@@ -230,7 +240,7 @@ export function Sidebar({ userName = "Mohit", userEmail, isCollapsed: externalCo
             onClick={handleLogout}
             className={cn(
               "w-full flex items-center gap-2.5 px-4 py-2.5 rounded-lg text-red-600 hover:bg-red-50 text-sm font-medium group relative",
-              "lg:transition-all lg:duration-200",
+              mounted && "lg:transition-all lg:duration-200",
               collapsed && "lg:justify-center lg:px-0"
             )}
             title={collapsed ? "Logout" : undefined}
