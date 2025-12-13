@@ -13,51 +13,55 @@ interface MarkdownRendererProps {
 
 export function MarkdownRenderer({ content }: MarkdownRendererProps) {
   return (
-    <div className="prose prose-gray max-w-none">
+    <div className="prose prose-gray w-full max-w-none">
       <ReactMarkdown
         remarkPlugins={[remarkMath, remarkGfm]}
         rehypePlugins={[rehypeKatex]}
         components={{
-          // Custom image component with controlled max width
+          // Custom image component - mobile responsive
           img: ({ node, ...props }) => {
             const { src, alt } = props;
             if (!src) return null;
 
             return (
-              <span className="block my-6 flex justify-center">
+              <span className="block my-4 md:my-6 w-full">
                 <img
                   src={src}
                   alt={alt || ''}
-                  className="rounded-lg shadow-md w-full h-auto"
+                  className="rounded-lg shadow-md w-full h-auto object-contain"
+                  style={{ maxWidth: '100%' }}
                   loading="lazy"
-                  style={{ maxWidth: '400px' }}
                 />
               </span>
             );
           },
 
-          // Custom heading styles
+          // Custom heading styles - mobile responsive
           h1: ({ node, ...props }) => (
-            <h1 className="text-3xl font-bold text-gray-900 mt-8 mb-4" {...props} />
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mt-6 md:mt-8 mb-3 md:mb-4" {...props} />
           ),
           h2: ({ node, ...props }) => (
-            <h2 className="text-2xl font-bold text-gray-900 mt-6 mb-3" {...props} />
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mt-5 md:mt-6 mb-2 md:mb-3" {...props} />
           ),
           h3: ({ node, ...props }) => (
-            <h3 className="text-xl font-semibold text-gray-900 mt-4 mb-2" {...props} />
+            <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-900 mt-4 mb-2" {...props} />
+          ),
+          h4: ({ node, ...props }) => (
+            <h4 className="text-base sm:text-lg font-semibold text-gray-900 mt-3 mb-1.5" {...props} />
           ),
 
-          // Custom paragraph styling
+          // Custom paragraph styling - mobile responsive
           p: ({ node, ...props }) => (
-            <p className="text-gray-700 leading-relaxed mb-4" {...props} />
+            <p className="text-sm sm:text-base text-gray-700 leading-relaxed mb-3 md:mb-4" {...props} />
           ),
 
-          // Custom code block styling
+          // Custom code block styling - mobile responsive
           code: ({ node, inline, className, children, ...props }: any) => {
             if (inline) {
               return (
                 <code
-                  className="bg-gray-100 text-gray-800 px-1.5 py-0.5 rounded text-sm font-mono"
+                  className="bg-gray-100 text-gray-800 px-1 sm:px-1.5 py-0.5 rounded text-xs sm:text-sm font-mono whitespace-nowrap"
+                  style={{ wordBreak: 'keep-all' }}
                   {...props}
                 >
                   {children}
@@ -66,7 +70,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
             }
             return (
               <code
-                className={`block bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm font-mono ${className || ''}`}
+                className={`block bg-gray-900 text-gray-100 p-3 sm:p-4 rounded-lg overflow-x-auto text-xs sm:text-sm font-mono ${className || ''}`}
                 {...props}
               >
                 {children}
@@ -74,43 +78,63 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
             );
           },
 
-          // Custom list styling
+          // Custom list styling - mobile responsive
           ul: ({ node, ...props }) => (
-            <ul className="list-disc list-inside space-y-2 mb-4 text-gray-700" {...props} />
+            <ul className="list-disc list-inside space-y-1.5 sm:space-y-2 mb-3 md:mb-4 text-sm sm:text-base text-gray-700 pl-2 sm:pl-0" {...props} />
           ),
           ol: ({ node, ...props }) => (
-            <ol className="list-decimal list-inside space-y-2 mb-4 text-gray-700" {...props} />
+            <ol className="list-decimal list-inside space-y-1.5 sm:space-y-2 mb-3 md:mb-4 text-sm sm:text-base text-gray-700 pl-2 sm:pl-0" {...props} />
+          ),
+          li: ({ node, ...props }) => (
+            <li className="leading-relaxed" {...props} />
           ),
 
-          // Custom link styling
+          // Custom link styling - mobile responsive
           a: ({ node, ...props }) => (
             <a
-              className="text-blue-600 hover:text-blue-800 underline"
+              className="text-blue-600 hover:text-blue-800 underline text-sm sm:text-base break-words"
               target="_blank"
               rel="noopener noreferrer"
               {...props}
             />
           ),
 
-          // Custom blockquote styling
+          // Custom blockquote styling - mobile responsive
           blockquote: ({ node, ...props }) => (
             <blockquote
-              className="border-l-4 border-blue-500 pl-4 italic text-gray-600 my-4"
+              className="border-l-2 sm:border-l-4 border-blue-500 pl-3 sm:pl-4 italic text-gray-600 my-3 md:my-4 text-sm sm:text-base"
               {...props}
             />
           ),
 
-          // Custom table styling
+          // Custom table styling - fully mobile responsive
           table: ({ node, ...props }) => (
-            <div className="overflow-x-auto my-4">
-              <table className="min-w-full divide-y divide-gray-200 border" {...props} />
+            <div className="overflow-x-auto my-3 md:my-4 -mx-2 sm:mx-0">
+              <div className="inline-block min-w-full align-middle">
+                <table className="min-w-full divide-y divide-gray-200 border text-xs sm:text-sm" {...props} />
+              </div>
             </div>
           ),
           th: ({ node, ...props }) => (
-            <th className="px-4 py-2 bg-gray-50 text-left text-sm font-semibold text-gray-900" {...props} />
+            <th className="px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 bg-gray-50 text-left text-xs sm:text-sm font-semibold text-gray-900 whitespace-nowrap" {...props} />
           ),
           td: ({ node, ...props }) => (
-            <td className="px-4 py-2 border-t text-sm text-gray-700" {...props} />
+            <td className="px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 border-t text-xs sm:text-sm text-gray-700" {...props} />
+          ),
+
+          // Custom hr styling - mobile responsive
+          hr: ({ node, ...props }) => (
+            <hr className="my-4 md:my-6 border-gray-300" {...props} />
+          ),
+
+          // Custom strong/bold styling
+          strong: ({ node, ...props }) => (
+            <strong className="font-semibold text-gray-900" {...props} />
+          ),
+
+          // Custom em/italic styling
+          em: ({ node, ...props }) => (
+            <em className="italic" {...props} />
           ),
         }}
       >

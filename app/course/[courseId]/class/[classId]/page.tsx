@@ -229,24 +229,24 @@ export default function ClassPlayerPage() {
         </div>
 
         {/* Content Area - Video or Text */}
-        <div className="mb-4">
-          <div className="max-w-4xl mx-auto">
+        <div className="mb-4 w-full px-4 sm:px-6 md:px-8">
+          <div className="w-full max-w-4xl mx-auto">
             {classItem.contentType === 'text' ? (
               /* Text Content */
-              <div className="bg-white rounded-lg shadow-sm border">
-                <div className="p-6 border-b flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center">
+              <div className="bg-white rounded-lg shadow-sm border w-full overflow-hidden">
+                <div className="p-4 sm:p-5 md:p-6 border-b flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0">
                     <FileText className="w-5 h-5 text-amber-600" />
                   </div>
-                  <div>
-                    <span className="text-sm font-medium text-gray-500">Reading Material</span>
+                  <div className="min-w-0 flex-1">
+                    <span className="text-sm font-medium text-gray-500 block">Reading Material</span>
                     <div className="flex items-center gap-1.5 text-xs text-gray-400">
                       <Clock className="w-3 h-3" />
                       <span>{Math.ceil(classItem.duration / 60)} min read</span>
                     </div>
                   </div>
                 </div>
-                <div className="p-6">
+                <div className="px-4 py-6 sm:px-6 sm:py-8 md:px-8 md:py-10">
                   {classItem.textContent ? (
                     <MarkdownRenderer content={classItem.textContent} />
                   ) : (
