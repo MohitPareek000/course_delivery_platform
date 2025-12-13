@@ -23,15 +23,14 @@ export function Sidebar({ userName = "Mohit", userEmail, isCollapsed: externalCo
 
   // Load from localStorage and enable transitions after mount
   React.useEffect(() => {
-    // Load saved state immediately
+    // Load saved state synchronously before first paint
     const savedState = localStorage.getItem("sidebar-collapsed");
     if (savedState === "true") {
       setIsCollapsed(true);
     }
 
-    // Enable transitions after a small delay
-    const timer = setTimeout(() => setMounted(true), 100);
-    return () => clearTimeout(timer);
+    // Mark as mounted immediately to prevent flicker
+    setMounted(true);
   }, []);
 
   // Use external collapse state if provided
@@ -94,7 +93,9 @@ export function Sidebar({ userName = "Mohit", userEmail, isCollapsed: externalCo
           // Desktop collapse behavior only
           collapsed && "lg:w-20",
           // Only enable transitions after mount to prevent animation on load
-          mounted && "transition-all duration-300"
+          mounted && "transition-all duration-300",
+          // Hide until mounted to prevent flicker
+          !mounted && "lg:opacity-0"
         )}
       >
         {/* Logo Section */}
