@@ -213,21 +213,6 @@ export default function ClassPlayerPage() {
           </div>
         </div>
 
-        {/* Completion Message - Fixed height to prevent flicker */}
-        <div className="mb-4" style={{ minHeight: showCompletionMessage ? 'auto' : '0' }}>
-          {showCompletionMessage && (
-            <div className="bg-green-50 border border-green-200 rounded-lg p-4 flex items-center gap-3">
-              <CheckCircle2 className="w-6 h-6 text-green-500 flex-shrink-0" />
-              <div>
-                <h3 className="font-semibold text-green-900">Class Completed!</h3>
-                <p className="text-sm text-green-700">
-                  Great job! You've completed this class.
-                </p>
-              </div>
-            </div>
-          )}
-        </div>
-
         {/* Content Area - Video or Text */}
         <div className="mb-4 w-full px-4 sm:px-6 md:px-8">
           <div className="w-full max-w-4xl mx-auto">
@@ -330,9 +315,32 @@ export default function ClassPlayerPage() {
           </div>
         </div>
 
+        {/* Completion Message - Toast notification */}
+        <div className={`fixed top-20 left-4 right-4 sm:left-auto sm:right-6 sm:max-w-sm z-50 transition-all duration-500 ${showCompletionMessage ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 -translate-y-4 scale-95 pointer-events-none'}`}>
+          <div className="bg-white rounded-xl shadow-2xl overflow-hidden border border-green-100">
+            {/* Progress bar at top */}
+            <div className="h-1 bg-green-500 animate-[shrink_3s_linear_forwards] origin-left"></div>
+
+            {/* Content */}
+            <div className="p-3 sm:p-4 flex items-center gap-2.5 sm:gap-3">
+              <div className="flex-shrink-0 relative">
+                {/* Animated success icon with rings */}
+                <div className="absolute inset-0 bg-green-500 rounded-full animate-ping opacity-20"></div>
+                <div className="relative w-10 h-10 sm:w-12 sm:h-12 bg-green-500 rounded-full flex items-center justify-center shadow-lg">
+                  <CheckCircle2 className="w-6 h-6 sm:w-7 sm:h-7 text-white animate-[bounce_0.6s_ease-in-out]" />
+                </div>
+              </div>
+
+              <div className="flex-1 min-w-0">
+                <h3 className="font-bold text-gray-900 mb-0.5 text-sm sm:text-base">Class completed!</h3>
+                <p className="text-xs sm:text-sm text-gray-600">Great work! Keep it up! ✨</p>
+              </div>
+            </div>
+          </div>
+        </div>
 
         {/* Navigation Buttons - Mobile: side by side, Desktop: Previous left, Mark Complete & Next right */}
-        <div className="flex gap-3 items-center justify-between max-w-4xl mx-auto">
+        <div className="flex gap-3 items-center justify-between max-w-4xl mx-auto px-4 sm:px-6 md:px-8">
           {/* Previous Button */}
           {previousClass ? (
             <Button
@@ -350,7 +358,7 @@ export default function ClassPlayerPage() {
           )}
 
           {/* Right side button group - Desktop only */}
-          <div className="hidden sm:flex gap-3 items-center">
+          <div className="hidden sm:flex gap-3 items-center min-h-[40px]">
             {/* Show Mark as Complete button only when not completed */}
             {!isCompleted && (
               <Button
@@ -378,6 +386,11 @@ export default function ClassPlayerPage() {
                       setIsCompleted(true);
                       setShowCompletionMessage(true);
                       hasShownCompletionRef.current = true;
+
+                      // Auto-dismiss after 3 seconds
+                      setTimeout(() => {
+                        setShowCompletionMessage(false);
+                      }, 3000);
                     } else {
                       console.error('Failed to mark as complete');
                       alert('Failed to mark as complete. Please try again.');
@@ -430,7 +443,7 @@ export default function ClassPlayerPage() {
           </div>
 
           {/* Right Button - Mobile only */}
-          <div className="flex-1 sm:hidden">
+          <div className="flex-1 sm:hidden min-h-[40px]">
             {/* Show Mark as Complete button when not completed */}
             {!isCompleted && (
               <Button
@@ -458,6 +471,11 @@ export default function ClassPlayerPage() {
                       setIsCompleted(true);
                       setShowCompletionMessage(true);
                       hasShownCompletionRef.current = true;
+
+                      // Auto-dismiss after 3 seconds
+                      setTimeout(() => {
+                        setShowCompletionMessage(false);
+                      }, 3000);
                     } else {
                       console.error('Failed to mark as complete');
                       alert('Failed to mark as complete. Please try again.');
