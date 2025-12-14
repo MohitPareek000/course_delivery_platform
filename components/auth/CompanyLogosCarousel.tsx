@@ -80,19 +80,17 @@ export function CompanyLogosCarousel() {
         {/* Main Heading */}
         <div className="space-y-3 sm:space-y-4">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
-            Crack Your Dream
-            <br />
-            Interview
+            Learn, Practice & Crack
           </h1>
           <p className="text-base sm:text-lg lg:text-xl text-gray-600 leading-relaxed">
-            Master every round with expert-curated courses
+            Master in-demand skills with expert-curated courses
           </p>
         </div>
 
         {/* Company Logos - Horizontal Scrolling */}
         <div className="pt-2 sm:pt-4">
           <p className="text-gray-500 text-xs sm:text-sm uppercase tracking-wider mb-4 sm:mb-6 lg:mb-8">
-            Preparation guides for top companies & roles
+            Get interview-ready for Top Tech Companies
           </p>
 
           <div className="relative overflow-hidden py-4 sm:py-6">
