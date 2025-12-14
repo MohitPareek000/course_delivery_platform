@@ -3,8 +3,9 @@
 import * as React from "react";
 import { OTPInput } from "@/components/auth/OTPInput";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Mail, Briefcase } from "lucide-react";
+import { ArrowLeft, Mail } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { CompanyLogosCarousel } from "@/components/auth/CompanyLogosCarousel";
 
 export default function VerifyOTPPage() {
   const [email, setEmail] = React.useState("");
@@ -120,28 +121,24 @@ export default function VerifyOTPPage() {
   return (
     <div className="min-h-screen flex flex-col lg:flex-row">
       {/* Left Side - OTP Form */}
-      <div className="flex-1 flex items-center justify-center p-4 sm:p-6 md:p-8 bg-white">
-        <div className="w-full max-w-md space-y-6 sm:space-y-8">
-          {/* Back Button */}
+      <div className="flex-1 flex flex-col p-4 sm:p-6 md:p-8 bg-white">
+        {/* Back Button */}
+        <div className="w-full max-w-md mx-auto mb-4">
           <Button
             variant="ghost"
             onClick={() => router.push("/login")}
-            className="mb-4"
+            className="-ml-2 hover:bg-gray-50"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back
           </Button>
+        </div>
 
-          {/* Logo and Header */}
-          <div className="text-center space-y-2">
-            <div className="flex items-center justify-center mb-4 sm:mb-6">
-              <div className="bg-primary p-2">
-                <Briefcase className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
-              </div>
-              <span className="ml-2.5 sm:ml-3 text-lg sm:text-2xl font-bold text-gray-900">
-                InterviewPrep
-              </span>
-            </div>
+        {/* Content Container */}
+        <div className="flex-1 flex items-center justify-center">
+          <div className="w-full max-w-md space-y-6 sm:space-y-8">
+            {/* Header */}
+            <div className="text-center space-y-2">
             <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
               Verify Your Email
             </h1>
@@ -194,26 +191,20 @@ export default function VerifyOTPPage() {
             </div>
           </div>
         </div>
+        </div>
       </div>
 
-      {/* Right Side - Same as login page */}
-      <div className="hidden lg:flex flex-1 bg-gray-50 items-center justify-center p-8 relative overflow-hidden">
-        {/* Background decoration */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-20 left-20 w-64 h-64 bg-gray-900 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 right-20 w-96 h-96 bg-gray-900 rounded-full blur-3xl"></div>
+      {/* Company Logos Section - Visible on all devices */}
+      <div className="bg-gray-50 py-8 px-4 sm:px-6 lg:flex-1 lg:flex lg:items-center lg:justify-center lg:p-8 relative overflow-hidden">
+        {/* Background decoration - desktop only */}
+        <div className="hidden lg:block absolute inset-0 opacity-5">
+          <div className="absolute top-20 left-20 w-64 h-64 bg-primary rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 right-20 w-96 h-96 bg-primary rounded-full blur-3xl"></div>
         </div>
 
         {/* Content */}
-        <div className="relative z-10 text-center space-y-6">
-          <div className="mx-auto w-32 h-32 bg-gray-100 backdrop-blur-sm flex items-center justify-center border-4 border-gray-200">
-            <Mail className="w-16 h-16 text-gray-700" />
-          </div>
-          <h2 className="text-4xl font-bold text-gray-900">Check Your Email</h2>
-          <p className="text-xl text-gray-600 max-w-md mx-auto">
-            We've sent a verification code to your email address. Please enter it
-            to continue.
-          </p>
+        <div className="relative z-10 w-full">
+          <CompanyLogosCarousel />
         </div>
       </div>
     </div>
