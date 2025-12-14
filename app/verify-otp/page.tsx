@@ -58,8 +58,14 @@ export default function VerifyOTPPage() {
         throw new Error(data.error || "Invalid OTP");
       }
 
-      // Session is now handled by NextAuth via cookie
-      // No need to store in sessionStorage anymore
+      // Store user session in sessionStorage for immediate access
+      const userSession = {
+        userId: data.user.id,
+        email: data.user.email,
+        name: data.user.name || data.user.email.split('@')[0],
+        loggedIn: true,
+      };
+      sessionStorage.setItem("user-session", JSON.stringify(userSession));
       sessionStorage.removeItem("login-email");
 
       // Redirect to dashboard - NextAuth will handle the session

@@ -58,6 +58,13 @@ export async function POST(request: NextRequest) {
       });
     }
 
+    // Delete any existing sessions for this user to prevent conflicts
+    await prisma.session.deleteMany({
+      where: {
+        userId: user.id,
+      },
+    });
+
     // Create a session token (like NextAuth does)
     const sessionToken = crypto.randomUUID();
     const sessionExpiry = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // 30 days
@@ -81,8 +88,17 @@ export async function POST(request: NextRequest) {
       },
     });
 
+    // Clear any existing session cookies first
+    response.cookies.delete('next-auth.session-token');
+    response.cookies.delete('__Secure-next-auth.session-token');
+
     // Set the session token as an HTTP-only cookie
-    response.cookies.set('next-auth.session-token', sessionToken, {
+    // Cookie name format: next-auth.session-token for http, __Secure-next-auth.session-token for https
+    const cookieName = process.env.NODE_ENV === 'production'
+      ? '__Secure-next-auth.session-token'
+      : 'next-auth.session-token';
+
+    response.cookies.set(cookieName, sessionToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
