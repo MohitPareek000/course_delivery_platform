@@ -1,23 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import nodemailer from 'nodemailer';
+import { sendOTPEmail } from '@/lib/email/ses';
 
-// Generate a 6-digit OTP
+// Generate a 4-digit OTP
 function generateOTP(): string {
-  return Math.floor(100000 + Math.random() * 900000).toString();
-}
-
-// Create email transporter
-function getEmailTransporter() {
-  return nodemailer.createTransport({
-    host: process.env.EMAIL_HOST || 'smtp.gmail.com',
-    port: parseInt(process.env.EMAIL_PORT || '587'),
-    secure: false,
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASSWORD,
-    },
-  });
+  return Math.floor(1000 + Math.random() * 9000).toString();
 }
 
 export async function POST(request: NextRequest) {
@@ -54,31 +41,12 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    // Send OTP via email (if email credentials are configured)
-    if (process.env.EMAIL_USER && process.env.EMAIL_PASSWORD) {
-      try {
-        const transporter = getEmailTransporter();
-
-        await transporter.sendMail({
-          from: `"InterviewPrep" <${process.env.EMAIL_USER}>`,
-          to: email,
-          subject: 'Your OTP for InterviewPrep Login',
-          html: `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-              <h2 style="color: #333;">Your Login OTP</h2>
-              <p>Your OTP for logging into InterviewPrep is:</p>
-              <div style="background-color: #f4f4f4; padding: 20px; text-align: center; font-size: 32px; font-weight: bold; letter-spacing: 5px; margin: 20px 0;">
-                ${otp}
-              </div>
-              <p style="color: #666;">This OTP will expire in 10 minutes.</p>
-              <p style="color: #666;">If you didn't request this OTP, please ignore this email.</p>
-            </div>
-          `,
-        });
-      } catch (emailError) {
-        console.error('Error sending email:', emailError);
-        // Continue anyway - for development, we'll return the OTP
-      }
+    // Send OTP via AWS SES
+    try {
+      await sendOTPEmail({ to: email, otp });
+    } catch (emailError) {
+      console.error('Error sending OTP email via AWS SES:', emailError);
+      // Continue anyway - for development, we'll return the OTP in response
     }
 
     // In development, return the OTP (remove this in production!)
