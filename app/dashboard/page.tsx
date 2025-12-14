@@ -29,7 +29,14 @@ export default function DashboardPage() {
       return;
     }
 
-    // Check for NextAuth session (Google OAuth)
+    // Check for OTP session in sessionStorage FIRST (takes precedence)
+    const otpSession = getCurrentUserSession();
+    if (otpSession) {
+      setUserSession(otpSession);
+      return;
+    }
+
+    // Only then check for NextAuth session (Google OAuth)
     if (nextAuthSession?.user) {
       const session = {
         userId: (nextAuthSession.user as any).id || "",
@@ -44,14 +51,8 @@ export default function DashboardPage() {
       return;
     }
 
-    // Check for OTP session in sessionStorage
-    const session = getCurrentUserSession();
-    if (!session) {
-      router.push("/login");
-      return;
-    }
-
-    setUserSession(session);
+    // If no session found at all, redirect to login
+    router.push("/login");
   }, [router, nextAuthSession, status]);
 
   // Get user ID from session

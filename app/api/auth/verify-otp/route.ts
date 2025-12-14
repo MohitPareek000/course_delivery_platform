@@ -58,7 +58,8 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Delete any existing sessions for this user to prevent conflicts
+    // Delete only this user's existing sessions to prevent conflicts
+    // This allows multiple users to be logged in simultaneously (production-safe)
     await prisma.session.deleteMany({
       where: {
         userId: user.id,
@@ -88,9 +89,25 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    // Clear any existing session cookies first
-    response.cookies.delete('next-auth.session-token');
-    response.cookies.delete('__Secure-next-auth.session-token');
+    // Clear ALL existing session cookies first (both dev and prod variants)
+    // Set them to empty with immediate expiry for reliable deletion
+    response.cookies.set('next-auth.session-token', '', {
+      httpOnly: true,
+      secure: false,
+      sameSite: 'lax',
+      expires: new Date(0),
+      path: '/',
+      maxAge: 0,
+    });
+
+    response.cookies.set('__Secure-next-auth.session-token', '', {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'lax',
+      expires: new Date(0),
+      path: '/',
+      maxAge: 0,
+    });
 
     // Set the session token as an HTTP-only cookie
     // Cookie name format: next-auth.session-token for http, __Secure-next-auth.session-token for https

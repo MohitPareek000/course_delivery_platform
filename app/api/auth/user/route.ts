@@ -1,5 +1,28 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { auth } from '@/lib/auth';
+
+// GET - Get current user session
+export async function GET() {
+  try {
+    const session = await auth();
+
+    if (!session?.user) {
+      return NextResponse.json(
+        { error: 'Not authenticated' },
+        { status: 401 }
+      );
+    }
+
+    return NextResponse.json({ user: session.user }, { status: 200 });
+  } catch (error: any) {
+    console.error('Error getting user session:', error);
+    return NextResponse.json(
+      { error: 'Failed to get user session', details: error.message },
+      { status: 500 }
+    );
+  }
+}
 
 // POST - Find or create user by email
 export async function POST(request: NextRequest) {

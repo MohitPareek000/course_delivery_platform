@@ -33,6 +33,10 @@ export function LoginForm() {
     setIsLoading(true);
     setError("");
 
+    // Clear any existing session data before starting new login
+    sessionStorage.removeItem("user-session");
+    sessionStorage.removeItem("login-email");
+
     try {
       // Call the send-otp API
       const response = await fetch("/api/auth/send-otp", {
