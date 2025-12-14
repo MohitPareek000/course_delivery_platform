@@ -234,14 +234,17 @@ export function Sidebar({ userName = "Mohit", userEmail, isCollapsed: externalCo
           <button
             onClick={handleLogout}
             className={cn(
-              "w-full flex items-center gap-2.5 px-4 py-2.5 rounded-lg text-red-600 hover:bg-red-50 text-sm font-medium group relative",
+              "w-full flex items-center gap-2.5 p-2 rounded-lg hover:bg-red-50 text-sm font-medium group relative",
               mounted && "lg:transition-all lg:duration-200",
-              collapsed && "lg:justify-center lg:px-0"
+              collapsed && "lg:justify-center lg:p-2"
             )}
             title={collapsed ? "Logout" : undefined}
           >
-            <LogOut className="w-4 h-4 flex-shrink-0" />
+            <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center ring-2 ring-red-100 flex-shrink-0">
+              <LogOut className="w-5 h-5 text-red-600" />
+            </div>
             <span className={cn(
+              "text-red-600",
               collapsed && "lg:hidden"
             )}>
               Logout
