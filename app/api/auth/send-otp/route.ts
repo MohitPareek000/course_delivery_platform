@@ -27,11 +27,33 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Check for resend throttle
+    const throttleSeconds = parseInt(process.env.OTP_RESEND_THROTTLE_SECONDS || '60');
+    const lastOTP = await prisma.oTP.findFirst({
+      where: { email },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    if (lastOTP) {
+      const timeSinceLastOTP = (Date.now() - lastOTP.createdAt.getTime()) / 1000;
+      if (timeSinceLastOTP < throttleSeconds) {
+        const waitTime = Math.ceil(throttleSeconds - timeSinceLastOTP);
+        return NextResponse.json(
+          {
+            error: `Please wait ${waitTime} seconds before requesting a new OTP`,
+            waitTime
+          },
+          { status: 429 } // 429 Too Many Requests
+        );
+      }
+    }
+
     // Generate OTP
     const otp = generateOTP();
 
-    // Store OTP in database (expires in 10 minutes)
-    const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
+    // Store OTP in database (expires in configurable minutes)
+    const expiryMinutes = parseInt(process.env.OTP_EXPIRY_MINUTES || '10');
+    const expiresAt = new Date(Date.now() + expiryMinutes * 60 * 1000);
 
     await prisma.oTP.create({
       data: {

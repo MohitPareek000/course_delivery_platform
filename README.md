@@ -49,7 +49,7 @@ Two types of courses supported:
 - **Language**: TypeScript
 - **Database**: PostgreSQL with Prisma ORM
 - **Authentication**: NextAuth.js v5 (with Google OAuth & OTP)
-- **Email Service**: AWS SES (SMTP for OTP delivery)
+- **Email Service**: AWS SES (SDK for OTP delivery)
 - **Styling**: Tailwind CSS
 - **UI Components**: shadcn/ui (Radix UI + Tailwind)
 - **Icons**: Lucide React
@@ -118,7 +118,7 @@ Then update `.env` with your credentials:
 - Database URL (PostgreSQL on Railway)
 - NextAuth secret
 - Google OAuth credentials
-- AWS SES SMTP credentials (see [AWS_SES_SETUP.md](AWS_SES_SETUP.md))
+- AWS SES SDK credentials (see [AWS_SES_SETUP.md](AWS_SES_SETUP.md))
 
 4. Set up the database:
 ```bash
@@ -150,13 +150,12 @@ NEXTAUTH_SECRET="your-secret-key"
 GOOGLE_CLIENT_ID="your-google-client-id"
 GOOGLE_CLIENT_SECRET="your-google-client-secret"
 
-# AWS SES SMTP (for OTP emails)
-SES_SMTP_HOST="email-smtp.us-east-1.amazonaws.com"
-SES_SMTP_PORT=587
-SES_SMTP_USER="your-smtp-username"
-SES_SMTP_PASSWORD="your-smtp-password"
-SES_FROM_EMAIL="hello@scaler.com"
-SES_FROM_NAME="Scaler Career Day"
+# AWS SES SDK (for OTP emails)
+AWS_REGION="ap-south-1"
+AWS_ACCESS_KEY_ID="your-aws-access-key-id"
+AWS_SECRET_ACCESS_KEY="your-aws-secret-access-key"
+SENDER_EMAIL="hello@scaler.com"
+SENDER_NAME="Team Scaler"
 ```
 
 See [AWS_SES_SETUP.md](AWS_SES_SETUP.md) for detailed AWS SES configuration instructions.

@@ -1,13 +1,14 @@
-# AWS SES SMTP Integration for OTP Emails
+# AWS SES SDK Integration for OTP Emails
 
-This document explains how to complete the AWS SES SMTP setup for sending OTP emails.
+This document explains how to complete the AWS SES setup for sending OTP emails using the AWS SDK.
 
 ## What Was Done
 
-1. **Updated Email Service**: Modified [lib/email/ses.ts](lib/email/ses.ts) to use AWS SES SMTP with nodemailer
-2. **Updated OTP API**: Modified [app/api/auth/send-otp/route.ts](app/api/auth/send-otp/route.ts) to use AWS SES
-3. **Added Environment Variables**: Added AWS SES SMTP credentials placeholder to [.env](.env)
-4. **Changed OTP Length**: Updated OTP generation to 4 digits instead of 6 digits
+1. **Installed AWS SDK**: Added `@aws-sdk/client-ses` package
+2. **Updated Email Service**: Modified [lib/email/ses.ts](lib/email/ses.ts) to use AWS SES SDK
+3. **Updated OTP API**: Modified [app/api/auth/send-otp/route.ts](app/api/auth/send-otp/route.ts) to use AWS SES
+4. **Added Environment Variables**: Added AWS SDK credentials placeholders to [.env](.env)
+5. **Changed OTP Length**: Updated OTP generation to 4 digits instead of 6 digits
 
 ## What You Need to Do
 
@@ -15,41 +16,52 @@ This document explains how to complete the AWS SES SMTP setup for sending OTP em
 
 1. **Log in to AWS Console**: Go to https://aws.amazon.com/console/
 2. **Navigate to SES**: Search for "Simple Email Service" (SES)
-3. **Verify Your Email Address/Domain**:
+3. **Select Your Region**: Choose your region (e.g., `ap-south-1` for Mumbai)
+4. **Verify Your Email Address/Domain**:
    - Go to "Verified identities"
    - Click "Create identity"
    - Choose "Email address" or "Domain" (domain is recommended for production)
    - Follow the verification process (check your email for verification link)
 
-4. **Get SMTP Credentials**:
-   - In AWS SES Console, go to "SMTP Settings"
-   - Click "Create SMTP Credentials"
-   - Give it a name (e.g., "course-platform-smtp")
-   - Click "Create"
-   - **IMPORTANT**: Download and save the SMTP username and password (you'll only see them once!)
-   - Note the SMTP endpoint for your region (e.g., `email-smtp.us-east-1.amazonaws.com`)
+### Step 2: Create IAM User for SES
 
-### Step 2: Update Environment Variables
+1. **Navigate to IAM**: Go to AWS IAM Console
+2. **Create User**:
+   - Click "Users" → "Create user"
+   - Give it a name (e.g., "ses-course-platform-user")
+   - Click "Next"
+3. **Attach Permissions**:
+   - Choose "Attach policies directly"
+   - Search for and select "AmazonSESFullAccess" (or create a custom policy with only SendEmail permission)
+   - Click "Next" → "Create user"
+4. **Create Access Key**:
+   - Click on the created user
+   - Go to "Security credentials" tab
+   - Click "Create access key"
+   - Choose "Application running outside AWS"
+   - Click "Next" → "Create access key"
+   - **IMPORTANT**: Download and save the Access Key ID and Secret Access Key (you'll only see them once!)
+
+### Step 3: Update Environment Variables
 
 Open your [.env](.env) file and replace the placeholder values:
 
 ```bash
-# AWS SES SMTP Configuration (for OTP email delivery)
-SES_SMTP_HOST="email-smtp.us-east-1.amazonaws.com"  # Your region's SMTP endpoint
-SES_SMTP_PORT=587
-SES_SMTP_USER="your_smtp_username"  # From Step 1.4
-SES_SMTP_PASSWORD="your_smtp_password"  # From Step 1.4
-SES_FROM_EMAIL="hello@scaler.com"  # Must be verified in SES
-SES_FROM_NAME="Scaler Career Day"  # Display name in emails
+# AWS SES Configuration (for OTP email delivery via AWS SDK)
+AWS_REGION="ap-south-1"                          # Your AWS region
+AWS_ACCESS_KEY_ID="AKIA..."                      # From Step 2.4
+AWS_SECRET_ACCESS_KEY="abc123..."                # From Step 2.4
+SENDER_EMAIL="hello@scaler.com"                  # Must be verified in SES
+SENDER_NAME="Team Scaler"                        # Display name in emails
 ```
 
 **Important**:
-- The `SES_FROM_EMAIL` must be a verified email address or domain in AWS SES
+- The `SENDER_EMAIL` must be a verified email address or domain in AWS SES
 - For testing, you can use a personal email address (must be verified)
 - For production, use your company domain (hello@scaler.com)
-- Change the SMTP host to match your AWS region
+- Make sure `AWS_REGION` matches where you verified your email/domain
 
-### Step 3: Move Out of SES Sandbox (Production Only)
+### Step 4: Move Out of SES Sandbox (Production Only)
 
 By default, AWS SES starts in "sandbox mode" where you can only:
 - Send to verified email addresses
@@ -63,7 +75,7 @@ To send to any email address (required for production):
 4. Fill out the form explaining your use case
 5. Wait for AWS approval (usually 24-48 hours)
 
-### Step 4: Test the Integration
+### Step 5: Test the Integration
 
 1. **Start your development server** (if not already running):
    ```bash
@@ -77,7 +89,7 @@ To send to any email address (required for production):
    - Check if you receive the OTP email
 
 3. **Check server logs** for any errors:
-   - Look for "OTP email sent successfully" message
+   - Look for "OTP email sent successfully via AWS SDK" message
    - If errors occur, check your AWS credentials and SES configuration
 
 ## Email Template
@@ -100,12 +112,13 @@ AWS SES Pricing (as of 2024):
 ## Troubleshooting
 
 ### Error: "Email address is not verified"
-- Make sure the `AWS_SES_FROM_EMAIL` is verified in AWS SES
+- Make sure the `SENDER_EMAIL` is verified in AWS SES
 - If in sandbox mode, the recipient email must also be verified
 
 ### Error: "The security token included in the request is invalid"
 - Check your AWS credentials in `.env`
 - Make sure there are no extra spaces or quotes
+- Verify the IAM user has SES permissions
 
 ### Error: "Missing credentials in config"
 - Restart your development server after updating `.env`
@@ -117,6 +130,18 @@ AWS SES Pricing (as of 2024):
 - Check AWS SES sending statistics in the console
 - Look for bounce or complaint notifications
 
+## Differences: AWS SDK vs SMTP
+
+| Feature | AWS SDK (Current) | SMTP (Alternative) |
+|---------|-------------------|---------------------|
+| **Setup** | IAM User with Access Keys | SMTP Credentials |
+| **Credentials** | Access Key ID + Secret Key | SMTP Username + Password |
+| **Package** | `@aws-sdk/client-ses` | `nodemailer` |
+| **Region** | Configurable via env | Fixed in SMTP endpoint |
+| **Use Case** | Better for AWS-native apps | Better for generic email |
+
+We're using the **AWS SDK approach** which is recommended for applications already using AWS services.
+
 ## Production Checklist
 
 - [ ] Request production access for AWS SES
@@ -125,22 +150,26 @@ AWS SES Pricing (as of 2024):
 - [ ] Monitor bounce and complaint rates
 - [ ] Set up SNS notifications for bounces/complaints
 - [ ] Remove the development OTP return in [app/api/auth/send-otp/route.ts](app/api/auth/send-otp/route.ts)
+- [ ] Use IAM role with minimal permissions (only SES:SendEmail)
+- [ ] Rotate AWS credentials periodically
 
 ## Security Notes
 
 - **Never commit** your AWS credentials to Git
 - Keep your `.env` file in `.gitignore`
 - Use IAM roles with minimal permissions (only SES access)
+- Consider using AWS Secrets Manager for production
 - Rotate your AWS credentials periodically
 - Monitor AWS CloudWatch for unusual sending patterns
 
 ## Next Steps
 
 Once AWS SES is configured and working:
-1. Remove the old nodemailer email configuration
-2. Test with multiple email addresses
-3. Monitor delivery rates in AWS SES Console
-4. Set up bounce and complaint handling (recommended for production)
+1. Test with multiple email addresses
+2. Monitor delivery rates in AWS SES Console
+3. Set up bounce and complaint handling (recommended for production)
+4. Consider implementing rate limiting on OTP requests
+5. Set up CloudWatch alarms for SES metrics
 
 ## Support
 
@@ -148,3 +177,4 @@ If you need help:
 - AWS SES Documentation: https://docs.aws.amazon.com/ses/
 - AWS SES FAQ: https://aws.amazon.com/ses/faqs/
 - Check AWS CloudWatch Logs for detailed error messages
+- AWS IAM Documentation: https://docs.aws.amazon.com/iam/
