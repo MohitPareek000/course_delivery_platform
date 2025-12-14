@@ -153,10 +153,10 @@ export default function DashboardPage() {
         {/* Welcome Section */}
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-gray-900 mb-1">
-            Welcome back, {userSession?.name || "Guest"}!
+            Hey, {userSession?.name || "Guest"}!
           </h1>
           <p className="text-sm text-gray-600">
-            Continue your learning journey and ace your interviews
+            Explore courses designed for your Career Growth
           </p>
         </div>
 
