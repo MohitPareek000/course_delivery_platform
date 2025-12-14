@@ -13,7 +13,7 @@ export default function LoginPage() {
               Log in to your Account
             </h1>
             <p className="text-sm text-gray-600">
-              Hey Learners, Select a method to login
+              Hey Learners, Enter your email to login
             </p>
           </div>
 
