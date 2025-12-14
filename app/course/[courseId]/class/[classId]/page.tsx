@@ -189,7 +189,7 @@ export default function ClassPlayerPage() {
           <Button
             variant="ghost"
             onClick={() => router.push(`/course/${courseId}`)}
-            className="mb-6 text-sm px-3 py-2 h-auto lg:px-4 lg:py-2 lg:text-base"
+            className="mb-6 text-sm px-3 py-2 h-auto lg:px-4 lg:py-2 lg:text-base transition-all duration-200 lg:hover:scale-105 lg:hover:shadow-md"
           >
             <ArrowLeft className="w-3 h-3 mr-1.5 lg:w-4 lg:h-4 lg:mr-2" />
             Back to Course
@@ -348,7 +348,7 @@ export default function ClassPlayerPage() {
               onClick={() =>
                 router.push(`/course/${courseId}/class/${previousClass.id}`)
               }
-              className="flex-1 sm:flex-none sm:min-w-[140px]"
+              className="flex-1 sm:flex-none sm:min-w-[140px] transition-all duration-200 hover:scale-105 hover:shadow-md"
             >
               <ChevronLeft className="w-4 h-4 mr-2" />
               Previous Class
@@ -403,7 +403,7 @@ export default function ClassPlayerPage() {
                   }
                 }}
                 disabled={isMarkingComplete}
-                className={`bg-green-600 hover:bg-green-700 transition-all duration-300 ${
+                className={`bg-green-600 hover:bg-green-700 transition-all duration-300 hover:scale-105 hover:shadow-md ${
                   isMarkingComplete ? 'scale-95 opacity-90' : 'scale-100'
                 }`}
               >
@@ -426,7 +426,7 @@ export default function ClassPlayerPage() {
                 onClick={() =>
                   router.push(`/course/${courseId}/class/${nextClass.id}`)
                 }
-                className="min-w-[140px]"
+                className="min-w-[140px] transition-all duration-200 hover:scale-105 hover:shadow-md"
               >
                 Next Class
                 <ChevronRight className="w-4 h-4 ml-2" />
@@ -435,7 +435,7 @@ export default function ClassPlayerPage() {
 
             {/* Show Back to Course button when completed and no next module */}
             {isCompleted && !nextClass && (
-              <Button onClick={() => router.push(`/course/${courseId}`)} className="min-w-[160px]">
+              <Button onClick={() => router.push(`/course/${courseId}`)} className="min-w-[160px] transition-all duration-200 hover:scale-105 hover:shadow-md">
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back to Course
               </Button>
@@ -488,7 +488,7 @@ export default function ClassPlayerPage() {
                   }
                 }}
                 disabled={isMarkingComplete}
-                className={`bg-green-600 hover:bg-green-700 w-full transition-all duration-300 ${
+                className={`bg-green-600 hover:bg-green-700 w-full transition-all duration-300 sm:hover:scale-105 sm:hover:shadow-md ${
                   isMarkingComplete ? 'scale-95 opacity-90' : 'scale-100'
                 }`}
               >
@@ -511,7 +511,7 @@ export default function ClassPlayerPage() {
                 onClick={() =>
                   router.push(`/course/${courseId}/class/${nextClass.id}`)
                 }
-                className="w-full text-sm px-3 py-2 h-auto sm:text-base sm:px-4 sm:py-2 sm:h-10"
+                className="w-full text-sm px-3 py-2 h-auto sm:text-base sm:px-4 sm:py-2 sm:h-10 transition-all duration-200 sm:hover:scale-105 sm:hover:shadow-md"
               >
                 Next Class
                 <ChevronRight className="w-4 h-4 ml-2" />
@@ -522,7 +522,7 @@ export default function ClassPlayerPage() {
             {isCompleted && !nextClass && (
               <Button
                 onClick={() => router.push(`/course/${courseId}`)}
-                className="w-full"
+                className="w-full transition-all duration-200 sm:hover:scale-105 sm:hover:shadow-md"
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back to Course
