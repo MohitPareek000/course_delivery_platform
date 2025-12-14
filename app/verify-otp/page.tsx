@@ -11,7 +11,7 @@ export default function VerifyOTPPage() {
   const [otp, setOtp] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState("");
-  const [resendTimer, setResendTimer] = React.useState(30);
+  const [resendTimer, setResendTimer] = React.useState(60);
   const router = useRouter();
 
   React.useEffect(() => {
@@ -86,6 +86,11 @@ export default function VerifyOTPPage() {
       const data = await response.json();
 
       if (!response.ok) {
+        // If throttled, use the waitTime from the API response
+        if (response.status === 429 && data.waitTime) {
+          setResendTimer(data.waitTime);
+          throw new Error(data.error || "Please wait before requesting a new OTP");
+        }
         throw new Error(data.error || "Failed to resend OTP");
       }
 
@@ -94,8 +99,8 @@ export default function VerifyOTPPage() {
         console.log("Development OTP:", data.otp);
       }
 
-      // Reset timer
-      setResendTimer(30);
+      // Reset timer to 60 seconds
+      setResendTimer(60);
 
       // Restart timer
       const interval = setInterval(() => {
