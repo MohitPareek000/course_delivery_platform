@@ -311,6 +311,198 @@ export default function ClassPlayerPage() {
                 )}
               </div>
             )}
+
+            {/* Navigation Buttons - Mobile: side by side, Desktop: Previous left, Mark Complete & Next right */}
+            <div className="flex gap-3 items-center justify-between mt-4">
+              {/* Previous Button */}
+              {previousClass ? (
+                <Button
+                  variant="outline"
+                  onClick={() =>
+                    router.push(`/course/${courseId}/class/${previousClass.id}`)
+                  }
+                  className="flex-1 sm:flex-none sm:min-w-[140px] transition-all duration-200 hover:scale-105 hover:shadow-md"
+                >
+                  <ChevronLeft className="w-4 h-4 mr-2" />
+                  Previous Class
+                </Button>
+              ) : (
+                <div className="flex-1 sm:flex-none sm:min-w-[140px]"></div>
+              )}
+
+              {/* Right side button group - Desktop only */}
+              <div className="hidden sm:flex gap-3 items-center min-h-[40px]">
+                {/* Show Mark as Complete button only when not completed */}
+                {!isCompleted && (
+                  <Button
+                    onClick={async () => {
+                      setIsMarkingComplete(true);
+
+                      try {
+                        // Save progress to database via API
+                        const response = await fetch('/api/progress', {
+                          method: 'POST',
+                          headers: {
+                            'Content-Type': 'application/json',
+                          },
+                          body: JSON.stringify({
+                            userId,
+                            classId,
+                            watchedDuration: classItem.duration || 600,
+                            lastPosition: lastPosition || 0,
+                            isCompleted: true,
+                          }),
+                        });
+
+                        if (response.ok) {
+                          // Only update state if API call was successful
+                          setIsCompleted(true);
+                          setShowCompletionMessage(true);
+                          hasShownCompletionRef.current = true;
+
+                          // Auto-dismiss after 3 seconds
+                          setTimeout(() => {
+                            setShowCompletionMessage(false);
+                          }, 3000);
+                        } else {
+                          console.error('Failed to mark as complete');
+                          alert('Failed to mark as complete. Please try again.');
+                        }
+                      } catch (error) {
+                        console.error('Error marking as complete:', error);
+                        alert('Failed to mark as complete. Please try again.');
+                      } finally {
+                        setIsMarkingComplete(false);
+                      }
+                    }}
+                    disabled={isMarkingComplete}
+                    className={`min-w-[160px] bg-green-600 hover:bg-green-700 transition-all duration-200 hover:scale-105 hover:shadow-md ${
+                      isMarkingComplete ? 'scale-95 opacity-90' : 'scale-100'
+                    }`}
+                  >
+                    <CheckCircle2
+                      className={`w-4 h-4 mr-2 transition-all duration-500 ${
+                        isMarkingComplete ? 'rotate-[360deg] scale-110' : 'rotate-0 scale-100'
+                      }`}
+                    />
+                    {isMarkingComplete ? (
+                      <span className="animate-pulse">Completing...</span>
+                    ) : (
+                      'Mark as Complete'
+                    )}
+                  </Button>
+                )}
+
+                {/* Show Next Class button only when completed */}
+                {isCompleted && nextClass && (
+                  <Button
+                    onClick={() =>
+                      router.push(`/course/${courseId}/class/${nextClass.id}`)
+                    }
+                    className="min-w-[140px] transition-all duration-200 hover:scale-105 hover:shadow-md"
+                  >
+                    Next Class
+                    <ChevronRight className="w-4 h-4 ml-2" />
+                  </Button>
+                )}
+
+                {/* Show Back to Course button when completed and no next module */}
+                {isCompleted && !nextClass && (
+                  <Button onClick={() => router.push(`/course/${courseId}`)} className="min-w-[160px] transition-all duration-200 hover:scale-105 hover:shadow-md">
+                    <ArrowLeft className="w-4 h-4 mr-2" />
+                    Back to Course
+                  </Button>
+                )}
+              </div>
+
+              {/* Right Button - Mobile only */}
+              <div className="flex-1 sm:hidden min-h-[40px]">
+                {/* Show Mark as Complete button when not completed */}
+                {!isCompleted && (
+                  <Button
+                    onClick={async () => {
+                      setIsMarkingComplete(true);
+
+                      try {
+                        // Save progress to database via API
+                        const response = await fetch('/api/progress', {
+                          method: 'POST',
+                          headers: {
+                            'Content-Type': 'application/json',
+                          },
+                          body: JSON.stringify({
+                            userId,
+                            classId,
+                            watchedDuration: classItem.duration || 600,
+                            lastPosition: lastPosition || 0,
+                            isCompleted: true,
+                          }),
+                        });
+
+                        if (response.ok) {
+                          // Only update state if API call was successful
+                          setIsCompleted(true);
+                          setShowCompletionMessage(true);
+                          hasShownCompletionRef.current = true;
+
+                          // Auto-dismiss after 3 seconds
+                          setTimeout(() => {
+                            setShowCompletionMessage(false);
+                          }, 3000);
+                        } else {
+                          console.error('Failed to mark as complete');
+                          alert('Failed to mark as complete. Please try again.');
+                        }
+                      } catch (error) {
+                        console.error('Error marking as complete:', error);
+                        alert('Failed to mark as complete. Please try again.');
+                      } finally {
+                        setIsMarkingComplete(false);
+                      }
+                    }}
+                    disabled={isMarkingComplete}
+                    className={`bg-green-600 hover:bg-green-700 w-full transition-all duration-200 hover:scale-105 hover:shadow-md ${
+                      isMarkingComplete ? 'scale-95 opacity-90' : 'scale-100'
+                    }`}
+                  >
+                    <CheckCircle2
+                      className={`w-4 h-4 mr-2 transition-all duration-500 ${
+                        isMarkingComplete ? 'rotate-[360deg] scale-110' : 'rotate-0 scale-100'
+                      }`}
+                    />
+                    {isMarkingComplete ? (
+                      <span className="animate-pulse">Completing...</span>
+                    ) : (
+                      'Mark as Complete'
+                    )}
+                  </Button>
+                )}
+
+                {/* Show Next Class button when completed and next module exists */}
+                {isCompleted && nextClass && (
+                  <Button
+                    onClick={() =>
+                      router.push(`/course/${courseId}/class/${nextClass.id}`)
+                    }
+                    className="w-full transition-all duration-200 hover:scale-105 hover:shadow-md"
+                  >
+                    Next Class
+                    <ChevronRight className="w-4 h-4 ml-2" />
+                  </Button>
+                )}
+
+                {/* Show Back to Course button when completed and no next module */}
+                {isCompleted && !nextClass && (
+                  <Button
+                    onClick={() => router.push(`/course/${courseId}`)}
+                    className="w-full transition-all duration-200 hover:scale-105 hover:shadow-md"
+                  >
+                    <ArrowLeft className="w-4 h-4 mr-2" />
+                    Back to Course
+                  </Button>
+                )}
+              </div>
+            </div>
           </div>
         </div>
 
@@ -335,198 +527,6 @@ export default function ClassPlayerPage() {
                 <p className="text-xs sm:text-sm text-gray-600">Great work! Keep it up! ✨</p>
               </div>
             </div>
-          </div>
-        </div>
-
-        {/* Navigation Buttons - Mobile: side by side, Desktop: Previous left, Mark Complete & Next right */}
-        <div className="flex gap-3 items-center justify-between max-w-4xl mx-auto px-4 sm:px-6 md:px-8">
-          {/* Previous Button */}
-          {previousClass ? (
-            <Button
-              variant="outline"
-              onClick={() =>
-                router.push(`/course/${courseId}/class/${previousClass.id}`)
-              }
-              className="flex-1 sm:flex-none sm:min-w-[140px] transition-all duration-200 hover:scale-105 hover:shadow-md"
-            >
-              <ChevronLeft className="w-4 h-4 mr-2" />
-              Previous Class
-            </Button>
-          ) : (
-            <div className="flex-1 sm:flex-none sm:min-w-[140px]"></div>
-          )}
-
-          {/* Right side button group - Desktop only */}
-          <div className="hidden sm:flex gap-3 items-center min-h-[40px]">
-            {/* Show Mark as Complete button only when not completed */}
-            {!isCompleted && (
-              <Button
-                onClick={async () => {
-                  setIsMarkingComplete(true);
-
-                  try {
-                    // Save progress to database via API
-                    const response = await fetch('/api/progress', {
-                      method: 'POST',
-                      headers: {
-                        'Content-Type': 'application/json',
-                      },
-                      body: JSON.stringify({
-                        userId,
-                        classId,
-                        watchedDuration: classItem.duration || 600,
-                        lastPosition: lastPosition || 0,
-                        isCompleted: true,
-                      }),
-                    });
-
-                    if (response.ok) {
-                      // Only update state if API call was successful
-                      setIsCompleted(true);
-                      setShowCompletionMessage(true);
-                      hasShownCompletionRef.current = true;
-
-                      // Auto-dismiss after 3 seconds
-                      setTimeout(() => {
-                        setShowCompletionMessage(false);
-                      }, 3000);
-                    } else {
-                      console.error('Failed to mark as complete');
-                      alert('Failed to mark as complete. Please try again.');
-                    }
-                  } catch (error) {
-                    console.error('Error marking as complete:', error);
-                    alert('Failed to mark as complete. Please try again.');
-                  } finally {
-                    setIsMarkingComplete(false);
-                  }
-                }}
-                disabled={isMarkingComplete}
-                className={`bg-green-600 hover:bg-green-700 transition-all duration-300 hover:scale-105 hover:shadow-md ${
-                  isMarkingComplete ? 'scale-95 opacity-90' : 'scale-100'
-                }`}
-              >
-                <CheckCircle2
-                  className={`w-4 h-4 mr-2 transition-all duration-500 ${
-                    isMarkingComplete ? 'rotate-[360deg] scale-110' : 'rotate-0 scale-100'
-                  }`}
-                />
-                {isMarkingComplete ? (
-                  <span className="animate-pulse">Completing...</span>
-                ) : (
-                  'Mark as Complete'
-                )}
-              </Button>
-            )}
-
-            {/* Show Next Class button only when completed */}
-            {isCompleted && nextClass && (
-              <Button
-                onClick={() =>
-                  router.push(`/course/${courseId}/class/${nextClass.id}`)
-                }
-                className="min-w-[140px] transition-all duration-200 hover:scale-105 hover:shadow-md"
-              >
-                Next Class
-                <ChevronRight className="w-4 h-4 ml-2" />
-              </Button>
-            )}
-
-            {/* Show Back to Course button when completed and no next module */}
-            {isCompleted && !nextClass && (
-              <Button onClick={() => router.push(`/course/${courseId}`)} className="min-w-[160px] transition-all duration-200 hover:scale-105 hover:shadow-md">
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Course
-              </Button>
-            )}
-          </div>
-
-          {/* Right Button - Mobile only */}
-          <div className="flex-1 sm:hidden min-h-[40px]">
-            {/* Show Mark as Complete button when not completed */}
-            {!isCompleted && (
-              <Button
-                onClick={async () => {
-                  setIsMarkingComplete(true);
-
-                  try {
-                    // Save progress to database via API
-                    const response = await fetch('/api/progress', {
-                      method: 'POST',
-                      headers: {
-                        'Content-Type': 'application/json',
-                      },
-                      body: JSON.stringify({
-                        userId,
-                        classId,
-                        watchedDuration: classItem.duration || 600,
-                        lastPosition: lastPosition || 0,
-                        isCompleted: true,
-                      }),
-                    });
-
-                    if (response.ok) {
-                      // Only update state if API call was successful
-                      setIsCompleted(true);
-                      setShowCompletionMessage(true);
-                      hasShownCompletionRef.current = true;
-
-                      // Auto-dismiss after 3 seconds
-                      setTimeout(() => {
-                        setShowCompletionMessage(false);
-                      }, 3000);
-                    } else {
-                      console.error('Failed to mark as complete');
-                      alert('Failed to mark as complete. Please try again.');
-                    }
-                  } catch (error) {
-                    console.error('Error marking as complete:', error);
-                    alert('Failed to mark as complete. Please try again.');
-                  } finally {
-                    setIsMarkingComplete(false);
-                  }
-                }}
-                disabled={isMarkingComplete}
-                className={`bg-green-600 hover:bg-green-700 w-full transition-all duration-300 sm:hover:scale-105 sm:hover:shadow-md ${
-                  isMarkingComplete ? 'scale-95 opacity-90' : 'scale-100'
-                }`}
-              >
-                <CheckCircle2
-                  className={`w-4 h-4 mr-2 transition-all duration-500 ${
-                    isMarkingComplete ? 'rotate-[360deg] scale-110' : 'rotate-0 scale-100'
-                  }`}
-                />
-                {isMarkingComplete ? (
-                  <span className="animate-pulse">Completing...</span>
-                ) : (
-                  'Mark as Complete'
-                )}
-              </Button>
-            )}
-
-            {/* Show Next Class button when completed and next module exists */}
-            {isCompleted && nextClass && (
-              <Button
-                onClick={() =>
-                  router.push(`/course/${courseId}/class/${nextClass.id}`)
-                }
-                className="w-full text-sm px-3 py-2 h-auto sm:text-base sm:px-4 sm:py-2 sm:h-10 transition-all duration-200 sm:hover:scale-105 sm:hover:shadow-md"
-              >
-                Next Class
-                <ChevronRight className="w-4 h-4 ml-2" />
-              </Button>
-            )}
-
-            {/* Show Back to Course button when completed and no next module */}
-            {isCompleted && !nextClass && (
-              <Button
-                onClick={() => router.push(`/course/${courseId}`)}
-                className="w-full transition-all duration-200 sm:hover:scale-105 sm:hover:shadow-md"
-              >
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Course
-              </Button>
-            )}
           </div>
         </div>
       </main>
