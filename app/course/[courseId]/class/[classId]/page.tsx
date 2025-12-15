@@ -184,38 +184,37 @@ export default function ClassPlayerPage() {
       <Sidebar userName={userSession?.name || ""} userEmail={userSession?.email || ""} />
 
       <main className="flex-1 p-4 lg:p-8">
-        {/* Back Button - Below hamburger menu on mobile, normal position on desktop */}
-        <div className="pt-12 lg:pt-0">
-          <Button
-            variant="ghost"
-            onClick={() => router.push(`/course/${courseId}`)}
-            className="mb-6 text-sm px-3 py-2 h-auto lg:px-4 lg:py-2 lg:text-base transition-all duration-200 lg:hover:scale-105 lg:hover:shadow-md"
-          >
-            <ArrowLeft className="w-3 h-3 mr-1.5 lg:w-4 lg:h-4 lg:mr-2" />
-            Back to Course
-          </Button>
-        </div>
-
-        {/* Module Title Bar */}
-        <div className="bg-white rounded-lg p-4 mb-4 shadow-sm border">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-            <div className="flex-1 min-w-0">
-              <h1 className="text-xl font-bold text-gray-900">{classItem.title}</h1>
-              <p className="text-sm text-gray-500">{course.title}</p>
-            </div>
-            <Badge
-              variant="secondary"
-              className={`${isCompleted ? "bg-green-500" : "bg-blue-500"} self-start sm:self-auto shrink-0`}
-            >
-              <CheckCircle2 className="w-3 h-3 mr-1" />
-              {isCompleted ? "Completed" : "In Progress"}
-            </Badge>
-          </div>
-        </div>
-
         {/* Content Area - Video or Text */}
         <div className="mb-4 w-full px-4 sm:px-6 md:px-8">
           <div className="w-full max-w-4xl mx-auto">
+            {/* Back Button - Below hamburger menu on mobile, normal position on desktop */}
+            <div className="pt-12 lg:pt-0">
+              <Button
+                variant="ghost"
+                onClick={() => router.push(`/course/${courseId}`)}
+                className="mb-6 text-sm px-3 py-2 h-auto lg:px-4 lg:py-2 lg:text-base"
+              >
+                <ArrowLeft className="w-3 h-3 mr-1.5 lg:w-4 lg:h-4 lg:mr-2" />
+                Back to Course
+              </Button>
+            </div>
+
+            {/* Module Title Bar */}
+            <div className="bg-white rounded-lg p-4 mb-4 shadow-sm border">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                <div className="flex-1 min-w-0">
+                  <h1 className="text-xl font-bold text-gray-900">{classItem.title}</h1>
+                  <p className="text-sm text-gray-500">{course.title}</p>
+                </div>
+                <Badge
+                  variant="secondary"
+                  className={`${isCompleted ? "bg-green-500" : "bg-blue-500"} self-start sm:self-auto shrink-0`}
+                >
+                  <CheckCircle2 className="w-3 h-3 mr-1" />
+                  {isCompleted ? "Completed" : "In Progress"}
+                </Badge>
+              </div>
+            </div>
             {classItem.contentType === 'text' ? (
               /* Text Content */
               <div className="bg-white rounded-lg shadow-sm border w-full overflow-hidden">
