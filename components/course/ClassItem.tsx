@@ -28,7 +28,7 @@ export function ClassItem({ class: classItem, progress, courseId, isLocked = fal
     <div
       id={`class-${classItem.id}`}
       className={cn(
-        "flex items-center gap-3 p-3 rounded-lg border transition-all",
+        "flex items-center gap-4 p-4 rounded-lg border transition-all",
         isLocked
           ? "bg-gray-50 border-gray-200 cursor-not-allowed"
           : isCompleted
