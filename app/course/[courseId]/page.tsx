@@ -343,6 +343,8 @@ export default function CourseDetailPage() {
       <Sidebar userName={userSession?.name || ""} userEmail={userSession?.email || ""} />
 
       <main className="flex-1 p-4 lg:p-8 pt-16 lg:pt-8">
+        {/* Container with max-width */}
+        <div className="max-w-5xl mx-auto">
         {/* Back Button */}
         <Button
           variant="ghost"
@@ -638,6 +640,7 @@ export default function CourseDetailPage() {
             })}
           </div>
         )}
+        </div>
       </main>
     </div>
   );
