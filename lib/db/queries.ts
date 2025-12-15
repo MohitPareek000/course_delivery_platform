@@ -1,9 +1,9 @@
 import {
   mockCourses,
   mockCourseAccess,
-  mockRounds,
-  mockTopics,
   mockModules,
+  mockTopics,
+  mockClasses,
   mockUserProgress,
 } from "./mockData";
 import { CourseProgress } from "@/types";
@@ -20,49 +20,49 @@ export function getCourseById(courseId: string) {
   return mockCourses.find((course) => course.id === courseId);
 }
 
-// Get rounds for a course
+// Get modules for a course (renamed from rounds)
 export function getCourseRounds(courseId: string) {
-  return mockRounds
-    .filter((round) => round.courseId === courseId)
+  return mockModules
+    .filter((module) => module.courseId === courseId)
     .sort((a, b) => a.order - b.order);
 }
 
-// Get topics for a round or course
-export function getTopics(courseId: string, roundId?: string) {
-  if (roundId) {
+// Get topics for a module or course
+export function getTopics(courseId: string, moduleId?: string) {
+  if (moduleId) {
     return mockTopics
-      .filter((topic) => topic.roundId === roundId)
+      .filter((topic) => topic.moduleId === moduleId)
       .sort((a, b) => a.order - b.order);
   }
-  // For skill-based courses (no round)
+  // For skill-based courses (no module)
   return mockTopics
-    .filter((topic) => topic.courseId === courseId && !topic.roundId)
+    .filter((topic) => topic.courseId === courseId && !topic.moduleId)
     .sort((a, b) => a.order - b.order);
 }
 
-// Get modules for a topic
+// Get classes for a topic (classes are lessons, previously called modules)
 export function getTopicModules(topicId: string) {
-  return mockModules
-    .filter((module) => module.topicId === topicId)
+  return mockClasses
+    .filter((classItem) => classItem.topicId === topicId)
     .sort((a, b) => a.order - b.order);
 }
 
-// Get module by ID
+// Get class by ID (class = lesson, previously called module)
 export function getModuleById(moduleId: string) {
-  return mockModules.find((module) => module.id === moduleId);
+  return mockClasses.find((classItem) => classItem.id === moduleId);
 }
 
-// Get all modules for a course
+// Get all classes for a course (classes = lessons)
 export function getCourseModules(courseId: string) {
   const topics = mockTopics.filter((topic) => topic.courseId === courseId);
   const topicIds = topics.map((topic) => topic.id);
-  return mockModules.filter((module) => topicIds.includes(module.topicId));
+  return mockClasses.filter((classItem) => topicIds.includes(classItem.topicId));
 }
 
-// Get user progress for a module
+// Get user progress for a class (class = lesson, moduleId param kept for backward compatibility)
 export function getUserModuleProgress(userId: string, moduleId: string) {
   return mockUserProgress.find(
-    (progress) => progress.userId === userId && progress.moduleId === moduleId
+    (progress) => progress.userId === userId && progress.classId === moduleId
   );
 }
 
@@ -95,47 +95,47 @@ export function calculateCourseProgress(
   };
 }
 
-// Check if a round is unlocked for a user
-export function isRoundUnlocked(userId: string, courseId: string, roundOrder: number): boolean {
-  // Round 1 is always unlocked
-  if (roundOrder === 1) return true;
+// Check if a module is unlocked for a user (module = course section, previously called round)
+export function isRoundUnlocked(userId: string, courseId: string, moduleOrder: number): boolean {
+  // Module 1 is always unlocked
+  if (moduleOrder === 1) return true;
 
-  // Get previous round
-  const previousRound = mockRounds.find(
-    (round) => round.courseId === courseId && round.order === roundOrder - 1
+  // Get previous module
+  const previousModule = mockModules.find(
+    (module) => module.courseId === courseId && module.order === moduleOrder - 1
   );
 
-  if (!previousRound) return false;
+  if (!previousModule) return false;
 
-  // Get all topics in previous round
-  const previousTopics = getTopics(courseId, previousRound.id);
+  // Get all topics in previous module
+  const previousTopics = getTopics(courseId, previousModule.id);
   const topicIds = previousTopics.map((topic) => topic.id);
 
-  // Get all modules in previous round
-  const previousModules = mockModules.filter((module) =>
-    topicIds.includes(module.topicId)
+  // Get all classes in previous module
+  const previousClasses = mockClasses.filter((classItem) =>
+    topicIds.includes(classItem.topicId)
   );
 
-  // Check if all modules are completed
-  const allCompleted = previousModules.every((module) => {
-    const progress = getUserModuleProgress(userId, module.id);
+  // Check if all classes are completed
+  const allCompleted = previousClasses.every((classItem) => {
+    const progress = getUserModuleProgress(userId, classItem.id);
     return progress?.isCompleted || false;
   });
 
   return allCompleted;
 }
 
-// Get round progress
-export function getRoundProgress(userId: string, courseId: string, roundId: string) {
-  const topics = getTopics(courseId, roundId);
+// Get module progress (module = course section, previously called round)
+export function getRoundProgress(userId: string, courseId: string, moduleId: string) {
+  const topics = getTopics(courseId, moduleId);
   const topicIds = topics.map((topic) => topic.id);
-  const roundModules = mockModules.filter((module) =>
-    topicIds.includes(module.topicId)
+  const moduleClasses = mockClasses.filter((classItem) =>
+    topicIds.includes(classItem.topicId)
   );
 
-  const totalModules = roundModules.length;
-  const completedModules = roundModules.filter((module) => {
-    const progress = getUserModuleProgress(userId, module.id);
+  const totalModules = moduleClasses.length;
+  const completedModules = moduleClasses.filter((classItem) => {
+    const progress = getUserModuleProgress(userId, classItem.id);
     return progress?.isCompleted || false;
   }).length;
 
@@ -167,7 +167,7 @@ export function getNextModule(currentModuleId: string) {
   const nextTopic = mockTopics.find(
     (t) =>
       t.courseId === currentTopic.courseId &&
-      t.roundId === currentTopic.roundId &&
+      t.moduleId === currentTopic.moduleId &&
       t.order === currentTopic.order + 1
   );
 
@@ -199,7 +199,7 @@ export function getPreviousModule(currentModuleId: string) {
   const previousTopic = mockTopics.find(
     (t) =>
       t.courseId === currentTopic.courseId &&
-      t.roundId === currentTopic.roundId &&
+      t.moduleId === currentTopic.moduleId &&
       t.order === currentTopic.order - 1
   );
 
@@ -237,7 +237,7 @@ export function isModuleLocked(userId: string, moduleId: string): boolean {
     const previousTopic = mockTopics.find(
       (t) =>
         t.courseId === currentTopic.courseId &&
-        t.roundId === currentTopic.roundId &&
+        t.moduleId === currentTopic.moduleId &&
         t.order === currentTopic.order - 1
     );
 

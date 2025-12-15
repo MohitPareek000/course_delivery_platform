@@ -1,4 +1,4 @@
-import { Course, Round, Topic, Module, UserProgress, CourseAccess } from "@/types";
+import { Course, Module, Topic, Class, UserProgress, CourseAccess } from "@/types";
 
 // Mock Users
 export const mockUsers = [
@@ -40,8 +40,8 @@ export const mockCourses: Course[] = [
   },
 ];
 
-// Mock Rounds (for company-specific courses)
-export const mockRounds: Round[] = [
+// Mock Modules (for company-specific courses)
+export const mockModules: Module[] = [
   {
     id: "round-1-1",
     courseId: "course-1",
@@ -161,21 +161,21 @@ export const mockTopics: Topic[] = [
   // TCS Round 1 Topics
   {
     id: "topic-1-1",
-    roundId: "round-1-1",
+    moduleId: "round-1-1",
     courseId: "course-1",
     title: "Quantitative Aptitude",
     order: 1,
   },
   {
     id: "topic-1-2",
-    roundId: "round-1-1",
+    moduleId: "round-1-1",
     courseId: "course-1",
     title: "Logical Reasoning",
     order: 2,
   },
   {
     id: "topic-1-3",
-    roundId: "round-1-1",
+    moduleId: "round-1-1",
     courseId: "course-1",
     title: "Verbal Ability",
     order: 3,
@@ -183,14 +183,14 @@ export const mockTopics: Topic[] = [
   // TCS Round 2 Topics
   {
     id: "topic-2-1",
-    roundId: "round-1-2",
+    moduleId: "round-1-2",
     courseId: "course-1",
     title: "Programming Fundamentals",
     order: 1,
   },
   {
     id: "topic-2-2",
-    roundId: "round-1-2",
+    moduleId: "round-1-2",
     courseId: "course-1",
     title: "Data Structures",
     order: 2,
@@ -198,35 +198,35 @@ export const mockTopics: Topic[] = [
   // TCS Round 3 Topics
   {
     id: "topic-3-1",
-    roundId: "round-1-3",
+    moduleId: "round-1-3",
     courseId: "course-1",
     title: "Array and String Problems",
     order: 1,
   },
   {
     id: "topic-3-2",
-    roundId: "round-1-3",
+    moduleId: "round-1-3",
     courseId: "course-1",
     title: "Dynamic Programming",
     order: 2,
   },
   {
     id: "topic-3-3",
-    roundId: "round-1-3",
+    moduleId: "round-1-3",
     courseId: "course-1",
     title: "Sorting and Searching",
     order: 3,
   },
   {
     id: "topic-3-4",
-    roundId: "round-1-3",
+    moduleId: "round-1-3",
     courseId: "course-1",
     title: "Recursion and Backtracking",
     order: 4,
   },
   {
     id: "topic-3-5",
-    roundId: "round-1-3",
+    moduleId: "round-1-3",
     courseId: "course-1",
     title: "Trees and Graphs",
     order: 5,
@@ -234,21 +234,21 @@ export const mockTopics: Topic[] = [
   // Infosys Round 1 Topics
   {
     id: "topic-4-1",
-    roundId: "round-2-1",
+    moduleId: "round-2-1",
     courseId: "course-2",
     title: "Aptitude Basics",
     order: 1,
   },
   {
     id: "topic-4-2",
-    roundId: "round-2-1",
+    moduleId: "round-2-1",
     courseId: "course-2",
     title: "Logical Reasoning",
     order: 2,
   },
   {
     id: "topic-4-3",
-    roundId: "round-2-1",
+    moduleId: "round-2-1",
     courseId: "course-2",
     title: "Technical MCQ Practice",
     order: 3,
@@ -256,14 +256,14 @@ export const mockTopics: Topic[] = [
   // Infosys Round 2 Topics
   {
     id: "topic-4-4",
-    roundId: "round-2-2",
+    moduleId: "round-2-2",
     courseId: "course-2",
     title: "Core Programming Concepts",
     order: 1,
   },
   {
     id: "topic-4-5",
-    roundId: "round-2-2",
+    moduleId: "round-2-2",
     courseId: "course-2",
     title: "Problem Solving Techniques",
     order: 2,
@@ -271,14 +271,14 @@ export const mockTopics: Topic[] = [
   // Infosys Round 3 Topics
   {
     id: "topic-4-6",
-    roundId: "round-2-3",
+    moduleId: "round-2-3",
     courseId: "course-2",
     title: "Behavioral Questions",
     order: 1,
   },
   {
     id: "topic-4-7",
-    roundId: "round-2-3",
+    moduleId: "round-2-3",
     courseId: "course-2",
     title: "Communication Skills",
     order: 2,
@@ -286,21 +286,21 @@ export const mockTopics: Topic[] = [
   // Java Bootcamp - Part 1 Topics
   {
     id: "topic-5-1",
-    roundId: "section-3-1",
+    moduleId: "section-3-1",
     courseId: "course-3",
     title: "Java Basics",
     order: 1,
   },
   {
     id: "topic-5-2",
-    roundId: "section-3-1",
+    moduleId: "section-3-1",
     courseId: "course-3",
     title: "OOP Concepts",
     order: 2,
   },
   {
     id: "topic-5-3",
-    roundId: "section-3-1",
+    moduleId: "section-3-1",
     courseId: "course-3",
     title: "Collections Framework",
     order: 3,
@@ -308,21 +308,21 @@ export const mockTopics: Topic[] = [
   // Java Bootcamp - Part 2 Topics
   {
     id: "topic-5-4",
-    roundId: "section-3-2",
+    moduleId: "section-3-2",
     courseId: "course-3",
     title: "Spring Boot Framework",
     order: 1,
   },
   {
     id: "topic-5-5",
-    roundId: "section-3-2",
+    moduleId: "section-3-2",
     courseId: "course-3",
     title: "Database Integration",
     order: 2,
   },
   {
     id: "topic-5-6",
-    roundId: "section-3-2",
+    moduleId: "section-3-2",
     courseId: "course-3",
     title: "RESTful APIs",
     order: 3,
@@ -330,30 +330,30 @@ export const mockTopics: Topic[] = [
   // Java Bootcamp - Part 3 Topics
   {
     id: "topic-5-7",
-    roundId: "section-3-3",
+    moduleId: "section-3-3",
     courseId: "course-3",
     title: "React Fundamentals",
     order: 1,
   },
   {
     id: "topic-5-8",
-    roundId: "section-3-3",
+    moduleId: "section-3-3",
     courseId: "course-3",
     title: "Frontend-Backend Integration",
     order: 2,
   },
   {
     id: "topic-5-9",
-    roundId: "section-3-3",
+    moduleId: "section-3-3",
     courseId: "course-3",
     title: "Cloud Deployment",
     order: 3,
   },
 ];
 
-// Mock Modules
-export const mockModules: Module[] = [
-  // Quantitative Aptitude Modules
+// Mock Classes (individual lessons)
+export const mockClasses: Class[] = [
+  // Quantitative Aptitude Classes
   {
     id: "module-1-1",
     topicId: "topic-1-1",
@@ -993,8 +993,9 @@ export const mockUserProgress: UserProgress[] = [
   {
     id: "progress-1",
     userId: "user-1",
-    moduleId: "module-1-1",
+    classId: "module-1-1",
     watchedDuration: 900,
+    lastPosition: 900,
     isCompleted: true,
     lastWatchedAt: new Date("2024-01-15"),
     completedAt: new Date("2024-01-15"),
@@ -1002,8 +1003,9 @@ export const mockUserProgress: UserProgress[] = [
   {
     id: "progress-2",
     userId: "user-1",
-    moduleId: "module-1-2",
+    classId: "module-1-2",
     watchedDuration: 1200,
+    lastPosition: 1200,
     isCompleted: true,
     lastWatchedAt: new Date("2024-01-16"),
     completedAt: new Date("2024-01-16"),
@@ -1011,8 +1013,9 @@ export const mockUserProgress: UserProgress[] = [
   {
     id: "progress-3",
     userId: "user-1",
-    moduleId: "module-1-3",
+    classId: "module-1-3",
     watchedDuration: 1800,
+    lastPosition: 1800,
     isCompleted: true,
     lastWatchedAt: new Date("2024-01-17"),
     completedAt: new Date("2024-01-17"),
@@ -1020,8 +1023,9 @@ export const mockUserProgress: UserProgress[] = [
   {
     id: "progress-4",
     userId: "user-1",
-    moduleId: "module-2-1",
+    classId: "module-2-1",
     watchedDuration: 900,
+    lastPosition: 900,
     isCompleted: true,
     lastWatchedAt: new Date("2024-01-18"),
     completedAt: new Date("2024-01-18"),
@@ -1029,8 +1033,9 @@ export const mockUserProgress: UserProgress[] = [
   {
     id: "progress-5",
     userId: "user-1",
-    moduleId: "module-2-2",
+    classId: "module-2-2",
     watchedDuration: 1200,
+    lastPosition: 1200,
     isCompleted: true,
     lastWatchedAt: new Date("2024-01-19"),
     completedAt: new Date("2024-01-19"),
@@ -1038,8 +1043,9 @@ export const mockUserProgress: UserProgress[] = [
   {
     id: "progress-6",
     userId: "user-1",
-    moduleId: "module-3-1",
+    classId: "module-3-1",
     watchedDuration: 1500,
+    lastPosition: 1500,
     isCompleted: true,
     lastWatchedAt: new Date("2024-01-20"),
     completedAt: new Date("2024-01-20"),
@@ -1048,8 +1054,9 @@ export const mockUserProgress: UserProgress[] = [
   {
     id: "progress-7",
     userId: "user-1",
-    moduleId: "module-4-1",
+    classId: "module-4-1",
     watchedDuration: 1200,
+    lastPosition: 1200,
     isCompleted: true,
     lastWatchedAt: new Date("2024-01-21"),
     completedAt: new Date("2024-01-21"),

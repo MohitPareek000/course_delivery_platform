@@ -2,9 +2,9 @@ import { PrismaClient } from '@prisma/client';
 import {
   mockUsers,
   mockCourses,
-  mockRounds,
-  mockTopics,
   mockModules,
+  mockTopics,
+  mockClasses,
   mockCourseAccess
 } from '@/lib/db/mockData';
 
@@ -53,17 +53,17 @@ async function main() {
 
   // Create modules (previously called rounds)
   console.log('Creating modules...');
-  for (const round of mockRounds) {
+  for (const module of mockModules) {
     await prisma.module.upsert({
-      where: { id: round.id },
+      where: { id: module.id },
       update: {},
       create: {
-        id: round.id,
-        courseId: round.courseId,
-        title: round.title,
-        description: round.description,
-        order: round.order,
-        learningOutcomes: round.learningOutcomes,
+        id: module.id,
+        courseId: module.courseId,
+        title: module.title,
+        description: module.description,
+        order: module.order,
+        learningOutcomes: module.learningOutcomes,
       },
     });
   }
@@ -77,7 +77,7 @@ async function main() {
       update: {},
       create: {
         id: topic.id,
-        moduleId: topic.roundId, // roundId in mock data maps to moduleId in new schema
+        moduleId: topic.moduleId,
         courseId: topic.courseId,
         title: topic.title,
         order: topic.order,
@@ -88,21 +88,21 @@ async function main() {
 
   // Create classes (previously called modules)
   console.log('Creating classes...');
-  for (const module of mockModules) {
+  for (const classItem of mockClasses) {
     await prisma.class.upsert({
-      where: { id: module.id },
+      where: { id: classItem.id },
       update: {},
       create: {
-        id: module.id,
-        topicId: module.topicId,
-        title: module.title,
-        description: module.description,
-        contentType: module.contentType || 'video',
-        videoUrl: module.videoUrl,
-        textContent: module.textContent,
-        contestUrl: module.contestUrl,
-        duration: module.duration,
-        order: module.order,
+        id: classItem.id,
+        topicId: classItem.topicId,
+        title: classItem.title,
+        description: classItem.description,
+        contentType: classItem.contentType || 'video',
+        videoUrl: classItem.videoUrl,
+        textContent: classItem.textContent,
+        contestUrl: classItem.contestUrl,
+        duration: classItem.duration,
+        order: classItem.order,
       },
     });
   }
