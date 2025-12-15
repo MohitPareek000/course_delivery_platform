@@ -189,12 +189,14 @@ export default function VerifyOTPPage() {
               )}
             </div>
 
-            {/* Help Text */}
-            <div className="bg-blue-50 border border-blue-200 p-4">
-              <p className="text-sm text-gray-700">
-                <span className="font-semibold">Development mode:</span> Check the browser console for the OTP code.
-              </p>
-            </div>
+            {/* Help Text - Only show in development */}
+            {process.env.NODE_ENV === 'development' && (
+              <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg">
+                <p className="text-sm text-gray-700">
+                  <span className="font-semibold">Development mode:</span> Check the browser console for the OTP code.
+                </p>
+              </div>
+            )}
           </div>
         </div>
         </div>
