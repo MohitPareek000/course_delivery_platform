@@ -126,8 +126,22 @@ export default function VerifyOTPPage() {
 
   return (
     <div className="min-h-screen flex flex-col lg:flex-row">
-      {/* Left Side - OTP Form */}
-      <div className="flex-1 flex flex-col p-4 sm:p-6 md:p-8 bg-white">
+      {/* Left Side - Company Logos Section (on desktop) */}
+      <div className="bg-gray-50 py-8 px-4 sm:px-6 lg:flex-1 lg:flex lg:items-center lg:justify-center lg:p-8 relative overflow-hidden order-2 lg:order-1">
+        {/* Background decoration - desktop only */}
+        <div className="hidden lg:block absolute inset-0 opacity-5">
+          <div className="absolute top-20 left-20 w-64 h-64 bg-primary rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 right-20 w-96 h-96 bg-primary rounded-full blur-3xl"></div>
+        </div>
+
+        {/* Content */}
+        <div className="relative z-10 w-full">
+          <CompanyLogosCarousel />
+        </div>
+      </div>
+
+      {/* Right Side - OTP Form (on desktop) */}
+      <div className="flex-1 flex flex-col p-4 sm:p-6 md:p-8 bg-white order-1 lg:order-2">
         {/* Back Button */}
         <div className="w-full max-w-md mx-auto mb-4">
           <Button
@@ -199,20 +213,6 @@ export default function VerifyOTPPage() {
             )}
           </div>
         </div>
-        </div>
-      </div>
-
-      {/* Company Logos Section - Visible on all devices */}
-      <div className="bg-gray-50 py-8 px-4 sm:px-6 lg:flex-1 lg:flex lg:items-center lg:justify-center lg:p-8 relative overflow-hidden">
-        {/* Background decoration - desktop only */}
-        <div className="hidden lg:block absolute inset-0 opacity-5">
-          <div className="absolute top-20 left-20 w-64 h-64 bg-primary rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 right-20 w-96 h-96 bg-primary rounded-full blur-3xl"></div>
-        </div>
-
-        {/* Content */}
-        <div className="relative z-10 w-full">
-          <CompanyLogosCarousel />
         </div>
       </div>
     </div>
