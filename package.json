@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "seed:learners": "npx tsx prisma/seed-learners.ts",
+    "grant-access": "npx tsx scripts/grantCourseAccess.ts",
     "postinstall": "prisma generate"
   },
   "dependencies": {
