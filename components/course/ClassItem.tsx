@@ -1,5 +1,5 @@
 import { Class, UserProgress } from "@/types";
-import { PlayCircle, CheckCircle2, Lock, Clock, FileText, Trophy } from "lucide-react";
+import { PlayCircle, CheckCircle2, Lock, Clock, FileText, Trophy, Video } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Tooltip } from "@/components/ui/tooltip";
@@ -81,10 +81,41 @@ export function ClassItem({ class: classItem, progress, courseId, isLocked = fal
             {classItem.description}
           </p>
         )}
-        <div className="flex items-center gap-1.5 mt-0.5">
-          <Clock className="w-3 h-3 text-gray-400" />
-          <span className="text-xs text-gray-500">{durationLabel}</span>
-        </div>
+      </div>
+
+      {/* Class Type Badge with Duration - Right End */}
+      <div className="flex-shrink-0 ml-3">
+        {isTextContent ? (
+          <div className="flex flex-col items-end gap-0.5">
+            <div className="flex items-center gap-1 px-2 py-0.5 bg-amber-100 rounded">
+              <FileText className="w-3 h-3 text-amber-700" />
+              <span className="text-[9px] font-bold text-amber-700 uppercase tracking-wider">
+                <span className="hidden lg:inline">Reading Material</span>
+                <span className="lg:hidden">Reading</span>
+              </span>
+            </div>
+            <span className="text-[11px] font-medium text-gray-600">{durationMinutes} min</span>
+          </div>
+        ) : isContest ? (
+          <div className="flex flex-col items-end gap-0.5">
+            <div className="flex items-center gap-1 px-2 py-0.5 bg-purple-100 rounded">
+              <Trophy className="w-3 h-3 text-purple-700" />
+              <span className="text-[9px] font-bold text-purple-700 uppercase tracking-wider">Quiz</span>
+            </div>
+            <span className="text-[11px] font-medium text-gray-600">{durationMinutes} min</span>
+          </div>
+        ) : (
+          <div className="flex flex-col items-end gap-0.5">
+            <div className="flex items-center gap-1 px-2 py-0.5 bg-blue-100 rounded">
+              <Video className="w-3 h-3 text-blue-700" />
+              <span className="text-[9px] font-bold text-blue-700 uppercase tracking-wider">
+                <span className="hidden lg:inline">Video Class</span>
+                <span className="lg:hidden">Video</span>
+              </span>
+            </div>
+            <span className="text-[11px] font-medium text-gray-600">{durationMinutes} min</span>
+          </div>
+        )}
       </div>
     </div>
   );
