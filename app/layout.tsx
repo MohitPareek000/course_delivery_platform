@@ -9,7 +9,7 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Course Platform",
+  title: "Cortex - A Course Platform",
   description: "Comprehensive learning and course management platform",
   viewport: {
     width: "device-width",
