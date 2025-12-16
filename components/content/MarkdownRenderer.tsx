@@ -13,7 +13,7 @@ interface MarkdownRendererProps {
 
 export function MarkdownRenderer({ content }: MarkdownRendererProps) {
   return (
-    <div className="prose prose-gray w-full max-w-none [&>*:first-child]:!mt-0">
+    <div className="prose prose-gray w-full max-w-none [&>*:first-child]:!mt-0 md:overflow-x-visible overflow-x-hidden">
       <ReactMarkdown
         remarkPlugins={[remarkMath, remarkGfm]}
         rehypePlugins={[rehypeKatex]}
