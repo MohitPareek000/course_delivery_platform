@@ -127,7 +127,7 @@ export default function VerifyOTPPage() {
   return (
     <div className="min-h-screen flex flex-col lg:flex-row">
       {/* Left Side - Company Logos Section (on desktop) */}
-      <div className="bg-gray-50 py-8 px-4 sm:px-6 lg:flex-1 lg:flex lg:items-center lg:justify-center lg:p-8 relative overflow-hidden order-2 lg:order-1">
+      <div className="bg-gray-50 lg:flex-1 flex flex-col relative overflow-hidden order-2 lg:order-1">
         {/* Background decoration - desktop only */}
         <div className="hidden lg:block absolute inset-0 opacity-5">
           <div className="absolute top-20 left-20 w-64 h-64 bg-primary rounded-full blur-3xl"></div>
@@ -135,8 +135,18 @@ export default function VerifyOTPPage() {
         </div>
 
         {/* Content */}
-        <div className="relative z-10 w-full">
-          <CompanyLogosCarousel />
+        <div className="relative z-10 w-full flex-1 flex items-center justify-center py-8 px-4 sm:px-6 lg:p-8">
+          <div className="w-full h-full flex flex-col">
+            {/* Scaler Logo at Top - Desktop only */}
+            <div className="hidden lg:block px-4 sm:px-8 lg:px-16 pt-12 sm:pt-16 lg:pt-20 mb-8">
+              <img
+                src="https://scaler-blog-prod-wp-content.s3.ap-south-1.amazonaws.com/wp-content/uploads/2024/02/05111428/Scaler-Logo.svg"
+                alt="Scaler"
+                className="h-5 w-auto"
+              />
+            </div>
+            <CompanyLogosCarousel />
+          </div>
         </div>
       </div>
 

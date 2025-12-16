@@ -75,20 +75,20 @@ export function CompanyLogosCarousel() {
   };
 
   return (
-    <div className="w-full h-full flex items-center justify-center px-4 sm:px-8 lg:px-16">
-      <div className="max-w-2xl w-full text-center space-y-6 sm:space-y-8 lg:space-y-10">
-        {/* Main Heading */}
-        <div className="space-y-3 sm:space-y-4">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
-            Learn, Practice & Crack
-          </h1>
-          <p className="text-base sm:text-lg lg:text-xl text-gray-600 leading-relaxed">
-            Master in-demand skills with expert-curated courses
-          </p>
-        </div>
+    <div className="w-full h-full flex items-center justify-center lg:justify-start">
+      <div className="max-w-2xl w-full px-4 sm:px-8 lg:px-16 space-y-6 sm:space-y-8 lg:space-y-10">
+          {/* Main Heading */}
+          <div className="space-y-3 sm:space-y-4 text-center lg:text-left">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
+              Learn, Practice & Crack
+            </h1>
+            <p className="text-base sm:text-lg lg:text-xl text-gray-600 leading-relaxed">
+              Master in-demand skills with expert-curated courses
+            </p>
+          </div>
 
         {/* Company Logos - Horizontal Scrolling */}
-        <div className="pt-2 sm:pt-4">
+        <div className="pt-2 sm:pt-4 text-center">
           <p className="text-gray-500 text-xs sm:text-sm uppercase tracking-wider mb-4 sm:mb-6 lg:mb-8">
             Get interview-ready for Top Tech Companies
           </p>
