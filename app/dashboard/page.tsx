@@ -84,17 +84,25 @@ export default function DashboardPage() {
   }, []); // Refresh when dashboard is accessed
   const coursesWithProgress = userCourses.map((courseData) => {
     // Calculate total classes from database data
-    const moduleClasses = courseData.modules
-      ? courseData.modules.flatMap((m: any) =>
-          (m.topics || []).flatMap((t: any) => t.classes || [])
-        )
-      : [];
+    // For role-specific and company-specific courses, classes are in modules.topics
+    // For skill-based courses, classes are in topics directly
+    const isRoleOrCompanySpecific = courseData.type === 'role-specific' || courseData.type === 'company-specific';
 
-    const topicClasses = courseData.topics
-      ? courseData.topics.flatMap((t: any) => t.classes || [])
-      : [];
+    let allClasses: any[] = [];
 
-    const allClasses = [...moduleClasses, ...topicClasses];
+    if (isRoleOrCompanySpecific) {
+      // Only count classes from modules (not from course-level topics to avoid duplicates)
+      allClasses = courseData.modules
+        ? courseData.modules.flatMap((m: any) =>
+            (m.topics || []).flatMap((t: any) => t.classes || [])
+          )
+        : [];
+    } else {
+      // For skill-based courses, count from course-level topics only
+      allClasses = courseData.topics
+        ? courseData.topics.flatMap((t: any) => t.classes || [])
+        : [];
+    }
 
     const totalModules = allClasses.length;
     const completedModules = allClasses.filter((classItem: any) =>

@@ -18,19 +18,36 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
         remarkPlugins={[remarkMath, remarkGfm]}
         rehypePlugins={[rehypeKatex]}
         components={{
-          // Custom image component - mobile responsive
+          // Custom image component - mobile responsive with proxy for CORS
           img: ({ node, ...props }) => {
             const { src, alt } = props;
             if (!src) return null;
 
+            // Proxy Google Drive images through our API to avoid CORS issues
+            const proxiedSrc = src.includes('drive.google.com')
+              ? `/api/proxy-image?url=${encodeURIComponent(src)}`
+              : src;
+
             return (
               <span className="block my-4 md:my-6 w-full">
                 <img
-                  src={src}
-                  alt={alt || ''}
+                  src={proxiedSrc}
+                  alt={alt || 'Course Image'}
                   className="rounded-lg shadow-md w-full h-auto object-contain"
                   style={{ maxWidth: '100%' }}
                   loading="lazy"
+                  onError={(e) => {
+                    console.error('Image failed to load:', src);
+                    // Fallback: show a placeholder
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                    if (target.parentElement) {
+                      const fallback = document.createElement('div');
+                      fallback.className = 'bg-gray-100 rounded-lg p-4 text-center text-gray-500 text-sm';
+                      fallback.textContent = 'Image could not be loaded';
+                      target.parentElement.appendChild(fallback);
+                    }
+                  }}
                 />
               </span>
             );
@@ -38,7 +55,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
 
           // Custom heading styles - mobile responsive
           h1: ({ node, ...props }) => (
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mt-6 md:mt-8 mb-3 md:mb-4" {...props} />
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 !mt-0 mb-3 md:mb-4" {...props} />
           ),
           h2: ({ node, ...props }) => (
             <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mt-5 md:mt-6 mb-2 md:mb-3" {...props} />

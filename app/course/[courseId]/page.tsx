@@ -183,8 +183,13 @@ export default function CourseDetailPage() {
   };
 
   // Calculate course progress from database data (must be after all hooks)
-  const allClasses = course ? course.modules.flatMap(m => m.topics.flatMap(t => t.classes))
-    .concat(course.topics.flatMap(t => t.classes)) : [];
+  // For role-specific and company-specific courses, classes are in modules.topics
+  // For skill-based courses, classes are in topics directly
+  const allClasses = course
+    ? (isRoleSpecific || isCompanySpecific)
+      ? course.modules.flatMap(m => m.topics.flatMap(t => t.classes))
+      : course.topics.flatMap(t => t.classes)
+    : [];
   const totalClasses = allClasses.length;
   const completedClasses = allClasses.filter((classItem) =>
     isClassCompleted(classItem.id)
