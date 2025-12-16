@@ -126,7 +126,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
 
           // Custom table styling - fully mobile responsive
           table: ({ node, ...props }) => (
-            <div className="overflow-x-auto my-3 md:my-4 -mx-2 sm:mx-0">
+            <div className="overflow-x-auto my-3 md:my-4">
               <div className="inline-block min-w-full align-middle">
                 <table className="min-w-full divide-y divide-gray-200 border text-xs sm:text-sm" {...props} />
               </div>
