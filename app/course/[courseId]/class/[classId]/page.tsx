@@ -313,7 +313,7 @@ export default function ClassPlayerPage() {
             )}
 
             {/* Navigation Buttons - Mobile: side by side, Desktop: Previous left, Mark Complete & Next right */}
-            <div className="flex gap-3 items-center justify-between mt-4">
+            <div className="flex gap-2 items-center justify-between mt-4">
               {/* Previous Button */}
               {previousClass ? (
                 <Button
@@ -321,9 +321,9 @@ export default function ClassPlayerPage() {
                   onClick={() =>
                     router.push(`/course/${courseId}/class/${previousClass.id}`)
                   }
-                  className="flex-1 sm:flex-none sm:min-w-[140px] transition-all duration-200 hover:scale-105 hover:shadow-md"
+                  className="flex-1 sm:flex-none sm:min-w-[140px] text-xs px-2 py-2 sm:text-sm sm:px-4 sm:py-2 transition-all duration-200 hover:scale-105 hover:shadow-md whitespace-nowrap"
                 >
-                  <ChevronLeft className="w-4 h-4 mr-2" />
+                  <ChevronLeft className="w-3 h-3 mr-1 sm:w-4 sm:h-4 sm:mr-2" />
                   Previous Class
                 </Button>
               ) : (
@@ -461,12 +461,12 @@ export default function ClassPlayerPage() {
                       }
                     }}
                     disabled={isMarkingComplete}
-                    className={`bg-green-600 hover:bg-green-700 w-full transition-all duration-200 hover:scale-105 hover:shadow-md ${
+                    className={`bg-green-600 hover:bg-green-700 w-full text-xs px-2 py-2 sm:text-sm sm:px-4 sm:py-2 transition-all duration-200 hover:scale-105 hover:shadow-md whitespace-nowrap ${
                       isMarkingComplete ? 'scale-95 opacity-90' : 'scale-100'
                     }`}
                   >
                     <CheckCircle2
-                      className={`w-4 h-4 mr-2 transition-all duration-500 ${
+                      className={`w-3 h-3 mr-1 sm:w-4 sm:h-4 sm:mr-2 transition-all duration-500 ${
                         isMarkingComplete ? 'rotate-[360deg] scale-110' : 'rotate-0 scale-100'
                       }`}
                     />
@@ -484,10 +484,10 @@ export default function ClassPlayerPage() {
                     onClick={() =>
                       router.push(`/course/${courseId}/class/${nextClass.id}`)
                     }
-                    className="w-full transition-all duration-200 hover:scale-105 hover:shadow-md"
+                    className="w-full text-xs px-2 py-2 sm:text-sm sm:px-4 sm:py-2 transition-all duration-200 hover:scale-105 hover:shadow-md whitespace-nowrap"
                   >
                     Next Class
-                    <ChevronRight className="w-4 h-4 ml-2" />
+                    <ChevronRight className="w-3 h-3 ml-1 sm:w-4 sm:h-4 sm:ml-2" />
                   </Button>
                 )}
 
@@ -495,9 +495,9 @@ export default function ClassPlayerPage() {
                 {isCompleted && !nextClass && (
                   <Button
                     onClick={() => router.push(`/course/${courseId}`)}
-                    className="w-full transition-all duration-200 hover:scale-105 hover:shadow-md"
+                    className="w-full text-xs px-2 py-2 sm:text-sm sm:px-4 sm:py-2 transition-all duration-200 hover:scale-105 hover:shadow-md whitespace-nowrap"
                   >
-                    <ArrowLeft className="w-4 h-4 mr-2" />
+                    <ArrowLeft className="w-3 h-3 mr-1 sm:w-4 sm:h-4 sm:mr-2" />
                     Back to Course
                   </Button>
                 )}
