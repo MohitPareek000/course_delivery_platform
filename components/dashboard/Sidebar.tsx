@@ -118,19 +118,28 @@ export function Sidebar({ userName = "Mohit", userEmail, isCollapsed: externalCo
             )}>
             {/* Logo icon - hidden when collapsed */}
             <div className={cn(
-              "bg-primary rounded-lg shadow-sm flex-shrink-0 flex items-center justify-center p-2",
+              "rounded-lg shadow-sm flex-shrink-0 flex items-center justify-center overflow-hidden",
               collapsed && "lg:hidden"
             )}>
-              <BookOpen className="w-5 h-5 text-white" />
+              <img
+                src="https://scontent.fblr24-3.fna.fbcdn.net/v/t39.30808-6/273802261_690706225705726_8585155307749683097_n.jpg?_nc_cat=1&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=ukHKVkTG7mgQ7kNvwHDT_8s&_nc_oc=AdlTNOUJWspZgjlCPiIy6NGdNZdu1G2Exgf5fAtFxrq7JYtM6MhYT75GFtxPtvdKp38W_OzHatTKozTaUWSIfrqS&_nc_zt=23&_nc_ht=scontent.fblr24-3.fna&_nc_gid=pwgvUEjFGmBlWRkScExi2A&oh=00_AflzruV9GwoGg1GOW_naOz1Ufc3CSfisYwWH4eQl0iqUKA&oe=6947545B"
+                alt="Interview Prep Logo"
+                className="w-9 h-9 object-cover rounded-lg"
+              />
             </div>
 
             {/* Platform name - hidden when collapsed */}
-            <span className={cn(
-              "text-lg font-bold text-gray-900 flex-1",
+            <div className={cn(
+              "flex-1 flex flex-col",
               collapsed && "lg:hidden"
             )}>
-              InterviewPrep
-            </span>
+              <span className="font-bold text-gray-900" style={{ fontSize: '22px' }}>
+                Cortex
+              </span>
+              <span className="text-xs text-gray-500">
+                By Scaler
+              </span>
+            </div>
 
             {/* Collapse/Expand Toggle Button */}
             <button
