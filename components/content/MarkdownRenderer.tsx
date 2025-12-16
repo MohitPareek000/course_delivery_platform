@@ -33,7 +33,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
                 <img
                   src={proxiedSrc}
                   alt={alt || 'Course Image'}
-                  className="rounded-lg shadow-md w-full h-auto object-contain"
+                  className="rounded-lg shadow-md w-full md:max-w-2xl md:max-h-96 h-auto object-contain mx-auto"
                   style={{ maxWidth: '100%' }}
                   loading="lazy"
                   onError={(e) => {
