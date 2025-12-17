@@ -54,6 +54,10 @@ export interface Class {
   contestUrl?: string;            // For contest/assessment (e.g., Hiretest link)
   duration: number;               // For video: seconds, for text: read time, for contest: estimated time
   order: number;
+
+  // Contest-specific fields
+  contestQuestions?: number;      // Number of questions in contest
+  contestSyllabus?: string[];     // Array of syllabus topics for contest
 }
 
 export interface UserProgress {

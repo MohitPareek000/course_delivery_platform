@@ -154,6 +154,11 @@ model Class {
   contestUrl      String?  // For contest/assessment (e.g., Hiretest link)
   duration        Int      // Duration in seconds
   order           Int
+
+  // Contest-specific fields
+  contestQuestions Int?     // Number of questions in contest
+  contestSyllabus  String[] // Array of syllabus topics for contest
+
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 

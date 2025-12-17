@@ -285,7 +285,7 @@ export default function ClassPlayerPage() {
                     <div className="bg-white rounded-lg border p-3 sm:p-4">
                       <div className="flex items-center gap-2 mb-1.5 sm:mb-2">
                         <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 flex-shrink-0" />
-                        <h4 className="text-sm font-semibold text-gray-900">10 Questions</h4>
+                        <h4 className="text-sm font-semibold text-gray-900">{classItem.contestQuestions || 10} Questions</h4>
                       </div>
                       <p className="text-xs text-gray-600">Challenge yourself with curated questions designed to test your skills.</p>
                     </div>
@@ -312,22 +312,12 @@ export default function ClassPlayerPage() {
                       </div>
                     </div>
                     <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-2 bg-blue-50 text-blue-700 rounded-lg text-xs sm:text-sm font-medium border border-blue-100">
-                        <span className="w-1.5 h-1.5 bg-blue-600 rounded-full flex-shrink-0"></span>
-                        <span className="whitespace-nowrap">Logical Reasoning</span>
-                      </span>
-                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-2 bg-blue-50 text-blue-700 rounded-lg text-xs sm:text-sm font-medium border border-blue-100">
-                        <span className="w-1.5 h-1.5 bg-blue-600 rounded-full flex-shrink-0"></span>
-                        <span className="whitespace-nowrap">Aptitude</span>
-                      </span>
-                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-2 bg-blue-50 text-blue-700 rounded-lg text-xs sm:text-sm font-medium border border-blue-100">
-                        <span className="w-1.5 h-1.5 bg-blue-600 rounded-full flex-shrink-0"></span>
-                        <span className="whitespace-nowrap">Basic Maths</span>
-                      </span>
-                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-2 bg-blue-50 text-blue-700 rounded-lg text-xs sm:text-sm font-medium border border-blue-100">
-                        <span className="w-1.5 h-1.5 bg-blue-600 rounded-full flex-shrink-0"></span>
-                        <span className="whitespace-nowrap">Basic Coding</span>
-                      </span>
+                      {(classItem.contestSyllabus && classItem.contestSyllabus.length > 0 ? classItem.contestSyllabus : ['Logical Reasoning', 'Aptitude', 'Basic Maths', 'Basic Coding']).map((topic: string, index: number) => (
+                        <span key={index} className="inline-flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-2 bg-blue-50 text-blue-700 rounded-lg text-xs sm:text-sm font-medium border border-blue-100">
+                          <span className="w-1.5 h-1.5 bg-blue-600 rounded-full flex-shrink-0"></span>
+                          <span className="whitespace-nowrap">{topic}</span>
+                        </span>
+                      ))}
                     </div>
                   </div>
 
