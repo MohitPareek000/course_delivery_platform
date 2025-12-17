@@ -239,7 +239,7 @@ export default function ClassPlayerPage() {
                 </div>
               </div>
             ) : classItem.contentType === 'contest' ? (
-              /* Contest/Assessment Content */
+              /* Contest Content */
               <div className="bg-white rounded-lg shadow-sm border">
                 <div className="p-6 border-b flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center">
@@ -247,7 +247,7 @@ export default function ClassPlayerPage() {
                   </div>
                   <div>
                     <span className="text-sm font-medium text-gray-500">
-                      Assessment
+                      Contest
                     </span>
                     <div className="flex items-center gap-1.5 text-xs text-gray-400">
                       <Clock className="w-3 h-3" />
@@ -269,11 +269,10 @@ export default function ClassPlayerPage() {
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors"
                     >
-                      Start Assessment
-                      <ExternalLink className="w-4 h-4" />
+                      Start Contest
                     </a>
                   ) : (
-                    <p className="text-gray-500">Assessment link not available.</p>
+                    <p className="text-gray-500">Contest link not available.</p>
                   )}
                   <p className="text-xs text-gray-400 mt-4">
                     Opens in a new tab • Come back here to mark as complete

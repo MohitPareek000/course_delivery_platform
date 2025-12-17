@@ -100,7 +100,7 @@ export function ClassItem({ class: classItem, progress, courseId, isLocked = fal
           <div className="flex flex-col items-end gap-0.5">
             <div className="flex items-center gap-1 px-2 py-0.5 bg-purple-100 rounded">
               <Trophy className="w-3 h-3 text-purple-700" />
-              <span className="text-[9px] font-bold text-purple-700 uppercase tracking-wider">Quiz</span>
+              <span className="text-[9px] font-bold text-purple-700 uppercase tracking-wider">Contest</span>
             </div>
             <span className="text-[11px] font-medium text-gray-600">{durationMinutes} min</span>
           </div>
