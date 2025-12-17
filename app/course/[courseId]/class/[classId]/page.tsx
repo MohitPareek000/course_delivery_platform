@@ -18,7 +18,7 @@ import {
   Trophy,
   ExternalLink,
   Wifi,
-  Monitor,
+  Smile,
 } from "lucide-react";
 import { getUserModuleProgressFromDB, getClassByIdFromDB } from "@/lib/db/dbQueries";
 import { getCurrentUserSession } from "@/lib/auth";
@@ -244,14 +244,14 @@ export default function ClassPlayerPage() {
               /* Contest Content */
               <div className="bg-white rounded-lg shadow-sm border">
                 {/* Header Section */}
-                <div className="p-6 border-b">
-                  <div className="flex items-center justify-between gap-4">
+                <div className="p-4 sm:p-6 border-b">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center">
-                        <Trophy className="w-6 h-6 text-purple-600" />
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-purple-100 flex items-center justify-center flex-shrink-0">
+                        <Trophy className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600" />
                       </div>
                       <div>
-                        <h3 className="text-lg font-semibold text-gray-900">Ready to test your skills?</h3>
+                        <h3 className="text-base sm:text-lg font-semibold text-gray-900">Ready to test your skills?</h3>
                       </div>
                     </div>
                     {classItem.contestUrl && (
@@ -259,7 +259,7 @@ export default function ClassPlayerPage() {
                         href={classItem.contestUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-medium px-4 py-2 rounded-lg transition-colors text-sm whitespace-nowrap"
+                        className="inline-flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-medium px-4 py-2.5 sm:py-2 rounded-lg transition-colors text-sm whitespace-nowrap w-full sm:w-auto"
                       >
                         Start Contest
                       </a>
@@ -268,30 +268,30 @@ export default function ClassPlayerPage() {
                 </div>
 
                 {/* Info Cards Section */}
-                <div className="p-6 space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="p-4 sm:p-6 space-y-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
                     {/* Duration Card */}
-                    <div className="bg-white rounded-lg border p-4">
-                      <div className="flex items-center gap-2 mb-2">
-                        <Clock className="w-5 h-5 text-purple-600" />
+                    <div className="bg-white rounded-lg border p-3 sm:p-4">
+                      <div className="flex items-center gap-2 mb-1.5 sm:mb-2">
+                        <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-purple-600 flex-shrink-0" />
                         <h4 className="text-sm font-semibold text-gray-900">{Math.ceil(classItem.duration / 60)} Minutes</h4>
                       </div>
                       <p className="text-xs text-gray-600">Complete the test in a focused time frame to gauge your skills.</p>
                     </div>
 
                     {/* Questions Card */}
-                    <div className="bg-white rounded-lg border p-4">
-                      <div className="flex items-center gap-2 mb-2">
-                        <FileText className="w-5 h-5 text-purple-600" />
+                    <div className="bg-white rounded-lg border p-3 sm:p-4">
+                      <div className="flex items-center gap-2 mb-1.5 sm:mb-2">
+                        <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-purple-600 flex-shrink-0" />
                         <h4 className="text-sm font-semibold text-gray-900">10 Questions</h4>
                       </div>
                       <p className="text-xs text-gray-600">Challenge yourself with curated questions designed to test your skills.</p>
                     </div>
 
                     {/* Proctored Card */}
-                    <div className="bg-white rounded-lg border p-4">
-                      <div className="flex items-center gap-2 mb-2">
-                        <CheckCircle2 className="w-5 h-5 text-purple-600" />
+                    <div className="bg-white rounded-lg border p-3 sm:p-4">
+                      <div className="flex items-center gap-2 mb-1.5 sm:mb-2">
+                        <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-purple-600 flex-shrink-0" />
                         <h4 className="text-sm font-semibold text-gray-900">Proctored</h4>
                       </div>
                       <p className="text-xs text-gray-600">Test will be proctored to ensure integrity and fair assessment.</p>
@@ -299,54 +299,56 @@ export default function ClassPlayerPage() {
                   </div>
 
                   {/* Syllabus Section */}
-                  <div className="bg-white rounded-lg border p-6">
-                    <div className="flex items-start gap-3 mb-4">
-                      <FileText className="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" />
-                      <div>
-                        <h4 className="text-base font-semibold text-gray-900 mb-2">Syllabus</h4>
-                        <p className="text-sm text-gray-600 mb-4">This contest will cover these essential topics to assess your knowledge and skills.</p>
+                  <div className="bg-white rounded-lg border p-4 sm:p-6">
+                    <div className="flex items-start gap-2.5 sm:gap-3 mb-3 sm:mb-4">
+                      <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-purple-100 flex items-center justify-center flex-shrink-0">
+                        <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-purple-600" />
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="text-sm sm:text-base font-semibold text-gray-900 mb-0.5 sm:mb-1">Syllabus</h4>
+                        <p className="text-xs sm:text-sm text-gray-600">Topics covered in the contest</p>
                       </div>
                     </div>
-                    <div className="flex flex-wrap gap-3">
-                      <div className="flex items-center gap-2 text-sm text-gray-700">
-                        <span className="text-purple-600">+</span>
-                        <span>Logical Reasoning</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-gray-700">
-                        <span className="text-purple-600">+</span>
-                        <span>Aptitude</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-gray-700">
-                        <span className="text-purple-600">+</span>
-                        <span>Basic Maths</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-gray-700">
-                        <span className="text-purple-600">+</span>
-                        <span>Basic Coding</span>
-                      </div>
+                    <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-2 bg-purple-50 text-purple-700 rounded-lg text-xs sm:text-sm font-medium border border-purple-100">
+                        <span className="w-1.5 h-1.5 bg-purple-600 rounded-full flex-shrink-0"></span>
+                        <span className="whitespace-nowrap">Logical Reasoning</span>
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-2 bg-purple-50 text-purple-700 rounded-lg text-xs sm:text-sm font-medium border border-purple-100">
+                        <span className="w-1.5 h-1.5 bg-purple-600 rounded-full flex-shrink-0"></span>
+                        <span className="whitespace-nowrap">Aptitude</span>
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-2 bg-purple-50 text-purple-700 rounded-lg text-xs sm:text-sm font-medium border border-purple-100">
+                        <span className="w-1.5 h-1.5 bg-purple-600 rounded-full flex-shrink-0"></span>
+                        <span className="whitespace-nowrap">Basic Maths</span>
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-2 bg-purple-50 text-purple-700 rounded-lg text-xs sm:text-sm font-medium border border-purple-100">
+                        <span className="w-1.5 h-1.5 bg-purple-600 rounded-full flex-shrink-0"></span>
+                        <span className="whitespace-nowrap">Basic Coding</span>
+                      </span>
                     </div>
                   </div>
 
                   {/* Before the Test Ensure Section */}
                   <div>
-                    <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">Before the Test Ensure</h4>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 sm:mb-4">Before the Test Ensure</h4>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
                       {/* Internet Connection */}
-                      <div className="flex items-center gap-3 p-3">
-                        <Wifi className="w-5 h-5 text-blue-500 flex-shrink-0" />
-                        <p className="text-sm text-gray-700">Have a stable internet connection.</p>
+                      <div className="flex items-center gap-2.5 sm:gap-3 p-2.5 sm:p-3">
+                        <Wifi className="w-4 h-4 sm:w-5 sm:h-5 text-purple-600 flex-shrink-0" />
+                        <p className="text-xs sm:text-sm text-gray-700">Have a stable internet connection.</p>
                       </div>
 
                       {/* Undisturbed */}
-                      <div className="flex items-center gap-3 p-3 border-l border-r border-gray-200">
-                        <Clock className="w-5 h-5 text-blue-500 flex-shrink-0" />
-                        <p className="text-sm text-gray-700">You are undisturbed for ~{Math.ceil(classItem.duration / 60)} min</p>
+                      <div className="flex items-center gap-2.5 sm:gap-3 p-2.5 sm:p-3 sm:border-l sm:border-r border-gray-200">
+                        <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-purple-600 flex-shrink-0" />
+                        <p className="text-xs sm:text-sm text-gray-700">You're in a quiet, distraction-free environment</p>
                       </div>
 
                       {/* Comfortable */}
-                      <div className="flex items-center gap-3 p-3">
-                        <Monitor className="w-5 h-5 text-blue-500 flex-shrink-0" />
-                        <p className="text-sm text-gray-700">You are comfortable and relaxed</p>
+                      <div className="flex items-center gap-2.5 sm:gap-3 p-2.5 sm:p-3">
+                        <Smile className="w-4 h-4 sm:w-5 sm:h-5 text-purple-600 flex-shrink-0" />
+                        <p className="text-xs sm:text-sm text-gray-700">You are comfortable and relaxed</p>
                       </div>
                     </div>
                   </div>
