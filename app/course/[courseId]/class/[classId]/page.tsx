@@ -16,7 +16,6 @@ import {
   FileText,
   Clock,
   Trophy,
-  ExternalLink,
   Wifi,
   Smile,
 } from "lucide-react";
@@ -245,36 +244,29 @@ export default function ClassPlayerPage() {
               <div className="bg-white rounded-lg shadow-sm border">
                 {/* Header Section */}
                 <div className="p-4 sm:p-6 border-b">
-                  <div className="flex items-center gap-3 mb-3 sm:mb-0">
-                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
-                      <Trophy className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
-                    </div>
-                    <div className="flex-1 sm:flex sm:items-center sm:justify-between sm:gap-4">
-                      <div>
-                        <h3 className="text-base sm:text-lg font-semibold text-gray-900">Ready to test your skills?</h3>
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
+                        <Trophy className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
                       </div>
-                      {classItem.contestUrl && (
+                      <h3 className="text-base sm:text-lg font-semibold text-gray-900">Ready to test your skills?</h3>
+                    </div>
+                    {classItem.contestUrl && (
+                      <div className="flex flex-col items-stretch sm:items-end gap-1.5">
                         <a
                           href={classItem.contestUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="hidden sm:inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg transition-colors text-sm whitespace-nowrap"
+                          className="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg transition-colors text-sm whitespace-nowrap"
                         >
                           Start Contest
                         </a>
-                      )}
-                    </div>
+                        <p className="text-[10px] text-gray-400 text-center sm:text-right">
+                          Contest opens in a new tab • Come back here to mark as complete
+                        </p>
+                      </div>
+                    )}
                   </div>
-                  {classItem.contestUrl && (
-                    <a
-                      href={classItem.contestUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="sm:hidden inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium px-3 py-2 rounded-lg transition-colors text-sm whitespace-nowrap w-full"
-                    >
-                      Start Contest
-                    </a>
-                  )}
                 </div>
 
                 {/* Info Cards Section */}
