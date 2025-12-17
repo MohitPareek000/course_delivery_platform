@@ -53,7 +53,9 @@ function parseMarkdownCourse(filePath: string): ParsedCourse {
   let currentTopic: ParsedTopic | null = null;
   let currentClass: ParsedClass | null = null;
   let collectingTextContent = false;
+  let collectingCourseDescription = false;
   let textContentLines: string[] = [];
+  let courseDescriptionLines: string[] = [];
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim();
@@ -66,7 +68,22 @@ function parseMarkdownCourse(filePath: string): ParsedCourse {
     } else if (line.startsWith('Course Title:')) {
       course.title = line.split(':')[1].trim();
     } else if (line.startsWith('Course Description:')) {
-      course.description = line.split(':')[1].trim();
+      collectingCourseDescription = true;
+      const firstLine = line.split(':')[1].trim();
+      if (firstLine) {
+        courseDescriptionLines.push(firstLine);
+      }
+    } else if (collectingCourseDescription && line && !line.startsWith('Module')) {
+      courseDescriptionLines.push(line);
+    } else if (collectingCourseDescription && (line.startsWith('Module') || !line)) {
+      if (courseDescriptionLines.length > 0) {
+        course.description = courseDescriptionLines.join(' ').trim();
+      }
+      collectingCourseDescription = false;
+      courseDescriptionLines = [];
+      // Don't skip this line, continue processing it
+      i--;
+      continue;
     }
     // Parse Module
     else if (line.match(/^Module \d+$/)) {
@@ -102,9 +119,10 @@ function parseMarkdownCourse(filePath: string): ParsedCourse {
     }
     // Parse Learning Outcomes
     else if (line.startsWith('Learning Outcomes:') && currentModule) {
-      // Collect learning outcomes until we hit a blank line or next section
+      // Collect learning outcomes until we hit the Topic section
+      // Learning outcomes are separated by blank lines, so we need to skip them
       let j = i + 1;
-      while (j < lines.length && lines[j].trim() !== '' && !lines[j].trim().startsWith('Topic')) {
+      while (j < lines.length && !lines[j].trim().startsWith('Topic')) {
         const outcome = lines[j].trim();
         if (outcome) {
           currentModule.learningOutcomes.push(outcome);

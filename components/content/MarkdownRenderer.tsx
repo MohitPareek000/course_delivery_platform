@@ -5,7 +5,6 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import remarkGfm from 'remark-gfm';
 import 'katex/dist/katex.min.css';
-import Image from 'next/image';
 
 interface MarkdownRendererProps {
   content: string;
@@ -13,7 +12,7 @@ interface MarkdownRendererProps {
 
 export function MarkdownRenderer({ content }: MarkdownRendererProps) {
   return (
-    <div className="prose prose-gray w-full max-w-none [&>*:first-child]:!mt-0">
+    <div className="w-full max-w-none">
       <ReactMarkdown
         remarkPlugins={[remarkMath, remarkGfm]}
         rehypePlugins={[rehypeKatex]}
@@ -72,22 +71,20 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
             <p className="text-sm sm:text-base text-gray-700 leading-relaxed mb-3 md:mb-4" {...props} />
           ),
 
+          // Custom pre wrapper for code blocks
+          pre: ({ node, children, ...props }: any) => (
+            <pre className="bg-gray-50 border border-gray-200 p-3 sm:p-4 rounded-md overflow-x-auto my-3 md:my-4 text-sm" {...props}>
+              {children}
+            </pre>
+          ),
+
           // Custom code block styling - mobile responsive
           code: ({ node, inline, className, children, ...props }: any) => {
-            if (inline) {
-              return (
-                <code
-                  className="bg-gray-100 text-gray-800 px-1 sm:px-1.5 py-0.5 rounded text-xs sm:text-sm font-mono whitespace-nowrap"
-                  style={{ wordBreak: 'keep-all' }}
-                  {...props}
-                >
-                  {children}
-                </code>
-              );
-            }
+            // Always treat as inline code with red styling
             return (
               <code
-                className={`block bg-gray-900 text-gray-100 p-3 sm:p-4 rounded-lg overflow-x-auto text-xs sm:text-sm font-mono ${className || ''}`}
+                className="bg-red-50 text-red-700 px-1.5 py-0.5 rounded text-sm font-mono border border-red-100"
+                style={{ display: 'inline', whiteSpace: 'nowrap' }}
                 {...props}
               >
                 {children}
@@ -97,13 +94,13 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
 
           // Custom list styling - mobile responsive
           ul: ({ node, ...props }) => (
-            <ul className="list-disc list-inside space-y-1.5 sm:space-y-2 mb-3 md:mb-4 text-sm sm:text-base text-gray-700 pl-2 sm:pl-0" {...props} />
+            <ul className="list-disc list-inside space-y-1.5 sm:space-y-2 mb-3 md:mb-4 text-sm sm:text-base text-gray-700 pl-2 sm:pl-0 [&_code]:inline [&_code]:whitespace-normal" {...props} />
           ),
           ol: ({ node, ...props }) => (
-            <ol className="list-decimal list-inside space-y-1.5 sm:space-y-2 mb-3 md:mb-4 text-sm sm:text-base text-gray-700 pl-2 sm:pl-0" {...props} />
+            <ol className="list-decimal list-inside space-y-1.5 sm:space-y-2 mb-3 md:mb-4 text-sm sm:text-base text-gray-700 pl-2 sm:pl-0 [&_code]:inline [&_code]:whitespace-normal" {...props} />
           ),
           li: ({ node, ...props }) => (
-            <li className="leading-relaxed" {...props} />
+            <li className="leading-relaxed [&_pre]:my-2" {...props} />
           ),
 
           // Custom link styling - mobile responsive
