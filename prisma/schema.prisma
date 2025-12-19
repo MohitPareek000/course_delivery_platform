@@ -208,3 +208,44 @@ model CourseAccess {
   @@unique([userId, courseId])
   @@map("course_access")
 }
+
+// AnalyticsEvent model - stores all GTM tracking events for Metabase queries
+model AnalyticsEvent {
+  id              String   @id @default(cuid())
+  userId          String?  // Nullable for anonymous users
+  sessionId       String?  // Browser session ID
+  eventType       String   // 'we_page_load', 'gtm_custom_click', 'auth_event', etc.
+  eventAction     String?  // 'login_success', 'otp_requested', 'button_clicked', etc.
+
+  // Event properties
+  buttonName      String?
+  page            String?
+  destination     String?
+  courseId        String?
+  classId         String?
+
+  // UTM parameters
+  utmSource       String?
+  utmMedium       String?
+  utmCampaign     String?
+  utmTerm         String?
+  utmContent      String?
+
+  // Additional context
+  platform        String?  @default("web")
+  isLoggedIn      Boolean  @default(false)
+  userEmail       String?
+
+  // JSON field for any additional custom attributes
+  customData      Json?
+
+  timestamp       DateTime @default(now())
+  createdAt       DateTime @default(now())
+
+  @@index([userId])
+  @@index([eventType])
+  @@index([eventAction])
+  @@index([timestamp])
+  @@index([utmSource, utmMedium, utmCampaign])
+  @@map("analytics_events")
+}

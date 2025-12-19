@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { getUserModuleProgressFromDB, getClassByIdFromDB } from "@/lib/db/dbQueries";
 import { getCurrentUserSession } from "@/lib/auth";
+import { analytics } from "@/lib/analytics";
 
 export default function ClassPlayerPage() {
   const params = useParams();
@@ -97,6 +98,18 @@ export default function ClassPlayerPage() {
     }
     fetchProgress();
   }, [userId, classId]);
+
+  // Track class started when classItem loads
+  React.useEffect(() => {
+    if (classItem && course) {
+      analytics.class.started(
+        classItem.id,
+        classItem.title,
+        classItem.contentType || 'video',
+        courseId
+      );
+    }
+  }, [classItem, course, courseId]);
   const [showCompletionMessage, setShowCompletionMessage] = React.useState(false);
   const [isMarkingComplete, setIsMarkingComplete] = React.useState(false);
   const hasShownCompletionRef = React.useRef(false);
@@ -192,7 +205,10 @@ export default function ClassPlayerPage() {
             <div className="pt-12 lg:pt-0">
               <Button
                 variant="ghost"
-                onClick={() => router.push(`/course/${courseId}`)}
+                onClick={() => {
+                  analytics.navigation.backClicked(`/course/${courseId}/class/${classId}`);
+                  router.push(`/course/${courseId}`);
+                }}
                 className="mb-6 text-sm px-3 py-2 h-auto lg:px-4 lg:py-2 lg:text-base"
               >
                 <ArrowLeft className="w-3 h-3 mr-1.5 lg:w-4 lg:h-4 lg:mr-2" />
@@ -257,6 +273,10 @@ export default function ClassPlayerPage() {
                           href={classItem.contestUrl}
                           target="_blank"
                           rel="noopener noreferrer"
+                          onClick={() => {
+                            analytics.contest.started(classItem.id, classItem.title, courseId);
+                            analytics.contest.externalLinkClicked(classItem.id, classItem.title, classItem.contestUrl!);
+                          }}
                           className="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg transition-colors text-sm whitespace-nowrap"
                         >
                           Start Contest
@@ -357,6 +377,8 @@ export default function ClassPlayerPage() {
                       initialProgress={initialProgress}
                       resumePosition={lastPosition}
                       classId={classId}
+                      className={classItem.title}
+                      courseId={courseId}
                     />
                   ) : (
                     <div className="w-full aspect-video flex items-center justify-center bg-gray-100 rounded-lg">
@@ -384,9 +406,14 @@ export default function ClassPlayerPage() {
               {previousClass ? (
                 <Button
                   variant="outline"
-                  onClick={() =>
-                    router.push(`/course/${courseId}/class/${previousClass.id}`)
-                  }
+                  onClick={() => {
+                    analytics.button.clicked('Previous Class', `/course/${courseId}/class/${classId}`, {
+                      currentClassId: classId,
+                      previousClassId: previousClass.id,
+                      courseId
+                    });
+                    router.push(`/course/${courseId}/class/${previousClass.id}`);
+                  }}
                   className="flex-1 sm:flex-none sm:min-w-[140px] text-xs px-2 py-2 sm:text-sm sm:px-4 sm:py-2 transition-all duration-200 hover:scale-105 hover:shadow-md whitespace-nowrap"
                 >
                   <ChevronLeft className="w-3 h-3 mr-1 sm:w-4 sm:h-4 sm:mr-2" />
@@ -402,6 +429,14 @@ export default function ClassPlayerPage() {
                 {!isCompleted && (
                   <Button
                     onClick={async () => {
+                      // Track mark as complete click
+                      analytics.button.clicked('Mark as Complete', `/course/${courseId}/class/${classId}`, {
+                        classId,
+                        className: classItem.title,
+                        courseId,
+                        contentType: classItem.contentType
+                      });
+
                       setIsMarkingComplete(true);
 
                       try {
@@ -421,6 +456,20 @@ export default function ClassPlayerPage() {
                         });
 
                         if (response.ok) {
+                          // Track class completed
+                          analytics.class.completed(
+                            classItem.id,
+                            classItem.title,
+                            classItem.contentType || 'video',
+                            courseId,
+                            classItem.duration || 600
+                          );
+
+                          // Track contest completion if it's a contest
+                          if (classItem.contentType === 'contest') {
+                            analytics.contest.completed(classItem.id, classItem.title, courseId);
+                          }
+
                           // Only update state if API call was successful
                           setIsCompleted(true);
                           setShowCompletionMessage(true);
@@ -462,9 +511,14 @@ export default function ClassPlayerPage() {
                 {/* Show Next Class button only when completed */}
                 {isCompleted && nextClass && (
                   <Button
-                    onClick={() =>
-                      router.push(`/course/${courseId}/class/${nextClass.id}`)
-                    }
+                    onClick={() => {
+                      analytics.button.clicked('Next Class', `/course/${courseId}/class/${classId}`, {
+                        currentClassId: classId,
+                        nextClassId: nextClass.id,
+                        courseId
+                      });
+                      router.push(`/course/${courseId}/class/${nextClass.id}`);
+                    }}
                     className="min-w-[140px] transition-all duration-200 hover:scale-105 hover:shadow-md"
                   >
                     Next Class
@@ -487,6 +541,14 @@ export default function ClassPlayerPage() {
                 {!isCompleted && (
                   <Button
                     onClick={async () => {
+                      // Track mark as complete click
+                      analytics.button.clicked('Mark as Complete', `/course/${courseId}/class/${classId}`, {
+                        classId,
+                        className: classItem.title,
+                        courseId,
+                        contentType: classItem.contentType
+                      });
+
                       setIsMarkingComplete(true);
 
                       try {
@@ -506,6 +568,20 @@ export default function ClassPlayerPage() {
                         });
 
                         if (response.ok) {
+                          // Track class completed
+                          analytics.class.completed(
+                            classItem.id,
+                            classItem.title,
+                            classItem.contentType || 'video',
+                            courseId,
+                            classItem.duration || 600
+                          );
+
+                          // Track contest completion if it's a contest
+                          if (classItem.contentType === 'contest') {
+                            analytics.contest.completed(classItem.id, classItem.title, courseId);
+                          }
+
                           // Only update state if API call was successful
                           setIsCompleted(true);
                           setShowCompletionMessage(true);
@@ -547,9 +623,14 @@ export default function ClassPlayerPage() {
                 {/* Show Next Class button when completed and next module exists */}
                 {isCompleted && nextClass && (
                   <Button
-                    onClick={() =>
-                      router.push(`/course/${courseId}/class/${nextClass.id}`)
-                    }
+                    onClick={() => {
+                      analytics.button.clicked('Next Class', `/course/${courseId}/class/${classId}`, {
+                        currentClassId: classId,
+                        nextClassId: nextClass.id,
+                        courseId
+                      });
+                      router.push(`/course/${courseId}/class/${nextClass.id}`);
+                    }}
                     className="w-full text-xs px-2 py-2 sm:text-sm sm:px-4 sm:py-2 transition-all duration-200 hover:scale-105 hover:shadow-md whitespace-nowrap"
                   >
                     Next Class

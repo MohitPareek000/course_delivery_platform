@@ -5,6 +5,7 @@ import { Home, BookOpen, LogOut, Menu, X, User, ChevronLeft, ChevronRight } from
 import { cn } from "@/lib/utils";
 import { useRouter, usePathname } from "next/navigation";
 import { ProfileModal } from "./ProfileModal";
+import { analytics } from "@/lib/analytics";
 
 interface SidebarProps {
   userName?: string;
@@ -72,7 +73,15 @@ export function Sidebar({ userName = "Mohit", userEmail, isCollapsed: externalCo
     <>
       {/* Mobile Menu Toggle */}
       <button
-        onClick={() => setIsMobileOpen(!isMobileOpen)}
+        onClick={() => {
+          const newState = !isMobileOpen;
+          setIsMobileOpen(newState);
+          analytics.button.clicked(
+            newState ? 'Close Mobile Menu' : 'Open Mobile Menu',
+            pathname,
+            { action: newState ? 'close' : 'open' }
+          );
+        }}
         className="lg:hidden fixed top-4 left-4 z-50 p-2.5 rounded-lg bg-white border shadow-md hover:shadow-lg transition-all"
       >
         {isMobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -143,7 +152,15 @@ export function Sidebar({ userName = "Mohit", userEmail, isCollapsed: externalCo
 
             {/* Collapse/Expand Toggle Button */}
             <button
-              onClick={toggleCollapse}
+              onClick={() => {
+                const newCollapsed = !collapsed;
+                toggleCollapse();
+                analytics.button.clicked(
+                  newCollapsed ? 'Collapse Sidebar' : 'Expand Sidebar',
+                  pathname,
+                  { action: newCollapsed ? 'collapse' : 'expand' }
+                );
+              }}
               className={cn(
                 "hidden lg:flex items-center justify-center p-1.5 rounded-lg hover:bg-gray-100 transition-colors group relative",
                 collapsed && "lg:w-10 lg:h-10 lg:p-0"
@@ -172,7 +189,10 @@ export function Sidebar({ userName = "Mohit", userEmail, isCollapsed: externalCo
           {menuItems.map((item) => (
             <button
               key={item.label}
-              onClick={() => handleNavigation(item.href)}
+              onClick={() => {
+                analytics.navigation.clicked(item.href, pathname);
+                handleNavigation(item.href);
+              }}
               className={cn(
                 "group w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium relative",
                 mounted && "lg:transition-all lg:duration-200",
@@ -210,7 +230,10 @@ export function Sidebar({ userName = "Mohit", userEmail, isCollapsed: externalCo
           collapsed && "lg:p-2"
         )}>
           <div
-            onClick={() => setIsProfileModalOpen(true)}
+            onClick={() => {
+              analytics.user.profileViewed();
+              setIsProfileModalOpen(true);
+            }}
             className={cn(
               "flex items-center gap-2.5 mb-3 p-2 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer group relative",
               collapsed && "lg:justify-center lg:p-2"
@@ -241,7 +264,10 @@ export function Sidebar({ userName = "Mohit", userEmail, isCollapsed: externalCo
           </div>
 
           <button
-            onClick={handleLogout}
+            onClick={() => {
+              analytics.auth.logoutClicked();
+              handleLogout();
+            }}
             className={cn(
               "w-full flex items-center gap-2.5 p-2 rounded-lg hover:bg-red-50 text-sm font-medium group relative",
               mounted && "lg:transition-all lg:duration-200",

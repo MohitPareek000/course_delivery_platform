@@ -11,6 +11,7 @@ import { useUserProgress } from "@/hooks/useUserProgress";
 import { getCurrentUserSession } from "@/lib/auth";
 import { LoadingPage } from "@/components/ui/loading-spinner";
 import { useSession } from "next-auth/react";
+import { analytics } from "@/lib/analytics";
 
 export default function DashboardPage() {
   const [userSession, setUserSession] = React.useState<{
@@ -82,6 +83,13 @@ export default function DashboardPage() {
   React.useEffect(() => {
     refreshProgress();
   }, []); // Refresh when dashboard is accessed
+
+  // Track dashboard reached (only once when user session is available)
+  React.useEffect(() => {
+    if (userSession?.userId) {
+      analytics.auth.dashboardReached();
+    }
+  }, [userSession?.userId]);
   const coursesWithProgress = userCourses.map((courseData) => {
     // Calculate total classes from database data
     // For role-specific and company-specific courses, classes are in modules.topics

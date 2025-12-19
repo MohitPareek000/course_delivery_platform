@@ -5,6 +5,7 @@ import { Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
+import { analytics } from "@/lib/analytics";
 
 export function LoginForm() {
   const [email, setEmail] = React.useState("");
@@ -14,14 +15,24 @@ export function LoginForm() {
 
   const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Track login button clicked
+    analytics.auth.loginButtonClicked();
+
     setIsLoading(true);
     setError("");
+
+    // Track email entered
+    analytics.auth.emailEntered(email);
 
     // Clear any existing session data before starting new login
     sessionStorage.removeItem("user-session");
     sessionStorage.removeItem("login-email");
 
     try {
+      // Track OTP requested
+      analytics.auth.otpRequested(email);
+
       // Call the send-otp API
       const response = await fetch("/api/auth/send-otp", {
         method: "POST",
@@ -48,6 +59,10 @@ export function LoginForm() {
       router.push("/verify-otp");
     } catch (error: any) {
       console.error("Email login error:", error);
+
+      // Track login failed
+      analytics.auth.loginFailed(error.message || "Failed to send OTP");
+
       setError(error.message || "Failed to send OTP. Please try again.");
       setIsLoading(false);
     }

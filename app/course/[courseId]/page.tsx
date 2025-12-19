@@ -15,6 +15,7 @@ import { useUserProgress } from "@/hooks/useUserProgress";
 import { useCourseData } from "@/hooks/useCourseData";
 import { getCurrentUserSession } from "@/lib/auth";
 import { LoadingPage } from "@/components/ui/loading-spinner";
+import { analytics } from "@/lib/analytics";
 
 // Additional icons
 import { Briefcase, BarChart3, PenTool, Megaphone, Users, Settings, Building2 } from "lucide-react";
@@ -335,7 +336,10 @@ export default function CourseDetailPage() {
           <h1 className="text-2xl font-bold text-gray-900 mb-2">
             Course not found
           </h1>
-          <Button onClick={() => router.push("/dashboard")}>
+          <Button onClick={() => {
+            analytics.navigation.backClicked(`/course/${courseId}`);
+            router.push("/dashboard");
+          }}>
             Back to Dashboard
           </Button>
         </div>
@@ -353,7 +357,10 @@ export default function CourseDetailPage() {
         {/* Back Button */}
         <Button
           variant="ghost"
-          onClick={() => router.push("/dashboard")}
+          onClick={() => {
+            analytics.navigation.backClicked(`/course/${courseId}`);
+            router.push("/dashboard");
+          }}
           className="mb-4 text-sm"
         >
           <ArrowLeft className="w-4 h-4 mr-1.5" />

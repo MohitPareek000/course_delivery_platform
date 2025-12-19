@@ -3,6 +3,7 @@
 import * as React from "react";
 import { Play, Pause, Volume2, VolumeX, Maximize, Settings } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { analytics } from "@/lib/analytics";
 
 interface VideoPlayerProps {
   videoUrl: string;
@@ -10,6 +11,8 @@ interface VideoPlayerProps {
   initialProgress?: number;
   resumePosition?: number;
   classId: string;
+  className?: string;
+  courseId?: string;
   onMarkComplete?: () => void;
 }
 
@@ -19,6 +22,8 @@ export function VideoPlayer({
   initialProgress = 0,
   resumePosition = 0,
   classId,
+  className,
+  courseId,
 }: VideoPlayerProps) {
   console.log('🎬 VideoPlayer mounted with:', { initialProgress, resumePosition, classId });
 
@@ -36,6 +41,7 @@ export function VideoPlayer({
   const containerRef = React.useRef<HTMLDivElement>(null);
   const [isFullscreen, setIsFullscreen] = React.useState(false);
   const [isMobile, setIsMobile] = React.useState(false);
+  const [trackedMilestones, setTrackedMilestones] = React.useState<number[]>([]);
 
   // Store resumePosition in a ref so it doesn't get lost during re-renders
   const resumePositionRef = React.useRef(resumePosition);
@@ -247,6 +253,19 @@ export function VideoPlayer({
                           maxWatchedTime = accumulatedWatchTime;
                           setWatchedDuration(maxWatchedTime);
                           onProgressUpdate(maxWatchedTime, current, videoDuration);
+
+                          // Track video progress milestones
+                          if (className && courseId) {
+                            const percentPlayed = Math.floor((current / videoDuration) * 100);
+                            const milestones = [25, 50, 75, 100];
+
+                            milestones.forEach(milestone => {
+                              if (percentPlayed >= milestone && !trackedMilestones.includes(milestone)) {
+                                analytics.class.videoProgress(classId, className, milestone, courseId);
+                                setTrackedMilestones(prev => [...prev, milestone]);
+                              }
+                            });
+                          }
                         }
                       }
                       // If user seeks backward (timeDiff < 0), just update lastTrackedTime without counting

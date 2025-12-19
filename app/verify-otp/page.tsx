@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, Mail } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { CompanyLogosCarousel } from "@/components/auth/CompanyLogosCarousel";
+import { analytics } from "@/lib/analytics";
 
 export default function VerifyOTPPage() {
   const [email, setEmail] = React.useState("");
@@ -55,8 +56,14 @@ export default function VerifyOTPPage() {
       const data = await response.json();
 
       if (!response.ok) {
+        // Track OTP failed
+        analytics.auth.otpEntered(false);
+        analytics.auth.loginFailed("Invalid OTP");
         throw new Error(data.error || "Invalid OTP");
       }
+
+      // Track successful OTP entry
+      analytics.auth.otpEntered(true);
 
       // Store user session in sessionStorage for immediate access
       const userSession = {
@@ -67,6 +74,9 @@ export default function VerifyOTPPage() {
       };
       sessionStorage.setItem("user-session", JSON.stringify(userSession));
       sessionStorage.removeItem("login-email");
+
+      // Track successful login
+      analytics.auth.loginSuccess(data.user.id, data.user.email);
 
       // Redirect to dashboard - NextAuth will handle the session
       router.push("/dashboard");
@@ -79,6 +89,9 @@ export default function VerifyOTPPage() {
 
   const handleResendOTP = async () => {
     setError("");
+
+    // Track resend OTP button click
+    analytics.button.clicked('Resend OTP', '/verify-otp', { email });
 
     try {
       // Call the send-otp API again
@@ -100,6 +113,9 @@ export default function VerifyOTPPage() {
         }
         throw new Error(data.error || "Failed to resend OTP");
       }
+
+      // Track OTP resent successfully
+      analytics.auth.otpRequested(email);
 
       // In development, log the OTP
       if (data.otp) {
@@ -156,7 +172,10 @@ export default function VerifyOTPPage() {
         <div className="w-full max-w-md mx-auto mb-4">
           <Button
             variant="ghost"
-            onClick={() => router.push("/login")}
+            onClick={() => {
+              analytics.navigation.backClicked('/verify-otp');
+              router.push("/login");
+            }}
             className="-ml-2 hover:bg-gray-50"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />

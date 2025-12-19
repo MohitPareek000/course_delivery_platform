@@ -6,6 +6,7 @@ import { Progress } from "@/components/ui/progress";
 import { Briefcase, BookOpen, ArrowRight, PlayCircle, Code, Database, Cloud, Smartphone, Palette, TrendingUp, BarChart3, PenTool, Megaphone, Users, Settings, Building2 } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";
+import { analytics } from "@/lib/analytics";
 
 // Company logo mapping using Brandfetch CDN
 const BRANDFETCH_CLIENT_ID = "1idHfSqccAbp2Vb4wMw";
@@ -148,8 +149,25 @@ export function CourseCard({ course, progress }: CourseCardProps) {
     return getSkillCategory(course.title);
   };
 
+  const handleCourseClick = () => {
+    // Track course viewed
+    analytics.course.viewed(course.id, course.title);
+    analytics.button.clicked(
+      progress.progressPercentage > 0 ? 'Continue Learning' : 'Start Course',
+      '/dashboard',
+      {
+        courseId: course.id,
+        courseName: course.title,
+        courseType: course.type,
+        progress: progress.progressPercentage,
+        completedClasses: progress.completedModules,
+        totalClasses: progress.totalModules
+      }
+    );
+  };
+
   return (
-    <Link href={`/course/${course.id}`}>
+    <Link href={`/course/${course.id}`} onClick={handleCourseClick}>
       <Card className="h-full overflow-hidden hover:shadow-lg transition-all duration-200 hover:-translate-y-0.5 cursor-pointer border border-gray-100 flex flex-col">
         {/* Card Header with Icon/Logo */}
         <div className="h-32 bg-gradient-to-br from-primary/5 via-primary/10 to-secondary/5 flex items-center justify-center relative">
