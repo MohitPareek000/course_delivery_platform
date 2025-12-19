@@ -1,0 +1,1212 @@
+<h1>Course Platform Database Documentation</h1>
+<p><strong>Last Updated:</strong> December 19, 2024
+<strong>Database Type:</strong> PostgreSQL (Railway)
+<strong>Database Name:</strong> railway
+<strong>Host:</strong> <a href="http://gondola.proxy.rlwy.net:21027">gondola.proxy.rlwy.net:21027</a></p>
+<hr>
+<h2 id="table-of-contents" tabindex="-1">Table of Contents</h2>
+<ol>
+<li><a href="#database-overview">Database Overview</a></li>
+<li><a href="#tables-structure">Tables Structure</a></li>
+<li><a href="#data-models">Data Models</a></li>
+<li><a href="#analytics-tables">Analytics Tables</a></li>
+<li><a href="#relationships--foreign-keys">Relationships &amp; Foreign Keys</a></li>
+<li><a href="#common-queries-for-analytics">Common Queries for Analytics</a></li>
+<li><a href="#metabase-integration">Metabase Integration</a></li>
+</ol>
+<hr>
+<h2 id="database-overview" tabindex="-1">Database Overview</h2>
+<p>This database powers a course learning platform with the following capabilities:</p>
+<ul>
+<li><strong>User Management</strong>: User authentication and profiles</li>
+<li><strong>Course Management</strong>: Multi-level course structure (Courses → Modules → Topics → Classes)</li>
+<li><strong>Progress Tracking</strong>: User progress and completion tracking</li>
+<li><strong>Analytics</strong>: Comprehensive event tracking for Metabase analysis</li>
+<li><strong>Access Control</strong>: Course access management</li>
+</ul>
+<h3 id="total-tables%3A-8" tabindex="-1">Total Tables: 8</h3>
+<ol>
+<li><code>users</code> - User accounts and authentication</li>
+<li><code>courses</code> - Course catalog</li>
+<li><code>modules</code> - Course modules (formerly “rounds”)</li>
+<li><code>topics</code> - Module topics</li>
+<li><code>classes</code> - Individual lessons/classes</li>
+<li><code>user_progress</code> - Learning progress tracking</li>
+<li><code>course_access</code> - User-course enrollment</li>
+<li><code>analytics_events</code> - Event tracking for analytics</li>
+</ol>
+<hr>
+<h2 id="tables-structure" tabindex="-1">Tables Structure</h2>
+<h3 id="1.-users-(user-accounts)" tabindex="-1">1. <strong>users</strong> (User Accounts)</h3>
+<p><strong>Purpose:</strong> Stores user authentication and profile information</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+<th>Nullable</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>String (CUID)</td>
+<td>Primary key</td>
+<td>No</td>
+<td>Auto-generated</td>
+</tr>
+<tr>
+<td>email</td>
+<td>String</td>
+<td>Unique user email</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td>name</td>
+<td>String</td>
+<td>User’s full name</td>
+<td>Yes</td>
+<td>null</td>
+</tr>
+<tr>
+<td>emailVerified</td>
+<td>DateTime</td>
+<td>Email verification timestamp</td>
+<td>Yes</td>
+<td>null</td>
+</tr>
+<tr>
+<td>image</td>
+<td>String</td>
+<td>Profile image URL</td>
+<td>Yes</td>
+<td>null</td>
+</tr>
+<tr>
+<td>createdAt</td>
+<td>DateTime</td>
+<td>Account creation date</td>
+<td>No</td>
+<td>now()</td>
+</tr>
+<tr>
+<td>updatedAt</td>
+<td>DateTime</td>
+<td>Last update timestamp</td>
+<td>No</td>
+<td>auto-updated</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Indexes:</strong></p>
+<ul>
+<li>Primary: <code>id</code></li>
+<li>Unique: <code>email</code></li>
+</ul>
+<p><strong>Relations:</strong></p>
+<ul>
+<li>Has many: <code>user_progress</code>, <code>course_access</code></li>
+</ul>
+<hr>
+<h3 id="2.-courses-(course-catalog)" tabindex="-1">2. <strong>courses</strong> (Course Catalog)</h3>
+<p><strong>Purpose:</strong> Main course catalog with metadata</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+<th>Nullable</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>String (CUID)</td>
+<td>Primary key</td>
+<td>No</td>
+<td>Auto-generated</td>
+</tr>
+<tr>
+<td>title</td>
+<td>String</td>
+<td>Course title</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td>description</td>
+<td>String</td>
+<td>Course description</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td>thumbnail</td>
+<td>String</td>
+<td>Course thumbnail URL</td>
+<td>Yes</td>
+<td>null</td>
+</tr>
+<tr>
+<td>instructor</td>
+<td>String</td>
+<td>Instructor name</td>
+<td>Yes</td>
+<td>null</td>
+</tr>
+<tr>
+<td>duration</td>
+<td>Int</td>
+<td>Total duration (minutes)</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td>level</td>
+<td>String</td>
+<td>Difficulty level</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td>type</td>
+<td>String</td>
+<td>Course type/category</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td>createdAt</td>
+<td>DateTime</td>
+<td>Creation date</td>
+<td>No</td>
+<td>now()</td>
+</tr>
+<tr>
+<td>updatedAt</td>
+<td>DateTime</td>
+<td>Last update</td>
+<td>No</td>
+<td>auto-updated</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Table Name:</strong> <code>courses</code></p>
+<p><strong>Relations:</strong></p>
+<ul>
+<li>Has many: <code>modules</code>, <code>topics</code>, <code>course_access</code></li>
+</ul>
+<hr>
+<h3 id="3.-modules-(course-modules)" tabindex="-1">3. <strong>modules</strong> (Course Modules)</h3>
+<p><strong>Purpose:</strong> Course modules containing grouped topics</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+<th>Nullable</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>String (CUID)</td>
+<td>Primary key</td>
+<td>No</td>
+<td>Auto-generated</td>
+</tr>
+<tr>
+<td>courseId</td>
+<td>String</td>
+<td>Foreign key to courses</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td>title</td>
+<td>String</td>
+<td>Module title</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td>description</td>
+<td>String</td>
+<td>Module description</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td>order</td>
+<td>Int</td>
+<td>Display order</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td>learningOutcomes</td>
+<td>String[]</td>
+<td>Learning outcomes array</td>
+<td>No</td>
+<td>[]</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Table Name:</strong> <code>modules</code></p>
+<p><strong>Indexes:</strong></p>
+<ul>
+<li>Primary: <code>id</code></li>
+<li>Foreign key: <code>courseId</code> → <code>courses.id</code></li>
+</ul>
+<p><strong>Relations:</strong></p>
+<ul>
+<li>Belongs to: <code>courses</code></li>
+<li>Has many: <code>topics</code></li>
+</ul>
+<hr>
+<h3 id="4.-topics-(module-topics)" tabindex="-1">4. <strong>topics</strong> (Module Topics)</h3>
+<p><strong>Purpose:</strong> Topics within modules</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+<th>Nullable</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>String (CUID)</td>
+<td>Primary key</td>
+<td>No</td>
+<td>Auto-generated</td>
+</tr>
+<tr>
+<td>moduleId</td>
+<td>String</td>
+<td>Foreign key to modules</td>
+<td>Yes</td>
+<td>null</td>
+</tr>
+<tr>
+<td>courseId</td>
+<td>String</td>
+<td>Foreign key to courses</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td>title</td>
+<td>String</td>
+<td>Topic title</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td>order</td>
+<td>Int</td>
+<td>Display order</td>
+<td>No</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Table Name:</strong> <code>topics</code></p>
+<p><strong>Relations:</strong></p>
+<ul>
+<li>Belongs to: <code>modules</code>, <code>courses</code></li>
+<li>Has many: <code>classes</code></li>
+</ul>
+<hr>
+<h3 id="5.-classes-(lessons%2Fclasses)" tabindex="-1">5. <strong>classes</strong> (Lessons/Classes)</h3>
+<p><strong>Purpose:</strong> Individual lesson content (videos, text, contests)</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+<th>Nullable</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>String (CUID)</td>
+<td>Primary key</td>
+<td>No</td>
+<td>Auto-generated</td>
+</tr>
+<tr>
+<td>topicId</td>
+<td>String</td>
+<td>Foreign key to topics</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td>title</td>
+<td>String</td>
+<td>Class title</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td>description</td>
+<td>String</td>
+<td>Class description</td>
+<td>Yes</td>
+<td>null</td>
+</tr>
+<tr>
+<td>contentType</td>
+<td>String</td>
+<td>Type: video/text/contest</td>
+<td>Yes</td>
+<td>“video”</td>
+</tr>
+<tr>
+<td>videoUrl</td>
+<td>String</td>
+<td>Video/meeting URL</td>
+<td>Yes</td>
+<td>null</td>
+</tr>
+<tr>
+<td>textContent</td>
+<td>String (Text)</td>
+<td>Markdown content</td>
+<td>Yes</td>
+<td>null</td>
+</tr>
+<tr>
+<td>contestUrl</td>
+<td>String</td>
+<td>Contest URL</td>
+<td>Yes</td>
+<td>null</td>
+</tr>
+<tr>
+<td>duration</td>
+<td>Int</td>
+<td>Duration in seconds</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td>order</td>
+<td>Int</td>
+<td>Display order</td>
+<td>No</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Table Name:</strong> <code>classes</code></p>
+<p><strong>Content Types:</strong></p>
+<ul>
+<li><code>video</code> - Video lessons (YouTube, Vimeo, Scaler Meetings)</li>
+<li><code>text</code> - Text-based lessons (Markdown)</li>
+<li><code>contest</code> - Assessment/contest links</li>
+</ul>
+<p><strong>Relations:</strong></p>
+<ul>
+<li>Belongs to: <code>topics</code></li>
+<li>Has many: <code>user_progress</code></li>
+</ul>
+<hr>
+<h3 id="6.-user_progress-(learning-progress)" tabindex="-1">6. <strong>user_progress</strong> (Learning Progress)</h3>
+<p><strong>Purpose:</strong> Tracks user progress through classes</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+<th>Nullable</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>String (CUID)</td>
+<td>Primary key</td>
+<td>No</td>
+<td>Auto-generated</td>
+</tr>
+<tr>
+<td>userId</td>
+<td>String</td>
+<td>Foreign key to users</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td>classId</td>
+<td>String</td>
+<td>Foreign key to classes</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td>watchedDuration</td>
+<td>Int</td>
+<td>Seconds watched</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td>lastPosition</td>
+<td>Int</td>
+<td>Last playback position</td>
+<td>Yes</td>
+<td>null</td>
+</tr>
+<tr>
+<td>isCompleted</td>
+<td>Boolean</td>
+<td>Completion status</td>
+<td>No</td>
+<td>false</td>
+</tr>
+<tr>
+<td>lastWatchedAt</td>
+<td>DateTime</td>
+<td>Last activity timestamp</td>
+<td>No</td>
+<td>now()</td>
+</tr>
+<tr>
+<td>completedAt</td>
+<td>DateTime</td>
+<td>Completion timestamp</td>
+<td>Yes</td>
+<td>null</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Table Name:</strong> <code>user_progress</code></p>
+<p><strong>Indexes:</strong></p>
+<ul>
+<li>Primary: <code>id</code></li>
+<li>Unique: <code>[userId, classId]</code></li>
+</ul>
+<p><strong>Relations:</strong></p>
+<ul>
+<li>Belongs to: <code>users</code>, <code>classes</code></li>
+</ul>
+<p><strong>Key Metrics:</strong></p>
+<ul>
+<li><code>watchedDuration</code> - Total time user spent on the class</li>
+<li><code>lastPosition</code> - Resume point for videos</li>
+<li><code>isCompleted</code> - Whether user completed the class</li>
+</ul>
+<hr>
+<h3 id="7.-course_access-(enrollment)" tabindex="-1">7. <strong>course_access</strong> (Enrollment)</h3>
+<p><strong>Purpose:</strong> Manages user access to courses</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+<th>Nullable</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>String (CUID)</td>
+<td>Primary key</td>
+<td>No</td>
+<td>Auto-generated</td>
+</tr>
+<tr>
+<td>userId</td>
+<td>String</td>
+<td>Foreign key to users</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td>courseId</td>
+<td>String</td>
+<td>Foreign key to courses</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td>grantedAt</td>
+<td>DateTime</td>
+<td>Access grant date</td>
+<td>No</td>
+<td>now()</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Table Name:</strong> <code>course_access</code></p>
+<p><strong>Indexes:</strong></p>
+<ul>
+<li>Primary: <code>id</code></li>
+<li>Unique: <code>[userId, courseId]</code></li>
+</ul>
+<p><strong>Relations:</strong></p>
+<ul>
+<li>Belongs to: <code>users</code>, <code>courses</code></li>
+</ul>
+<hr>
+<h3 id="8.-analytics_events-(event-tracking)-%E2%AD%90" tabindex="-1">8. <strong>analytics_events</strong> (Event Tracking) ⭐</h3>
+<p><strong>Purpose:</strong> Comprehensive event tracking for analytics and Metabase queries</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Description</th>
+<th>Nullable</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>String (CUID)</td>
+<td>Primary key</td>
+<td>No</td>
+<td>Auto-generated</td>
+</tr>
+<tr>
+<td>userId</td>
+<td>String</td>
+<td>User ID (nullable for anonymous)</td>
+<td>Yes</td>
+<td>null</td>
+</tr>
+<tr>
+<td>sessionId</td>
+<td>String</td>
+<td>Browser session ID</td>
+<td>Yes</td>
+<td>null</td>
+</tr>
+<tr>
+<td>eventType</td>
+<td>String</td>
+<td>Event type</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td>eventAction</td>
+<td>String</td>
+<td>Specific action</td>
+<td>Yes</td>
+<td>null</td>
+</tr>
+<tr>
+<td>buttonName</td>
+<td>String</td>
+<td>Button clicked</td>
+<td>Yes</td>
+<td>null</td>
+</tr>
+<tr>
+<td>page</td>
+<td>String</td>
+<td>Page/path</td>
+<td>Yes</td>
+<td>null</td>
+</tr>
+<tr>
+<td>destination</td>
+<td>String</td>
+<td>Navigation destination</td>
+<td>Yes</td>
+<td>null</td>
+</tr>
+<tr>
+<td>courseId</td>
+<td>String</td>
+<td>Related course</td>
+<td>Yes</td>
+<td>null</td>
+</tr>
+<tr>
+<td>classId</td>
+<td>String</td>
+<td>Related class</td>
+<td>Yes</td>
+<td>null</td>
+</tr>
+<tr>
+<td>utmSource</td>
+<td>String</td>
+<td>UTM source</td>
+<td>Yes</td>
+<td>null</td>
+</tr>
+<tr>
+<td>utmMedium</td>
+<td>String</td>
+<td>UTM medium</td>
+<td>Yes</td>
+<td>null</td>
+</tr>
+<tr>
+<td>utmCampaign</td>
+<td>String</td>
+<td>UTM campaign</td>
+<td>Yes</td>
+<td>null</td>
+</tr>
+<tr>
+<td>utmTerm</td>
+<td>String</td>
+<td>UTM term</td>
+<td>Yes</td>
+<td>null</td>
+</tr>
+<tr>
+<td>utmContent</td>
+<td>String</td>
+<td>UTM content</td>
+<td>Yes</td>
+<td>null</td>
+</tr>
+<tr>
+<td>platform</td>
+<td>String</td>
+<td>Platform (web/mobile)</td>
+<td>Yes</td>
+<td>“web”</td>
+</tr>
+<tr>
+<td>isLoggedIn</td>
+<td>Boolean</td>
+<td>Login status</td>
+<td>No</td>
+<td>false</td>
+</tr>
+<tr>
+<td>userEmail</td>
+<td>String</td>
+<td>User email</td>
+<td>Yes</td>
+<td>null</td>
+</tr>
+<tr>
+<td>customData</td>
+<td>JSON</td>
+<td>Additional attributes</td>
+<td>Yes</td>
+<td>null</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>DateTime</td>
+<td>Event timestamp</td>
+<td>No</td>
+<td>now()</td>
+</tr>
+<tr>
+<td>createdAt</td>
+<td>DateTime</td>
+<td>Record creation</td>
+<td>No</td>
+<td>now()</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Table Name:</strong> <code>analytics_events</code></p>
+<p><strong>Indexes:</strong></p>
+<ul>
+<li>Primary: <code>id</code></li>
+<li>Index: <code>userId</code></li>
+<li>Index: <code>eventType</code></li>
+<li>Index: <code>eventAction</code></li>
+<li>Index: <code>timestamp</code></li>
+<li>Composite Index: <code>[utmSource, utmMedium, utmCampaign]</code></li>
+</ul>
+<hr>
+<h2 id="data-models" tabindex="-1">Data Models</h2>
+<h3 id="course-hierarchy" tabindex="-1">Course Hierarchy</h3>
+<pre class="code-block"><code class="language- ">Course
+├── Module 1
+│   ├── Topic 1.1
+│   │   ├── Class 1.1.1 (Video)
+│   │   ├── Class 1.1.2 (Text)
+│   │   └── Class 1.1.3 (Contest)
+│   └── Topic 1.2
+│       └── Class 1.2.1 (Video)
+└── Module 2
+    └── Topic 2.1
+        └── Class 2.1.1 (Video)
+</code></pre>
+<h3 id="user-journey-flow" tabindex="-1">User Journey Flow</h3>
+<pre class="code-block"><code class="language- ">1. User Registration → users table
+2. Course Assignment → course_access table
+3. Course Access → courses, modules, topics, classes
+4. Learning Progress → user_progress table
+5. Event Tracking → analytics_events table
+</code></pre>
+<hr>
+<h2 id="analytics-tables" tabindex="-1">Analytics Tables</h2>
+<h3 id="event-types-in-analytics_events" tabindex="-1">Event Types in <code>analytics_events</code></h3>
+<table>
+<thead>
+<tr>
+<th>Event Type</th>
+<th>Description</th>
+<th>Example Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>we_page_load</code></td>
+<td>Page view events</td>
+<td>Track which pages users visit</td>
+</tr>
+<tr>
+<td><code>gtm_custom_click</code></td>
+<td>Button/link clicks</td>
+<td>Track user interactions</td>
+</tr>
+<tr>
+<td><code>auth_event</code></td>
+<td>Authentication events</td>
+<td>Login, logout, OTP events</td>
+</tr>
+<tr>
+<td><code>course_event</code></td>
+<td>Course interactions</td>
+<td>Course viewed, module started</td>
+</tr>
+<tr>
+<td><code>class_event</code></td>
+<td>Class interactions</td>
+<td>Class started, completed</td>
+</tr>
+<tr>
+<td><code>video_event</code></td>
+<td>Video playback</td>
+<td>Progress milestones (25%, 50%, 75%)</td>
+</tr>
+<tr>
+<td><code>contest_event</code></td>
+<td>Contest activities</td>
+<td>Contest started, completed</td>
+</tr>
+<tr>
+<td><code>error_event</code></td>
+<td>Error occurrences</td>
+<td>Track errors and issues</td>
+</tr>
+</tbody>
+</table>
+<h3 id="event-actions" tabindex="-1">Event Actions</h3>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>login_success</code></td>
+<td>User logged in successfully</td>
+</tr>
+<tr>
+<td><code>login_failed</code></td>
+<td>Login attempt failed</td>
+</tr>
+<tr>
+<td><code>otp_requested</code></td>
+<td>OTP sent to user</td>
+</tr>
+<tr>
+<td><code>course_viewed</code></td>
+<td>User viewed a course</td>
+</tr>
+<tr>
+<td><code>module_started</code></td>
+<td>User started a module</td>
+</tr>
+<tr>
+<td><code>module_completed</code></td>
+<td>User completed a module</td>
+</tr>
+<tr>
+<td><code>class_started</code></td>
+<td>User started a class</td>
+</tr>
+<tr>
+<td><code>class_completed</code></td>
+<td>User completed a class</td>
+</tr>
+<tr>
+<td><code>video_progress</code></td>
+<td>Video progress milestone</td>
+</tr>
+<tr>
+<td><code>contest_started</code></td>
+<td>User started a contest</td>
+</tr>
+<tr>
+<td><code>contest_completed</code></td>
+<td>User completed a contest</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="relationships-%26-foreign-keys" tabindex="-1">Relationships &amp; Foreign Keys</h2>
+<h3 id="entity-relationship-diagram-(text)" tabindex="-1">Entity Relationship Diagram (Text)</h3>
+<pre class="code-block"><code class="language- ">users (1) ──────&lt; (N) user_progress (N) &gt;────── (1) classes
+  │                                                   │
+  │                                                   │
+  └──────&lt; (N) course_access (N) &gt;──────┐           │
+                                          │           │
+courses (1) ────&lt; (N) modules (1) ───&lt; (N) topics ──┘
+  │
+  └──────&lt; (N) topics
+</code></pre>
+<h3 id="foreign-key-constraints" tabindex="-1">Foreign Key Constraints</h3>
+<table>
+<thead>
+<tr>
+<th>Table</th>
+<th>Column</th>
+<th>References</th>
+<th>On Delete</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>modules</td>
+<td>courseId</td>
+<td>courses(id)</td>
+<td>CASCADE</td>
+</tr>
+<tr>
+<td>topics</td>
+<td>moduleId</td>
+<td>modules(id)</td>
+<td>CASCADE</td>
+</tr>
+<tr>
+<td>topics</td>
+<td>courseId</td>
+<td>courses(id)</td>
+<td>CASCADE</td>
+</tr>
+<tr>
+<td>classes</td>
+<td>topicId</td>
+<td>topics(id)</td>
+<td>CASCADE</td>
+</tr>
+<tr>
+<td>user_progress</td>
+<td>userId</td>
+<td>users(id)</td>
+<td>CASCADE</td>
+</tr>
+<tr>
+<td>user_progress</td>
+<td>classId</td>
+<td>classes(id)</td>
+<td>CASCADE</td>
+</tr>
+<tr>
+<td>course_access</td>
+<td>userId</td>
+<td>users(id)</td>
+<td>CASCADE</td>
+</tr>
+<tr>
+<td>course_access</td>
+<td>courseId</td>
+<td>courses(id)</td>
+<td>CASCADE</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="common-queries-for-analytics" tabindex="-1">Common Queries for Analytics</h2>
+<h3 id="1.-user-engagement-metrics" tabindex="-1">1. User Engagement Metrics</h3>
+<pre class="code-block"><code class="language-sql sql">-- Active users in last 7 days
+SELECT COUNT(DISTINCT user_id) as active_users
+FROM analytics_events
+WHERE timestamp &gt;= NOW() - INTERVAL '7 days'
+  AND is_logged_in = true;
+</code></pre>
+<h3 id="2.-course-completion-rate" tabindex="-1">2. Course Completion Rate</h3>
+<pre class="code-block"><code class="language-sql sql">-- Completion rate by course
+SELECT
+  c.title as course_name,
+  COUNT(DISTINCT ca.user_id) as enrolled_users,
+  COUNT(DISTINCT CASE WHEN up.is_completed THEN up.user_id END) as completed_users,
+  ROUND(100.0 * COUNT(DISTINCT CASE WHEN up.is_completed THEN up.user_id END) /
+    NULLIF(COUNT(DISTINCT ca.user_id), 0), 2) as completion_rate
+FROM courses c
+LEFT JOIN course_access ca ON c.id = ca.course_id
+LEFT JOIN classes cl ON cl.topic_id IN (
+  SELECT id FROM topics WHERE course_id = c.id
+)
+LEFT JOIN user_progress up ON up.class_id = cl.id AND up.user_id = ca.user_id
+GROUP BY c.id, c.title;
+</code></pre>
+<h3 id="3.-utm-campaign-performance" tabindex="-1">3. UTM Campaign Performance</h3>
+<pre class="code-block"><code class="language-sql sql">-- Campaign performance by UTM parameters
+SELECT
+  utm_source,
+  utm_medium,
+  utm_campaign,
+  COUNT(DISTINCT user_id) as unique_users,
+  COUNT(*) as total_events,
+  COUNT(DISTINCT CASE WHEN event_action = 'login_success' THEN user_id END) as conversions
+FROM analytics_events
+WHERE utm_source IS NOT NULL
+  AND timestamp &gt;= NOW() - INTERVAL '30 days'
+GROUP BY utm_source, utm_medium, utm_campaign
+ORDER BY unique_users DESC;
+</code></pre>
+<h3 id="4.-user-progress-analytics" tabindex="-1">4. User Progress Analytics</h3>
+<pre class="code-block"><code class="language-sql sql">-- Average completion rate per user
+SELECT
+  u.email,
+  COUNT(DISTINCT up.class_id) as classes_started,
+  COUNT(DISTINCT CASE WHEN up.is_completed THEN up.class_id END) as classes_completed,
+  ROUND(AVG(up.watched_duration / NULLIF(cl.duration, 0) * 100), 2) as avg_watch_percentage
+FROM users u
+JOIN user_progress up ON u.id = up.user_id
+JOIN classes cl ON up.class_id = cl.id
+GROUP BY u.id, u.email
+ORDER BY classes_completed DESC;
+</code></pre>
+<h3 id="5.-popular-content" tabindex="-1">5. Popular Content</h3>
+<pre class="code-block"><code class="language-sql sql">-- Most viewed classes
+SELECT
+  c.title as class_title,
+  t.title as topic_title,
+  COUNT(DISTINCT up.user_id) as unique_viewers,
+  AVG(up.watched_duration) as avg_watch_time,
+  COUNT(CASE WHEN up.is_completed THEN 1 END) as completions
+FROM classes c
+JOIN topics t ON c.topic_id = t.id
+LEFT JOIN user_progress up ON c.id = up.class_id
+GROUP BY c.id, c.title, t.title
+ORDER BY unique_viewers DESC
+LIMIT 10;
+</code></pre>
+<h3 id="6.-login-funnel-analysis" tabindex="-1">6. Login Funnel Analysis</h3>
+<pre class="code-block"><code class="language-sql sql">-- Complete login funnel (7 steps)
+WITH funnel_events AS (
+  SELECT
+    session_id,
+    user_id,
+    user_email,
+    MIN(CASE WHEN event_type = 'we_page_load' AND page LIKE '%/login%' THEN timestamp END) as visited_login_page,
+    MIN(CASE WHEN event_action = 'login_button_clicked' THEN timestamp END) as clicked_login,
+    MIN(CASE WHEN event_action = 'email_entered' THEN timestamp END) as entered_email,
+    MIN(CASE WHEN event_action = 'otp_requested' THEN timestamp END) as requested_otp,
+    MIN(CASE WHEN event_action = 'otp_entered' THEN timestamp END) as entered_otp,
+    MIN(CASE WHEN event_action = 'login_success' THEN timestamp END) as login_successful,
+    MIN(CASE WHEN event_type = 'we_page_load' AND page LIKE '%/dashboard%' THEN timestamp END) as reached_dashboard
+  FROM analytics_events
+  WHERE timestamp &gt;= NOW() - INTERVAL '30 days'
+  GROUP BY session_id, user_id, user_email
+)
+SELECT
+  'Step 1: Visited Login Page' as funnel_step,
+  COUNT(DISTINCT session_id) as users,
+  100.0 as conversion_rate
+FROM funnel_events WHERE visited_login_page IS NOT NULL
+UNION ALL
+SELECT 'Step 2: Clicked Login', COUNT(DISTINCT session_id),
+  ROUND(100.0 * COUNT(DISTINCT session_id) / NULLIF((SELECT COUNT(DISTINCT session_id) FROM funnel_events WHERE visited_login_page IS NOT NULL), 0), 2)
+FROM funnel_events WHERE clicked_login IS NOT NULL
+UNION ALL
+SELECT 'Step 3: Entered Email', COUNT(DISTINCT session_id),
+  ROUND(100.0 * COUNT(DISTINCT session_id) / NULLIF((SELECT COUNT(DISTINCT session_id) FROM funnel_events WHERE visited_login_page IS NOT NULL), 0), 2)
+FROM funnel_events WHERE entered_email IS NOT NULL
+UNION ALL
+SELECT 'Step 4: Requested OTP', COUNT(DISTINCT session_id),
+  ROUND(100.0 * COUNT(DISTINCT session_id) / NULLIF((SELECT COUNT(DISTINCT session_id) FROM funnel_events WHERE visited_login_page IS NOT NULL), 0), 2)
+FROM funnel_events WHERE requested_otp IS NOT NULL
+UNION ALL
+SELECT 'Step 5: Entered OTP', COUNT(DISTINCT session_id),
+  ROUND(100.0 * COUNT(DISTINCT session_id) / NULLIF((SELECT COUNT(DISTINCT session_id) FROM funnel_events WHERE visited_login_page IS NOT NULL), 0), 2)
+FROM funnel_events WHERE entered_otp IS NOT NULL
+UNION ALL
+SELECT 'Step 6: Login Successful', COUNT(DISTINCT session_id),
+  ROUND(100.0 * COUNT(DISTINCT session_id) / NULLIF((SELECT COUNT(DISTINCT session_id) FROM funnel_events WHERE visited_login_page IS NOT NULL), 0), 2)
+FROM funnel_events WHERE login_successful IS NOT NULL
+UNION ALL
+SELECT 'Step 7: Reached Dashboard', COUNT(DISTINCT session_id),
+  ROUND(100.0 * COUNT(DISTINCT session_id) / NULLIF((SELECT COUNT(DISTINCT session_id) FROM funnel_events WHERE visited_login_page IS NOT NULL), 0), 2)
+FROM funnel_events WHERE reached_dashboard IS NOT NULL;
+</code></pre>
+<hr>
+<h2 id="metabase-integration" tabindex="-1">Metabase Integration</h2>
+<h3 id="connection-details" tabindex="-1">Connection Details</h3>
+<p><strong>Database Type:</strong> PostgreSQL
+<strong>Host:</strong> <a href="http://gondola.proxy.rlwy.net">gondola.proxy.rlwy.net</a>
+<strong>Port:</strong> 21027
+<strong>Database:</strong> railway
+<strong>Username:</strong> postgres
+<strong>Password:</strong> (Get from <code>.env</code> file or Railway dashboard)</p>
+<h3 id="recommended-metabase-dashboards" tabindex="-1">Recommended Metabase Dashboards</h3>
+<h4 id="1.-user-engagement-dashboard" tabindex="-1">1. <strong>User Engagement Dashboard</strong></h4>
+<ul>
+<li>Active users (daily, weekly, monthly)</li>
+<li>New user registrations over time</li>
+<li>Session duration distribution</li>
+<li>Page views by page type</li>
+</ul>
+<h4 id="2.-course-performance-dashboard" tabindex="-1">2. <strong>Course Performance Dashboard</strong></h4>
+<ul>
+<li>Course enrollment trends</li>
+<li>Completion rates by course</li>
+<li>Average time to complete</li>
+<li>Drop-off points analysis</li>
+</ul>
+<h4 id="3.-marketing-attribution-dashboard" tabindex="-1">3. <strong>Marketing Attribution Dashboard</strong></h4>
+<ul>
+<li>UTM source performance</li>
+<li>Campaign conversion rates</li>
+<li>Traffic sources breakdown</li>
+<li>Landing page effectiveness</li>
+</ul>
+<h4 id="4.-content-analytics-dashboard" tabindex="-1">4. <strong>Content Analytics Dashboard</strong></h4>
+<ul>
+<li>Most viewed classes</li>
+<li>Video completion rates</li>
+<li>Contest participation rates</li>
+<li>Average watch time by content type</li>
+</ul>
+<h4 id="5.-user-journey-dashboard" tabindex="-1">5. <strong>User Journey Dashboard</strong></h4>
+<ul>
+<li>Login funnel visualization</li>
+<li>Course discovery to enrollment</li>
+<li>Module progression rates</li>
+<li>Time between milestones</li>
+</ul>
+<h3 id="sample-metabase-questions" tabindex="-1">Sample Metabase Questions</h3>
+<ol>
+<li>
+<p><strong>Daily Active Users (Line Chart)</strong></p>
+<pre class="code-block"><code class="language-sql sql">SELECT
+  DATE(timestamp) as date,
+  COUNT(DISTINCT user_id) as active_users
+FROM analytics_events
+WHERE is_logged_in = true
+GROUP BY DATE(timestamp)
+ORDER BY date DESC;
+</code></pre>
+</li>
+<li>
+<p><strong>Top Traffic Sources (Pie Chart)</strong></p>
+<pre class="code-block"><code class="language-sql sql">SELECT
+  COALESCE(utm_source, 'Direct') as source,
+  COUNT(DISTINCT session_id) as sessions
+FROM analytics_events
+WHERE event_type = 'we_page_load'
+GROUP BY utm_source
+ORDER BY sessions DESC
+LIMIT 10;
+</code></pre>
+</li>
+<li>
+<p><strong>Course Completion Funnel (Funnel Chart)</strong></p>
+<pre class="code-block"><code class="language-sql sql">SELECT
+  'Enrolled' as stage, COUNT(DISTINCT user_id) as users FROM course_access
+UNION ALL
+SELECT 'Started First Class', COUNT(DISTINCT user_id) FROM user_progress
+UNION ALL
+SELECT 'Completed First Class', COUNT(DISTINCT user_id) FROM user_progress WHERE is_completed = true;
+</code></pre>
+</li>
+</ol>
+<hr>
+<h2 id="data-dictionary" tabindex="-1">Data Dictionary</h2>
+<h3 id="enums-and-constants" tabindex="-1">Enums and Constants</h3>
+<h4 id="course-levels" tabindex="-1">Course Levels</h4>
+<ul>
+<li><code>beginner</code></li>
+<li><code>intermediate</code></li>
+<li><code>advanced</code></li>
+</ul>
+<h4 id="course-types" tabindex="-1">Course Types</h4>
+<ul>
+<li><code>role-specific</code></li>
+<li><code>skill-based</code></li>
+<li><code>certification</code></li>
+</ul>
+<h4 id="content-types" tabindex="-1">Content Types</h4>
+<ul>
+<li><code>video</code> - Video lessons</li>
+<li><code>text</code> - Text-based lessons</li>
+<li><code>contest</code> - Assessments/contests</li>
+</ul>
+<h4 id="platform-types" tabindex="-1">Platform Types</h4>
+<ul>
+<li><code>web</code> - Web browser</li>
+<li><code>mobile</code> - Mobile app (future)</li>
+</ul>
+<hr>
+<h2 id="notes-for-analytics-team" tabindex="-1">Notes for Analytics Team</h2>
+<h3 id="important-considerations" tabindex="-1">Important Considerations</h3>
+<ol>
+<li><strong>Time Zones:</strong> All timestamps are stored in UTC</li>
+<li><strong>Session Tracking:</strong> Browser session IDs are used to track user journeys</li>
+<li><strong>Anonymous Users:</strong> Some events may have null <code>userId</code> for non-logged-in visitors</li>
+<li><strong>UTM Parameters:</strong> Captured on all events for marketing attribution</li>
+<li><strong>Custom Data:</strong> The <code>customData</code> JSON field contains additional event-specific attributes</li>
+</ol>
+<h3 id="data-quality" tabindex="-1">Data Quality</h3>
+<ul>
+<li><strong>Foreign Keys:</strong> All relationships enforced with CASCADE delete</li>
+<li><strong>Unique Constraints:</strong> Prevent duplicate enrollments and progress records</li>
+<li><strong>Indexes:</strong> Optimized for common query patterns</li>
+<li><strong>Nullable Fields:</strong> Appropriately used for optional data</li>
+</ul>
+<h3 id="best-practices" tabindex="-1">Best Practices</h3>
+<ol>
+<li><strong>Query Performance:</strong> Use indexed columns in WHERE clauses</li>
+<li><strong>Date Ranges:</strong> Always specify date ranges for large tables</li>
+<li><strong>Distinct Counts:</strong> Use DISTINCT when counting unique users/sessions</li>
+<li><strong>NULL Handling:</strong> Use COALESCE or NULLIF for safer aggregations</li>
+</ol>
+<hr>
+<h2 id="support-%26-maintenance" tabindex="-1">Support &amp; Maintenance</h2>
+<h3 id="for-questions-or-issues" tabindex="-1">For Questions or Issues</h3>
+<ul>
+<li><strong>Database Schema:</strong> Check <code>prisma/schema.prisma</code> in the codebase</li>
+<li><strong>Metabase Queries:</strong> See <code>METABASE_QUERIES.md</code> for pre-built queries</li>
+<li><strong>API Documentation:</strong> Contact development team</li>
+</ul>
+<h3 id="regular-maintenance" tabindex="-1">Regular Maintenance</h3>
+<ul>
+<li><strong>Backups:</strong> Automated daily backups via Railway</li>
+<li><strong>Schema Updates:</strong> Managed via Prisma migrations</li>
+<li><strong>Analytics Events:</strong> Retention policy TBD (recommend 90 days for raw events)</li>
+</ul>
+<hr>
+<p><strong>Document Version:</strong> 1.0
+<strong>Last Updated:</strong> December 19, 2024
+<strong>Maintained By:</strong> Development Team</p>
+

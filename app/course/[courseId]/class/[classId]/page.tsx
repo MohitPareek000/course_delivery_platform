@@ -4,6 +4,7 @@ import * as React from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Sidebar } from "@/components/dashboard/Sidebar";
 import { VideoPlayer } from "@/components/video/VideoPlayer";
+import { ScalerMeetingEmbed } from "@/components/video/ScalerMeetingEmbed";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip } from "@/components/ui/tooltip";
@@ -371,15 +372,23 @@ export default function ClassPlayerPage() {
               <div className="bg-white rounded-lg p-4 shadow-sm border">
                 {classItem.videoUrl ? (
                   sessionLoaded && userId && !progressLoading ? (
-                    <VideoPlayer
-                      videoUrl={classItem.videoUrl}
-                      onProgressUpdate={handleProgressUpdate}
-                      initialProgress={initialProgress}
-                      resumePosition={lastPosition}
-                      classId={classId}
-                      className={classItem.title}
-                      courseId={courseId}
-                    />
+                    // Check if URL is a Scaler Meeting URL
+                    classItem.videoUrl.includes('scaler.com/meetings') ? (
+                      <ScalerMeetingEmbed
+                        meetingUrl={classItem.videoUrl}
+                        classId={classId}
+                      />
+                    ) : (
+                      <VideoPlayer
+                        videoUrl={classItem.videoUrl}
+                        onProgressUpdate={handleProgressUpdate}
+                        initialProgress={initialProgress}
+                        resumePosition={lastPosition}
+                        classId={classId}
+                        className={classItem.title}
+                        courseId={courseId}
+                      />
+                    )
                   ) : (
                     <div className="w-full aspect-video flex items-center justify-center bg-gray-100 rounded-lg">
                       <div className="flex flex-col items-center gap-3">
