@@ -22,6 +22,8 @@ interface ParsedClass {
   videoUrl?: string;
   textContent?: string;
   contestUrl?: string;
+  contestQuestions?: number;
+  contestSyllabus?: string[];
   duration: number;
   order: number;
 }
@@ -67,6 +69,8 @@ function parseCourseContent(content: string): ParsedCourse {
   let textContentBuffer: string[] = [];
   let collectingLearningOutcomes = false;
   let learningOutcomesBuffer: string[] = [];
+  let collectingContestSyllabus = false;
+  let contestSyllabusBuffer: string[] = [];
 
   const saveCurrentClass = () => {
     if (currentClass && currentTopic) {
@@ -74,6 +78,11 @@ function parseCourseContent(content: string): ParsedCourse {
         currentClass.textContent = textContentBuffer.join('\n').trim();
         textContentBuffer = [];
         collectingTextContent = false;
+      }
+      if (collectingContestSyllabus && contestSyllabusBuffer.length > 0) {
+        currentClass.contestSyllabus = [...contestSyllabusBuffer];
+        contestSyllabusBuffer = [];
+        collectingContestSyllabus = false;
       }
       currentTopic.classes.push(currentClass);
       currentClass = null;
@@ -212,6 +221,30 @@ function parseCourseContent(content: string): ParsedCourse {
         currentClass.contestUrl = line.replace('Contest URL:', '').trim();
       }
       collectingTextContent = false;
+      collectingContestSyllabus = false;
+    } else if (line.startsWith('Contest Questions:')) {
+      const questionsStr = line.replace('Contest Questions:', '').trim();
+      const questionsNum = parseInt(questionsStr);
+      if (currentClass && !isNaN(questionsNum)) {
+        currentClass.contestQuestions = questionsNum;
+      }
+      collectingTextContent = false;
+      collectingContestSyllabus = false;
+    } else if (line.match(/^Contest Syllabus\s*:?$/i)) {
+      collectingContestSyllabus = true;
+      contestSyllabusBuffer = [];
+      collectingTextContent = false;
+    } else if (collectingContestSyllabus && currentClass) {
+      // Stop collecting if we hit a new section
+      if (line.startsWith('Class ') || line.startsWith('Topic ') || line.startsWith('Module ') || line.startsWith('Text Content')) {
+        currentClass.contestSyllabus = [...contestSyllabusBuffer];
+        contestSyllabusBuffer = [];
+        collectingContestSyllabus = false;
+        i--; // Reprocess this line
+      } else if (line.trim()) {
+        // Add non-empty lines to syllabus
+        contestSyllabusBuffer.push(line.trim());
+      }
     } else if (line.match(/^Text Content\s*:?$/i)) {
       collectingTextContent = true;
       textContentBuffer = [];
@@ -301,6 +334,7 @@ async function seedCourse(parsedCourse: ParsedCourse, existingCourseId?: string)
   let totalClasses = 0;
   let classesWithContent = 0;
   let classesWithImages = 0;
+  let contestClasses = 0;
 
   // Create modules
   for (const moduleData of parsedCourse.modules) {
@@ -334,13 +368,16 @@ async function seedCourse(parsedCourse: ParsedCourse, existingCourseId?: string)
         totalClasses++;
         const hasContent = !!classData.textContent && classData.textContent.length > 50;
         const hasImages = !!classData.textContent && classData.textContent.includes('![Image]');
+        const isContest = classData.contentType === 'contest';
 
         if (hasContent) classesWithContent++;
         if (hasImages) classesWithImages++;
+        if (isContest) contestClasses++;
 
         const contentIndicator = hasContent ? '✓' : '✗';
         const imageIndicator = hasImages ? '🖼️ ' : '';
-        console.log(`      📝 ${contentIndicator} ${imageIndicator}Creating class ${classData.order}: ${classData.title}`);
+        const contestIndicator = isContest ? `🏆 (${classData.contestQuestions || 0}Q, ${classData.contestSyllabus?.length || 0} topics) ` : '';
+        console.log(`      📝 ${contentIndicator} ${imageIndicator}${contestIndicator}Creating class ${classData.order}: ${classData.title}`);
 
         await prisma.class.create({
           data: {
@@ -351,6 +388,8 @@ async function seedCourse(parsedCourse: ParsedCourse, existingCourseId?: string)
             videoUrl: classData.videoUrl,
             textContent: classData.textContent,
             contestUrl: classData.contestUrl,
+            contestQuestions: classData.contestQuestions,
+            contestSyllabus: classData.contestSyllabus || [],
             duration: classData.duration,
             order: classData.order,
           }
@@ -367,13 +406,15 @@ async function seedCourse(parsedCourse: ParsedCourse, existingCourseId?: string)
   console.log(`   Total Classes: ${totalClasses}`);
   console.log(`   Classes with Content: ${classesWithContent} (${Math.round(classesWithContent/totalClasses*100)}%)`);
   console.log(`   Classes with Images: ${classesWithImages}`);
+  console.log(`   Contest Classes: ${contestClasses}`);
 
   return course;
 }
 
 async function main() {
   try {
-    const courseFilePath = path.join(__dirname, '..', 'course_analyst_mastery.txt');
+    // Use DA.md from Course_Content folder
+    const courseFilePath = path.join(__dirname, '..', 'Course_Content', 'DA.md');
 
     console.log(`📖 Reading course file: ${courseFilePath}`);
     const parsedCourse = parseCourseContent(fs.readFileSync(courseFilePath, 'utf-8'));
@@ -388,7 +429,7 @@ async function main() {
       sum + m.topics.reduce((tSum, t) => tSum + t.classes.length, 0), 0)}`);
     console.log('');
 
-    // Fixed course ID - will update this course instead of creating new ones
+    // Fixed course ID for Data Analyst Interview Mastery course
     const COURSE_ID = 'cmj88btbt0000sgbjwhfv2ggn';
 
     // Check if course exists
@@ -400,7 +441,7 @@ async function main() {
       console.log(`\n📌 Found existing course: ${COURSE_ID}`);
       console.log(`   Will update content while preserving course ID and user data`);
     } else {
-      console.log(`\n📌 Course ID not found, will create new course with ID: ${COURSE_ID}`);
+      console.log(`\n📌 Course ID not found, will create new course`);
     }
 
     await seedCourse(parsedCourse, existingCourse ? COURSE_ID : undefined);

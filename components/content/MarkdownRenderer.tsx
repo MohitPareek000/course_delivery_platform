@@ -94,13 +94,13 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
 
           // Custom list styling - mobile responsive
           ul: ({ node, ...props }) => (
-            <ul className="list-disc list-inside space-y-1.5 sm:space-y-2 mb-3 md:mb-4 text-sm sm:text-base text-gray-700 pl-2 sm:pl-0 [&_code]:inline [&_code]:whitespace-normal" {...props} />
+            <ul className="list-disc list-outside space-y-2 sm:space-y-3 mb-3 md:mb-4 text-sm sm:text-base text-gray-700 pl-5 sm:pl-6 [&_code]:inline [&_code]:whitespace-normal" {...props} />
           ),
           ol: ({ node, ...props }) => (
-            <ol className="list-decimal list-inside space-y-1.5 sm:space-y-2 mb-3 md:mb-4 text-sm sm:text-base text-gray-700 pl-2 sm:pl-0 [&_code]:inline [&_code]:whitespace-normal" {...props} />
+            <ol className="list-decimal list-outside space-y-2 sm:space-y-3 mb-3 md:mb-4 text-sm sm:text-base text-gray-700 pl-5 sm:pl-6 [&_code]:inline [&_code]:whitespace-normal" {...props} />
           ),
           li: ({ node, ...props }) => (
-            <li className="leading-relaxed [&_pre]:my-2" {...props} />
+            <li className="leading-relaxed [&_pre]:my-2 [&>p]:inline [&>p]:m-0" {...props} />
           ),
 
           // Custom link styling - mobile responsive
