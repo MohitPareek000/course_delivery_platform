@@ -25,29 +25,31 @@ export default function DashboardPage() {
   const { data: nextAuthSession, status } = useSession();
 
   React.useEffect(() => {
-    // If NextAuth is still loading, wait
-    if (status === "loading") {
-      return;
-    }
-
-    // Check for OTP session in sessionStorage FIRST (takes precedence)
+    // Check for OTP session in localStorage FIRST (takes precedence)
+    // This runs immediately without waiting for NextAuth
     const otpSession = getCurrentUserSession();
     if (otpSession) {
       setUserSession(otpSession);
       return;
     }
 
-    // Only then check for NextAuth session (Google OAuth)
+    // If NextAuth is still loading, wait
+    if (status === "loading") {
+      return;
+    }
+
+    // Check for NextAuth session (Google OAuth)
     if (nextAuthSession?.user) {
       const session = {
         userId: (nextAuthSession.user as any).id || "",
         email: nextAuthSession.user.email || "",
         name: nextAuthSession.user.name || nextAuthSession.user.email?.split('@')[0] || "Guest",
         loggedIn: true,
+        createdAt: Date.now(),
       };
 
-      // Store in sessionStorage for consistency
-      sessionStorage.setItem("user-session", JSON.stringify(session));
+      // Store in localStorage for persistence across tabs
+      localStorage.setItem("user-session", JSON.stringify(session));
       setUserSession(session);
       return;
     }

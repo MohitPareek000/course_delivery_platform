@@ -17,8 +17,8 @@ export default function VerifyOTPPage() {
   const router = useRouter();
 
   React.useEffect(() => {
-    // Get email from sessionStorage
-    const storedEmail = sessionStorage.getItem("login-email");
+    // Get email from localStorage
+    const storedEmail = localStorage.getItem("login-email");
     if (!storedEmail) {
       router.push("/login");
       return;
@@ -65,15 +65,16 @@ export default function VerifyOTPPage() {
       // Track successful OTP entry
       analytics.auth.otpEntered(true);
 
-      // Store user session in sessionStorage for immediate access
+      // Store user session in localStorage for persistence (with expiry timestamp)
       const userSession = {
         userId: data.user.id,
         email: data.user.email,
         name: data.user.name || data.user.email.split('@')[0],
         loggedIn: true,
+        createdAt: Date.now(),
       };
-      sessionStorage.setItem("user-session", JSON.stringify(userSession));
-      sessionStorage.removeItem("login-email");
+      localStorage.setItem("user-session", JSON.stringify(userSession));
+      localStorage.removeItem("login-email");
 
       // Track successful login
       analytics.auth.loginSuccess(data.user.id, data.user.email);

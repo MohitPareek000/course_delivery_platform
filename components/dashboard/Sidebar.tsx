@@ -43,7 +43,7 @@ export function Sidebar({ userName = "Mohit", userEmail, isCollapsed: externalCo
   const collapsed = externalCollapsed !== undefined ? externalCollapsed : isCollapsed;
 
   const handleLogout = () => {
-    sessionStorage.removeItem("user-session");
+    localStorage.removeItem("user-session");
     router.push("/login");
   };
 

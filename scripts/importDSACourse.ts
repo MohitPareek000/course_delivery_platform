@@ -5,11 +5,9 @@ import * as path from 'path';
 const prisma = new PrismaClient();
 
 // Convert Google Drive share link to thumbnail/direct image URL
-// Using thumbnail API which is more reliable for embedding
 function convertDriveUrl(url: string): string {
   const fileIdMatch = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
   if (fileIdMatch) {
-    // Use thumbnail API for better reliability (sz=w2000 for high quality)
     return `https://drive.google.com/thumbnail?id=${fileIdMatch[1]}&sz=w2000`;
   }
   return url;
@@ -177,8 +175,8 @@ function parseCourseContent(content: string): ParsedCourse {
       currentTopic.title = line.replace('Title:', '').trim();
     }
 
-    // Parse classes
-    else if (line.match(/^Class \d+\.\d+\.\d+:$/)) {
+    // Parse classes - handle both formats
+    else if (line.match(/^\s*Class \d+\.\d+\.\d+:$/)) {
       saveCurrentClass();
 
       const classMatch = line.match(/Class (\d+)\.(\d+)\.(\d+):/);
@@ -235,12 +233,11 @@ function parseCourseContent(content: string): ParsedCourse {
       contestSyllabusBuffer = [];
       collectingTextContent = false;
     } else if (collectingContestSyllabus && currentClass) {
-      // Stop collecting if we hit a new section
-      if (line.startsWith('Class ') || line.startsWith('Topic ') || line.startsWith('Module ') || line.startsWith('Text Content')) {
+      if (line.match(/^\s*Class /) || line.startsWith('Topic ') || line.startsWith('Module ') || line.startsWith('Text Content')) {
         currentClass.contestSyllabus = [...contestSyllabusBuffer];
         contestSyllabusBuffer = [];
         collectingContestSyllabus = false;
-        i--; // Reprocess this line
+        i--;
       } else if (line.trim()) {
         // Strip leading "- " from syllabus items
         const cleanedLine = line.trim().replace(/^-\s*/, '');
@@ -249,22 +246,29 @@ function parseCourseContent(content: string): ParsedCourse {
     } else if (line.match(/^Text Content\s*:?$/i)) {
       collectingTextContent = true;
       textContentBuffer = [];
-    } else if (line.match(/^Image url\s*:/i)) {
+    } else if (line.match(/^Image URL\s*:/i)) {
       // Parse image URL and add to text content as markdown image
-      const imageUrl = line.replace(/^Image url\s*:/i, '').trim();
-      if (imageUrl && collectingTextContent) {
+      const imageUrl = line.replace(/^Image URL\s*:/i, '').trim();
+      if (imageUrl && imageUrl.startsWith('http') && collectingTextContent) {
         const directUrl = convertDriveUrl(imageUrl);
         textContentBuffer.push(`\n![Image](${directUrl})\n`);
       }
     } else if (collectingTextContent && currentClass) {
+      // Check for inline Image URL in content
+      if (line.match(/^Image URL:/i)) {
+        const imageUrl = line.replace(/^Image URL:/i, '').trim();
+        if (imageUrl && imageUrl.startsWith('http')) {
+          const directUrl = convertDriveUrl(imageUrl);
+          textContentBuffer.push(`\n![Image](${directUrl})\n`);
+        }
+      }
       // Stop collecting if we hit a new section
-      if (line.startsWith('Class ') || line.startsWith('Topic ') || line.startsWith('Module ')) {
+      else if (line.match(/^\s*Class /) || line.startsWith('Topic ') || line.startsWith('Module ')) {
         currentClass.textContent = textContentBuffer.join('\n').trim();
         textContentBuffer = [];
         collectingTextContent = false;
-        i--; // Reprocess this line
+        i--;
       } else {
-        // Add the line (preserve original spacing)
         textContentBuffer.push(originalLine);
       }
     }
@@ -280,10 +284,16 @@ async function deleteOldCourseContent(courseId: string) {
   console.log(`🗑️  Deleting old course content for: ${courseId}`);
 
   try {
-    // Delete all modules, topics, and classes (cascade will handle it)
+    // Delete all modules (cascade will handle topics and classes)
     await prisma.module.deleteMany({
       where: { courseId }
     });
+
+    // Also delete orphaned topics just in case
+    await prisma.topic.deleteMany({
+      where: { courseId }
+    });
+
     console.log('✅ Old course content deleted successfully');
   } catch (e) {
     console.log('⚠️  Error deleting old content:', e);
@@ -414,8 +424,7 @@ async function seedCourse(parsedCourse: ParsedCourse, existingCourseId?: string)
 
 async function main() {
   try {
-    // Use DA.md from Course_Content folder
-    const courseFilePath = path.join(__dirname, '..', 'Course_Content', 'DA.md');
+    const courseFilePath = path.join(__dirname, '..', 'Course_Content', 'DSA.md');
 
     console.log(`📖 Reading course file: ${courseFilePath}`);
     const parsedCourse = parseCourseContent(fs.readFileSync(courseFilePath, 'utf-8'));
@@ -430,8 +439,8 @@ async function main() {
       sum + m.topics.reduce((tSum, t) => tSum + t.classes.length, 0), 0)}`);
     console.log('');
 
-    // Fixed course ID for Data Analyst Interview Mastery course
-    const COURSE_ID = 'cmj88btbt0000sgbjwhfv2ggn';
+    // Fixed course ID for DSA course
+    const COURSE_ID = 'cmjjnrppn0000sglhhbeomp2a';
 
     // Check if course exists
     const existingCourse = await prisma.course.findUnique({

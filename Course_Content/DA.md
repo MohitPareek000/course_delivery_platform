@@ -341,13 +341,13 @@ Every strong Data Analyst is expected to handle the **data value chain**:
 
 Regardless of title, interviews almost always test:
 
-* ✅ **SQL** – filtering, joins, aggregations, logic
+*  **SQL** – filtering, joins, aggregations, logic
 
-* ✅ **Excel / Sheets** – quick analysis and sanity checks
+*  **Excel / Sheets** – quick analysis and sanity checks
 
-* ✅ **Visualization tools** – dashboards and charts
+*  **Visualization tools** – dashboards and charts
 
-* ✅ **Statistics** – basic inference, experiments, reasoning
+*  **Statistics** – basic inference, experiments, reasoning
 
 **Important Interview Insight:**  
  Tools help you get shortlisted.  
@@ -536,15 +536,15 @@ These skills are **expected**, not exceptional.
 
 You are assumed to be comfortable with:
 
-* ✅ **SQL** – joins, aggregations, logic
+*  **SQL** – joins, aggregations, logic
 
-* ✅ **Excel / Sheets** – quick analysis and sanity checks
+*  **Excel / Sheets** – quick analysis and sanity checks
 
-* ✅ **Visualization tools** – dashboards and charts
+*  **Visualization tools** – dashboards and charts
 
-* ✅ **Statistics** – hypothesis testing, basic inference
+*  **Statistics** – hypothesis testing, basic inference
 
-* ✅ **Python / Pandas** – data manipulation and automation
+*  **Python / Pandas** – data manipulation and automation
 
 **Interview Reality Check:**  
  Technical skills help you survive the interview.  
@@ -718,13 +718,13 @@ Common formats include:
 
   ### **What Is Evaluated**
 
-* ✅ Correctness of logic
+*  Correctness of logic
 
-* ✅ Clarity of approach
+*  Clarity of approach
 
-* ✅ Ability to explain decisions
+*  Ability to explain decisions
 
-* ✅ Awareness of edge cases
+*  Awareness of edge cases
 
 Interviewers care as much about *how* you think as *what* you write.
 
@@ -1056,24 +1056,22 @@ Interviewers are checking:
 ### **Correct SQL Solution**
 
 `WITH overall_avg AS (`  
-    `SELECT AVG(order_amount) AS avg_order_value`  
-    `FROM orders`  
-`),`  
+`    SELECT AVG(order_amount) AS avg_order_value`  
+`    FROM orders ),`  
 `user_metrics AS (`  
-    `SELECT`  
-        `user_id,`  
-        `COUNT(order_id) AS total_orders,`  
-        `AVG(order_amount) AS user_avg_order_value`  
-    `FROM orders`  
-    `GROUP BY user_id`  
-`)`  
+`    SELECT`  
+`        user_id,`  
+`        COUNT(order_id) AS total_orders,`  
+`        AVG(order_amount) AS user_avg_order_value`  
+`    FROM orders`  
+`    GROUP BY user_id )`  
 `SELECT`  
-    `u.user_id,`  
-    `u.total_orders,`  
-    `u.user_avg_order_value`  
+`    u.user_id,`  
+`    u.total_orders,`  
+`    u.user_avg_order_value`  
 `FROM user_metrics u`  
 `JOIN overall_avg o`  
-    `ON u.user_avg_order_value > o.avg_order_value`  
+`    ON u.user_avg_order_value > o.avg_order_value`  
 `WHERE u.total_orders >= 3;`
 
 ---
@@ -1092,10 +1090,10 @@ Interviewers are checking:
 
 ### **Common Mistakes Interviewers Watch For**
 
-❌ Comparing user average with itself  
- ❌ Forgetting to filter users with at least 3 orders  
- ❌ Writing everything in one unreadable query  
- ❌ Not explaining the approach before coding
+ Comparing user average with itself  
+  Forgetting to filter users with at least 3 orders  
+  Writing everything in one unreadable query  
+  Not explaining the approach before coding
 
 ---
 
@@ -1117,19 +1115,9 @@ Interviewers are checking:
 
 `overall_avg = orders['order_amount'].mean()`
 
-`result = (`  
-    `orders.groupby('user_id')`  
-    `.agg(`  
-        `total_orders=('order_id', 'count'),`  
-        `user_avg_order_value=('order_amount', 'mean')`  
-    `)`  
-    `.reset_index()`  
-`)`
+`result = (orders.groupby('user_id').agg( total_orders=('order_id', 'count'), user_avg_order_value=('order_amount', 'mean') ).reset_index())`
 
-`final = result[`  
-    `(result['total_orders'] >= 3) &`  
-    `(result['user_avg_order_value'] > overall_avg)`  
-`]`
+`final = result[ (result['total_orders'] >= 3) & (result['user_avg_order_value'] > overall_avg)]`
 
 ---
 
@@ -1195,7 +1183,7 @@ Does the solution produce the right result?
 
 * Correct filters
 
-⚠️ **Important:** Accuracy alone only puts you in the *“acceptable”* bucket — not the *“strong hire”* bucket.
+ **Important:** Accuracy alone only puts you in the *“acceptable”* bucket — not the *“strong hire”* bucket.
 
 ---
 
@@ -1288,23 +1276,16 @@ Interviewers are checking:
 
 ### **Weak Answer (Why It Fails)**
 
-`SELECT`
-
-    `customer_id,`
-
-    `MONTH(transaction_date) AS month,`
-
-    `SUM(amount) AS total_amount`
-
-`FROM transactions`
-
-`GROUP BY customer_id, MONTH(transaction_date)`
-
-`ORDER BY total_amount DESC`
-
+`SELECT`  
+`    customer_id,`  
+`    MONTH(transaction_date) AS month,`  
+`    SUM(amount) AS total_amount`  
+`FROM transactions`  
+`GROUP BY customer_id, MONTH(transaction_date)`  
+`ORDER BY total_amount DESC`  
 `LIMIT 2;`
 
-❌ Problems:
+ Problems:
 
 * Ignores month-wise ranking
 
@@ -1318,65 +1299,41 @@ Interviewers are checking:
 
 ### **Strong Interview-Ready SQL Solution**
 
-`WITH monthly_customer_revenue AS (`
-
-    `SELECT`
-
-        `customer_id,`
-
-        `DATE_TRUNC('month', transaction_date) AS month,`
-
-        `SUM(amount) AS total_amount`
-
-    `FROM transactions`
-
-    `GROUP BY customer_id, DATE_TRUNC('month', transaction_date)`
-
-`),`
-
-`ranked_customers AS (`
-
-    `SELECT`
-
-        `customer_id,`
-
-        `month,`
-
-        `total_amount,`
-
-        `DENSE_RANK() OVER (`
-
-            `PARTITION BY month`
-
-            `ORDER BY total_amount DESC`
-
-        `) AS revenue_rank`
-
-    `FROM monthly_customer_revenue`
-
-`)`
-
-`SELECT`
-
-    `customer_id,`
-
-    `month,`
-
-    `total_amount`
-
-`FROM ranked_customers`
-
+`WITH monthly_customer_revenue AS (`  
+`    SELECT`  
+`        customer_id,`  
+`        DATE_TRUNC('month', transaction_date) AS month,`  
+`        SUM(amount) AS total_amount`  
+`    FROM transactions`  
+`    GROUP BY customer_id, DATE_TRUNC('month', transaction_date)`  
+`),`  
+`ranked_customers AS (`  
+`    SELECT`  
+`        customer_id,`  
+`        month,`  
+`        total_amount,`  
+`        DENSE_RANK() OVER (`  
+`            PARTITION BY month`  
+`            ORDER BY total_amount DESC`  
+`        ) AS revenue_rank`  
+`    FROM monthly_customer_revenue`  
+`)`  
+`SELECT`  
+`    customer_id,`  
+`    month,`  
+`    total_amount`  
+`FROM ranked_customers`  
 `WHERE revenue_rank <= 2;`
 
 ---
 
 ### **Why Interviewers Like This Answer**
 
-✅ Uses **window functions correctly**  
- ✅ Handles **ties** using `DENSE_RANK()`  
- ✅ Separates logic using CTEs  
- ✅ Easy to explain step-by-step  
- ✅ Scales well for large datasets
+ Uses **window functions correctly**  
+  Handles **ties** using `DENSE_RANK()`  
+  Separates logic using CTEs  
+  Easy to explain step-by-step  
+  Scales well for large datasets
 
 This is the difference between **“can write SQL”** and **“strong Data Analyst”**.
 
@@ -1386,10 +1343,10 @@ This is the difference between **“can write SQL”** and **“strong Data Anal
 
 | Criteria | Evaluation |
 | ----- | ----- |
-| Accuracy | ✅ Correct results |
-| Efficiency | ✅ Optimized aggregation |
-| Readability | ✅ Clear structure |
-| Explanation | ✅ Easy to articulate |
+| Accuracy |  Correct results |
+| Efficiency |  Optimized aggregation |
+| Readability |  Clear structure |
+| Explanation |  Easy to articulate |
 
 This solution would typically score **high across all interview rubrics**.
 
@@ -1413,23 +1370,9 @@ This solution would typically score **high across all interview rubrics**.
 
 `transactions['month'] = transactions['transaction_date'].dt.to_period('M')`
 
-`monthly = (`
+`monthly = (transactions.groupby(['customer_id', 'month'])['amount'].sum().reset_index())`
 
-    `transactions.groupby(['customer_id', 'month'])['amount']`
-
-    `.sum()`
-
-    `.reset_index()`
-
-`)`
-
-`monthly['rank'] = (`
-
-    `monthly.groupby('month')['amount']`
-
-    `.rank(method='dense', ascending=False)`
-
-`)`
+`monthly['rank'] = (monthly.groupby('month')['amount'].rank(method='dense', ascending=False))`
 
 `result = monthly[monthly['rank'] <= 2]`
 
@@ -1474,11 +1417,11 @@ This is not advice — this is **how Data Analyst interviews actually work**.
 
 If you are targeting strong analytics roles, accept this early:
 
-* ✅ **SQL is compulsory** for almost every Data Analyst role
+*  **SQL is compulsory** for almost every Data Analyst role
 
-* ✅ **Failing SQL usually ends the interview loop**
+*  **Failing SQL usually ends the interview loop**
 
-* ✅ **Python depends on role; SQL does not**
+*  **Python depends on role; SQL does not**
 
 SQL is the single most reliable signal interviewers use to judge analytical ability.
 
@@ -1628,94 +1571,60 @@ They are testing:
 
 ### **Strong Interview-Ready SQL Solution**
 
-`WITH login_with_prev AS (`
-
-    `SELECT`
-
-        `user_id,`
-
-        `login_date,`
-
-        `LAG(login_date) OVER (`
-
-            `PARTITION BY user_id`
-
-            `ORDER BY login_date`
-
-        `) AS prev_login_date`
-
-    `FROM user_logins`
-
-`),`
-
-`streak_flag AS (`
-
-    `SELECT`
-
-        `user_id,`
-
-        `login_date,`
-
-        `CASE`
-
-            `WHEN login_date = prev_login_date + INTERVAL '1 day'`
-
-            `THEN 0`
-
-            `ELSE 1`
-
-        `END AS new_streak`
-
-    `FROM login_with_prev`
-
-`),`
-
-`streak_groups AS (`
-
-    `SELECT`
-
-        `user_id,`
-
-        `login_date,`
-
-        `SUM(new_streak) OVER (`
-
-            `PARTITION BY user_id`
-
-            `ORDER BY login_date`
-
-        `) AS streak_id`
-
-    `FROM streak_flag`
-
-`)`
-
-`SELECT DISTINCT user_id`
-
-`FROM streak_groups`
-
-`GROUP BY user_id, streak_id`
-
+`WITH login_with_prev AS (`  
+`    SELECT`  
+`        user_id,`  
+`        login_date,`  
+`        LAG(login_date) OVER (`  
+`            PARTITION BY user_id`  
+`            ORDER BY login_date`  
+`        ) AS prev_login_date`  
+`    FROM user_logins`  
+`),`  
+`streak_flag AS (`  
+`    SELECT`  
+`        user_id,`  
+`        login_date,`  
+`        CASE`  
+`            WHEN login_date = prev_login_date + INTERVAL '1 day'`  
+`            THEN 0`  
+`            ELSE 1`  
+`        END AS new_streak`  
+`    FROM login_with_prev`  
+`),`  
+`streak_groups AS (`  
+`    SELECT`  
+`        user_id,`  
+`        login_date,`  
+`        SUM(new_streak) OVER (`  
+`            PARTITION BY user_id`  
+`            ORDER BY login_date`  
+`        ) AS streak_id`  
+`    FROM streak_flag`  
+`)`  
+`SELECT DISTINCT user_id`  
+`FROM streak_groups`  
+`GROUP BY user_id, streak_id`  
 `HAVING COUNT(*) >= 3;`
 
 ---
 
 ### **Why Interviewers Like This Answer**
 
-✅ Uses window functions correctly  
- ✅ Handles real-world streak logic  
- ✅ Breaks problem into readable steps  
- ✅ Scales well for large datasets  
- ✅ Easy to explain during live coding
+ Uses window functions correctly  
+  Handles real-world streak logic  
+  Breaks problem into readable steps  
+  Scales well for large datasets  
+  Easy to explain during live coding
 
 ---
 
 ### **Common Mistakes Interviewers Watch For**
 
-❌ Trying to self-join dates unnecessarily  
- ❌ Missing edge cases (first login)  
- ❌ Not explaining the logic behind streaks  
- ❌ Writing unreadable one-liner queries
+ Trying to self-join dates unnecessarily  
+  Missing edge cases (first login)  
+  Not explaining the logic behind streaks  
+  Writing unreadable one-liner queries
 
 ---
 
@@ -1903,56 +1812,41 @@ They are testing:
 
 ### **Strong Interview-Ready SQL Solution**
 
-`WITH ranked_salaries AS (`
-
-    `SELECT`
-
-        `employee_id,`
-
-        `department,`
-
-        `salary,`
-
-        `DENSE_RANK() OVER (`
-
-            `PARTITION BY department`
-
-            `ORDER BY salary DESC`
-
-        `) AS salary_rank`
-
-    `FROM employee_salaries`
-
-`)`
-
-`SELECT`
-
-    `department,`
-
-    `salary AS second_highest_salary`
-
-`FROM ranked_salaries`
-
+`WITH ranked_salaries AS (`  
+`    SELECT`  
+`        employee_id,`  
+`        department,`  
+`        salary,`  
+`        DENSE_RANK() OVER (`  
+`            PARTITION BY department`  
+`            ORDER BY salary DESC`  
+`        ) AS salary_rank`  
+`    FROM employee_salaries`  
+`)`  
+`SELECT`  
+`    department,`  
+`    salary AS second_highest_salary`  
+`FROM ranked_salaries`  
 `WHERE salary_rank = 2;`
 
 ---
 
 ### **Why This Scores High in Interviews**
 
-✅ Uses `DENSE_RANK()` correctly  
- ✅ Handles duplicate salaries  
- ✅ Avoids incorrect subquery logic  
- ✅ Clean and easy to explain  
- ✅ Matches common interview expectations
+ Uses `DENSE_RANK()` correctly  
+  Handles duplicate salaries  
+  Avoids incorrect subquery logic  
+  Clean and easy to explain  
+  Matches common interview expectations
 
 ---
 
 ### **Common Mistakes Interviewers Penalize**
 
-❌ Using `MAX(salary)` with `<>` logic  
- ❌ Forgetting about duplicate salaries  
- ❌ Writing unreadable nested subqueries  
- ❌ Not considering departments with \< 2 employees
+ Using `MAX(salary)` with `<>` logic  
+  Forgetting about duplicate salaries  
+  Writing unreadable nested subqueries  
+  Not considering departments with \< 2 employees
 
 ---
 
@@ -2186,54 +2080,40 @@ They are testing:
 
 ### **Strong Interview-Ready SQL Solution**
 
-`WITH order_revenue AS (`
-
-    `SELECT`
-
-        `o.user_id,`
-
-        `DATE_TRUNC('month', o.order_date) AS month,`
-
-        `o.order_amount - COALESCE(r.refund_amount, 0) AS net_revenue`
-
-    `FROM orders o`
-
-    `LEFT JOIN refunds r`
-
-        `ON o.order_id = r.order_id`
-
-`)`
-
-`SELECT`
-
-    `user_id,`
-
-    `month,`
-
-    `SUM(net_revenue) AS monthly_revenue`
-
-`FROM order_revenue`
-
+`WITH order_revenue AS (`  
+`    SELECT`  
+`        o.user_id,`  
+`        DATE_TRUNC('month', o.order_date) AS month,`  
+`        o.order_amount - COALESCE(r.refund_amount, 0) AS net_revenue`  
+`    FROM orders o`  
+`    LEFT JOIN refunds r`  
+`        ON o.order_id = r.order_id`  
+`)`  
+`SELECT`  
+`    user_id,`  
+`    month,`  
+`    SUM(net_revenue) AS monthly_revenue`  
+`FROM order_revenue`  
 `GROUP BY user_id, month;`
 
 ---
 
 ### **Why This Scores Well**
 
-✅ Uses `LEFT JOIN` correctly  
- ✅ Handles missing refunds using `COALESCE`  
- ✅ Separates logic using CTEs  
- ✅ Reflects correct business definition of revenue  
- ✅ Easy to explain in interviews
+ Uses `LEFT JOIN` correctly  
+  Handles missing refunds using `COALESCE`  
+  Separates logic using CTEs  
+  Reflects correct business definition of revenue  
+  Easy to explain in interviews
 
 ---
 
 ### **Common Mistakes Interviewers Penalize**
 
-❌ Using `INNER JOIN` and dropping non-refunded orders  
- ❌ Not handling `NULL` refunds  
- ❌ Aggregating before adjusting revenue  
- ❌ Ignoring business meaning of revenue
+ Using `INNER JOIN` and dropping non-refunded orders  
+  Not handling `NULL` refunds  
+  Aggregating before adjusting revenue  
+  Ignoring business meaning of revenue
 
 ---
 
@@ -2543,10 +2423,10 @@ Calculate **Month-over-Month growth**:
 
 ### **Common Mistakes**
 
-❌ Hard-coding cell references  
- ❌ Forgetting to sort by month  
- ❌ Not handling first month edge case  
- ❌ Incorrect growth formula
+ Hard-coding cell references  
+  Forgetting to sort by month  
+  Not handling first month edge case  
+  Incorrect growth formula
 
 ---
 
@@ -2610,10 +2490,10 @@ Calculate **net revenue per order**
 
 ### **Common Mistakes**
 
-❌ Using VLOOKUP with wrong column index  
- ❌ Not handling missing refunds  
- ❌ Aggregating before subtracting refunds  
- ❌ Mixing raw data and calculations in same sheet
+ Using VLOOKUP with wrong column index  
+  Not handling missing refunds  
+  Aggregating before subtracting refunds  
+  Mixing raw data and calculations in same sheet
 
 ---
 
@@ -2855,7 +2735,7 @@ If a simpler chart answers the question, **never choose a complex one**.
 
 ---
 
-## **🔥 Interview-Critical Table: Which Chart to Use When**
+## ** Interview-Critical Table: Which Chart to Use When**
 
 This table alone can **dramatically improve visualization interview performance**.
 
@@ -3366,10 +3246,10 @@ Interviewers score **structure, not speed**.
 
 ## **Common Mistakes Interviewers Penalize**
 
-❌ Jumping to conclusions  
- ❌ Ignoring data quality  
- ❌ No business framing  
- ❌ Only talking about tools
+ Jumping to conclusions  
+  Ignoring data quality  
+  No business framing  
+  Only talking about tools
 
 
 Class 2.5.3:
@@ -3637,11 +3517,11 @@ Outliers are not always errors — sometimes they are the most important data po
 
 ## **Common Statistical Mistakes Interviewers Penalize**
 
-❌ Treating correlation as causation  
- ❌ Blindly trusting p-values  
- ❌ Ignoring sample size  
- ❌ Removing outliers without explanation  
- ❌ Using averages on skewed data
+ Treating correlation as causation  
+  Blindly trusting p-values  
+  Ignoring sample size  
+  Removing outliers without explanation  
+  Using averages on skewed data
 
 ---
 
@@ -3924,11 +3804,11 @@ You won’t use them in interviews — but they **train your mental checklist**.
 
 ## **Common Data Quality Mistakes Interviewers Penalize**
 
-❌ Ignoring missing values  
- ❌ Removing outliers without explanation  
- ❌ Blindly using averages  
- ❌ Not considering bias  
- ❌ Jumping into modeling too fast
+ Ignoring missing values  
+  Removing outliers without explanation  
+  Blindly using averages  
+  Not considering bias  
+  Jumping into modeling too fast
 
 ---
 
@@ -4243,10 +4123,10 @@ This is **completely acceptable** in analytics interviews.
 
 ## **Common Probability Mistakes Interviewers Penalize**
 
-❌ Confusing independence and conditional events  
- ❌ Ignoring base rates  
- ❌ Over-trusting small samples  
- ❌ Using formulas without explaining assumptions
+ Confusing independence and conditional events  
+  Ignoring base rates  
+  Over-trusting small samples  
+  Using formulas without explaining assumptions
 
 ---
 
@@ -4548,11 +4428,11 @@ If the lift is too small to matter practically, I may recommend not shipping or 
 
 ## **Common Hypothesis Testing Mistakes Interviewers Penalize**
 
-❌ Treating p-value as probability of success  
- ❌ Ignoring sample size  
- ❌ Ignoring confidence intervals  
- ❌ Not checking assumptions  
- ❌ Blindly using 0.05 threshold
+ Treating p-value as probability of success  
+  Ignoring sample size  
+  Ignoring confidence intervals  
+  Not checking assumptions  
+  Blindly using 0.05 threshold
 
 ---
 
@@ -4766,17 +4646,17 @@ Strong candidates can **switch modes smoothly**.
 
 ### **Trap 1: Overconfidence in Precision**
 
-❌ “The uplift will be exactly 2.3%”
+ “The uplift will be exactly 2.3%”
 
 Interviewers prefer:  
- ✅ “Assuming a 1–3% lift, here’s the range of impact.”
+  “Assuming a 1–3% lift, here’s the range of impact.”
 
 ---
 
 ### **Trap 2: Ignoring Feasibility**
 
-❌ Designing a test that needs 6 months of data  
- ❌ Ignoring low-traffic constraints
+ Designing a test that needs 6 months of data  
+  Ignoring low-traffic constraints
 
 Strong candidates say:
 
@@ -5146,11 +5026,11 @@ If complaints signal long-term trust issues not captured in short-term metrics, 
 
 ## **Common Experimentation Mistakes Interviewers Penalize**
 
-❌ Vague hypotheses  
- ❌ No guardrail metrics  
- ❌ Blindly trusting p-values  
- ❌ Ignoring user experience  
- ❌ Ignoring practical constraints
+ Vague hypotheses  
+  No guardrail metrics  
+  Blindly trusting p-values  
+  Ignoring user experience  
+  Ignoring practical constraints
 
 ---
 
@@ -5402,21 +5282,21 @@ They are testing:
 
 ### **Why Interviewers Like This Answer**
 
-✅ Uses Pandas idioms correctly  
- ✅ Clear separation of steps  
- ✅ Handles time-based grouping  
- ✅ Easy to explain verbally  
- ✅ Matches SQL window-function logic
+ Uses Pandas idioms correctly  
+  Clear separation of steps  
+  Handles time-based grouping  
+  Easy to explain verbally  
+  Matches SQL window-function logic
 
 ---
 
 ### **Common Mistakes Interviewers Penalize**
 
-❌ Hard-coding months  
- ❌ Incorrect sorting before grouping  
- ❌ Writing everything in one unreadable line  
- ❌ Forgetting to convert dates  
- ❌ Not explaining logic
+ Hard-coding months  
+  Incorrect sorting before grouping  
+  Writing everything in one unreadable line  
+  Forgetting to convert dates  
+  Not explaining logic
 
 ---
 
@@ -5612,10 +5492,9 @@ In imperative languages (like Python or C++), you often have to tell the compute
 2.  **The DB Engine handles the How:** It scans the indexes, optimizes the join order, and retrieves the specific memory blocks.
 
 ### Example Query:
-```sql
-SELECT *
-FROM monthly_sales
-WHERE product_name = 'SQL Bootcamp';
+`SELECT *`  
+`FROM monthly_sales`  
+`WHERE product_name = 'SQL Bootcamp';`  
  
 Class 3.1.2:
 Title: The SQL Interview Strategy: The S.C.O.R.E.
@@ -5795,7 +5674,7 @@ If you want to dump every column and every row from a table to inspect the data,
 SELECT \*  
 FROM customers;
 
-**⚠️ Industry Warning:** While SELECT \* is great for quick exploration, avoid using it in production code or huge datasets. Fetching unnecessary columns wastes memory and slows down query performance.
+** Industry Warning:** While SELECT \* is great for quick exploration, avoid using it in production code or huge datasets. Fetching unnecessary columns wastes memory and slows down query performance.
 
 #### **Scenario 2: Fetching Specific Columns (Projection)**
 
@@ -5943,7 +5822,7 @@ A common mistake in SQL interviews is mixing AND and OR without grouping them. S
 
 Imagine you want to find **"Intermediate or Advanced"** courses, but they *must* be within the **"Art"** category.
 
-\-- ❌ WRONG WAY  
+\--  WRONG WAY  
 SELECT \* FROM courses  
 WHERE category \= 'Art' AND level \= 'Intermediate' OR level \= 'Advanced';
 
@@ -5958,7 +5837,7 @@ Because AND has higher priority, SQL groups the query like this:
 
 To force SQL to evaluate the OR condition first, wrap it in parentheses.
 
-\-- ✅ CORRECT WAY  
+\--  CORRECT WAY  
 SELECT \* FROM courses  
 WHERE category \= 'Art' AND (level \= 'Intermediate' OR level \= 'Advanced');
 
@@ -6023,7 +5902,7 @@ WHERE email NOT LIKE '%@mycompany.com';
 
 ### ---
 
-**⚠️ Performance Warning (The Interview Trap)**
+** Performance Warning (The Interview Trap)**
 
 In an interview, if you are asked to optimize a query, be very careful with LIKE.
 
@@ -6076,11 +5955,11 @@ WHERE email IS NOT NULL;
 
 ### ---
 
-**⚠️ The Interview Trap: The "Equality" Mistake**
+** The Interview Trap: The "Equality" Mistake**
 
 A very common interview question is: *"Why does the following query return zero rows, even though there are empty rows in the table?"*
 
-\-- ❌ THIS WILL FAIL  
+\--  THIS WILL FAIL  
 SELECT \* FROM users   
 WHERE phone\_number \= NULL;
 
@@ -6262,7 +6141,7 @@ LIMIT 1 OFFSET 2;
 
 ### ---
 
-**⚠️ The "Deterministic" Warning**
+** The "Deterministic" Warning**
 
 This is a frequent source of bugs in production.
 
@@ -6322,14 +6201,14 @@ WHERE rating BETWEEN 4.0 AND 5.0;
 
 ### ---
 
-**⚠️ The "Date Trap" (Interview Critical)**
+** The "Date Trap" (Interview Critical)**
 
 Using BETWEEN with dates is the \#1 source of bugs for junior analysts.
 
 The Scenario:  
 You want data for the entire month of January.
 
-\-- ❌ RISKY APPROACH  
+\--  RISKY APPROACH  
 SELECT \* FROM lessons  
 WHERE created\_at BETWEEN '2022-01-01' AND '2022-01-31';
 
@@ -6339,7 +6218,7 @@ Result: You effectively lose all data from the last day of the month because 14:
 The Professional Fix (Closed-Open Interval):  
 In production (and interviews), it is safer to use standard comparison operators for dates to ensure you capture the full time range.
 
-\-- ✅ SAFE APPROACH  
+\--  SAFE APPROACH  
 SELECT \* FROM lessons  
 WHERE created\_at \>= '2022-01-01'   
   AND created\_at \< '2022-02-01';
@@ -6369,7 +6248,7 @@ Order: 3
 Class 3.3.1:
 Title: The Power of Summary: SQL Aggregations
 Description: Introduction to aggregate functions.
-Content Type: 
+Content Type: text
 Duration: 600
 Order: 1
 Text Content: 
@@ -6668,7 +6547,7 @@ SELECT AVG(grade) FROM grades;
 \-- Calculation: (90 \+ 85 \+ 80\) / 3  
 \-- Result: 85.0
 
-⚠️ The Null Trap:  
+ The Null Trap:  
 AVG() completely ignores NULL values. It does not treat them as zeros.
 
 * *Example:* If you have grades \[100, NULL, 50\], the average is (100 \+ 50\) / 2 \= 75\.  
@@ -6734,7 +6613,7 @@ FROM student\_scores;
 
 ### ---
 
-**⚠️ Interview Insight: Sequential Evaluation**
+** Interview Insight: Sequential Evaluation**
 
 A common interview trick involves overlapping conditions.
 
@@ -7284,7 +7163,7 @@ The Result (2 × 3 \= 6 Rows):
 
 ### ---
 
-**3\. ⚠️ The Performance Warning (The "Explosion")**
+**3\.  The Performance Warning (The "Explosion")**
 
 This is the most dangerous join in SQL.
 
@@ -9833,7 +9712,7 @@ Use these prompts to spark ideas if you’re stuck:
 
 ### Do’s and Don’ts for Selection
 
-| ✅ Do | ❌ Don't |
+|  Do |  Don't |
 | :--- | :--- |
 | Choose recent, vivid stories | Choose stories you can’t recall in detail |
 | Map each story to a company value | Pick experiences you wouldn’t feel comfortable discussing deeply |
@@ -9868,7 +9747,7 @@ This detailed context helps you prepare for follow-up questions, maintain struct
 
 ### Do’s and Don’ts for Documentation
 
-| ✅ Do | ❌ Don't |
+|  Do |  Don't |
 | :--- | :--- |
 | Consider all stakeholders | Ignore relationship dynamics or interpersonal components |
 | Document key interactions | Leave out important context that shaped the outcome |
@@ -9905,6 +9784,7 @@ Mean, median, mode
 Probability basics and rules
 Distributions (Normal, Binomial - basics)
 Variance and standard deviation
+
 
 
 

@@ -11,6 +11,23 @@ interface MarkdownRendererProps {
 }
 
 export function MarkdownRenderer({ content }: MarkdownRendererProps) {
+  // Fix escaped characters in content
+  const processedContent = content
+    // Fix escaped underscores, dashes, and other chars (outside of code blocks)
+    .replace(/\\_/g, '_')
+    .replace(/\\-/g, '-')
+    .replace(/\\</g, '<')
+    .replace(/\\>/g, '>')
+    .replace(/\\=/g, '=')
+    .replace(/\\\+/g, '+')
+    // Fix LaTeX in math formulas
+    .replace(/\$([^$]+)\$/g, (match, formula) => {
+      const fixed = formula
+        .replace(/\\\\times/g, '\\times')
+        .replace(/\\\\mathbf/g, '\\mathbf');
+      return `$${fixed}$`;
+    });
+
   return (
     <div className="w-full max-w-none">
       <ReactMarkdown
@@ -80,11 +97,27 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
 
           // Custom code block styling - mobile responsive
           code: ({ node, inline, className, children, ...props }: any) => {
-            // Always treat as inline code with red styling
+            // Check if this is a code block (inside pre) or inline code
+            const isCodeBlock = !inline && className;
+
+            if (isCodeBlock) {
+              // Code block styling (fenced with ```)
+              return (
+                <code
+                  className="text-gray-800 font-mono text-sm"
+                  style={{ whiteSpace: 'pre' }}
+                  {...props}
+                >
+                  {children}
+                </code>
+              );
+            }
+
+            // Inline code with red styling
             return (
               <code
                 className="bg-red-50 text-red-700 px-1.5 py-0.5 rounded text-sm font-mono border border-red-100"
-                style={{ display: 'inline', whiteSpace: 'nowrap' }}
+                style={{ display: 'inline', whiteSpace: 'pre' }}
                 {...props}
               >
                 {children}
@@ -152,7 +185,7 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
           ),
         }}
       >
-        {content}
+        {processedContent}
       </ReactMarkdown>
     </div>
   );

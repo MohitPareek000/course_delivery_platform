@@ -26,8 +26,8 @@ export function LoginForm() {
     analytics.auth.emailEntered(email);
 
     // Clear any existing session data before starting new login
-    sessionStorage.removeItem("user-session");
-    sessionStorage.removeItem("login-email");
+    localStorage.removeItem("user-session");
+    localStorage.removeItem("login-email");
 
     try {
       // Track OTP requested
@@ -48,8 +48,8 @@ export function LoginForm() {
         throw new Error(data.error || "Failed to send OTP");
       }
 
-      // Store email in sessionStorage for OTP verification
-      sessionStorage.setItem("login-email", email);
+      // Store email in localStorage for OTP verification
+      localStorage.setItem("login-email", email);
 
       // In development, also store the OTP for easy access
       if (data.otp) {
