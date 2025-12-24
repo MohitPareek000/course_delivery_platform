@@ -252,7 +252,7 @@ export default function ClassPlayerPage() {
                   {classItem.textContent ? (
                     <MarkdownRenderer content={classItem.textContent} />
                   ) : (
-                    <p className="text-gray-500">No content available.</p>
+                    <p className="text-gray-500">Content will be available soon.</p>
                   )}
                 </div>
               </div>
@@ -403,7 +403,7 @@ export default function ClassPlayerPage() {
                   )
                 ) : (
                   <div className="w-full aspect-video flex items-center justify-center bg-gray-100 rounded-lg">
-                    <p className="text-gray-500">No video available</p>
+                    <p className="text-gray-500">Video will be available soon.</p>
                   </div>
                 )}
               </div>

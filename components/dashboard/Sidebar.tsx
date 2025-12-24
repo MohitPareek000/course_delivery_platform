@@ -131,8 +131,8 @@ export function Sidebar({ userName = "Mohit", userEmail, isCollapsed: externalCo
               collapsed && "lg:hidden"
             )}>
               <img
-                src="https://scontent.fblr24-3.fna.fbcdn.net/v/t39.30808-6/273802261_690706225705726_8585155307749683097_n.jpg?_nc_cat=1&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=ukHKVkTG7mgQ7kNvwHDT_8s&_nc_oc=AdlTNOUJWspZgjlCPiIy6NGdNZdu1G2Exgf5fAtFxrq7JYtM6MhYT75GFtxPtvdKp38W_OzHatTKozTaUWSIfrqS&_nc_zt=23&_nc_ht=scontent.fblr24-3.fna&_nc_gid=pwgvUEjFGmBlWRkScExi2A&oh=00_AflzruV9GwoGg1GOW_naOz1Ufc3CSfisYwWH4eQl0iqUKA&oe=6947545B"
-                alt="Interview Prep Logo"
+                src="https://lh3.googleusercontent.com/d/1NFXV17i1OF2BsdGjyaTc2Dh13H-GdXjl"
+                alt="Cortex Logo"
                 className="w-9 h-9 object-cover rounded-lg"
               />
             </div>
