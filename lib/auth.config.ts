@@ -22,10 +22,13 @@ export const authConfig: NextAuthConfig = {
           return null;
         }
 
+        // Normalize email to lowercase for case-insensitive matching
+        const email = (credentials.email as string).toLowerCase().trim();
+
         // Verify OTP
         const otpRecord = await prisma.oTP.findFirst({
           where: {
-            email: credentials.email as string,
+            email,
             otp: credentials.otp as string,
             verified: false,
             expiresAt: {
@@ -46,13 +49,13 @@ export const authConfig: NextAuthConfig = {
 
         // Find or create user
         let user = await prisma.user.findUnique({
-          where: { email: credentials.email as string },
+          where: { email },
         });
 
         if (!user) {
           user = await prisma.user.create({
             data: {
-              email: credentials.email as string,
+              email,
               emailVerified: new Date(),
             },
           });

@@ -4,14 +4,17 @@ import crypto from 'crypto';
 
 export async function POST(request: NextRequest) {
   try {
-    const { email, otp } = await request.json();
+    const { email: rawEmail, otp } = await request.json();
 
-    if (!email || !otp) {
+    if (!rawEmail || !otp) {
       return NextResponse.json(
         { error: 'Email and OTP are required' },
         { status: 400 }
       );
     }
+
+    // Normalize email to lowercase for case-insensitive matching
+    const email = rawEmail.toLowerCase().trim();
 
     // Find valid OTP
     const otpRecord = await prisma.oTP.findFirst({

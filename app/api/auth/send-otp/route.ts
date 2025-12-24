@@ -9,14 +9,17 @@ function generateOTP(): string {
 
 export async function POST(request: NextRequest) {
   try {
-    const { email } = await request.json();
+    const { email: rawEmail } = await request.json();
 
-    if (!email) {
+    if (!rawEmail) {
       return NextResponse.json(
         { error: 'Email is required' },
         { status: 400 }
       );
     }
+
+    // Normalize email to lowercase for case-insensitive matching
+    const email = rawEmail.toLowerCase().trim();
 
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
