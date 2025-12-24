@@ -21,15 +21,25 @@ export default function DashboardPage() {
   } | null>(null);
   const [userCourses, setUserCourses] = React.useState<any[]>([]);
   const [coursesLoading, setCoursesLoading] = React.useState(true);
+  const [isHydrated, setIsHydrated] = React.useState(false);
   const router = useRouter();
   const { data: nextAuthSession, status } = useSession();
 
+  // Hydration effect - runs once on client to load session from localStorage
   React.useEffect(() => {
-    // Check for OTP session in localStorage FIRST (takes precedence)
-    // This runs immediately without waiting for NextAuth
     const otpSession = getCurrentUserSession();
     if (otpSession) {
       setUserSession(otpSession);
+    }
+    setIsHydrated(true);
+  }, []);
+
+  React.useEffect(() => {
+    // Wait for hydration before checking session
+    if (!isHydrated) return;
+
+    // If we already have a session from localStorage, no need to check again
+    if (userSession) {
       return;
     }
 
@@ -56,7 +66,7 @@ export default function DashboardPage() {
 
     // If no session found at all, redirect to login
     router.push("/login");
-  }, [router, nextAuthSession, status]);
+  }, [router, nextAuthSession, status, userSession, isHydrated]);
 
   // Get user ID from session
   const userId = userSession?.userId || "";
@@ -151,16 +161,12 @@ export default function DashboardPage() {
     0
   );
 
-  // Show loading state while fetching initial data
-  if (coursesLoading || isLoading) {
+  // Show loading state while hydrating or fetching initial data
+  if (!isHydrated || coursesLoading || isLoading) {
     return (
       <LoadingPage
         message="Loading your courses"
-        showSidebar={true}
-        sidebarProps={{
-          userName: userSession?.name || "",
-          userEmail: userSession?.email || ""
-        }}
+        showSidebar={false}
       />
     );
   }
