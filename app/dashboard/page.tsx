@@ -81,10 +81,12 @@ export default function DashboardPage() {
     }
   }, [userId]);
 
-  // Refresh progress when returning to dashboard
+  // Refresh progress when returning to dashboard (only when userId is available)
   React.useEffect(() => {
-    refreshProgress();
-  }, []); // Refresh when dashboard is accessed
+    if (userId) {
+      refreshProgress();
+    }
+  }, [userId]); // Refresh when userId is available or changes
 
   // Track dashboard reached (only once when user session is available)
   React.useEffect(() => {
