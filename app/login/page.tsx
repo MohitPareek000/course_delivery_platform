@@ -1,7 +1,32 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { LoginForm } from "@/components/auth/LoginForm";
 import { CompanyLogosCarousel } from "@/components/auth/CompanyLogosCarousel";
+import { getCurrentUserSession } from "@/lib/auth";
+import { LoadingPage } from "@/components/ui/loading-spinner";
 
 export default function LoginPage() {
+  const router = useRouter();
+  const [isChecking, setIsChecking] = useState(true);
+
+  useEffect(() => {
+    // Check if user is already logged in
+    const session = getCurrentUserSession();
+    if (session) {
+      // User is already logged in, redirect to dashboard
+      router.replace("/dashboard");
+    } else {
+      setIsChecking(false);
+    }
+  }, [router]);
+
+  // Show loading while checking session
+  if (isChecking) {
+    return <LoadingPage message="Loading..." />;
+  }
+
   return (
     <div className="min-h-screen flex flex-col lg:flex-row">
       {/* Left Side - Company Logos Section (on desktop) */}
