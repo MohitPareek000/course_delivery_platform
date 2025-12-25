@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { sendOTPEmail } from '@/lib/email/ses';
+import { getISTExpiry } from '@/lib/dateUtils';
 
 // Generate a 4-digit OTP
 function generateOTP(): string {
@@ -56,7 +57,7 @@ export async function POST(request: NextRequest) {
 
     // Store OTP in database (expires in configurable minutes)
     const expiryMinutes = parseInt(process.env.OTP_EXPIRY_MINUTES || '10');
-    const expiresAt = new Date(Date.now() + expiryMinutes * 60 * 1000);
+    const expiresAt = getISTExpiry(expiryMinutes);
 
     await prisma.oTP.create({
       data: {

@@ -97,11 +97,67 @@ export async function GET(
       }
     }
 
+    // Determine if this is the last class of the module
+    let isLastClassOfModule = false;
+    let isLastClassOfCourse = false;
+    const moduleId = classItem.topic.moduleId;
+
+    if (moduleId) {
+      // Get all topics in the same module
+      const moduleTopics = await prisma.topic.findMany({
+        where: { moduleId },
+        orderBy: { order: 'asc' },
+        include: {
+          classes: {
+            orderBy: { order: 'asc' },
+          },
+        },
+      });
+
+      // Find the last class of the last topic in this module
+      const lastTopic = moduleTopics[moduleTopics.length - 1];
+      if (lastTopic && lastTopic.classes.length > 0) {
+        const lastClassOfModule = lastTopic.classes[lastTopic.classes.length - 1];
+        isLastClassOfModule = lastClassOfModule.id === classId;
+      }
+
+      // Check if this is the last module of the course
+      const courseModules = await prisma.module.findMany({
+        where: { courseId: classItem.topic.courseId },
+        orderBy: { order: 'asc' },
+      });
+
+      const lastModule = courseModules[courseModules.length - 1];
+      if (lastModule && lastModule.id === moduleId && isLastClassOfModule) {
+        isLastClassOfCourse = true;
+      }
+    } else {
+      // Course without modules - check if this is the last class of the course
+      const courseTopics = await prisma.topic.findMany({
+        where: { courseId: classItem.topic.courseId, moduleId: null },
+        orderBy: { order: 'asc' },
+        include: {
+          classes: {
+            orderBy: { order: 'asc' },
+          },
+        },
+      });
+
+      const lastTopic = courseTopics[courseTopics.length - 1];
+      if (lastTopic && lastTopic.classes.length > 0) {
+        const lastClassOfCourse = lastTopic.classes[lastTopic.classes.length - 1];
+        isLastClassOfCourse = lastClassOfCourse.id === classId;
+      }
+    }
+
     return NextResponse.json({
       class: classItem,
       course: classItem.topic.course,
+      module: classItem.topic.module,
       nextClass,
       previousClass,
+      isLastClassOfModule,
+      isLastClassOfCourse,
     });
   } catch (error) {
     console.error('Error fetching class:', error);

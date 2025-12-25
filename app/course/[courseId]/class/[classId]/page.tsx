@@ -23,6 +23,7 @@ import {
 import { getUserModuleProgressFromDB, getClassByIdFromDB } from "@/lib/db/dbQueries";
 import { getCurrentUserSession } from "@/lib/auth";
 import { analytics } from "@/lib/analytics";
+import { RatingModal } from "@/components/RatingModal";
 
 export default function ClassPlayerPage() {
   const params = useParams();
@@ -66,8 +67,11 @@ export default function ClassPlayerPage() {
 
   const classItem = classData?.class;
   const course = classData?.course;
+  const moduleData = classData?.module;
   const nextClass = classData?.nextClass;
   const previousClass = classData?.previousClass;
+  const isLastClassOfModule = classData?.isLastClassOfModule || false;
+  const isLastClassOfCourse = classData?.isLastClassOfCourse || false;
 
   const [initialProgress, setInitialProgress] = React.useState<number>(0);
   const [lastPosition, setLastPosition] = React.useState<number>(0);
@@ -84,13 +88,7 @@ export default function ClassPlayerPage() {
       setProgressLoading(true);
       const progress = await getUserModuleProgressFromDB(userId, classId);
       if (progress) {
-        // Handle undefined/null lastPosition from existing records
         const resumePos = progress.lastPosition ?? 0;
-        console.log('🔄 Loading progress from DB:', {
-          watchedDuration: progress.watchedDuration,
-          lastPosition: resumePos,
-          isCompleted: progress.isCompleted
-        });
         setInitialProgress(progress.watchedDuration || 0);
         setLastPosition(resumePos);
         setIsCompleted(progress.isCompleted || false);
@@ -115,48 +113,64 @@ export default function ClassPlayerPage() {
   const [isMarkingComplete, setIsMarkingComplete] = React.useState(false);
   const hasShownCompletionRef = React.useRef(false);
 
-  const handleProgressUpdate = async (watchedDuration: number, currentPosition: number, totalDuration: number) => {
-    try {
-      // Don't save progress if userId is not available yet
-      if (!userId) {
-        console.log('⏸️ Skipping progress save - userId not available yet');
-        return;
-      }
+  // Rating modal state
+  const [showRatingModal, setShowRatingModal] = React.useState(false);
+  const [ratingType, setRatingType] = React.useState<'module' | 'course'>('module');
+  const [isSubmittingRating, setIsSubmittingRating] = React.useState(false);
 
-      console.log('📊 handleProgressUpdate called with:', {
-        watchedDuration,
-        currentPosition,
-        totalDuration,
-        flooredWatchedDuration: Math.floor(watchedDuration),
-        flooredCurrentPosition: Math.floor(currentPosition)
+  // Handle rating submission
+  const handleRatingSubmit = async (rating: number, feedback?: string) => {
+    if (!userId || !courseId) return;
+
+    // For module ratings, we need moduleId
+    const moduleId = ratingType === 'module' ? (moduleData?.id || null) : null;
+    if (ratingType === 'module' && !moduleId) return;
+
+    setIsSubmittingRating(true);
+    try {
+      const response = await fetch('/api/ratings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId,
+          courseId,
+          moduleId,
+          rating,
+          feedback: feedback || null,
+          ratingType,
+        }),
       });
 
-      const progressData = {
-        userId,
-        classId,
-        watchedDuration: Math.floor(watchedDuration),
-        lastPosition: Math.floor(currentPosition),
-        isCompleted: false, // Never auto-complete, only manual completion via button
-      };
+      if (!response.ok) {
+        console.error('Rating submission failed');
+      }
+    } catch (error) {
+      console.error('Error submitting rating:', error);
+    } finally {
+      setIsSubmittingRating(false);
+      setShowRatingModal(false);
+    }
+  };
 
-      console.log('💾 Saving progress to DB:', progressData);
+  const handleProgressUpdate = async (watchedDuration: number, currentPosition: number, totalDuration: number) => {
+    try {
+      if (!userId) return;
 
-      // Save progress to database via API (only watch time, not completion status)
       const response = await fetch('/api/progress', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(progressData),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId,
+          classId,
+          watchedDuration: Math.floor(watchedDuration),
+          lastPosition: Math.floor(currentPosition),
+          isCompleted: false,
+        }),
       });
 
       if (!response.ok) {
         console.error('Failed to save progress');
-        return;
       }
-
-      const data = await response.json();
-      console.log('Progress saved:', data);
     } catch (error) {
       console.error('Error saving progress:', error);
     }
@@ -488,6 +502,19 @@ export default function ClassPlayerPage() {
                           setTimeout(() => {
                             setShowCompletionMessage(false);
                           }, 3000);
+
+                          // Show rating modal if this is the last class of a module or course
+                          if (isLastClassOfCourse) {
+                            setTimeout(() => {
+                              setRatingType('course');
+                              setShowRatingModal(true);
+                            }, 1000);
+                          } else if (isLastClassOfModule) {
+                            setTimeout(() => {
+                              setRatingType('module');
+                              setShowRatingModal(true);
+                            }, 1000);
+                          }
                         } else {
                           console.error('Failed to mark as complete');
                           alert('Failed to mark as complete. Please try again.');
@@ -600,6 +627,20 @@ export default function ClassPlayerPage() {
                           setTimeout(() => {
                             setShowCompletionMessage(false);
                           }, 3000);
+
+                          // Show rating modal if this is the last class of a module or course
+                          if (isLastClassOfCourse) {
+                            // Delay to let completion message show first
+                            setTimeout(() => {
+                              setRatingType('course');
+                              setShowRatingModal(true);
+                            }, 1000);
+                          } else if (isLastClassOfModule) {
+                            setTimeout(() => {
+                              setRatingType('module');
+                              setShowRatingModal(true);
+                            }, 1000);
+                          }
                         } else {
                           console.error('Failed to mark as complete');
                           alert('Failed to mark as complete. Please try again.');
@@ -685,6 +726,22 @@ export default function ClassPlayerPage() {
             </div>
           </div>
         </div>
+
+        {/* Rating Modal */}
+        <RatingModal
+          isOpen={showRatingModal}
+          onClose={() => setShowRatingModal(false)}
+          onSubmit={handleRatingSubmit}
+          title={ratingType === 'course' ? 'Rate this Course' : 'Rate this Module'}
+          subtitle={ratingType === 'course'
+            ? `How was your experience with "${course?.title}"?`
+            : `How was your experience with "${moduleData?.title}"?`
+          }
+          type={ratingType}
+          isSubmitting={isSubmittingRating}
+          moduleId={moduleData?.id}
+          courseId={courseId}
+        />
       </main>
     </div>
   );

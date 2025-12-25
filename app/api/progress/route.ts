@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { getISTDate } from '@/lib/dateUtils';
 
 // GET - Retrieve progress for a specific user and class
 export async function GET(request: NextRequest) {
@@ -49,7 +50,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const now = new Date();
+    const now = getISTDate();
 
     // Check if progress already exists and is completed
     const existingProgress = await prisma.userProgress.findUnique({

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { getISTDate } from '@/lib/dateUtils';
 
 export async function POST(req: NextRequest) {
   try {
@@ -33,7 +34,7 @@ export async function POST(req: NextRequest) {
         isLoggedIn: attributes.is_logged_in || false,
         userEmail: custom_attributes.email || attributes.user_email || null,
         customData: custom_attributes,
-        timestamp: attributes.timestamp ? new Date(attributes.timestamp) : new Date(),
+        timestamp: attributes.timestamp ? new Date(attributes.timestamp) : getISTDate(),
       },
     });
 

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import crypto from 'crypto';
+import { getISTDate, getISTExpiry } from '@/lib/dateUtils';
 
 export async function POST(request: NextRequest) {
   try {
@@ -23,7 +24,7 @@ export async function POST(request: NextRequest) {
         otp,
         verified: false,
         expiresAt: {
-          gt: new Date(),
+          gt: getISTDate(),
         },
       },
     });
@@ -50,14 +51,14 @@ export async function POST(request: NextRequest) {
       user = await prisma.user.create({
         data: {
           email,
-          emailVerified: new Date(),
+          emailVerified: getISTDate(),
         },
       });
     } else if (!user.emailVerified) {
       // Update emailVerified if not set
       user = await prisma.user.update({
         where: { email },
-        data: { emailVerified: new Date() },
+        data: { emailVerified: getISTDate() },
       });
     }
 
@@ -71,7 +72,7 @@ export async function POST(request: NextRequest) {
 
     // Create a session token (like NextAuth does)
     const sessionToken = crypto.randomUUID();
-    const sessionExpiry = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // 30 days
+    const sessionExpiry = getISTExpiry(30 * 24 * 60); // 30 days in minutes
 
     // Create session in database
     await prisma.session.create({

@@ -1,4 +1,5 @@
 // Google Tag Manager Data Layer utilities with Tracker class
+import { getISTTimestamp } from '@/lib/dateUtils';
 
 // GTM Event Types - Standardized event names
 export const GTMEventType = {
@@ -150,7 +151,7 @@ class Tracker {
       event,
       attributes: {
         is_logged_in: this._isLoggedIn,
-        timestamp: new Date().toISOString(),
+        timestamp: getISTTimestamp(),
         platform: this._platform,
         ...utmParams,
         ...superAttributes,
