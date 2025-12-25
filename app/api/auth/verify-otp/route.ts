@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
         otp,
         verified: false,
         expiresAt: {
-          gt: getISTDate(),
+          gt: new Date(),
         },
       },
     });
@@ -47,18 +47,25 @@ export async function POST(request: NextRequest) {
       where: { email },
     });
 
+    const istNow = getISTDate();
+
     if (!user) {
       user = await prisma.user.create({
         data: {
           email,
-          emailVerified: getISTDate(),
+          emailVerified: istNow,
+          createdAt: istNow,
+          updatedAt: istNow,
         },
       });
     } else if (!user.emailVerified) {
       // Update emailVerified if not set
       user = await prisma.user.update({
         where: { email },
-        data: { emailVerified: getISTDate() },
+        data: {
+          emailVerified: istNow,
+          updatedAt: istNow,
+        },
       });
     }
 

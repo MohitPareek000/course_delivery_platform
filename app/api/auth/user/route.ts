@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { auth } from '@/lib/auth';
+import { getISTDate } from '@/lib/dateUtils';
 
 // GET - Get current user session
 export async function GET() {
@@ -37,16 +38,21 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const istNow = getISTDate();
+
     // Find or create user
     const user = await prisma.user.upsert({
       where: { email },
       update: {
         // Update name if provided
         ...(name && { name }),
+        updatedAt: istNow,
       },
       create: {
         email,
         name: name || email.split('@')[0], // Use email prefix as default name
+        createdAt: istNow,
+        updatedAt: istNow,
       },
     });
 

@@ -813,7 +813,7 @@ An interviewer asks:
 
   ---
 
-  ### **Sample Interview Answer:**
+### **Sample Interview Answer:**
 
 While all rounds matter, I believe the business or case study round is the most important for a Data Analyst. Technical skills are essential, but many candidates have similar technical ability.
 
@@ -1092,7 +1092,7 @@ WHERE u.total_orders >= 3;
 
 ### **Common Mistakes Interviewers Watch For**
 
- Comparing user average with itself  
+  Comparing user average with itself  
   Forgetting to filter users with at least 3 orders  
   Writing everything in one unreadable query  
   Not explaining the approach before coding
@@ -1620,20 +1620,20 @@ HAVING COUNT(*) >= 3;
 
 ### **Why Interviewers Like This Answer**
 
- Uses window functions correctly  
-  Handles real-world streak logic  
-  Breaks problem into readable steps  
-  Scales well for large datasets  
-  Easy to explain during live coding
+  * Uses window functions correctly  
+  * Handles real-world streak logic  
+  * Breaks problem into readable steps  
+  * Scales well for large datasets  
+  * Easy to explain during live coding
 
 ---
 
 ### **Common Mistakes Interviewers Watch For**
 
- Trying to self-join dates unnecessarily  
-  Missing edge cases (first login)  
-  Not explaining the logic behind streaks  
-  Writing unreadable one-liner queries
+  * Trying to self-join dates unnecessarily  
+  * Missing edge cases (first login)  
+  * Not explaining the logic behind streaks  
+  * Writing unreadable one-liner queries
 
 ---
 
@@ -1986,7 +1986,7 @@ You may be asked:
 
 “How would you optimize this query?”
 
-This does **not** mean you need to be a database expert.
+This does **not** means you need to be a database expert.
 
 ### **Common Performance Mistakes**
 
@@ -2113,20 +2113,20 @@ GROUP BY user_id, month;
 
 ### **Why This Scores Well**
 
- Uses `LEFT JOIN` correctly  
-  Handles missing refunds using `COALESCE`  
-  Separates logic using CTEs  
-  Reflects correct business definition of revenue  
-  Easy to explain in interviews
+  * Uses `LEFT JOIN` correctly  
+  * Handles missing refunds using `COALESCE`  
+  * Separates logic using CTEs  
+  * Reflects correct business definition of revenue  
+  * Easy to explain in interviews
 
 ---
 
 ### **Common Mistakes Interviewers Penalize**
 
- Using `INNER JOIN` and dropping non-refunded orders  
-  Not handling `NULL` refunds  
-  Aggregating before adjusting revenue  
-  Ignoring business meaning of revenue
+  * Using `INNER JOIN` and dropping non-refunded orders  
+  * Not handling `NULL` refunds  
+  * Aggregating before adjusting revenue  
+  * Ignoring business meaning of revenue
 
 ---
 
@@ -2313,7 +2313,7 @@ Interviewers expect:
 
 * Awareness of failure cases (`#N/A`, missing keys)
 
-Knowing **why** a lookup fails matters more than memorizing syntax.
+Knowing **why** A lookup fails matters more than memorizing syntax.
 
 ---
 
@@ -2433,7 +2433,7 @@ They are testing:
 
 ### **Common Mistakes**
 
- Hard-coding cell references  
+  Hard-coding cell references  
   Forgetting to sort by month  
   Not handling first month edge case  
   Incorrect growth formula
@@ -2499,7 +2499,7 @@ They are testing:
 
 ### **Common Mistakes**
 
- Using VLOOKUP with wrong column index  
+  Using VLOOKUP with wrong column index  
   Not handling missing refunds  
   Aggregating before subtracting refunds  
   Mixing raw data and calculations in same sheet
@@ -4048,10 +4048,9 @@ success = 0
 for _ in range(trials):
 flips = np.random.choice(['H', 'T'], size=3)
 if 'H' in flips:
+success += 1
+success / trials
 ```
-`success += 1`
-
-`success / trials`
 
 This approximates **0.875**, validating the analytical result (7/8).
 
@@ -5909,7 +5908,7 @@ Real-world sorting often requires a "Tie-Breaker."
 
 * *Scenario:* You want to list students by their Class (course_id), but within each class, you want them listed alphabetically by name.
 
-To do this, you list multiple columns separated by commas. SQL sorts by the first column strictly, and **only** looks at the second column if there is a tie in the first.
+To do this, you list multiple columns separated by commas. SQL sorts by the first column strictly, and **only** look at the second column if there is a tie in the first.
 
 **The Logic:**
 
@@ -9747,9 +9746,7 @@ Most tech companies anchor their culture around a set of core values.
 ---
 
 ## Step 2: Choose Your Stories
-```sql
-Select 5–10 meaningful experiences that:
-```
+**Select 5–10 meaningful experiences that:**
 1. Made an impression on you
 2. Demonstrate at least one company value
 3. Highlight your strengths as a collaborator, analyst, or problem solver

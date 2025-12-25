@@ -88,7 +88,7 @@ export function LoginForm() {
             <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
             <Input
               type="email"
-              placeholder="Email"
+              placeholder="Enter your Scaler Email ID"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="pl-10 h-12 text-base"

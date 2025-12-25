@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import { getISTDate } from '../lib/dateUtils';
 
 const prisma = new PrismaClient();
 
@@ -39,11 +40,14 @@ async function addMembers() {
         console.log(`   ⚠️  User already exists with ID: ${user.id}`);
       } else {
         // Create new user
+        const istNow = getISTDate();
         user = await prisma.user.create({
           data: {
             email: member.email,
             name: member.name,
-            emailVerified: new Date(), // Mark as verified
+            emailVerified: istNow,
+            createdAt: istNow,
+            updatedAt: istNow,
           },
         });
         console.log(`   ✅ Created user with ID: ${user.id}`);

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
+import { getISTDate } from '@/lib/dateUtils';
 
 // Use global singleton to prevent multiple instances in development
 const globalForPrisma = globalThis as unknown as {
@@ -85,6 +86,8 @@ export async function POST(request: NextRequest) {
 
     let savedRating;
 
+    const istNow = getISTDate();
+
     if (existingRating) {
       // Update existing rating
       savedRating = await prisma.rating.update({
@@ -93,6 +96,7 @@ export async function POST(request: NextRequest) {
           rating,
           feedback: feedback || null,
           ratingType,
+          updatedAt: istNow,
         },
       });
     } else {
@@ -105,6 +109,8 @@ export async function POST(request: NextRequest) {
           rating,
           feedback: feedback || null,
           ratingType,
+          createdAt: istNow,
+          updatedAt: istNow,
         },
       });
     }

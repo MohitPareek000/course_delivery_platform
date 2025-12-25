@@ -13,6 +13,8 @@ export async function POST(req: NextRequest) {
       custom_attributes = {},
     } = eventData;
 
+    const istNow = getISTDate();
+
     // Create analytics event in database
     await prisma.analyticsEvent.create({
       data: {
@@ -34,7 +36,8 @@ export async function POST(req: NextRequest) {
         isLoggedIn: attributes.is_logged_in || false,
         userEmail: custom_attributes.email || attributes.user_email || null,
         customData: custom_attributes,
-        timestamp: attributes.timestamp ? new Date(attributes.timestamp) : getISTDate(),
+        timestamp: attributes.timestamp ? new Date(attributes.timestamp) : istNow,
+        createdAt: istNow,
       },
     });
 

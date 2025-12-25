@@ -1,18 +1,20 @@
 /**
  * Date utility functions for IST (Indian Standard Time) handling
  * IST is UTC+5:30
+ *
+ * IMPORTANT: Store timestamps in UTC in the database.
+ * Convert to IST only when displaying to users using formatISTDate().
  */
 
 const IST_OFFSET_MS = 5.5 * 60 * 60 * 1000; // 5 hours 30 minutes in milliseconds
 
 /**
- * Get current date/time in IST
- * Returns a Date object representing the current IST time
+ * Get current date/time for database storage
+ * Returns a Date object in UTC (standard for database storage)
+ * Use formatISTDate() to display this as IST to users
  */
 export function getISTDate(): Date {
-  const now = new Date();
-  // Add IST offset to get IST time, then create new Date
-  return new Date(now.getTime() + IST_OFFSET_MS);
+  return new Date();
 }
 
 /**

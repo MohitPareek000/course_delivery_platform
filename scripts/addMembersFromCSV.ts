@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import * as fs from 'fs';
 import * as path from 'path';
+import { getISTDate } from '../lib/dateUtils';
 
 const prisma = new PrismaClient();
 
@@ -76,11 +77,14 @@ async function addMembersFromCSV() {
         console.log(`   ⚠️  User already exists with ID: ${user.id}`);
       } else {
         // Create new user
+        const istNow = getISTDate();
         user = await prisma.user.create({
           data: {
             email,
             name: data.name,
-            emailVerified: new Date(), // Mark as verified
+            emailVerified: istNow,
+            createdAt: istNow,
+            updatedAt: istNow,
           },
         });
         console.log(`   ✅ Created user with ID: ${user.id}`);

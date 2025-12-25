@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { sendOTPEmail } from '@/lib/email/ses';
-import { getISTExpiry } from '@/lib/dateUtils';
+import { getISTDate, getISTExpiry } from '@/lib/dateUtils';
 
 // Generate a 4-digit OTP
 function generateOTP(): string {
@@ -64,6 +64,7 @@ export async function POST(request: NextRequest) {
         email,
         otp,
         expiresAt,
+        createdAt: getISTDate(),
       },
     });
 
