@@ -159,7 +159,7 @@ async function convertTimestamps() {
         data: {
           createdAt: toIST(access.createdAt),
           updatedAt: toIST(access.updatedAt),
-          assignedAt: access.assignedAt ? toIST(access.assignedAt) : null,
+          assignedAt: toIST(access.assignedAt),
         },
       });
       accessCount++;
