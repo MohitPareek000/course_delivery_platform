@@ -62,7 +62,7 @@ export default function LoginPage() {
               Log in to your Account
             </h1>
             <p className="text-sm text-gray-600">
-              Hey Learners, Enter your email
+              Hey Learners, Enter your Scaler Email ID
             </p>
           </div>
 
