@@ -5411,7 +5411,7 @@ Class 6.3.1:
 	Title: Infrastructure as Code - Challenge
 	Description: Questions and Their respective answers
 Content Type: text
-Duration: 300 
+Duration: 600 
 Order: 1
 		Text Content :
 
@@ -5827,22 +5827,230 @@ Duration: 500
 Order: 1
 		Text Content :
 
-**Why Beats Matter:**
-- Lower resource usage
-- Faster startup
-- Better suited for large fleets and containers
+
+# ELK Stack (Elasticsearch, Logstash, Kibana)
+
+## Overview
+
+The **ELK Stack** is the industry-standard solution for **centralized logging, search, and observability**.
+In real systems, logs are generated across hundreds or thousands of nodes (VMs, containers, Kubernetes pods). ELK provides a **scalable pipeline** to collect, process, store, and analyze this data in near real time.
+
+At scale, ELK is not just a logging tool—it becomes a **debugging, auditing, and incident-response platform**.
+
+---
+
+## 1. Elasticsearch – Distributed Search & Storage Engine
+
+Elasticsearch is a **distributed, document-oriented search engine** built on Apache Lucene.
+
+### Core Characteristics
+
+* Stores data as **JSON documents**
+* Schema is defined using **Mappings**
+* Data is indexed for **full-text search and aggregations**
+* Horizontally scalable via **shards**
+* Fault tolerant via **replicas**
+
+### Key Concepts
+
+* **Index**
+  Logical namespace for documents (e.g., `nginx-logs-2026.01.02`)
+
+* **Document**
+  A single log/event stored as JSON
+
+* **Shard**
+  A physical partition of an index
+
+  * Primary shard: holds original data
+  * Replica shard: copy for HA and read scaling
+
+* **Cluster State**
+  Metadata about indices, shards, nodes
+  Excessive shard counts directly impact cluster stability
+
+### Production Considerations
+
+* **Shard sizing matters** (10–50 GB per shard is a common guideline)
+* Too many small indices cause:
+
+  * High heap usage
+  * Slow cluster state updates
+* Retention is managed via **Index Lifecycle Management (ILM)**
+
+---
+
+## 2. Logstash – Ingestion and Transformation Layer
+
+Logstash is a **data processing pipeline** that ingests, parses, enriches, and forwards data.
+
+### Why Logstash Exists
+
+Raw logs are inconsistent:
+
+* Different formats
+* Mixed timestamps
+* Unstructured text
+
+Logstash normalizes this data into **structured events** before storage.
+
+### Pipeline Structure
+
+```text
+Input → Filter → Output
+```
+
+### Common Filters
+
+* `grok` – Parse unstructured logs (regex-based)
+* `date` – Normalize timestamps
+* `mutate` – Rename/remove fields
+* `geoip` – Enrich IP addresses with location
+* `json` – Parse embedded JSON logs
+
+### Example Use Case
+
+* Parse Nginx access logs
+* Extract:
+
+  * HTTP method
+  * Status code
+  * Response time
+* Convert timestamp to UTC
+* Send structured output to Elasticsearch
+
+### Operational Notes
+
+* Logstash is **CPU and memory intensive**
+* Not ideal on every node
+* Often deployed as:
+
+  * Centralized service
+  * Kubernetes Deployment
+  * Autoscaled group
+
+---
+
+## 3. Kibana – Visualization and Analysis Layer
+
+Kibana is the **UI and analytics interface** for Elasticsearch.
+
+### Core Capabilities
+
+* **Discover** – Explore raw logs in real time
+* **Dashboards** – Visualize metrics (latency, errors, traffic)
+* **Lens / Visualize** – Build charts without writing queries
+* **Alerting** – Trigger alerts based on query results
+* **Saved Searches** – Reusable filtered views
+
+### Real-World Usage
+
+* Identify error spikes after deployments
+* Correlate latency with specific services
+* Drill down from metrics → logs during incidents
+
+### Important Note
+
+Kibana **does not store data**.
+It queries Elasticsearch directly. Performance depends entirely on index design and query efficiency.
+
+---
+
+## 4. Beats – Lightweight Data Shippers
+
+Beats are **small, purpose-built agents** that collect data and forward it downstream.
+
+### Common Beats
+
+* **Filebeat** – Log files
+* **Metricbeat** – System and service metrics
+* **Heartbeat** – Service availability checks
+* **Auditbeat** – Security and audit data
+
+---
+
+## Why Beats Matter
+
+* Extremely **low resource usage**
+* Fast startup (important for autoscaling and containers)
+* Designed for **large fleets**
+* Ideal for Kubernetes and ephemeral workloads
+
+Beats typically run:
+
+* As a **DaemonSet** in Kubernetes
+* As an **agent** on VMs
+
+They forward data to:
+
+* Logstash (for heavy processing), or
+* Directly to Elasticsearch (for simple pipelines)
+
+---
+
+## 5. Data Flow Architecture
+
+```text
+Application Logs
+        ↓
+     Beats
+        ↓
+   Logstash (optional)
+        ↓
+  Elasticsearch
+        ↓
+     Kibana
+```
+
+Not all pipelines use Logstash.
+At scale, **Beats → Elasticsearch** is common when logs are already structured (JSON).
+
+---
+
+## 6. Scaling and Reliability Concerns
+
+### Elasticsearch
+
+* Use **dedicated master nodes**
+* Separate **hot / warm / cold** data tiers
+* Monitor:
+
+  * Heap usage
+  * GC pauses
+  * Shard counts
+* Enable **ILM** for retention and rollover
+
+### Logstash
+
+* Horizontal scaling via multiple pipelines
+* Use persistent queues for burst handling
+* Monitor pipeline latency and backpressure
+
+### Beats
+
+* Backpressure aware
+* Can buffer data when downstream is unavailable
 
 ---
 
 ## Key Takeaways
 
-- Elasticsearch provides fast, distributed search
-- Logstash handles complex log transformation
-- Kibana enables exploration and visualization
-- Beats optimize log shipping at scale
+* **Elasticsearch** provides fast, distributed storage and search
+* **Logstash** enables complex parsing and enrichment
+* **Kibana** is the exploration and visualization layer
+* **Beats** are optimized shippers for scale and containers
 
-**Mental Model:**  
-Beats collect → Logstash transforms → Elasticsearch stores → Kibana visualizes
+### Mental Model
+
+
+Beats collect
+→ Logstash transforms
+→ Elasticsearch stores
+→ Kibana visualizes
+
+This pipeline forms the backbone of **production observability and incident response** in modern systems.
+
+
 
 
 ---
@@ -5878,24 +6086,252 @@ Class 7.4.1:
 	Title: Application Performance Monitoring
 	Description: Datadog, New Relic, and Code-Level insights.
 Content Type: text
-Duration: 400 
+Duration: 500 
 Order: 1
 		Text Content :
- # APM: Code-Level Visibility
+# APM: Code-Level Visibility
+
+## Overview
+
+Traditional monitoring answers **“Is the system up?”**9.1.1
+APM (Application Performance Monitoring) answers **“Why is it slow?”**
+
+Metrics and logs operate at the **infrastructure and service level**.
+APM operates at the **code execution level**, tracing individual requests as they move through functions, databases, queues, and downstream services.
+
+APM becomes critical once:
+
+* Systems are microservice-based
+* Latency issues are non-obvious
+* Failures are intermittent and data-dependent
+
+---
 
 ## 1. What is APM?
-Metrics tell you "The server is slow." APM tells you "**Line 45** of `checkout.py` is slow because the SQL query lacks an index."
+
+APM instruments application code to measure:
+
+* Request latency
+* Call paths
+* Dependency behavior
+* Error propagation
+
+Instead of guessing where time is spent, APM shows **exact execution paths**.
+
+### Example Insight
+
+* API request latency: **3.2s**
+* Breakdown:
+
+  * App logic: 40ms
+  * External API call: 120ms
+  * Database query: **3.0s**
+* Root cause:
+
+  * Missing index on `order_id`
+
+Without APM, this appears as a “slow server.”
+With APM, it becomes a **specific, actionable fix**.
 
 ---
 
-## 2. Tools (Datadog / New Relic)
-* **Auto-Instrumentation:** You install an agent (e.g., `pip install ddtrace`), and it automatically instruments your code to capture Database calls, HTTP requests, and Redis calls.
+## 2. Core APM Concepts
+
+### Transactions
+
+A **transaction** represents a single request or job:
+
+* HTTP request
+* Background job
+* Message queue consumer
+
+Each transaction has:
+
+* Total latency
+* Success/failure state
+* Breakdown by component
 
 ---
 
-## 3. Service Maps
-APM tools automatically draw a map of your microservices based on traffic flow.
-* *Use Case:* Identifying circular dependencies or "Spaghetti Architecture."
+### Spans
+
+A **span** is a timed operation within a transaction.
+
+Examples:
+
+* HTTP handler
+* SQL query
+* Redis call
+* External API request
+
+Transactions are composed of multiple spans, forming a **trace**.
+
+---
+
+### Distributed Tracing
+
+In microservices, a single user request may touch:
+
+* API Gateway
+* Auth service
+* Checkout service
+* Inventory service
+* Database
+
+APM propagates **trace IDs** across services to reconstruct the **end-to-end request path**.
+
+This enables:
+
+* Cross-service latency analysis
+* Dependency bottleneck identification
+* Root cause isolation across teams
+
+---
+
+## 3. Auto-Instrumentation
+
+Modern APM tools rely heavily on **auto-instrumentation**.
+
+### How It Works
+
+* An agent or library is added to the runtime
+* Common frameworks and libraries are automatically wrapped
+* No manual code changes required for basic visibility
+
+### Examples
+
+* Python: `ddtrace`, `newrelic`
+* Java: Java Agent (`-javaagent`)
+* Node.js: `dd-trace`, `elastic-apm-node`
+* Go: Middleware-based instrumentation
+
+Captured automatically:
+
+* HTTP request timing
+* SQL query latency
+* Cache access (Redis/Memcached)
+* External service calls
+
+Manual instrumentation is still used for:
+
+* Business-critical functions
+* Custom logic timing
+* Domain-specific metrics
+
+---
+
+## 4. APM Tools (Datadog / New Relic / Elastic APM)
+
+### Common Capabilities
+
+* Distributed tracing
+* Code-level profiling
+* Error tracking with stack traces
+* Dependency analysis
+* Correlation with logs and metrics
+
+### Runtime Visibility
+
+APM agents often capture:
+
+* Function execution time
+* CPU usage per request
+* Memory allocations
+* Thread or event-loop blocking
+
+This helps diagnose issues such as:
+
+* Slow garbage collection
+* Blocking calls in async systems
+* Thread pool exhaustion
+
+---
+
+## 5. Service Maps
+
+APM tools automatically generate **service maps** by observing traffic flow.
+
+### What Service Maps Show
+
+* Services as nodes
+* Requests as edges
+* Latency and error rates per connection
+
+### Practical Use Cases
+
+* Identifying unexpected dependencies
+* Detecting circular service calls
+* Understanding blast radius of failures
+* Spotting over-coupled services
+
+Service maps are especially valuable in:
+
+* Large organizations
+* Poorly documented systems
+* Rapidly evolving microservice architectures
+
+---
+
+## 6. APM vs Metrics vs Logs
+
+Each observability pillar answers a different question:
+
+* **Metrics:** Is something wrong?
+* **Logs:** What happened?
+* **APM:** Why did it happen?
+
+APM complements—not replaces—metrics and logs.
+
+### Example Incident Flow
+
+1. Alert fires: latency spike (metrics)
+2. Logs show no obvious errors
+3. APM trace reveals:
+
+   * One slow database query
+   * Triggered only for specific input
+4. Root cause fixed with an index or query rewrite
+
+---
+
+## 7. Performance and Cost Considerations
+
+APM is powerful but not free.
+
+### Overhead
+
+* Additional CPU and memory usage
+* Network overhead for trace data
+* Storage costs for retained traces
+
+### Common Mitigations
+
+* Sampling (e.g., 10% of requests)
+* Higher sampling for errors
+* Shorter retention for high-volume services
+
+APM configuration is a **trade-off between visibility and cost**.
+
+---
+
+## Key Takeaways
+
+* APM provides **code-level observability**
+* It traces requests across services and dependencies
+* Auto-instrumentation enables fast adoption
+* Service maps expose real system architecture
+* APM turns performance issues into actionable fixes
+
+---
+
+## Mental Model
+
+Metrics show symptoms
+Logs show events
+APM shows execution paths and root causes
+
+APM is the bridge between **application code and operational reality**.
+
 
 Class 7.4.2:
 	Title: Distributed Tracing
@@ -6480,7 +6916,6 @@ Content Type: text
 Duration: 450 
 Order: 1
 		Text Content :
-Here is a **clean, senior-level refinement** of your Bash section, consistent with the rest of your notes, and with a **concise reference table at the end**. No fluff, interview- and production-oriented.
 
 # Bash: The Duct Tape of DevOps
 
@@ -6751,8 +7186,6 @@ Content Type: text
 Duration: 450 
 Order: 2
 		Text Content :
-Here is a **clean, senior-level continuation** in the same tone and structure as your previous modules, with **one concise reference table at the end**. No images, no fluff.
-
 
 # Cloud Automation with Python (Boto3)
 
@@ -6955,7 +7388,7 @@ Class 9.3.1:
 	Title: Automation Scripting - Challenge
 	Description: Practical automation problems to test your coding skills.
 Content Type: text
-Duration: 300 
+Duration: 600 
 Order: 1
 		Text Content :
 
@@ -7406,8 +7839,12 @@ Title: NoSQL Databases
 Order: 2
 
 Class 10.2.1:
-	Title: NoSQL Overview & Use Cases
-	Description: CAP Theorem, Mongo, and Cassandra.
+Title: NoSQL Overview & Use Cases
+Description: CAP Theorem, Mongo, and Cassandra.
+Content Type: text
+Duration: 350 
+Order: 2
+		Text Content :
 
  # Redis vs. Memcached (what interviewers actually care about)
 
@@ -7693,8 +8130,12 @@ Title: Database Operations
 Order: 3
 
 Class 10.3.1:
-	Title: Database Automation
-	Description: Migrations and Monitoring.
+Title: Database Automation
+Description: Migrations and Monitoring.
+Content Type: text
+Duration: 400 
+Order: 2
+Text Content :
 
  # Message Queues: Decoupling, Backpressure, and Reliability
 
@@ -7886,191 +8327,266 @@ Title: Database Performance Tuning
 Order: 4
 
 Class 10.4.1:
-	Title: Query Optimization
-	Description: Identifying and fixing slow queries.
+Title: Query Optimization
+Description: Identifying and fixing slow queries.
+Content Type: text
+Duration: 400 
+Order: 2
+Text Content :
 
- # Microservices: Distributed Complexity (and how DevOps makes it survivable)
+# Query Optimization
 
-Microservices buy independent deployments and team autonomy, but they introduce:
-* network failures (timeouts, partial failures),
-* versioning and compatibility problems,
-* observability challenges,
-* and data consistency trade-offs.
-
----
-
-## 1. Service Discovery (how services find each other)
-In a monolith, you call `function()`. In microservices, you call a network address.
-
-### Why discovery exists
-* Instances scale up/down.
-* IPs are ephemeral in Kubernetes.
-* You need a stable name → dynamic endpoints.
-
-Common options:
-* **Kubernetes Services + CoreDNS:** `http://user-service` resolves to service VIP/endpoints.
-* **Consul/Eureka:** explicit registration and health-based discovery.
+**Identifying, analyzing, and fixing slow database queries**
 
 ---
 
-## 2. Resilience patterns (timeouts, retries, circuit breakers)
+## 1. What Is Query Optimization?
 
-### Timeouts (the first fix)
-Always use client-side timeouts. Without them, calls hang and saturate thread pools.
+Query optimization is the process of improving database query performance by:
 
-### Retries (use carefully)
-Retries can amplify outages.
-* Use **exponential backoff + jitter**.
-* Retry only **safe** operations or use **idempotency keys**.
+* Reducing execution time
+* Minimizing disk I/O
+* Using indexes efficiently
+* Enabling better execution plans
 
-### Circuit breaker (preventing fire)
-If Service B is failing, Service A should fail fast.
-* **Closed:** normal traffic.
-* **Open:** fail fast (no calls) after failure threshold.
-* **Half-open:** allow a small number of test calls before closing.
+Poorly optimized queries cause:
 
----
-
-## 3. Bulkheads, rate limits, and load shedding
-Prevent one dependency from taking down the whole service.
-* **Bulkhead:** isolate thread pools/connection pools per dependency.
-* **Rate limiting:** protect services from abusive or unexpected load.
-* **Load shedding:** when overloaded, drop non-critical requests quickly.
+* Slow application responses
+* High CPU and memory usage
+* Lock contention
+* System-wide performance degradation
 
 ---
 
-## 4. API Gateway and BFF (common architecture)
-As services grow, clients shouldn’t call 30 microservices directly.
-* **API Gateway:** routing, auth, rate limits, request shaping.
-* **BFF (Backend for Frontend):** tailored APIs per client (web/mobile).
+## 2. How Databases Execute Queries
+
+When a query is submitted, the database:
+
+1. Parses the SQL
+2. Generates multiple execution plans
+3. Estimates cost using statistics
+4. Selects the lowest-cost plan
+5. Executes the query
+
+Query optimization focuses on influencing the planner to choose efficient plans.
 
 ---
 
-## 5. Data ownership (the hidden “hard part”)
-Microservices work best with **clear boundaries**.
-* Prefer **database-per-service** to avoid coupling.
-* Expect **eventual consistency** across services.
+## 3. Query Analysis Tools
+
+| Tool               | Database          | Purpose                  |
+| ------------------ | ----------------- | ------------------------ |
+| EXPLAIN            | PostgreSQL, MySQL | Estimated execution plan |
+| EXPLAIN ANALYZE    | PostgreSQL        | Actual execution metrics |
+| pg_stat_statements | PostgreSQL        | Aggregated query stats   |
+| Slow Query Log     | MySQL             | Captures slow queries    |
+| Performance Schema | MySQL             | Low-level metrics        |
+| pt-query-digest    | MySQL             | Slow query analysis      |
 
 ---
 
-## 6. The Saga Pattern (Distributed Transactions)
-You can’t use ACID transactions across multiple services/datastores.
+## 4. Reading Execution Plans
 
-Two styles:
-* **Choreography:** services publish events and react.
-  * Example: Order → Payment → Inventory.
-* **Orchestration:** a coordinator drives the saga.
+### PostgreSQL Example
 
-Compensation:
-* If Payment fails, emit `PaymentFailed`, and run compensating actions like “Cancel Order” / “Release Inventory”.
-
-Interview nuance:
-* Compensations can fail too → they need retries and idempotency.
-
----
-
-## 7. Observability requirement (you must say this)
-Microservices demand:
-* **Correlation IDs** propagated across hops
-* **Distributed tracing** to find the slow hop
-* **Golden signals:** latency, traffic, errors, saturation
-
-## Quick checklist
-* Discovery via DNS/registry
-* Timeouts everywhere; retries with backoff + jitter
-* Circuit breakers + bulkheads + rate limits
-* Clear data boundaries + saga for cross-service workflows
-* Trace IDs and golden-signal monitoring
-### Query Analysis Tools
-| Tool | Database | Purpose |
-| :--- | :--- | :--- |
-| EXPLAIN ANALYZE | PostgreSQL | Execution plan with actual times |
-| EXPLAIN | MySQL | Execution plan |
-| pg_stat_statements | PostgreSQL | Aggregate query statistics |
-| Performance Schema | MySQL | Detailed performance metrics |
-| pt-query-digest | MySQL | Analyze slow query log |
-
----
-
-## 2. Reading Execution Plans
-
-### PostgreSQL EXPLAIN Output
 ```sql
-EXPLAIN (ANALYZE, BUFFERS, FORMAT TEXT)
+EXPLAIN (ANALYZE, BUFFERS)
 SELECT * FROM orders WHERE customer_id = 100;
+```
 
--- Output:
-Index Scan using idx_orders_customer on orders  (cost=0.43..8.45 rows=1 width=100) (actual time=0.025..0.026 rows=1 loops=1)
-  Index Cond: (customer_id = 100)
-  Buffers: shared hit=3
-Planning Time: 0.085 ms
+**Sample Output**
+
+```
+Index Scan using idx_orders_customer on orders
+(cost=0.43..8.45 rows=1 width=100)
+(actual time=0.025..0.026 rows=1 loops=1)
+Buffers: shared hit=3
 Execution Time: 0.042 ms
 ```
 
-### Key Metrics to Watch
-* **Seq Scan:** Full table scan - consider adding index
-* **Nested Loop:** OK for small datasets, expensive for large
-* **Hash Join:** Better for large datasets
-* **Buffers:** Disk I/O vs memory hits
+### Key Metrics
+
+| Metric      | Meaning             |
+| ----------- | ------------------- |
+| Seq Scan    | Full table scan     |
+| Index Scan  | Index-based lookup  |
+| Cost        | Planner’s estimate  |
+| Actual Time | Real execution time |
+| Rows        | Estimated vs actual |
+| Buffers     | Memory vs disk I/O  |
+
+Large differences between estimated and actual rows usually indicate outdated statistics.
 
 ---
 
-## 3. Common Query Anti-Patterns
+## 5. Common Query Anti-Patterns
 
-| Anti-Pattern | Problem | Solution |
-| :--- | :--- | :--- |
-| `SELECT *` | Fetches unnecessary columns | Select only needed columns |
-| `WHERE function(column)` | Cannot use index | Rewrite to use column directly |
-| `LIKE '%term%'` | Full scan required | Use full-text search |
-| N+1 Queries | Multiple round trips | Use JOINs or batch queries |
-| Missing LIMIT | Returns too many rows | Always paginate large results |
+| Anti-Pattern           | Problem           | Solution                   |
+| ---------------------- | ----------------- | -------------------------- |
+| SELECT *               | Unnecessary data  | Select only needed columns |
+| Missing WHERE          | Full scans        | Always filter              |
+| WHERE function(column) | Index unusable    | Rewrite condition          |
+| LIKE '%term%'          | Full scan         | Use full-text search       |
+| No LIMIT               | Large result sets | Paginate                   |
+| N+1 queries            | Many round trips  | Use joins or batching      |
 
-### Fix N+1 Query Problem
+---
+
+## 6. N+1 Query Problem
+
+### Inefficient Approach
+
 ```sql
--- BAD: N+1 queries (1 + N round trips)
 SELECT * FROM orders WHERE customer_id = 1;
--- Then for each order:
+-- For each order:
 SELECT * FROM order_items WHERE order_id = ?;
+```
 
--- GOOD: Single query with JOIN
+### Optimized Approach
+
+```sql
 SELECT o.*, oi.*
 FROM orders o
 JOIN order_items oi ON o.id = oi.order_id
 WHERE o.customer_id = 1;
 ```
 
+This reduces multiple round trips to a single query.
+
 ---
 
-## 4. Index Optimization Strategies
+## 7. Index Optimization
 
 ### When to Create Indexes
+
 * Columns in WHERE clauses
-* Columns in JOIN conditions
-* Columns in ORDER BY (to avoid sorting)
-* High cardinality columns (many unique values)
+* Join columns
+* Columns in ORDER BY
+* High-cardinality columns
 
-### When NOT to Create Indexes
-* Small tables (<1000 rows)
-* Columns with low cardinality (boolean, status)
-* Write-heavy tables (indexes slow writes)
-* Columns rarely queried
+### When Not to Create Indexes
 
-### Composite Index Best Practices
+* Small tables
+* Low-cardinality columns
+* Write-heavy tables
+* Rarely queried columns
+
+---
+
+## 8. Composite Index Best Practices
+
+### Example
+
 ```sql
--- Index column order matters!
--- Put equality conditions first, then ranges
-CREATE INDEX idx_orders_search 
+CREATE INDEX idx_orders_search
 ON orders(status, customer_id, created_at);
-
--- This query uses the index efficiently:
-SELECT * FROM orders 
-WHERE status = 'pending' 
-  AND customer_id = 100 
-  AND created_at > '2024-01-01';
-
--- This query cannot use the index well:
-SELECT * FROM orders WHERE created_at > '2024-01-01';
 ```
+
+### Efficient Query
+
+```sql
+SELECT *
+FROM orders
+WHERE status = 'pending'
+  AND customer_id = 100
+  AND created_at > '2024-01-01';
+```
+
+### Inefficient Query
+
+```sql
+SELECT *
+FROM orders
+WHERE created_at > '2024-01-01';
+```
+
+Index rule: equality columns first, range columns last.
+
+---
+
+## 9. Join Optimization
+
+### Join Types
+
+* Nested Loop: efficient for small datasets
+* Hash Join: efficient for large datasets
+* Merge Join: requires sorted inputs
+
+### Optimization Tips
+
+* Index join columns
+* Filter early
+* Avoid unnecessary joins
+
+---
+
+## 10. Pagination Strategies
+
+### Offset Pagination
+
+```sql
+SELECT *
+FROM orders
+ORDER BY created_at
+LIMIT 20 OFFSET 10000;
+```
+
+Large offsets degrade performance.
+
+### Keyset Pagination
+
+```sql
+SELECT *
+FROM orders
+WHERE created_at > '2024-01-01'
+ORDER BY created_at
+LIMIT 20;
+```
+
+Keyset pagination scales better.
+
+---
+
+## 11. Statistics and Maintenance
+
+Keep planner statistics up to date:
+
+```sql
+ANALYZE;
+VACUUM ANALYZE;
+```
+
+Outdated statistics lead to inefficient plans.
+
+---
+
+## 12. Optimization Checklist
+
+* Use EXPLAIN ANALYZE
+* Avoid SELECT *
+* Index filtering and join columns
+* Eliminate N+1 queries
+* Paginate results
+* Prefer keyset pagination
+* Keep statistics current
+* Monitor slow queries
+
+---
+
+## 13. Interview Talking Points
+
+* Indexes improve reads but slow writes
+* Query optimization is I/O focused
+* Execution plans must be verified, not assumed
+* ORMs commonly cause N+1 issues
+* Composite index order matters
+
+---
+
+## Final Note
+
+Query optimization is an iterative process based on measurement and validation.
+Small changes can produce significant performance gains.
 
 ---
 
@@ -9745,14 +10261,13 @@ Content Type: text
 Duration: 500 
 Order: 2
 		Text Content :
-Here is a **senior-level expansion** of the same content, keeping it practical, incident-response focused, and interview-ready. I’ve added **why each step matters**, not just what to run.
 
 
 # War Stories: Real Scenarios
 
 These scenarios test whether you can **debug under pressure**, not whether you know commands.
 Interviewers look for structured thinking, signal isolation, and root-cause reasoning.
-
+ 
 ---
 
 ## 1. Scenario: "The Website is Down" (502 Bad Gateway)
@@ -9956,7 +10471,7 @@ Duration: 600
 Order: 1
 		Text Content :
 # Mock Interview Prompts
-
+ 
 Use these prompts to practice:
 - Drawing diagrams
 - Explaining trade-offs
