@@ -12,6 +12,7 @@ import {
   X,
   Settings,
   LogOut,
+  Home,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useRouter, usePathname } from "next/navigation";
@@ -58,22 +59,22 @@ export function AdminSidebar({ isCollapsed: externalCollapsed, onCollapse }: Adm
     {
       icon: LayoutDashboard,
       label: "Dashboard",
-      href: "/admin",
+      href: "/admincortex",
     },
     {
       icon: BookOpen,
       label: "Edit Courses",
-      href: "/admin/courses",
+      href: "/admincortex/courses",
     },
     {
       icon: PlusCircle,
       label: "Create Course",
-      href: "/admin/courses/create",
+      href: "/admincortex/courses/create",
     },
     {
       icon: Users,
       label: "Course Access",
-      href: "/admin/access",
+      href: "/admincortex/access",
     },
   ];
 
@@ -175,10 +176,10 @@ export function AdminSidebar({ isCollapsed: externalCollapsed, onCollapse }: Adm
 
             // For non-exact matches, check if pathname starts with href
             // but exclude cases where a more specific route exists
-            if (!isActive && item.href !== "/admin") {
-              // Special case: /admin/courses should NOT be active when on /admin/courses/create
-              if (item.href === "/admin/courses") {
-                isActive = pathname.startsWith(item.href) && !pathname.startsWith("/admin/courses/create");
+            if (!isActive && item.href !== "/admincortex") {
+              // Special case: /admincortex/courses should NOT be active when on /admincortex/courses/create
+              if (item.href === "/admincortex/courses") {
+                isActive = pathname.startsWith(item.href) && !pathname.startsWith("/admincortex/courses/create");
               } else {
                 isActive = pathname.startsWith(item.href);
               }
@@ -216,12 +217,13 @@ export function AdminSidebar({ isCollapsed: externalCollapsed, onCollapse }: Adm
           })}
         </nav>
 
-        {/* Back to Dashboard */}
+        {/* Footer Actions */}
         <div className={cn(
-          "p-4 border-t border-gray-100",
+          "p-4 border-t border-gray-100 space-y-2",
           mounted && "lg:transition-all lg:duration-300",
-          collapsed && "lg:p-2"
+          collapsed && "lg:p-2 lg:space-y-2"
         )}>
+          {/* Back to Dashboard */}
           <button
             onClick={() => router.push("/dashboard")}
             className={cn(
@@ -231,8 +233,8 @@ export function AdminSidebar({ isCollapsed: externalCollapsed, onCollapse }: Adm
             )}
             title={collapsed ? "Back to Dashboard" : undefined}
           >
-            <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center ring-2 ring-gray-200 flex-shrink-0">
-              <LogOut className="w-5 h-5 text-gray-600" />
+            <div className="w-9 h-9 rounded-full bg-blue-50 flex items-center justify-center flex-shrink-0">
+              <Home className="w-4 h-4 text-blue-600" />
             </div>
             <span className={cn(
               "text-gray-600",
@@ -244,6 +246,41 @@ export function AdminSidebar({ isCollapsed: externalCollapsed, onCollapse }: Adm
             {collapsed && (
               <div className="hidden lg:block absolute left-full ml-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
                 Back to Dashboard
+              </div>
+            )}
+          </button>
+
+          {/* Logout */}
+          <button
+            onClick={async () => {
+              try {
+                await fetch("/api/admin/auth", { method: "DELETE" });
+                router.push("/admincortex/login");
+                router.refresh();
+              } catch (err) {
+                console.error("Logout failed:", err);
+              }
+            }}
+            className={cn(
+              "w-full flex items-center gap-2.5 p-2 rounded-lg hover:bg-red-50 text-sm font-medium group relative",
+              mounted && "lg:transition-all lg:duration-200",
+              collapsed && "lg:justify-center lg:p-2"
+            )}
+            title={collapsed ? "Logout" : undefined}
+          >
+            <div className="w-9 h-9 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0">
+              <LogOut className="w-4 h-4 text-red-600" />
+            </div>
+            <span className={cn(
+              "text-red-600",
+              collapsed && "lg:hidden"
+            )}>
+              Logout
+            </span>
+
+            {collapsed && (
+              <div className="hidden lg:block absolute left-full ml-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+                Logout
               </div>
             )}
           </button>
