@@ -23,7 +23,7 @@ Order: 1
 		Text Content :
  # **The Data Analyst Interview Masterclass**
 
-## **1\. Course Overview**
+## **1. Course Overview**
 
 Data Analyst interviews today are **not just about writing correct SQL or Python code**.  
  Most candidates already know the basics — what interviewers really test is **how you think with data**.
@@ -38,7 +38,7 @@ The goal is to make you **interview-ready**, not just technically correct.
 
 ---
 
-## **2\. Curriculum Design Philosophy**
+## **2. Curriculum Design Philosophy**
 
 This curriculum is designed by working **backwards from real interviews**.
 
@@ -62,7 +62,7 @@ Every concept here exists because it shows up repeatedly in interviews.
 
 ---
 
-## **3\. Key Learning Outcomes**
+## **3. Key Learning Outcomes**
 
 By the end of this module, you will be able to:
 
@@ -77,7 +77,7 @@ By the end of this module, you will be able to:
 
 ---
 
-## **4\. Recommended Learning Path**
+## **4. Recommended Learning Path**
 
 * **Revise with intent:**  
    Don’t just read — think *“How would I explain this in an interview?”*
@@ -90,7 +90,7 @@ By the end of this module, you will be able to:
 
 ---
 
-## **5\. Interview-Style Practice Question (End-to-End)**
+## **5. Interview-Style Practice Question (End-to-End)**
 
 ### **Question:**
 
@@ -181,7 +181,7 @@ Because of this, the *same work* can have *different titles* across companies.
 
 ---
 
-## **1\. Large Companies: Specialist Roles**
+## **1. Large Companies: Specialist Roles**
 
 In large tech companies, analytics roles are usually **clearly separated**.
 
@@ -207,7 +207,7 @@ This means:
 
   ---
 
-  ## **2\. Startups: Generalist Roles**
+  ## **2. Startups: Generalist Roles**
 
 In startups and fast-growing companies, roles are much **broader**.
 
@@ -239,7 +239,7 @@ Here, a “Data Analyst” might:
 
   ---
 
-  ## **3\. Role-Based Specializations You’ll Commonly See**
+  ## **3. Role-Based Specializations You’ll Commonly See**
 
 Even if the title differs, interviews usually fall into a few **core role types**.
 
@@ -305,7 +305,7 @@ Even if the title differs, interviews usually fall into a few **core role types*
 
   ---
 
-  ## **4\. Industry-Specific Expectations**
+  ## **4. Industry-Specific Expectations**
 
 Some analytics roles require **domain understanding**, which often shows up in interviews.
 
@@ -319,7 +319,7 @@ You’re not expected to be an expert, but **basic domain awareness** gives you 
 
 ---
 
-## **5\. The Common Ground Across All Analytics Roles**
+## **5. The Common Ground Across All Analytics Roles**
 
 Despite different titles, **interview expectations overlap heavily**.
 
@@ -337,7 +337,7 @@ Every strong Data Analyst is expected to handle the **data value chain**:
 
    ---
 
-   ## **6\. Non-Negotiable Skill Set (Across Roles)**
+## **6. Non-Negotiable Skill Set (Across Roles)**
 
 Regardless of title, interviews almost always test:
 
@@ -350,10 +350,10 @@ Regardless of title, interviews almost always test:
 *  **Statistics** – basic inference, experiments, reasoning
 
 **Important Interview Insight:**  
- Tools help you get shortlisted.  
- **Business understanding decides the final offer.**
+ * Tools help you get shortlisted.  
+ * Business understanding decides the final offer.
 
-Interviewers prefer candidates who can explain:
+**Interviewers prefer candidates who can explain:**
 
 * *Why* a metric matters
 
@@ -363,7 +363,7 @@ Interviewers prefer candidates who can explain:
 
   ---
 
-  ## **7\. Interview-Style Practice Question (End-to-End)**
+## **7. Interview-Style Practice Question (End-to-End)**
 
   ### **Question:**
 
@@ -383,7 +383,7 @@ An interviewer asks:
 
   ---
 
-  ### **Sample Interview Answer:**
+### **Sample Interview Answer:**
 
 I would focus more on the **job description than the title**.  
  If the responsibilities involve user metrics, experiments, and product decisions, I would prepare like a Product Analyst.
@@ -437,7 +437,7 @@ Technical skills may get you shortlisted, but these four pillars decide whether 
 
 ---
 
-### **1\. Narrative & Communication (Answering the “So What?”)**
+### **1. Narrative & Communication (Answering the “So What?”)**
 
 Data has value only when it leads to action.  
  Interviewers want to see if you can **translate analysis into decisions**.
@@ -454,7 +454,7 @@ A strong analyst doesn’t just show numbers — they explain **what should be d
 
 ---
 
-### **2\. Structured Problem Solving (Handling Ambiguity)**
+### **2. Structured Problem Solving (Handling Ambiguity)**
 
 Real interview questions are rarely clean or well-defined.
 
@@ -462,7 +462,7 @@ You won’t hear:
 
 “Write a SQL query”
 
-You *will* hear:
+You **will** hear:
 
 “Revenue dropped last month. What would you look at?”
 
@@ -478,7 +478,7 @@ Structure matters more than speed.
 
 ---
 
-### **3\. Business Acumen (Thinking Like an Owner)**
+### **3. Business Acumen (Thinking Like an Owner)**
 
 This is where most candidates struggle.
 
@@ -504,7 +504,7 @@ Great answers sound like:
 
 ---
 
-### **4\. Cross-Functional Influence**
+### **4. Cross-Functional Influence**
 
 Data Analysts rarely work alone.
 
@@ -587,13 +587,13 @@ An interviewer asks:
 
 * Don’t list tools blindly
 
-* Balance technical \+ business skills
+* Balance technical + business skills
 
 * Tie skills back to impact
 
   ---
 
-  ### **Sample Interview Answer:**
+### **Sample Interview Answer:**
 
 A Data Analyst needs a mix of technical and non-technical skills.
 
@@ -643,7 +643,7 @@ Think of interviews as a **series of filters**, not a single exam.
 
 * **Goal:** Check basic fit and eligibility for the role
 
-  ### **What This Round Looks Like**
+### **What This Round Looks Like**
 
 This is usually a conversational round covering:
 
@@ -653,7 +653,7 @@ This is usually a conversational round covering:
 
 * Why this role or company interests you
 
-  ### **Common Mistake**
+### **Common Mistake**
 
 Many candidates treat this round casually.
 
@@ -675,7 +675,7 @@ You may also be asked **light technical questions** to confirm credibility.
 
   ---
 
-  ## **Round 2: The Hiring Manager Round (The Alignment Check)**
+## **Round 2: The Hiring Manager Round (The Alignment Check)**
 
 * **Duration:** 30–45 minutes
 
@@ -738,7 +738,7 @@ Interviewers care as much about *how* you think as *what* you write.
 
 This round focuses on **ambiguous, real-world problems**.
 
-Example prompt:
+**Example prompt:**
 
 “A key business metric dropped last month. How would you analyze this?”
 
@@ -777,7 +777,7 @@ You’ll be asked to share real examples from your experience.
 
 * Managing pressure or deadlines
 
-  ### **How to Answer**
+### **How to Answer**
 
 Use the **STAR framework**:
 
@@ -813,7 +813,7 @@ An interviewer asks:
 
   ---
 
-  ### **Sample Interview Answer:**
+### **Sample Interview Answer:**
 
 While all rounds matter, I believe the business or case study round is the most important for a Data Analyst. Technical skills are essential, but many candidates have similar technical ability.
 
@@ -874,7 +874,7 @@ After analyzing real interview patterns and job requirements across companies li
 
 ---
 
-## **1\. SQL: The Absolute Foundation**
+## **1. SQL: The Absolute Foundation**
 
 SQL is the most important technical skill for Data Analyst interviews — across **all experience levels**.
 
@@ -901,7 +901,7 @@ If SQL is weak, candidates usually don’t move forward.
 
 ---
 
-## **2\. Excel & Google Sheets: Fast Thinking Tools**
+## **2. Excel & Google Sheets: Fast Thinking Tools**
 
 Spreadsheets are still heavily used in interviews and real teams.
 
@@ -927,7 +927,7 @@ In some interviews, you may be asked to:
 
 ---
 
-## **3\. Visualization & Dashboarding: Turning Data into Decisions**
+## **3. Visualization & Dashboarding: Turning Data into Decisions**
 
 Charts are not about aesthetics — they are about **clarity**.
 
@@ -947,7 +947,7 @@ Can this dashboard help someone make a decision?
 
 ---
 
-## **4\. Thinking End-to-End (The Analysis Lifecycle)**
+## **4. Thinking End-to-End (The Analysis Lifecycle)**
 
 Strong candidates don’t jump straight to answers.
 
@@ -967,7 +967,7 @@ Interviewers often test this by giving **messy or incomplete problems** and obse
 
 ---
 
-## **5\. Statistics: Validating Your Insights**
+## **5. Statistics: Validating Your Insights**
 
 You don’t need advanced mathematics, but **basic statistical thinking is essential**, especially for product and experimentation roles.
 
@@ -985,7 +985,7 @@ Depth depends on the role, but **conceptual clarity is always expected**.
 
 ---
 
-## **6\. Python: Role-Dependent Skills**
+## **6. Python: Role-Dependent Skills**
 
 Python is **not mandatory for every Data Analyst role**.
 
@@ -1003,7 +1003,7 @@ Python is commonly used for:
 
 * Large datasets
 
-But many analyst roles rely primarily on SQL \+ dashboards.
+But many analyst roles rely primarily on SQL + dashboards.
 
 ---
 
@@ -1055,24 +1055,26 @@ Interviewers are checking:
 
 ### **Correct SQL Solution**
 
-`WITH overall_avg AS (`  
-`    SELECT AVG(order_amount) AS avg_order_value`  
-`    FROM orders ),`  
-`user_metrics AS (`  
-`    SELECT`  
-`        user_id,`  
-`        COUNT(order_id) AS total_orders,`  
-`        AVG(order_amount) AS user_avg_order_value`  
-`    FROM orders`  
-`    GROUP BY user_id )`  
-`SELECT`  
-`    u.user_id,`  
-`    u.total_orders,`  
-`    u.user_avg_order_value`  
-`FROM user_metrics u`  
-`JOIN overall_avg o`  
-`    ON u.user_avg_order_value > o.avg_order_value`  
-`WHERE u.total_orders >= 3;`
+```sql
+WITH overall_avg AS (
+SELECT AVG(order_amount) AS avg_order_value
+FROM orders ),
+user_metrics AS (
+SELECT
+user_id,
+COUNT(order_id) AS total_orders,
+AVG(order_amount) AS user_avg_order_value
+FROM orders
+GROUP BY user_id )
+SELECT
+u.user_id,
+u.total_orders,
+u.user_avg_order_value
+FROM user_metrics u
+JOIN overall_avg o
+ON u.user_avg_order_value > o.avg_order_value
+WHERE u.total_orders >= 3;
+```
 
 ---
 
@@ -1090,10 +1092,10 @@ Interviewers are checking:
 
 ### **Common Mistakes Interviewers Watch For**
 
- Comparing user average with itself  
-  Forgetting to filter users with at least 3 orders  
-  Writing everything in one unreadable query  
-  Not explaining the approach before coding
+  * Comparing user average with itself  
+  * Forgetting to filter users with at least 3 orders  
+  * Writing everything in one unreadable query  
+  * Not explaining the approach before coding
 
 ---
 
@@ -1111,13 +1113,18 @@ Interviewers are checking:
 
 ### **(Optional) Python / Pandas Equivalent**
 
-`import pandas as pd`
+```python
+import pandas as pd
 
-`overall_avg = orders['order_amount'].mean()`
+overall_avg = orders['order_amount'].mean()
 
-`result = (orders.groupby('user_id').agg( total_orders=('order_id', 'count'), user_avg_order_value=('order_amount', 'mean') ).reset_index())`
+result = (orders.groupby('user_id').agg(
+    total_orders=('order_id', 'count'),
+    user_avg_order_value=('order_amount', 'mean')
+).reset_index())
 
-`final = result[ (result['total_orders'] >= 3) & (result['user_avg_order_value'] > overall_avg)]`
+final = result[(result['total_orders'] >= 3) & (result['user_avg_order_value'] > overall_avg)]
+```
 
 ---
 
@@ -1171,7 +1178,7 @@ This section breaks down **how interviewers actually score your answers**.
 
 ## **What Interviewers Really Evaluate**
 
-### **1\. Accuracy (Baseline Requirement)**
+### **1. Accuracy (Baseline Requirement)**
 
 This answers one question:
 
@@ -1187,7 +1194,7 @@ Does the solution produce the right result?
 
 ---
 
-### **2\. Efficiency & Scalability (Differentiator)**
+### **2. Efficiency & Scalability (Differentiator)**
 
 Interviewers ask:
 
@@ -1209,7 +1216,7 @@ A clean, readable solution often scores higher than a clever but messy one.
 
 ---
 
-### **3\. Communication & Reasoning (Offer-Maker)**
+### **3. Communication & Reasoning (Offer-Maker)**
 
 This is where most candidates lose points.
 
@@ -1276,14 +1283,16 @@ Interviewers are checking:
 
 ### **Weak Answer (Why It Fails)**
 
-`SELECT`  
-`    customer_id,`  
-`    MONTH(transaction_date) AS month,`  
-`    SUM(amount) AS total_amount`  
-`FROM transactions`  
-`GROUP BY customer_id, MONTH(transaction_date)`  
-`ORDER BY total_amount DESC`  
-`LIMIT 2;`
+```sql
+SELECT
+customer_id,
+MONTH(transaction_date) AS month,
+SUM(amount) AS total_amount
+FROM transactions
+GROUP BY customer_id, MONTH(transaction_date)
+ORDER BY total_amount DESC
+LIMIT 2;
+```
 
  Problems:
 
@@ -1299,41 +1308,41 @@ Interviewers are checking:
 
 ### **Strong Interview-Ready SQL Solution**
 
-`WITH monthly_customer_revenue AS (`  
-`    SELECT`  
-`        customer_id,`  
-`        DATE_TRUNC('month', transaction_date) AS month,`  
-`        SUM(amount) AS total_amount`  
-`    FROM transactions`  
-`    GROUP BY customer_id, DATE_TRUNC('month', transaction_date)`  
-`),`  
-`ranked_customers AS (`  
-`    SELECT`  
-`        customer_id,`  
-`        month,`  
-`        total_amount,`  
-`        DENSE_RANK() OVER (`  
-`            PARTITION BY month`  
-`            ORDER BY total_amount DESC`  
-`        ) AS revenue_rank`  
-`    FROM monthly_customer_revenue`  
-`)`  
-`SELECT`  
-`    customer_id,`  
-`    month,`  
-`    total_amount`  
-`FROM ranked_customers`  
-`WHERE revenue_rank <= 2;`
+```sql
+WITH monthly_customer_revenue AS (
+SELECT
+customer_id,
+DATE_TRUNC('month', transaction_date) AS month,
+SUM(amount) AS total_amount
+FROM transactions
+GROUP BY customer_id, DATE_TRUNC('month', transaction_date)),
+ranked_customers AS (
+SELECT
+customer_id,
+month,
+total_amount,
+DENSE_RANK() OVER (
+PARTITION BY month
+ORDER BY total_amount DESC
+) AS revenue_rank
+FROM monthly_customer_revenue),
+SELECT
+customer_id,
+month,
+total_amount
+FROM ranked_customers
+WHERE revenue_rank <= 2;
+```
 
 ---
 
 ### **Why Interviewers Like This Answer**
 
- Uses **window functions correctly**  
-  Handles **ties** using `DENSE_RANK()`  
-  Separates logic using CTEs  
-  Easy to explain step-by-step  
-  Scales well for large datasets
+  * Uses **window functions correctly**  
+  * Handles **ties** using `DENSE_RANK()`  
+  * Separates logic using CTEs  
+  * Easy to explain step-by-step  
+  * Scales well for large datasets
 
 This is the difference between **“can write SQL”** and **“strong Data Analyst”**.
 
@@ -1366,15 +1375,13 @@ This solution would typically score **high across all interview rubrics**.
 
 ### **Python / Pandas Equivalent (Often Asked)**
 
-`import pandas as pd`
-
-`transactions['month'] = transactions['transaction_date'].dt.to_period('M')`
-
-`monthly = (transactions.groupby(['customer_id', 'month'])['amount'].sum().reset_index())`
-
-`monthly['rank'] = (monthly.groupby('month')['amount'].rank(method='dense', ascending=False))`
-
-`result = monthly[monthly['rank'] <= 2]`
+```python
+import pandas as pd
+transactions['month'] = transactions['transaction_date'].dt.to_period('M')
+monthly = (transactions.groupby(['customer_id', 'month'])['amount'].sum().reset_index())
+monthly['rank'] = (monthly.groupby('month')['amount'].rank(method='dense', ascending=False))
+result = monthly[monthly['rank'] <= 2]
+```
 
 ---
 
@@ -1571,60 +1578,62 @@ They are testing:
 
 ### **Strong Interview-Ready SQL Solution**
 
-`WITH login_with_prev AS (`  
-`    SELECT`  
-`        user_id,`  
-`        login_date,`  
-`        LAG(login_date) OVER (`  
-`            PARTITION BY user_id`  
-`            ORDER BY login_date`  
-`        ) AS prev_login_date`  
-`    FROM user_logins`  
-`),`  
-`streak_flag AS (`  
-`    SELECT`  
-`        user_id,`  
-`        login_date,`  
-`        CASE`  
-`            WHEN login_date = prev_login_date + INTERVAL '1 day'`  
-`            THEN 0`  
-`            ELSE 1`  
-`        END AS new_streak`  
-`    FROM login_with_prev`  
-`),`  
-`streak_groups AS (`  
-`    SELECT`  
-`        user_id,`  
-`        login_date,`  
-`        SUM(new_streak) OVER (`  
-`            PARTITION BY user_id`  
-`            ORDER BY login_date`  
-`        ) AS streak_id`  
-`    FROM streak_flag`  
-`)`  
-`SELECT DISTINCT user_id`  
-`FROM streak_groups`  
-`GROUP BY user_id, streak_id`  
-`HAVING COUNT(*) >= 3;`
+```sql
+WITH login_with_prev AS (
+SELECT
+user_id,
+login_date,
+LAG(login_date) OVER (
+PARTITION BY user_id
+ORDER BY login_date
+) AS prev_login_date
+FROM user_logins
+),
+streak_flag AS (
+SELECT
+user_id,
+login_date,
+CASE
+WHEN login_date = prev_login_date + INTERVAL '1 day'
+THEN 0
+ELSE 1
+END AS new_streak
+FROM login_with_prev
+),
+streak_groups AS (
+SELECT
+user_id,
+login_date,
+SUM(new_streak) OVER (
+PARTITION BY user_id
+ORDER BY login_date
+) AS streak_id
+FROM streak_flag
+)
+SELECT DISTINCT user_id
+FROM streak_groups
+GROUP BY user_id, streak_id
+HAVING COUNT(*) >= 3;
+```
 
 ---
 
 ### **Why Interviewers Like This Answer**
 
- Uses window functions correctly  
-  Handles real-world streak logic  
-  Breaks problem into readable steps  
-  Scales well for large datasets  
-  Easy to explain during live coding
+  * Uses window functions correctly  
+  * Handles real-world streak logic  
+  * Breaks problem into readable steps  
+  * Scales well for large datasets  
+  * Easy to explain during live coding
 
 ---
 
 ### **Common Mistakes Interviewers Watch For**
 
- Trying to self-join dates unnecessarily  
-  Missing edge cases (first login)  
-  Not explaining the logic behind streaks  
-  Writing unreadable one-liner queries
+  * Trying to self-join dates unnecessarily  
+  * Missing edge cases (first login)  
+  * Not explaining the logic behind streaks  
+  * Writing unreadable one-liner queries
 
 ---
 
@@ -1812,41 +1821,43 @@ They are testing:
 
 ### **Strong Interview-Ready SQL Solution**
 
-`WITH ranked_salaries AS (`  
-`    SELECT`  
-`        employee_id,`  
-`        department,`  
-`        salary,`  
-`        DENSE_RANK() OVER (`  
-`            PARTITION BY department`  
-`            ORDER BY salary DESC`  
-`        ) AS salary_rank`  
-`    FROM employee_salaries`  
-`)`  
-`SELECT`  
-`    department,`  
-`    salary AS second_highest_salary`  
-`FROM ranked_salaries`  
-`WHERE salary_rank = 2;`
+```sql
+WITH ranked_salaries AS (
+SELECT
+employee_id,
+department,
+salary,
+DENSE_RANK() OVER (
+PARTITION BY department
+ORDER BY salary DESC
+) AS salary_rank
+FROM employee_salaries
+)
+SELECT
+department,
+salary AS second_highest_salary
+FROM ranked_salaries
+WHERE salary_rank = 2;
+```
 
 ---
 
 ### **Why This Scores High in Interviews**
 
- Uses `DENSE_RANK()` correctly  
-  Handles duplicate salaries  
-  Avoids incorrect subquery logic  
-  Clean and easy to explain  
-  Matches common interview expectations
+  * Uses `DENSE_RANK()` correctly  
+  * Handles duplicate salaries  
+  * Avoids incorrect subquery logic  
+  * Clean and easy to explain  
+  * Matches common interview expectations
 
 ---
 
 ### **Common Mistakes Interviewers Penalize**
 
- Using `MAX(salary)` with `<>` logic  
-  Forgetting about duplicate salaries  
-  Writing unreadable nested subqueries  
-  Not considering departments with \< 2 employees
+  * Using `MAX(salary)` with `<>` logic  
+  * Forgetting about duplicate salaries  
+  * Writing unreadable nested subqueries  
+  * Not considering departments with \< 2 employees
 
 ---
 
@@ -1900,7 +1911,7 @@ With AI tools and auto-complete, **syntax errors rarely decide interviews anymor
 
 * Can your logic scale to real data?
 
-**Correct syntax with incorrect logic \= rejection.**
+**Correct syntax with incorrect logic = rejection.**
 
 ### **How to Avoid This Mistake**
 
@@ -1920,7 +1931,7 @@ Shift your attention from typing to thinking:
 
 Some candidates try to impress by making queries look complex.
 
-*Example:*  
+**Example:** 
  Using deeply nested subqueries and window functions when a simple `JOIN + GROUP BY` works.
 
 ### **Why This Hurts Your Score**
@@ -1975,7 +1986,7 @@ You may be asked:
 
 “How would you optimize this query?”
 
-This does **not** mean you need to be a database expert.
+This does **not** means you need to be a database expert.
 
 ### **Common Performance Mistakes**
 
@@ -2019,7 +2030,7 @@ Example:
 
 **Key Insight:**  
  SQL ≠ just queries  
- SQL \= **business logic \+ data logic \+ query logic**
+ SQL = **business logic \+ data logic \+ query logic**
 
 ---
 
@@ -2050,7 +2061,7 @@ You are given two tables:
 Write a SQL query to calculate the **monthly revenue per user**,  
  considering refunds.  
  If an order has a refund, subtract the refund amount from revenue.  
- If there is no refund, assume refund amount is 0\.
+ If there is no refund, assume refund amount is 0
 
 ---
 
@@ -2080,40 +2091,42 @@ They are testing:
 
 ### **Strong Interview-Ready SQL Solution**
 
-`WITH order_revenue AS (`  
-`    SELECT`  
-`        o.user_id,`  
-`        DATE_TRUNC('month', o.order_date) AS month,`  
-`        o.order_amount - COALESCE(r.refund_amount, 0) AS net_revenue`  
-`    FROM orders o`  
-`    LEFT JOIN refunds r`  
-`        ON o.order_id = r.order_id`  
-`)`  
-`SELECT`  
-`    user_id,`  
-`    month,`  
-`    SUM(net_revenue) AS monthly_revenue`  
-`FROM order_revenue`  
-`GROUP BY user_id, month;`
+```sql
+WITH order_revenue AS (
+SELECT
+o.user_id,
+DATE_TRUNC('month', o.order_date) AS month,
+o.order_amount - COALESCE(r.refund_amount, 0) AS net_revenue
+FROM orders o
+LEFT JOIN refunds r
+ON o.order_id = r.order_id
+)
+SELECT
+user_id,
+month,
+SUM(net_revenue) AS monthly_revenue
+FROM order_revenue
+GROUP BY user_id, month;
+```
 
 ---
 
 ### **Why This Scores Well**
 
- Uses `LEFT JOIN` correctly  
-  Handles missing refunds using `COALESCE`  
-  Separates logic using CTEs  
-  Reflects correct business definition of revenue  
-  Easy to explain in interviews
+  * Uses `LEFT JOIN` correctly  
+  * Handles missing refunds using `COALESCE`  
+  * Separates logic using CTEs  
+  * Reflects correct business definition of revenue  
+  * Easy to explain in interviews
 
 ---
 
 ### **Common Mistakes Interviewers Penalize**
 
- Using `INNER JOIN` and dropping non-refunded orders  
-  Not handling `NULL` refunds  
-  Aggregating before adjusting revenue  
-  Ignoring business meaning of revenue
+  * Using `INNER JOIN` and dropping non-refunded orders  
+  * Not handling `NULL` refunds  
+  * Aggregating before adjusting revenue  
+  * Ignoring business meaning of revenue
 
 ---
 
@@ -2251,7 +2264,7 @@ Strong candidates consistently show strength across the following areas.
 
 ---
 
-## **1\. Data Cleaning & Preparation (Non-Negotiable)**
+## **1. Data Cleaning & Preparation (Non-Negotiable)**
 
 Most spreadsheet mistakes happen **before analysis even starts**.
 
@@ -2269,7 +2282,7 @@ Interviewers notice immediately if data is misaligned or corrupted.
 
 ---
 
-## **2\. Aggregation & Metric Calculation**
+## **2.  Aggregation & Metric Calculation**
 
 This is where raw data turns into insights.
 
@@ -2288,7 +2301,7 @@ Commonly tested skills:
 
 ---
 
-## **3\. Lookups & Data Joining Logic**
+## **3. Lookups & Data Joining Logic**
 
 Spreadsheets often simulate SQL-like joins.
 
@@ -2300,11 +2313,11 @@ Interviewers expect:
 
 * Awareness of failure cases (`#N/A`, missing keys)
 
-Knowing **why** a lookup fails matters more than memorizing syntax.
+Knowing **why** A lookup fails matters more than memorizing syntax.
 
 ---
 
-## **4\. Visualization & Interpretation**
+## **4. Visualization & Interpretation**
 
 Charts are evaluated for **clarity**, not beauty.
 
@@ -2328,7 +2341,7 @@ Conditional formatting is often used to:
 
 ---
 
-## **5\. Logical Functions & Error Handling**
+## **5. Logical Functions & Error Handling**
 
 Interviewers value **robust sheets** that don’t break.
 
@@ -2344,7 +2357,7 @@ Error-filled sheets are a red flag.
 
 ---
 
-## **6\. Professional Sheet Design (Very Important)**
+## **6. Professional Sheet Design (Very Important)**
 
 This silently differentiates senior candidates.
 
@@ -2410,23 +2423,20 @@ They are testing:
 
    * Values: Sum of Revenue
 
-Calculate **Month-over-Month growth**:
+3. Calculate **Month-over-Month growth**:
 
- `(Current Month Revenue - Previous Month Revenue)`
+ `(Current Month Revenue - Previous Month Revenue) / Previous Month Revenue`
 
-`/ Previous Month Revenue`
-
-3.   
 4. Handle division by zero using `IFERROR`
 
 ---
 
 ### **Common Mistakes**
 
- Hard-coding cell references  
-  Forgetting to sort by month  
-  Not handling first month edge case  
-  Incorrect growth formula
+  * Hard-coding cell references  
+  * Forgetting to sort by month  
+  * Not handling first month edge case  
+  * Incorrect growth formula
 
 ---
 
@@ -2451,7 +2461,7 @@ You are given two sheets:
 **Question:**
 
 Calculate **net revenue per user**, considering refunds.  
- If an order has no refund, treat the refund as 0\.
+ If an order has no refund, treat the refund as 0
 
 ---
 
@@ -2475,11 +2485,10 @@ They are testing:
 
 2. Wrap lookup with `IFERROR(..., 0)`
 
-Calculate **net revenue per order**
+3. Calculate **net revenue per order**
 
  `net_revenue = order_amount - refund_amount`
 
-3.   
 4. Aggregate net revenue **per user** using:
 
    * Pivot Table or
@@ -2490,10 +2499,10 @@ Calculate **net revenue per order**
 
 ### **Common Mistakes**
 
- Using VLOOKUP with wrong column index  
-  Not handling missing refunds  
-  Aggregating before subtracting refunds  
-  Mixing raw data and calculations in same sheet
+  * Using VLOOKUP with wrong column index  
+  * Not handling missing refunds  
+  * Aggregating before subtracting refunds  
+  * Mixing raw data and calculations in same sheet
 
 ---
 
@@ -2735,7 +2744,7 @@ If a simpler chart answers the question, **never choose a complex one**.
 
 ---
 
-## ** Interview-Critical Table: Which Chart to Use When**
+## **Interview-Critical Table: Which Chart to Use When**
 
 This table alone can **dramatically improve visualization interview performance**.
 
@@ -2808,23 +2817,23 @@ You need to present this data to **Leadership** to explain performance last quar
 
 ### **High-Scoring Interview Answer Structure**
 
-**1\. Executive Summary (What happened?)**
+**1 Executive Summary (What happened?)**
 
 * KPI cards: Revenue, Growth %, Conversion Rate
 
-**2\. Performance Trend (Is it improving?)**
+**2 Performance Trend (Is it improving?)**
 
 * Line chart: Revenue over time
 
-**3\. Comparison (Where are we winning/losing?)**
+**3 Comparison (Where are we winning/losing?)**
 
 * Bar chart: Revenue by region
 
-**4\. Efficiency Check (Is growth healthy?)**
+**4 Efficiency Check (Is growth healthy?)**
 
 * Scatter plot: Marketing Spend vs Revenue
 
-**5\. Action**
+**5 Action**
 
 * Identify underperforming regions for optimization
 
@@ -3065,12 +3074,12 @@ This 6-step framework helps you:
 
 | Step | Objective | Interview Expectation |
 | ----- | ----- | ----- |
-| 1\. Define | Convert vague asks into clear questions | Ask clarifying questions |
-| 2\. Acquire | Identify correct data sources | Know tables & systems |
-| 3\. Prepare | Clean & validate data | Handle NULLs & duplicates |
-| 4\. Analyze | Find patterns & issues | Logical breakdown |
-| 5\. Interpret | Convert data to insight | Business reasoning |
-| 6\. Communicate | Drive decisions | Clear storytelling |
+| 1 Define | Convert vague asks into clear questions | Ask clarifying questions |
+| 2 Acquire | Identify correct data sources | Know tables & systems |
+| 3 Prepare | Clean & validate data | Handle NULLs & duplicates |
+| 4 Analyze | Find patterns & issues | Logical breakdown |
+| 5 Interpret | Convert data to insight | Business reasoning |
+| 6 Communicate | Drive decisions | Clear storytelling |
 
 ---
 
@@ -3086,13 +3095,13 @@ Imagine you’re interviewing for an analytics role at **Amazon Web Services**.
 
 ### **How a Strong Candidate Walks Through the 6 Steps**
 
-**1\. Define**
+**1 Define**
 
 * Clarify timeline, geography, and metric
 
 * Confirm what “conversion” means
 
-**2\. Acquire**
+**2 Acquire**
 
 * Leads table
 
@@ -3100,7 +3109,7 @@ Imagine you’re interviewing for an analytics role at **Amazon Web Services**.
 
 * Sales activity logs
 
-**3\. Prepare**
+**3 Prepare**
 
 * Remove duplicate leads
 
@@ -3108,17 +3117,17 @@ Imagine you’re interviewing for an analytics role at **Amazon Web Services**.
 
 * Align time zones
 
-**4\. Analyze**
+**4 Analyze**
 
 * Segment by response time
 
 * Compare pre vs post drop
 
-**5\. Interpret**
+**5 Interpret**
 
 * Conversion drops when first contact \> 24 hrs
 
-**6\. Communicate**
+**6 Communicate**
 
 * Recommend automation \+ staffing fix
 
@@ -3170,7 +3179,7 @@ Interviewers expect you to mention:
 
 * Standardizing formats
 
-Ignoring this step \= red flag.
+Ignoring this step = red flag.
 
 ---
 
@@ -3246,10 +3255,10 @@ Interviewers score **structure, not speed**.
 
 ## **Common Mistakes Interviewers Penalize**
 
- Jumping to conclusions  
-  Ignoring data quality  
-  No business framing  
-  Only talking about tools
+  * Jumping to conclusions  
+  * Ignoring data quality  
+  * No business framing  
+  * Only talking about tools
 
 
 Class 2.5.3:
@@ -3323,7 +3332,7 @@ Statistics usually appears in **three recurring interview contexts**.
 
 | Context | What Interviewers Are Testing | Typical Question |
 | ----- | ----- | ----- |
-| Diagnostic Cases | Correlation vs causation | “Metric X increased after feature launch. Did the feature cause it?” |
+| Diagnostic Cases | Correlation vs causation | “Metric X increased after the feature launch. Did the feature cause it?” |
 | A/B Testing | Decision confidence | “The p-value is below 0.05. Should we ship?” |
 | Data Quality | Outlier handling | “Would you remove these extreme values?” |
 
@@ -3517,11 +3526,11 @@ Outliers are not always errors — sometimes they are the most important data po
 
 ## **Common Statistical Mistakes Interviewers Penalize**
 
- Treating correlation as causation  
-  Blindly trusting p-values  
-  Ignoring sample size  
-  Removing outliers without explanation  
-  Using averages on skewed data
+ * Treating correlation as causation  
+ * Blindly trusting p-values  
+ * Ignoring sample size  
+ * Removing outliers without explanation  
+ * Using averages on skewed data
 
 ---
 
@@ -3622,7 +3631,7 @@ Use the **PET framework** to sound senior and structured.
 
 ---
 
-### **1\. P — Proactive Checks**
+### **1 P — Proactive Checks**
 
 Strong candidates **voluntarily mention checks**.
 
@@ -3634,7 +3643,7 @@ This signals **maturity immediately**.
 
 ---
 
-### **2\. E — Examples (Real or Hypothetical)**
+### **2 E — Examples (Real or Hypothetical)**
 
 Interviewers remember **stories**, not theory.
 
@@ -3650,7 +3659,7 @@ Even a **hypothetical but realistic example** works.
 
 ---
 
-### **3\. T — Trade-offs (Most Important)**
+### **3 T — Trade-offs (Most Important)**
 
 Every data-cleaning decision has a downside.
 
@@ -3716,7 +3725,7 @@ This shows **process-first thinking**.
 
 ### **Red-Flag Answer**
 
-“I would calculate the average and start analysis.”
+“I would calculate the average and start the analysis.”
 
 This suggests rushing without validation.
 
@@ -3734,7 +3743,7 @@ You see **extremely high transaction values** in an e-commerce dataset.
 
 ### **Strong Interview Answer**
 
-I would first investigate *why* they exist.
+I would first investigate **why** they exist.
 
 If they represent genuine high-value customers, removing them would distort revenue insights. If they are data errors or test transactions, removal makes sense.
 
@@ -3804,11 +3813,11 @@ You won’t use them in interviews — but they **train your mental checklist**.
 
 ## **Common Data Quality Mistakes Interviewers Penalize**
 
- Ignoring missing values  
-  Removing outliers without explanation  
-  Blindly using averages  
-  Not considering bias  
-  Jumping into modeling too fast
+ * Ignoring missing values  
+  * Removing outliers without explanation  
+  * Blindly using averages  
+  * Not considering bias  
+  * Jumping into modeling too fast
 
 ---
 
@@ -3874,7 +3883,7 @@ A strong candidate may not solve everything analytically — but can **reason \+
 
 ## **Common Probability Question Types**
 
-### **1\. Conceptual Probability Questions**
+### **1 Conceptual Probability Questions**
 
 These test **understanding**, not math.
 
@@ -3888,7 +3897,7 @@ These test **understanding**, not math.
 
 ---
 
-### **2\. Numerical / Calculation Questions**
+### **2 Numerical / Calculation Questions**
 
 These test whether you can:
 
@@ -3898,7 +3907,7 @@ These test whether you can:
 
 ---
 
-### **3\. Applied / Business Probability Questions**
+### **3 Applied / Business Probability Questions**
 
 These test whether you can:
 
@@ -3949,19 +3958,13 @@ What is the probability of getting **at least one head**?
 
 ### **Correct Interview Thinking**
 
-1. Calculate the complement
-
-Probability of no heads (all tails):
+1. Calculate the complement - Probability of no heads (all tails):
 
  `P(TTT) = (1/2)^3 = 1/8`
 
-2. 
+2. Probability of at least one head:
 
-Probability of at least one head:
-
- `1 - 1/8 = 7/8`
-
-3. 
+ `1 - 1/8 = 7/8` 
 
 ---
 
@@ -3987,10 +3990,7 @@ What is the probability that a randomly selected user converts?
 ### **Solution**
 
 `P(Convert) = P(Click) × P(Convert | Click)`
-
-           `= 0.3 × 0.2`
-
-           `= 0.06`
+`= 0.3 × 0.2= 0.06`
 
 ---
 
@@ -4041,21 +4041,16 @@ Simulate the probability of getting at least one head when flipping a coin 3 tim
 
 ### **Interview-Ready Python Simulation**
 
-`import numpy as np`
-
-`trials = 10000`
-
-`success = 0`
-
-`for _ in range(trials):`
-
-    `flips = np.random.choice(['H', 'T'], size=3)`
-
-    `if 'H' in flips:`
-
-        `success += 1`
-
-`success / trials`
+```python
+import numpy as np
+trials = 10000
+success = 0
+for _ in range(trials):
+flips = np.random.choice(['H', 'T'], size=3)
+if 'H' in flips:
+success += 1
+success / trials
+```
 
 This approximates **0.875**, validating the analytical result (7/8).
 
@@ -4123,10 +4118,10 @@ This is **completely acceptable** in analytics interviews.
 
 ## **Common Probability Mistakes Interviewers Penalize**
 
- Confusing independence and conditional events  
-  Ignoring base rates  
-  Over-trusting small samples  
-  Using formulas without explaining assumptions
+* Confusing independence and conditional events  
+* Ignoring base rates  
+* Over-trusting small samples  
+* Using formulas without explaining assumptions
 
 ---
 
@@ -4191,13 +4186,13 @@ Strong candidates balance **theory \+ judgment**.
 
 ## **What Interviewers Actually Care About (Very Important)**
 
-Interviewers are *not* impressed by:
+Interviewers are **not** impressed by:
 
 * Memorized definitions
 
 * Formula recitation
 
-They *are* impressed by:
+They **are** impressed by:
 
 * Clear assumptions
 
@@ -4229,7 +4224,7 @@ Interviewers often ask:
 
 “Which test would you use, and why?”
 
-The *why* matters more than the name.
+The **why** matters more than the name.
 
 ---
 
@@ -4428,11 +4423,11 @@ If the lift is too small to matter practically, I may recommend not shipping or 
 
 ## **Common Hypothesis Testing Mistakes Interviewers Penalize**
 
- Treating p-value as probability of success  
-  Ignoring sample size  
-  Ignoring confidence intervals  
-  Not checking assumptions  
-  Blindly using 0.05 threshold
+ * Treating p-value as probability of success  
+ * Ignoring sample size  
+ * Ignoring confidence intervals  
+ * Not checking assumptions  
+ * Blindly using 0.05 threshold
 
 ---
 
@@ -4703,7 +4698,7 @@ If impact is negligible, I may recommend **not shipping**, despite significance.
 
 ## **How to Prepare for This Topic (Interview-Proven)**
 
-### **1\. Practice Fermi Estimation Weekly**
+### **1. Practice Fermi Estimation Weekly**
 
 * DAU estimates
 
@@ -4711,11 +4706,11 @@ If impact is negligible, I may recommend **not shipping**, despite significance.
 
 * Funnel math
 
-### **2\. Build Intuition, Not Formulas**
+### **2. Build Intuition, Not Formulas**
 
 You don’t need to derive equations — you need to understand **directional relationships**.
 
-### **3\. Learn to Explain Trade-offs Clearly**
+### **3. Learn to Explain Trade-offs Clearly**
 
 Interviewers reward candidates who say:
 
@@ -4818,7 +4813,7 @@ Strong candidates demonstrate control over the **end-to-end experimentation life
 
 ---
 
-## **1\. Hypothesis Formulation**
+## **1 Hypothesis Formulation**
 
 Interviewers want hypotheses that are:
 
@@ -4838,7 +4833,7 @@ Interviewers want hypotheses that are:
 
 ---
 
-## **2\. Metric Selection (Where Most Candidates Fail)**
+## **2 Metric Selection (Where Most Candidates Fail)**
 
 Interviewers expect **three metric layers**.
 
@@ -4864,7 +4859,7 @@ Mentioning guardrails is a **major green flag**.
 
 ---
 
-## **3\. Statistical Design & Practicality**
+## **3 Statistical Design & Practicality**
 
 Strong candidates discuss:
 
@@ -4880,7 +4875,7 @@ You are not expected to compute — you are expected to **think ahead**.
 
 ---
 
-## **4\. Real-World Constraints (Senior Signal)**
+## **4 Real-World Constraints (Senior Signal)**
 
 Interviewers reward candidates who consider:
 
@@ -5026,11 +5021,11 @@ If complaints signal long-term trust issues not captured in short-term metrics, 
 
 ## **Common Experimentation Mistakes Interviewers Penalize**
 
- Vague hypotheses  
-  No guardrail metrics  
-  Blindly trusting p-values  
-  Ignoring user experience  
-  Ignoring practical constraints
+ * Vague hypotheses  
+ * No guardrail metrics  
+ * Blindly trusting p-values  
+ * Ignoring user experience  
+ * Ignoring practical constraints
 
 ---
 
@@ -5121,7 +5116,7 @@ Interviewers don’t test Python for syntax alone.
 
 ---
 
-## **1\. Advanced Data Cleaning & Feature Engineering**
+## **1 Advanced Data Cleaning & Feature Engineering**
 
 SQL works well for structured rows and columns.  
  Python is tested when data becomes **messy or irregular**.
@@ -5141,7 +5136,7 @@ Interview signal:
 
 ---
 
-## **2\. Statistics, Modeling & Experimentation**
+## **2 Statistics, Modeling & Experimentation**
 
 SQL can calculate metrics.  
  Python is used to **validate hypotheses and model relationships**.
@@ -5161,7 +5156,7 @@ You are not expected to build production ML —
 
 ---
 
-## **3\. Automation & Scripting (Senior Signal)**
+## **3 Automation & Scripting (Senior Signal)**
 
 Python interviews often include questions like:
 
@@ -5183,7 +5178,7 @@ This tests:
 
 ---
 
-## **4\. Custom Analysis & Visualization**
+## **4 Custom Analysis & Visualization**
 
 While BI tools handle dashboards, Python is used when:
 
@@ -5211,148 +5206,6 @@ Interviewers care less about aesthetics and more about:
 | Take-Home | Structure \+ clarity |
 | Case Discussion | Whether Python is the right tool |
 | Follow-Ups | Edge cases & optimization |
-
----
-
-## **Interview-Style Practice Question (End-to-End)**
-
-### **Question 1 (Python – Medium/Hard, Very Common)**
-
-You are given a dataset of user transactions with the following columns:
-
-* `user_id`
-
-* `transaction_date`
-
-* `amount`
-
-**Question:**
-
-Write a Python function that returns the **top 3 users by total transaction amount for each month**.
-
----
-
-### **How Interviewers Expect You to Think**
-
-They are testing:
-
-* Grouping logic
-
-* Time-based feature creation
-
-* Aggregation
-
-* Clean, readable code
-
----
-
-### **Strong Interview-Ready Python Solution**
-
-`import pandas as pd`
-
-`def top_users_per_month(df):`
-
-    `df['month'] = pd.to_datetime(df['transaction_date']).dt.to_period('M')`
-
-    `monthly_totals = (`
-
-        `df.groupby(['month', 'user_id'])['amount']`
-
-        `.sum()`
-
-        `.reset_index()`
-
-    `)`
-
-    `result = (`
-
-        `monthly_totals`
-
-        `.sort_values(['month', 'amount'], ascending=[True, False])`
-
-        `.groupby('month')`
-
-        `.head(3)`
-
-    `)`
-
-    `return result`
-
----
-
-### **Why Interviewers Like This Answer**
-
- Uses Pandas idioms correctly  
-  Clear separation of steps  
-  Handles time-based grouping  
-  Easy to explain verbally  
-  Matches SQL window-function logic
-
----
-
-### **Common Mistakes Interviewers Penalize**
-
- Hard-coding months  
-  Incorrect sorting before grouping  
-  Writing everything in one unreadable line  
-  Forgetting to convert dates  
-  Not explaining logic
-
----
-
-### **Typical Follow-Up Questions**
-
-* How would you handle **ties**?
-
-* How would this scale to large data?
-
-* Can you write the **SQL equivalent**?
-
-* How would you optimize memory usage?
-
----
-
-## **Interview-Style Practice Question 2 (Python – Logic Heavy)**
-
-### **Question:**
-
-You are given a list of integers.
-
-Write a Python function to return **all subarrays whose sum equals a given target**.
-
-(This is a very common **logic \+ Python** interview question.)
-
----
-
-### **Interview-Ready Solution**
-
-`def subarrays_with_sum(nums, target):`
-
-    `prefix_sum = 0`
-
-    `seen = {0: 1}`
-
-    `count = 0`
-
-    `for num in nums:`
-
-        `prefix_sum += num`
-
-        `count += seen.get(prefix_sum - target, 0)`
-
-        `seen[prefix_sum] = seen.get(prefix_sum, 0) + 1`
-
-    `return count`
-
----
-
-### **What Interviewers Are Testing**
-
-* Ability to convert brute-force logic into optimized logic
-
-* Understanding of dictionaries and prefix sums
-
-* Time complexity awareness
 
 ---
 
@@ -5492,9 +5345,11 @@ In imperative languages (like Python or C++), you often have to tell the compute
 2.  **The DB Engine handles the How:** It scans the indexes, optimizes the join order, and retrieves the specific memory blocks.
 
 ### Example Query:
-`SELECT *`  
-`FROM monthly_sales`  
-`WHERE product_name = 'SQL Bootcamp';`  
+```sql
+SELECT *
+FROM monthly_sales
+WHERE product_name = 'SQL Bootcamp';
+```
  
 Class 3.1.2:
 Title: The SQL Interview Strategy: The S.C.O.R.E.
@@ -5664,39 +5519,47 @@ The SELECT statement is the "Hello World" of SQL. It tells the database *what* d
 
 **The Basic Syntax:**
 
-SELECT column\_name  
-FROM table\_name;
+```sql
+SELECT column_name  
+FROM table_name;
+```
 
 #### **Scenario 1: Fetching Everything (The Wildcard)**
 
-If you want to dump every column and every row from a table to inspect the data, use the asterisk (\*) symbol.
+If you want to dump every column and every row from a table to inspect the data, use the asterisk (*) symbol.
 
-SELECT \*  
+```sql
+SELECT *  
 FROM customers;
+```
 
-** Industry Warning:** While SELECT \* is great for quick exploration, avoid using it in production code or huge datasets. Fetching unnecessary columns wastes memory and slows down query performance.
+**Industry Warning:** While SELECT * is great for quick exploration, avoid using it in production code or huge datasets. Fetching unnecessary columns wastes memory and slows down query performance.
 
 #### **Scenario 2: Fetching Specific Columns (Projection)**
 
 To be efficient, you should explicitly list only the columns you need.
 
+```sql
 SELECT id, email  
 FROM customers;
+```
 
-*Result:* This retrieves only the id and email columns, ignoring address, phone, etc.
+**Result:** This retrieves only the id and email columns, ignoring address, phone, etc.
 
 ### ---
 
 **Aliasing: Renaming Output (AS)**
 
-Database column names are often technical and cryptic (e.g., cust\_first\_nm). You can rename them in your result set to make them human-readable using the AS keyword.
+Database column names are often technical and cryptic (e.g., cust_first_nm). You can rename them in your result set to make them human-readable using the AS keyword.
 
 **Syntax:**
 
-SELECT id, name AS customer\_full\_name  
+```sql
+SELECT id, name AS customer_full_name  
 FROM customers;
+```
 
-*Note:* This does **not** change the column name in the database; it only changes the label in your specific report.
+**Note:** This does **not** change the column name in the database; it only changes the label in your specific report.
 
 ### ---
 
@@ -5707,15 +5570,17 @@ SQL is "Case Insensitive" regarding keywords, but "Case Sensitive" regarding spe
 | Concept | The Rule | Good Example | Bad Example |
 | :---- | :---- | :---- | :---- |
 | **Keywords** | Always **UPPERCASE**. | SELECT | select |
-| **Object Names** | Always **snake\_case**. | users\_table | UsersTable |
-| **Whitespace** | Use new lines for clauses. | (See below) | SELECT \* FROM table |
+| **Object Names** | Always **snake_case**. | users_table | UsersTable |
+| **Whitespace** | Use new lines for clauses. | (See below) | SELECT * FROM table |
 
 **The Professional Standard:**
 
+```sql
 SELECT   
     id,   
-    name AS full\_name   
+    name AS full_name   
 FROM customers;
+```
 
 *Structure matters. Writing code on multiple lines makes it easier to debug later.*
 
@@ -5742,8 +5607,10 @@ The WHERE clause is your filter. It acts as a gatekeeper that evaluates every si
 
 The WHERE clause is placed immediately *after* the FROM clause.
 
-SELECT \* FROM products   
-WHERE price \< 50;
+```sql
+SELECT * FROM products   
+WHERE price < 50;
+```
 
 *Translation: "Go to the products table. Check every row. If the price is strictly less than 50, keep it. Otherwise, ignore it."*
 
@@ -5755,26 +5622,28 @@ To build these conditions, SQL provides standard mathematical comparison operato
 
 | Operator | Meaning | Example Logic |
 | :---- | :---- | :---- |
-| \= | Equal to | WHERE status \= 'Active' |
+| = | Equal to | WHERE status = 'Active' |
 | \!= or \<\> | Not Equal to | WHERE department \!= 'HR' |
 | \> | Greater than | WHERE age \> 18 |
 | \< | Less than | WHERE salary \< 50000 |
 | \>= | Greater than or Equal to | WHERE rating \>= 4.5 |
-| \<= | Less than or Equal to | WHERE stock\_count \<= 10 |
+| \<= | Less than or Equal to | WHERE stock_count \<= 10 |
 
 ### **Applied Example**
 
-Imagine a courses table. We want to find short courses to recommend to busy professionals.
+Imagine a course table. We want to find short courses to recommend to busy professionals.
 
-SELECT course\_name, duration\_hours  
+```sql
+SELECT course_name, duration_hours  
 FROM courses   
-WHERE duration\_hours \<= 5;
+WHERE duration_hours <= 5;
+```
 
 **What happens under the hood?**
 
 1. The database scans the courses table.  
-2. It looks at the duration\_hours column for Row 1\. Is 10 \<= 5? **False.** (Row skipped).  
-3. It looks at Row 2\. Is 3 \<= 5? **True.** (Row added to result).  
+2. It looks at the duration_hours column for Row 1 Is 10 \<= 5? **False.** (Row skipped).  
+3. It looks at Row 2 Is 3 \<= 5? **True.** (Row added to result).  
 4. It returns only the matching rows.
 
 **Production Tip:** The WHERE clause is the primary driver of query performance. Filtering data *early* reduces the workload for the database. Always try to filter as much data as possible before doing complex operations like joins or sorts.
@@ -5805,10 +5674,12 @@ To construct these sophisticated filters, SQL borrows Boolean logic from standar
 
 **Basic Syntax:**
 
-SELECT \* FROM courses  
-WHERE category \= 'Art' AND level \= 'Intermediate';
+```sql
+SELECT * FROM courses  
+WHERE category = 'Art' AND level = 'Intermediate';
+```
 
-*Result:* This filters the dataset strictly. A course must satisfy *both* criteria to appear.
+**Result:** This filters the dataset strictly. A course must satisfy *both* criteria to appear.
 
 ### ---
 
@@ -5822,9 +5693,11 @@ A common mistake in SQL interviews is mixing AND and OR without grouping them. S
 
 Imagine you want to find **"Intermediate or Advanced"** courses, but they *must* be within the **"Art"** category.
 
-\--  WRONG WAY  
-SELECT \* FROM courses  
-WHERE category \= 'Art' AND level \= 'Intermediate' OR level \= 'Advanced';
+```sql
+--  WRONG WAY  
+SELECT * FROM courses  
+WHERE category = 'Art' AND level = 'Intermediate' OR level = 'Advanced';
+```
 
 How SQL Interprets This:  
 Because AND has higher priority, SQL groups the query like this:
@@ -5837,9 +5710,11 @@ Because AND has higher priority, SQL groups the query like this:
 
 To force SQL to evaluate the OR condition first, wrap it in parentheses.
 
-\--  CORRECT WAY  
-SELECT \* FROM courses  
-WHERE category \= 'Art' AND (level \= 'Intermediate' OR level \= 'Advanced');
+```sql
+--  CORRECT WAY  
+SELECT * FROM courses  
+WHERE category = 'Art' AND (level = 'Intermediate' OR level = 'Advanced');
+```
 
 **How SQL Interprets This Now:**
 
@@ -5874,7 +5749,7 @@ There are two specific wildcards you must master:
 | Wildcard | The Role | Logic |
 | :---- | :---- | :---- |
 | **%** (Percent) | **The Multi-Character Placeholder** | Matches **zero or more** characters. Think of it as "Anything can go here." |
-| **\_** (Underscore) | **The Single-Character Placeholder** | Matches **exactly one** character. Think of it as a specific slot that must be filled. |
+| **_** (Underscore) | **The Single-Character Placeholder** | Matches **exactly one** character. Think of it as a specific slot that must be filled. |
 
 ### ---
 
@@ -5884,11 +5759,11 @@ Let's assume we are querying a users table. Here is how different patterns chang
 
 | Pattern | SQL Syntax | Interpretation | Matches |
 | :---- | :---- | :---- | :---- |
-| **Starts With** | LIKE 'Da%' | "Find string starting with 'Da', followed by anything." | 'David', 'Data', 'Dad' |
-| **Ends With** | LIKE '%son' | "Find string ending in 'son', preceded by anything." | 'Johnson', 'Jason', 'Son' |
-| **Contains** | LIKE '%tech%' | "Find string with 'tech' anywhere in the middle, start, or end." | 'Fintech', 'Techno', 'Pytech' |
-| **Specific Slot** | LIKE '\_a%' | "First character can be anything, but the **second** character MUST be 'a'." | 'Jack', 'Mary', 'Harry' (skips 'John') |
-| **Fixed Length** | LIKE '\_\_\_' | "Find any string that is exactly 3 characters long." | 'Cat', 'Dog', 'Bot' |
+| **Starts With** | LIKE 'Da%' | "Find a string starting with 'Da', followed by anything." | 'David', 'Data', 'Dad' |
+| **Ends With** | LIKE '%son' | "Find a string ending in 'son', preceded by anything." | 'Johnson', 'Jason', 'Son' |
+| **Contains** | LIKE '%tech%' | "Find a string with 'tech' anywhere in the middle, start, or end." | 'Fintech', 'Techno', 'Pytech' |
+| **Specific Slot** | LIKE '_a%' | "First character can be anything, but the **second** character MUST be 'a'." | 'Jack', 'Mary', 'Harry' (skips 'John') |
+| **Fixed Length** | LIKE '___' | "Find any string that is exactly 3 characters long." | 'Cat', 'Dog', 'Bot' |
 
 ### **The Inverse: NOT LIKE**
 
@@ -5896,13 +5771,15 @@ Just as we have \!= for numbers, we have NOT LIKE for strings. This is useful fo
 
 * **Scenario:** Find all customers who are **not** using a corporate email.
 
+```sql
 SELECT email   
 FROM customers   
 WHERE email NOT LIKE '%@mycompany.com';
+```
 
 ### ---
 
-** Performance Warning (The Interview Trap)**
+**Performance Warning (The Interview Trap)**
 
 In an interview, if you are asked to optimize a query, be very careful with LIKE.
 
@@ -5935,47 +5812,53 @@ Because NULL is not a value but a *state*, it behaves differently than numbers o
 
 To interact with these unknown fields, SQL provides specific keywords.
 
-#### **1\. Finding the Missing (IS NULL)**
+#### **1. Finding the Missing (IS NULL)**
 
 Use this to identify incomplete records or potential data quality issues.
 
 * **Scenario:** Finding courses that haven't been assigned a description yet.
 
-SELECT \* FROM courses  
+```sql
+SELECT * FROM courses  
 WHERE description IS NULL;
+```
 
-#### **2\. Finding the Present (IS NOT NULL)**
+#### **2. Finding the Present (IS NOT NULL)**
 
 Use this to filter for complete records.
 
 * **Scenario:** Finding all students who have a verified email address on file.
 
-SELECT \* FROM students  
+```sql
+SELECT * FROM students  
 WHERE email IS NOT NULL;
+```
 
 ### ---
 
-** The Interview Trap: The "Equality" Mistake**
+**The Interview Trap: The "Equality" Mistake**
 
 A very common interview question is: *"Why does the following query return zero rows, even though there are empty rows in the table?"*
 
-\--  THIS WILL FAIL  
-SELECT \* FROM users   
-WHERE phone\_number \= NULL;
+```sql
+--  THIS WILL FAIL  
+SELECT * FROM users   
+WHERE phone_number = NULL;
+```
 
 The Explanation:  
 SQL uses Three-Valued Logic (True, False, Unknown).
 
 * If you ask: *"Is 5 equal to 5?"* The answer is **True**.  
 * If you ask: *"Is 5 equal to 10?"* The answer is **False**.  
-* If you ask: *"Is this Unknown value equal to that Unknown value?"* (NULL \= NULL)  
+* If you ask: *"Is this Unknown value equal to that Unknown value?"* (NULL = NULL)  
   * The answer is **Unknown (NULL)**, not True.
 
-Because the WHERE clause only keeps rows that return **True**, any comparison using \= with NULL will result in NULL (Unknown) and be discarded.
+Because the WHERE clause only keeps rows that return **True**, any comparison using = with NULL will result in NULL (Unknown) and be discarded.
 
 **Rule of Thumb:**
 
-* **Never** use \= NULL or \!= NULL.  
+* **Never** use = NULL or \!= NULL.  
 * **Always** use IS NULL or IS NOT NULL.
 
 **Ready to move on to SQL Data Types?**
@@ -5990,11 +5873,11 @@ Order: 6
 Text content: 
 ## **Structuring Data: The ORDER BY Clause**
 
-By default, relational databases do not store data in any specific order. If you run a SELECT \*, the rows will often appear in the order they were inserted, which is rarely useful for analysis.
+By default, relational databases do not store data in any specific order. If you run a SELECT *, the rows will often appear in the order they were inserted, which is rarely useful for analysis.
 
 To transform raw data into a ranked list, a leaderboard, or a time-series report, we use the ORDER BY clause. This allows you to arrange your result set based on the values of one or more columns.
 
-### **1\. Basic Sorting Mechanics**
+### **1. Basic Sorting Mechanics**
 
 The ORDER BY clause is placed at the very end of your query (after FROM and WHERE).
 
@@ -6011,48 +5894,54 @@ The ORDER BY clause is placed at the very end of your query (after FROM and WHER
 
 **Syntax Example:**
 
-\-- Rank courses by duration, longest first  
-SELECT \* FROM courses   
+```sql
+-- Rank courses by duration, longest first  
+SELECT * FROM courses   
 ORDER BY duration DESC;
+```
 
 ### ---
 
-**2\. The Hierarchy: Multi-Column Sorting**
+**2. The Hierarchy: Multi-Column Sorting**
 
 Real-world sorting often requires a "Tie-Breaker."
 
-* *Scenario:* You want to list students by their Class (course\_id), but within each class, you want them listed alphabetically by name.
+* *Scenario:* You want to list students by their Class (course_id), but within each class, you want them listed alphabetically by name.
 
-To do this, you list multiple columns separated by commas. SQL sorts by the first column strictly, and **only** looks at the second column if there is a tie in the first.
+To do this, you list multiple columns separated by commas. SQL sorts by the first column strictly, and **only** look at the second column if there is a tie in the first.
 
 **The Logic:**
 
-SELECT \* FROM students  
-ORDER BY course\_id ASC, student\_name ASC;
+```sql
+SELECT * FROM students  
+ORDER BY course_id ASC, student_name ASC;
+```
 
 **How SQL Processes This:**
 
-1. **Primary Sort:** SQL groups everyone by course\_id (101 comes before 102).  
-2. **Secondary Sort:** Inside the group of "Course 101", it sorts student\_name (Alice comes before Bob).  
+1. **Primary Sort:** SQL groups everyone by course_id (101 comes before 102).  
+2. **Secondary Sort:** Inside the group of "Course 101", it sorts student_name (Alice comes before Bob).  
 3. **Result:** It creates an organized, hierarchical list.
 
-**Crucial Note:** The order of columns in the clause dictates priority. ORDER BY student\_name, course\_id would produce a completely different result (an alphabetical list of names, ignoring course grouping).
+**Crucial Note:** The order of columns in the clause dictates priority. ORDER BY student_name, course_id would produce a completely different result (an alphabetical list of names, ignoring course grouping).
 
 ### ---
 
-**3\. Challenge: The Phonebook Sort**
+**3. Challenge: The Phonebook Sort**
 
 The Prompt:  
 Given a customers table, write a query to sort the list exactly like a phonebook:
 
-1. Sort primarily by last\_name (A-Z).  
-2. If two people share a last name (e.g., "Smith"), break the tie using first\_name (A-Z).
+1. Sort primarily by last_name (A-Z).  
+2. If two people share a last name (e.g., "Smith"), break the tie using first_name (A-Z).
 
 **The Solution:**
 
-SELECT first\_name, last\_name   
+```sql
+SELECT first_name, last_name   
 FROM customers  
-ORDER BY last\_name ASC, first\_name ASC;
+ORDER BY last_name ASC, first_name ASC;
+```
 
 *Result:* "Alice Smith" will appear *after* "Bob Jones", but *before* "Bob Smith".
 
@@ -6064,7 +5953,7 @@ Sorting is computationally expensive.
 
 * **Small Data:** Sorting 100 rows is instant.  
 * **Big Data:** Sorting 100 million rows requires the database to load data into memory or write temporary files to disk.  
-* **Optimization:** In production, if you frequently sort by a specific column (like transaction\_date), you should ask your Data Engineer to add an **Index** to that column to speed up retrieval.
+* **Optimization:** In production, if you frequently sort by a specific column (like transaction_date), you should ask your Data Engineer to add an **Index** to that column to speed up retrieval.
 
 **Next Up:** We will learn how to extract the "Top N" results using the LIMIT clause.
 
@@ -6078,24 +5967,26 @@ Order: 7
 Text Content: 
 ## **Controlling Output: LIMIT and OFFSET**
 
-When working with datasets containing millions of rows, running a naked SELECT \* is dangerous. It can crash your database client or freeze your application.
+When working with datasets containing millions of rows, running a naked SELECT * is dangerous. It can crash your database client or freeze your application.
 
 To manage data volume, SQL provides the LIMIT clause. It acts as a governor, ensuring your query returns a manageable sample size.
 
-### **1\. The Safety Valve: Basic LIMIT**
+### **1. The Safety Valve: Basic LIMIT**
 
 The LIMIT clause simply tells the database: "Stop fetching rows after you reach count X." It is placed at the very end of your query.
 
 **Syntax:**
 
-SELECT \* FROM courses  
+```sql
+SELECT * FROM courses  
 LIMIT 10;
+```
 
-*Result:* Returns 10 arbitrary rows. This is perfect for quickly inspecting table structure (Data Preview).
+**Result:** Returns 10 arbitrary rows. This is perfect for quickly inspecting table structure (Data Preview).
 
 ### ---
 
-**2\. Pattern 1: The "Top N" Analysis**
+**2 Pattern 1: The "Top N" Analysis**
 
 In analytics, we rarely want arbitrary rows. We want the **"Top 10 High Earners"** or the **"5 Most Recent Signups."**
 
@@ -6109,16 +6000,18 @@ To achieve this, we combine three clauses in a strict sequence. This is a standa
 
 **The Query:**
 
-SELECT \* FROM courses  
-WHERE category \= 'SQL'  
-ORDER BY student\_count DESC  
+```sql
+SELECT * FROM courses  
+WHERE category = 'SQL'  
+ORDER BY student_count DESC  
 LIMIT 10;
+```
 
 **Crucial Concept:** The LIMIT is always applied **last**. If you swap the logic, you might limit the data *before* sorting it, resulting in a random list of 10 users that is then sorted—which is incorrect.
 
 ### ---
 
-**3\. Pattern 2: Pagination (OFFSET)**
+**3 Pattern 2: Pagination (OFFSET)**
 
 How does Google or Amazon show you "Page 2" of search results? They don't re-run the whole search. They use **Pagination**.
 
@@ -6133,22 +6026,24 @@ The OFFSET clause tells the database: "Skip the first X rows, then give me the n
 Scenario: The "N-th" Record  
 A common trick question is: "Find the 3rd least popular course."
 
-SELECT \* FROM courses  
-ORDER BY student\_count ASC  
+```sql
+SELECT * FROM courses  
+ORDER BY student_count ASC  
 LIMIT 1 OFFSET 2;
+```
 
 *Translation:* Sort smallest to largest. Skip the first 2 (the smallest two). Take the next 1 (the 3rd smallest).
 
 ### ---
 
-** The "Deterministic" Warning**
+**The "Deterministic" Warning**
 
 This is a frequent source of bugs in production.
 
 **The Rule:** never use LIMIT without ORDER BY.
 
-* **Why?** Relational databases do not store rows in a fixed order. If you run SELECT \* FROM users LIMIT 5 today, you might get 5 users. If you run it tomorrow after a server restart, you might get 5 *different* users.  
-* **The Fix:** Always provide a sort column (like User\_ID or Created\_Date) to ensure the results are deterministic and reproducible.
+* **Why?** Relational databases do not store rows in a fixed order. If you run SELECT * FROM users LIMIT 5 today, you might get 5 users. If you run it tomorrow after a server restart, you might get 5 *different* users.  
+* **The Fix:** Always provide a sort column (like User_ID or Created_Date) to ensure the results are deterministic and reproducible.
 
 **Next Up:** We will explore how to summarize data using the powerful GROUP BY clause.
 
@@ -6163,77 +6058,89 @@ Text Content:
 
 As your queries grow in complexity, stringing together dozens of OR conditions becomes unreadable and error-prone. SQL provides two specific operators to handle "Sets" and "Ranges" elegantly.
 
-### **1\. Set Membership: The IN Operator**
+### **1. Set Membership: The IN Operator**
 
 The IN operator is essentially a shorthand for multiple OR statements. It checks if a value exists within a specific list (or "Set").
 
 The Problem (Messy Code):  
 Imagine finding courses in three specific categories.
 
-SELECT \* FROM courses  
-WHERE category \= 'SQL'   
-   OR category \= 'Data Science'   
-   OR category \= 'Machine Learning';
+```sql
+SELECT * FROM courses  
+WHERE category = 'SQL'   
+   OR category = 'Data Science'   
+   OR category = 'Machine Learning';
+```
 
 **The Solution (Clean Code):**
 
-SELECT \* FROM courses  
+```sql
+SELECT * FROM courses  
 WHERE category IN ('SQL', 'Data Science', 'Machine Learning');
+```
 
 *Logic:* If the category matches *any* item in the parentheses, the row is returned. This makes code easier to read and maintain.
 
 ### ---
 
-**2\. Range Filtering: The BETWEEN Operator**
+**2. Range Filtering: The BETWEEN Operator**
 
 When dealing with continuous data (Numbers, Dates), you often need to find rows that fall within a specific interval. The BETWEEN operator simplifies the \>= and \<= syntax.
 
 The Rule of Inclusivity:  
 BETWEEN is Inclusive (a Closed Interval \[\]).
 
-* BETWEEN 4 AND 5 includes 4, 4.5, and 5\.
+* BETWEEN 4 AND 5 includes 4, 4.5, and 5
 
 **Example (Numeric):**
 
-\-- Find high-rated courses  
-SELECT \* FROM courses   
+```sql
+-- Find high-rated courses  
+SELECT * FROM courses   
 WHERE rating BETWEEN 4.0 AND 5.0;
+```
 
 ### ---
 
-** The "Date Trap" (Interview Critical)**
+**The "Date Trap" (Interview Critical)**
 
 Using BETWEEN with dates is the \#1 source of bugs for junior analysts.
 
 The Scenario:  
 You want data for the entire month of January.
 
-\--  RISKY APPROACH  
-SELECT \* FROM lessons  
-WHERE created\_at BETWEEN '2022-01-01' AND '2022-01-31';
+```sql
+--  RISKY APPROACH  
+SELECT * FROM lessons  
+WHERE created_at BETWEEN '2022-01-01' AND '2022-01-31';
+```
 
 Why it fails:  
-If your created\_at column contains timestamps (e.g., 2022-01-31 14:30:00), the database often interprets the end date '2022-01-31' as '2022-01-31 00:00:00'.  
+If your created_at column contains timestamps (e.g., 2022-01-31 14:30:00), the database often interprets the end date '2022-01-31' as '2022-01-31 00:00:00'.  
 Result: You effectively lose all data from the last day of the month because 14:30 is after midnight.  
 The Professional Fix (Closed-Open Interval):  
 In production (and interviews), it is safer to use standard comparison operators for dates to ensure you capture the full time range.
 
-\--  SAFE APPROACH  
-SELECT \* FROM lessons  
-WHERE created\_at \>= '2022-01-01'   
-  AND created\_at \< '2022-02-01';
+```sql
+--  SAFE APPROACH  
+SELECT * FROM lessons  
+WHERE created_at >= '2022-01-01'   
+  AND created_at < '2022-02-01';
+```
 
 *Logic:* "Start at the beginning of Jan 1st, and go up to (but not including) the first moment of Feb 1st."
 
 ### ---
 
-**3\. Lexicographical Ranges (Text)**
+**3. Lexicographical Ranges (Text)**
 
 You can also use BETWEEN for text. It compares strings based on their ASCII/Alphabetical order.
 
-\-- Find names starting with A through L (Inclusive of M if exact match)  
-SELECT \* FROM customers  
-WHERE last\_name BETWEEN 'A' AND 'M';
+```sql
+-- Find names starting with A through L (Inclusive of M if exact match)  
+SELECT * FROM customers  
+WHERE last_name BETWEEN 'A' AND 'M';
+```
 
 *Note:* This is rarely used in production compared to numeric/date ranges, but useful to know for edge cases.
 
@@ -6288,7 +6195,7 @@ It is critical to understand the mechanical shift that happens when you use an a
 
 In this module, we will move beyond simple definitions and tackle the specific nuances of each function:
 
-1. **Nuance of Nulls:** Does COUNT(\*) behave differently than COUNT(column\_name)? (Yes, and it’s a common interview question).  
+1. **Nuance of Nulls:** Does COUNT(*) behave differently than COUNT(column_name)? (Yes, and it’s a common interview question).  
 2. **Financial Precision:** How to handle AVG() when dealing with skewed data like salaries.  
 3. **Grouping:** How to pivot these metrics by Department, Region, or Time.
 
@@ -6307,7 +6214,7 @@ Aggregate functions like SUM() are powerful, but they are boring if they only re
 
 This is where GROUP BY comes in. It acts as a "Pivot," slicing your data into buckets so you can perform calculations on each bucket independently.
 
-### **1\. The Mechanics of GROUP BY**
+### **1. The Mechanics of GROUP BY**
 
 The GROUP BY clause tells the database: *"Take all the rows that share the same value in this column, and collapse them into a single row."*
 
@@ -6315,15 +6222,17 @@ The Syntax Rule:
 If a column appears in the SELECT statement but is not wrapped in an aggregate function (like SUM or COUNT), it must appear in the GROUP BY clause.  
 **Scenario:** Calculate average movie ratings *per genre*.
 
-SELECT genre, AVG(rating) AS avg\_rating  
+```sql
+SELECT genre, AVG(rating) AS avg_rating  
 FROM movies  
 GROUP BY genre;
+```
 
 *Result:* Instead of one average for all movies, you get one row for "Horror", one for "Comedy", etc.
 
 ### ---
 
-**2\. Filtering Aggregates: The HAVING Clause**
+**2. Filtering Aggregates: The HAVING Clause**
 
 Sometimes, after grouping the data, you want to filter out specific groups based on their *performance*.
 
@@ -6332,18 +6241,20 @@ Sometimes, after grouping the data, you want to filter out specific groups based
 
 **Scenario:** Find Sales Reps who sold more than $10k.
 
-SELECT sales\_rep, SUM(sales\_amount) AS total\_sales  
+```sql
+SELECT sales_rep, SUM(sales_amount) AS total_sales  
 FROM sales  
-GROUP BY sales\_rep  
-HAVING SUM(sales\_amount) \> 10000;
+GROUP BY sales_rep  
+HAVING SUM(sales_amount) > 10000;
+```
 
-Logic: 1\. Group rows by Rep.  
-2\. Sum their sales.  
-3\. Then check if that sum is \> 10k. Discard the Rep if not.
+Logic: 1 Group rows by Rep.  
+2 Sum their sales.  
+3 Then check if that sum is \> 10k. Discard the Rep if not.
 
 ### ---
 
-**3\. The Interview Classic: WHERE vs. HAVING**
+**3. The Interview Classic: WHERE vs. HAVING**
 
 This is one of the most frequently asked conceptual questions in SQL interviews. You must articulate the difference clearly regarding the **Order of Execution**.
 
@@ -6352,7 +6263,7 @@ This is one of the most frequently asked conceptual questions in SQL interviews.
 | **Timing** | Runs **Before** Aggregation. | Runs **After** Aggregation. |
 | **Scope** | Filters individual **Rows**. | Filters grouped **Summary Data**. |
 | **Aggregates?** | **Cannot** use SUM(), COUNT(), etc. | **Must** generally involve aggregates. |
-| **Example** | WHERE region \= 'East' | HAVING SUM(sales) \> 500 |
+| **Example** | WHERE region = 'East' | HAVING SUM(sales) \> 500 |
 
 **The Mental Model:**
 
@@ -6378,15 +6289,15 @@ SQL provides precise variations of the COUNT function to handle these nuances. C
 
 | Syntax | What It Counts | Nuance (The Interview Trap) |
 | :---- | :---- | :---- |
-| **COUNT(\*)** | **Total Rows** | It counts **every single row**, even if fields contain NULL. It effectively asks, "What is the table size?" |
-| **COUNT(column\_name)** | **Non-Null Values** | It counts rows where the specific column is **NOT NULL**. If a student has no name listed, they are excluded. |
+| **COUNT(*)** | **Total Rows** | It counts **every single row**, even if fields contain NULL. It effectively asks, "What is the table size?" |
+| **COUNT(column_name)** | **Non-Null Values** | It counts rows where the specific column is **NOT NULL**. If a student has no name listed, they are excluded. |
 | **COUNT(DISTINCT column)** | **Unique Values** | It counts unique, non-null entries. Used to find the number of specific categories (e.g., "How many *types* of courses do we have?"). |
 
 ### **Applied Example**
 
 Imagine a students table:
 
-| Student\_ID | Country |
+| Student_ID | Country |
 | :---- | :---- |
 | 1 | USA |
 | 2 | India |
@@ -6395,7 +6306,7 @@ Imagine a students table:
 
 **The Queries:**
 
-1. SELECT COUNT(\*) FROM students; $\\rightarrow$ **Result: 4** (Counts all rows).  
+1. SELECT COUNT(*) FROM students; $\\rightarrow$ **Result: 4** (Counts all rows).  
 2. SELECT COUNT(Country) FROM students; $\\rightarrow$ **Result: 3** (Counts USA, India, USA. Skips the NULL).  
 3. SELECT COUNT(DISTINCT Country) FROM students; $\\rightarrow$ **Result: 2** (Counts USA, India. Removes duplicates *and* NULLs).
 
@@ -6407,9 +6318,11 @@ Aggregations become powerful when combined with segmentation.
 
 * **Scenario:** "How many students do we have *per country*?"
 
-SELECT country, COUNT(\*) AS total\_students  
+```sql
+SELECT country, COUNT(*) AS total_students  
 FROM students  
 GROUP BY country;
+```
 
 **Result:**
 
@@ -6417,7 +6330,7 @@ GROUP BY country;
 * India: 1  
 * NULL: 1 (Note: GROUP BY treats NULL as its own valid group in most databases).
 
-**Pro Tip:** In user analytics, we almost always use COUNT(DISTINCT user\_id). Why? because one user might log in 50 times. COUNT(\*) would show 50 events, but COUNT(DISTINCT) correctly reports 1 actual user.
+**Pro Tip:** In user analytics, we almost always use COUNT(DISTINCT user_id). Why? because one user might log in 50 times. COUNT(*) would show 50 events, but COUNT(DISTINCT) correctly reports 1 actual user.
 
 **Next Up:** We will look at summing financial figures with the SUM function.
 
@@ -6435,20 +6348,22 @@ If COUNT tells you *traffic*, SUM tells you *value*.
 
 Whether you are calculating Total Revenue, Inventory Levels, or Customer Lifetime Value, the SUM operator is your primary tool. It iterates down a specific column and adds up the values, ignoring any NULL entries.
 
-### **1\. Basic Summation**
+### **1. Basic Summation**
 
 The simplest use case is adding up a raw column.
 
 **Scenario:** Calculate the total number of items sold.
 
-SELECT SUM(quantity) AS total\_units\_sold  
+```sql
+SELECT SUM(quantity) AS total_units_sold  
 FROM orders;
+```
 
 *Result:* A single number representing the sum of the entire quantity column.
 
 ### ---
 
-**2\. Derived Metrics (Calculating on the Fly)**
+**2. Derived Metrics (Calculating on the Fly)**
 
 In real-world databases, we rarely store redundant columns like "Total Order Value" if we already have "Price" and "Quantity." We calculate them at runtime.
 
@@ -6458,32 +6373,36 @@ You can pass an arithmetic expression inside the SUM function. SQL will perform 
 
 * *Formula:* Row 1 (Price × Qty) \+ Row 2 (Price × Qty) \+ ...
 
-SELECT SUM(quantity \* price) AS total\_revenue  
+```sql
+SELECT SUM(quantity * price) AS total_revenue  
 FROM orders;
+```
 
 **How SQL Executes This:**
 
-1. **Row 1:** $5 \\times 20 \= 100$  
-2. **Row 2:** $10 \\times 30 \= 300$  
-3. **Row 3:** $7 \\times 35 \= 245$  
-4. **Aggregation:** $100 \+ 300 \+ 245 \= \\mathbf{645}$
+1. **Row 1:** $5 \\times 20 = 100$  
+2. **Row 2:** $10 \\times 30 = 300$  
+3. **Row 3:** $7 \\times 35 = 245$  
+4. **Aggregation:** $100 \+ 300 \+ 245 = \\mathbf{645}$
 
-**Distinction:** Use SUM() when adding values **vertically** (across many rows). If you just want to add two numbers within the *same* row (e.g., base\_salary \+ bonus), you just use standard arithmetic (+) without the SUM keyword.
+**Distinction:** Use SUM() when adding values **vertically** (across many rows). If you just want to add two numbers within the *same* row (e.g., base_salary \+ bonus), you just use standard arithmetic (+) without the SUM keyword.
 
 ### ---
 
-**3\. Segmented Totals (with GROUP BY)**
+**3. Segmented Totals (with GROUP BY)**
 
 Aggregates tell a story when they are broken down by category.
 
 **Scenario:** Which country is driving the most revenue?
 
+```sql
 SELECT   
     country,   
-    SUM(quantity \* price) AS total\_revenue  
+    SUM(quantity * price) AS total_revenue  
 FROM orders  
 GROUP BY country  
-ORDER BY total\_revenue DESC;
+ORDER BY total_revenue DESC;
+```
 
 **Result:**
 
@@ -6505,14 +6424,14 @@ Beyond simply counting rows or summing revenue, analysts need to understand the 
 
 SQL provides three standard operators to measure the range and central tendency of your dataset.
 
-### **1\. Boundary Analysis: MIN and MAX**
+### **1. Boundary Analysis: MIN and MAX**
 
 These operators are used to identify the "Floor" and "Ceiling" of your data. They are critical for finding outliers or defining the range of a dataset.
 
 | Operator | Purpose | Business Use Case |
 | :---- | :---- | :---- |
 | **MIN()** | Finds the **Lowest** value. | Finding the *oldest* unfulfilled order or the *cheapest* product. |
-| **MAX()** | Finds the **Highest** value. | Finding the *most recent* login time or the *highest* paying customer. |
+| **MAX()** | Finds the **Highest** value. | Finding the *most recent* login time or the *highest* paying customers. |
 
 Scenario: Analyze the spread of student grades.  
 Table: grades
@@ -6525,17 +6444,18 @@ Table: grades
 
 **The Queries:**
 
-\-- Finding the Floor  
+```sql
+-- Finding the Floor  
 SELECT MIN(grade) FROM grades;   
-\-- Result: 80
-
-\-- Finding the Ceiling  
+-- Result: 80
+-- Finding the Ceiling  
 SELECT MAX(grade) FROM grades;   
-\-- Result: 90
+-- Result: 90
+```
 
 ### ---
 
-**2\. The Benchmark: AVG**
+**2. The Benchmark: AVG**
 
 The AVG operator calculates the **Arithmetic Mean**. It sums all the values in the column and divides by the count of non-null values.
 
@@ -6543,15 +6463,17 @@ The AVG operator calculates the **Arithmetic Mean**. It sums all the values in t
 
 **Scenario:** Calculate the class average.
 
+```sql
 SELECT AVG(grade) FROM grades;  
-\-- Calculation: (90 \+ 85 \+ 80\) / 3  
-\-- Result: 85.0
+-- Calculation: (90 + 85 + 80\) / 3  
+-- Result: 85.0
+```
 
- The Null Trap:  
+ **The Null Trap:**  
 AVG() completely ignores NULL values. It does not treat them as zeros.
 
-* *Example:* If you have grades \[100, NULL, 50\], the average is (100 \+ 50\) / 2 \= 75\.  
-* If you treated NULL as zero, the average would be (100 \+ 0 \+ 50\) / 3 \= 50\.  
+* *Example:* If you have grades \[100, NULL, 50\], the average is (100 + 50\) / 2 = 75.  
+* If you treated NULL as zero, the average would be (100 + 0 + 50\) / 3 = 50.  
 * *Implication:* Always decide how you want to handle missing data before running an average.
 
 Class 3.3.6:
@@ -6574,9 +6496,9 @@ The syntax is structured like a decision tree. SQL evaluates conditions from top
 **The Golden Rule:** SQL stops at the **first** condition that evaluates to TRUE.
 
 CASE  
-    WHEN condition\_1 THEN result\_1  
-    WHEN condition\_2 THEN result\_2  
-    ELSE fallback\_result  
+    WHEN condition_1 THEN result_1  
+    WHEN condition_2 THEN result_2  
+    ELSE fallback_result  
 END
 
 ### ---
@@ -6587,25 +6509,27 @@ Imagine a university database. We have raw numerical scores, but the Dean wants 
 
 **The Logic:**
 
-* **\> 90**: A  
+* **> 90**: A  
 * **80-90**: B  
-* **\< 80**: C
+* **< 80**: C
 
 **The Query:**
 
+```sql
 SELECT   
-    student\_name,  
+    student_name,  
     score,  
     CASE   
-        WHEN score \> 90 THEN 'A'  
+        WHEN score > 90 THEN 'A'  
         WHEN score BETWEEN 80 AND 90 THEN 'B'  
         ELSE 'C'  
-    END AS letter\_grade  
-FROM student\_scores;
+    END AS letter_grade  
+FROM student_scores;
+```
 
 **The Transformation:**
 
-| Student | Raw Score | Derived Column (letter\_grade) |
+| Student | Raw Score | Derived Column (letter_grade) |
 | :---- | :---- | :---- |
 | Alice | 92 | **A** |
 | Bob | 84 | **B** |
@@ -6613,18 +6537,18 @@ FROM student\_scores;
 
 ### ---
 
-** Interview Insight: Sequential Evaluation**
+**Interview Insight: Sequential Evaluation**
 
 A common interview trick involves overlapping conditions.
 
 **Question:** *What happens if I write the query like this?*
 
 CASE   
-    WHEN score \> 0 THEN 'Low'  
-    WHEN score \> 50 THEN 'High'  
+    WHEN score > 0 THEN 'Low'  
+    WHEN score > 50 THEN 'High'  
 END
 
-**Answer:** A score of 90 is technically "\> 0" AND "\> 50".
+**Answer:** A score of 90 is technically "> 0" AND "> 50".
 
 * Because SQL stops at the **first match**, a score of 90 will be labeled **'Low'**.  
 * **Lesson:** Always order your WHEN clauses carefully, usually from most specific to least specific.
@@ -6647,16 +6571,16 @@ In SQL, temporal operations generally fall into two categories:
 
 ### ---
 
-**1\. Bucketing Time: DATE\_TRUNC**
+**1. Bucketing Time: DATE_TRUNC**
 
 Raw timestamps (e.g., 2023-12-14 14:30:05) are too granular for reporting. To aggregate data, we need to "round down" these timestamps to a common denominator (Day, Week, Month).
 
-**The Function:** DATE\_TRUNC('unit', timestamp)
+**The Function:** DATE_TRUNC('unit', timestamp)
 
-How It Works:  
+**How It Works:**  
 Think of it as a "Floor" function for time.
 
-* DATE\_TRUNC('month', '2023-12-14') $\\rightarrow$ Returns **2023-12-01**.  
+* DATE_TRUNC('month', '2023-12-14') $\\rightarrow$ Returns **2023-12-01**.  
 * All events occurring in December get bucketed into this single date, allowing you to GROUP BY it.
 
 The Syntax Landscape (The "Gotcha"):  
@@ -6664,38 +6588,40 @@ SQL syntax for dates varies heavily between database engines. In an interview, c
 
 | Database | Function Syntax | Description |
 | :---- | :---- | :---- |
-| **PostgreSQL** | DATE\_TRUNC('month', date\_col) | The gold standard for analytics. |
-| **SQL Server** | DATETRUNC(month, date\_col) | Similar to Postgres. |
-| **MySQL** | EXTRACT(MONTH FROM date\_col) | Extracts just the number (1-12), not the date. |
-| **Oracle** | TRUNC(date\_col, 'MONTH') | Uses the generic Truncate function. |
+| **PostgreSQL** | DATE_TRUNC('month', date_col) | The gold standard for analytics. |
+| **SQL Server** | DATETRUNC(month, date_col) | Similar to Postgres. |
+| **MySQL** | EXTRACT(MONTH FROM date_col) | Extracts just the number (1-12), not the date. |
+| **Oracle** | TRUNC(date_col, 'MONTH') | Uses the generic Truncate function. |
 
 ### ---
 
-**2\. Calculating Duration: DATEDIFF & Arithmetic**
+**2. Calculating Duration: DATEDIFF & Arithmetic**
 
-To measure retention or shipping speed, we calculate the delta between Start\_Time and End\_Time.
+To measure retention or shipping speed, we calculate the delta between Start_Time and End_Time.
 
 **The Logic:**
 
 * **Standard SQL:** DATEDIFF(unit, start, end)  
-* **PostgreSQL:** Postgres allows direct arithmetic. End\_Date \- Start\_Date returns an integer (days).
+* **PostgreSQL:** Postgres allows direct arithmetic. End_Date - Start_Date returns an integer (days).
 
 Applied Example: Shipping Velocity  
 Scenario: Calculate how many days it took to deliver each order.
 
-\-- PostgreSQL Syntax  
+```sql
+-- PostgreSQL Syntax  
 SELECT   
-    order\_id,  
-    order\_date,  
-    delivery\_date,  
-    (delivery\_date \- order\_date) AS days\_to\_ship  
+    order_id,  
+    order_date,  
+    delivery_date,  
+    (delivery_date - order_date) AS days_to_ship  
 FROM orders;
+```
 
 ### ---
 
-**3\. Advanced Application: Cohort Retention**
+**3. Advanced Application: Cohort Retention**
 
-The true power of SQL comes when you combine Bucketing (DATE\_TRUNC) with Duration (DATEDIFF). This is the foundation of **Cohort Analysis**.
+The true power of SQL comes when you combine Bucketing (DATE_TRUNC) with Duration (DATEDIFF). This is the foundation of **Cohort Analysis**.
 
 The Business Question:  
 "Does our retention improve for newer users?"  
@@ -6705,18 +6631,19 @@ The Business Question:
 2. **Calculate** the duration between signup and churn for each user.  
 3. **Average** that duration per bucket.
 
+```sql
 SELECT   
-    \-- 1\. Create the Cohort (Bucket)  
-    DATE\_TRUNC('month', signup\_date) AS cohort\_month,  
-      
-    \-- 2\. Calculate Metric (Duration)  
-    AVG(churn\_date \- signup\_date) AS avg\_days\_to\_churn  
+    -- 1. Create the Cohort (Bucket)  
+    DATE_TRUNC('month', signup_date) AS cohort_month,  
+    -- 2. Calculate Metric (Duration)  
+    AVG(churn_date - signup_date) AS avg_days_to_churn  
 FROM users  
 GROUP BY 1  
 ORDER BY 1;
+```
 
 Result:  
-| cohort\_month | avg\_days\_to\_churn |  
+| cohort_month | avg_days_to_churn |  
 | :--- | :--- |  
 | 2023-01-01 | 10.5 |  
 | 2023-02-01 | 15.2 |  
@@ -6724,17 +6651,17 @@ Result:
 
 ### ---
 
-**4\. Under the Hood: The Epoch**
+**4. Under the Hood: The Epoch**
 
 How does a computer actually store "time"? It doesn't store "January 1st." It stores a **Number**.
 
 * **The Epoch:** Most systems (Unix) store time as the number of **seconds** elapsed since **January 1st, 1970 (00:00:00 UTC)**.  
-* **Implication:** When you run End\_Date \- Start\_Date, the database is simply subtracting two large integers (seconds) and converting the result back into days or hours for you.
+* **Implication:** When you run End_Date - Start_Date, the database is simply subtracting two large integers (seconds) and converting the result back into days or hours for you.
 
 **Common Time Units for Analysis:**
 
 * millisecond: High-frequency trading or logs.  
-* second: Web latency.  
+* Second: Web latency.  
 * day: Standard business metrics.  
 * quarter: Financial reporting.
 
@@ -6764,31 +6691,33 @@ While this is great for storage, it is terrible for analysis. You cannot report 
 The Solution: The JOIN.  
 A Join is the mechanism that reconstructs this fragmented data. It temporarily "zips" two tables together based on a shared connection (Foreign Key) to create a single, unified result set.Shutterstock
 
-### **1\. The Anatomy of a Join**
+### **1. The Anatomy of a Join**
 
 To join tables, you need a common thread—usually an ID column that exists in both tables.
 
 **The Syntax:**
 
+```sql
 SELECT   
     customers.name,   
     orders.total  
 FROM customers  
 JOIN orders  
-  ON customers.id \= orders.customer\_id;
+  ON customers.id = orders.customer_id;
+```
 
 * **The JOIN**: Specifies the target table.  
-* **The ON**: Specifies the "Velcro" or "Glue." It tells the database *how* to match the rows (e.g., "Match the id from Customers with the customer\_id from Orders").  
+* **The ON**: Specifies the "Velcro" or "Glue." It tells the database *how* to match the rows (e.g., "Match the id from Customers with the customer_id from Orders").  
 * **Scope Resolution**: Note the table.column format. This prevents ambiguity if both tables have a column named id.
 
 ### ---
 
-**2\. Why Join? (The Context)**
+**2. Why Join? (The Context)**
 
 Without joins, you would have to run two separate queries and mentally match them up:
 
 1. *Query 1:* "Who is Customer 101? → "John Doe".  
-2. *Query 2:* "Get orders for Customer 101.--\> "$500".
+2. *Query 2:* "Get orders for Customer 101.--> "$500".
 
 Joins automate this lookup process, allowing you to treat multiple tables as one massive dataset.
 
@@ -6801,15 +6730,15 @@ Result of the Join:
 
 ### ---
 
-**3\. The 5 Types of Joins**
+**3. The 5 Types of Joins**
 
 The type of join you choose determines which rows are kept and which are discarded when a match *isn't* found.
 
 | Join Type | The Logic | The "Venn Diagram" Area |
 | :---- | :---- | :---- |
 | **INNER JOIN** | **The Strict Match.** Returns rows *only* if the ID exists in **both** tables. If a customer has never ordered, they are invisible. | **Intersection** |
-| **LEFT JOIN** | **The Priority Match.** Returns **all** rows from the Left table, and matches from the Right. If no match is found, the Right columns are NULL. (Used for "Show me all customers, even those who haven't bought anything"). | **Left Circle \+ Intersection** |
-| **RIGHT JOIN** | **The Reverse Priority.** Returns **all** rows from the Right table. (Rarely used; usually just a Left Join written backwards). | **Right Circle \+ Intersection** |
+| **LEFT JOIN** | **The Priority Match.** Returns **all** rows from the Left table, and matches from the Right. If no match is found, the Right columns are NULL. (Used for "Show me all customers, even those who haven't bought anything"). | **Left Circle + Intersection** |
+| **RIGHT JOIN** | **The Reverse Priority.** Returns **all** rows from the Right table. (Rarely used; usually just a Left Join written backwards). | **Right Circle + Intersection** |
 | **FULL OUTER JOIN** | **The Catch-All.** Returns **everything**. If a match exists, join them. If not, keep the row and fill the blanks with NULL. | **Union of Both Circles** |
 | **CROSS JOIN** | **The Multiplier.** Creates every possible combination of rows (Cartesian Product). If Table A has 10 rows and Table B has 10 rows, the result is 100 rows. | **N/A (Grid)** |
 
@@ -6832,20 +6761,22 @@ The INNER JOIN is the most restrictive—and most common—type of join in SQL. 
 The Logic:  
 "I only want to see data if it exists in both tables. If a record is missing from either side, drop it entirely."
 
-### **1\. Basic Syntax**
+### **1. Basic Syntax**
 
 By default, if you just type JOIN, SQL assumes you mean INNER JOIN.
 
+```sql
 SELECT   
-    t1.column\_a,   
-    t2.column\_b   
-FROM table\_1 AS t1  
-INNER JOIN table\_2 AS t2  
-    ON t1.id \= t2.foreign\_id;
+    t1.column_a,   
+    t2.column_b   
+FROM table_1 AS t1  
+INNER JOIN table_2 AS t2  
+    ON t1.id = t2.foreign_id;
+```
 
 ### ---
 
-**2\. Practical Application: The "Complete" Record**
+**2. Practical Application: The "Complete" Record**
 
 **Scenario:** You want to email a receipt to customers who bought something last month.
 
@@ -6860,44 +6791,48 @@ INNER JOIN table\_2 AS t2
 
 **The Query:**
 
+```sql
 SELECT   
     orders.id,  
-    orders.order\_date,  
+    orders.order_date,  
     customers.email  
 FROM orders  
 INNER JOIN customers  
-    ON orders.customer\_id \= customers.customer\_id  
-WHERE orders.order\_date BETWEEN '2022-03-01' AND '2022-04-01';
+    ON orders.customer_id = customers.customer_id  
+WHERE orders.order_date BETWEEN '2022-03-01' AND '2022-04-01';
+```
 
 ### ---
 
-**3\. Advanced Pattern: Multi-Table Chains**
+**3. Advanced Pattern: Multi-Table Chains**
 
 Real-world schemas often require hopping across multiple tables to find an answer. This is especially true for **Many-to-Many** relationships (as discussed in the Relationships module).
 
 **Scenario:** List all Users and the Teams they belong to.
 
 * *Users* and *Teams* are not directly connected.  
-* They are connected via a bridge table: *Team\_Memberships*.
+* They are connected via a bridge table: *Team_Memberships*.
 
 The Chain Logic:  
 To get from "User Name" to "Team Name," you must cross the bridge. This requires two joins.
 
+```sql
 SELECT   
-    users.name AS user\_name,   
-    teams.name AS team\_name  
+    users.name AS user_name,   
+    teams.name AS team_name  
 FROM users  
-\-- Hop 1: Users \-\> Memberships  
-INNER JOIN team\_memberships  
-    ON users.user\_id \= team\_memberships.user\_id  
-\-- Hop 2: Memberships \-\> Teams  
+-- Hop 1: Users -> Memberships  
+INNER JOIN team_memberships  
+    ON users.user_id = team_memberships.user_id  
+-- Hop 2: Memberships -> Teams  
 INNER JOIN teams  
-    ON team\_memberships.team\_id \= teams.team\_id;
+    ON team_memberships.team_id = teams.team_id;
+```
 
 **How SQL Executes This:**
 
-1. Finds a User.  
-2. Looks up their Membership ID in the middle table.  
+1. Find a User.  
+2. Look up their Membership ID in the middle table.  
 3. Uses that Membership ID to find the corresponding Team Name in the final table.  
 4. If any link in this chain is broken (e.g., User exists but has no Membership), the row is discarded.
 
@@ -6917,7 +6852,7 @@ The INNER JOIN is strict: if a match isn't found, the row is deleted.
 But what if you want to answer questions like: "Show me all customers, including those who haven't placed an order yet?"  
 This is where **Outer Joins** (LEFT and RIGHT) come in. They allow you to prioritize one table as the "Master List," ensuring its rows are preserved regardless of whether a match exists in the other table.
 
-### **1\. The Standard: LEFT JOIN**
+### **1. The Standard: LEFT JOIN**
 
 In the industry, LEFT JOIN is the default choice for outer joins. It follows a simple logic: **"Keep everything on the Left. Attach details from the Right if they exist."**
 
@@ -6929,39 +6864,44 @@ In the industry, LEFT JOIN is the default choice for outer joins. It follows a s
 
 **Scenario:** A Customer Report.
 
+```sql
 SELECT   
     customers.name,   
-    orders.order\_id  
-FROM customers         \-- The "Left" Table (Priority)  
-LEFT JOIN orders       \-- The "Right" Table (Supplement)  
-    ON customers.id \= orders.customer\_id;
+    orders.order_id  
+FROM customers         -- The "Left" Table (Priority)  
+LEFT JOIN orders       -- The "Right" Table (Supplement)  
+    ON customers.id = orders.customer_id;
+```
 
-The Output:  
+**The Output:**  
 | Customer Name | Order ID | Interpretation |  
 | :--- | :--- | :--- |  
-| Alice | 101 | Alice placed order 101\. |  
+| Alice | 101 | Alice placed order 101. |  
 | Bob | NULL | Bob exists, but has never placed an order. |  
-Interview Super-Pattern (Finding Nulls):  
+
+**Interview Super-Pattern (Finding Nulls):**  
 A common interview question is "Find all customers who have NEVER ordered."  
 You answer this using a LEFT JOIN combined with a WHERE ... IS NULL filter.
 
-\-- This keeps only the "Bob" row from above  
-WHERE orders.order\_id IS NULL
+This keeps only the "Bob" row from above  
+WHERE orders.order_id IS NULL
 
 ### ---
 
-**2\. The Mirror: RIGHT JOIN**
+**2. The Mirror: RIGHT JOIN**
 
 A RIGHT JOIN is simply a LEFT JOIN written in reverse. It prioritizes the Second (Right) table and preserves all its rows, nulling out the Left table if no match is found.
 
 **Syntax:**
 
+```sql
 SELECT columns  
 FROM customers  
-RIGHT JOIN orders \-- Priority is now here  
-    ON customers.id \= orders.customer\_id;
+RIGHT JOIN orders -- Priority is now here  
+    ON customers.id = orders.customer_id;
+```
 
-### **3\. Interchangeability (Best Practice)**
+### **3. Interchangeability (Best Practice)**
 
 Mathematically, these two queries are identical:
 
@@ -6971,7 +6911,7 @@ Mathematically, these two queries are identical:
 The Industry Standard:  
 For the sake of readability, most teams exclusively use LEFT JOIN. Reading logic from "Top to Bottom" (Left to Right) is more intuitive for humans than "Bottom to Top."
 
-* *Advice:* Stick to LEFT JOIN in your interviews unless specifically asked otherwise.
+* **Advice:** Stick to LEFT JOIN in your interviews unless specifically asked otherwise.
 
 **Next Up:** We will look at the **Full Outer Join**, which combines the behavior of both.
 
@@ -6989,33 +6929,37 @@ While INNER JOIN finds matches and LEFT JOIN preserves one side, the FULL OUTER 
 The Logic:  
 "Give me all rows from Table A, and all rows from Table B. If they match, connect them. If they don't, keep them anyway and fill the gaps with NULL."
 
-### **1\. Basic Syntax**
+### **1. Basic Syntax**
 
 This join is essentially performing a LEFT JOIN and a RIGHT JOIN simultaneously.
 
+```sql
 SELECT   
     table1.column1,   
     table2.column2  
 FROM table1  
 FULL OUTER JOIN table2  
-    ON table1.id \= table2.foreign\_id;
+    ON table1.id = table2.foreign_id;
+```
 
 ### ---
 
-**2\. Practical Example: The Audit**
+**2. Practical Example: The Audit**
 
-Imagine a messy database where some **Customers** have no orders, and due to a data bug, some **Orders** have a customer\_id that doesn't exist in the Customers table (Orphaned records).
+Imagine a messy database where some **Customers** have no orders, and due to a data bug, some **Orders** have a customer_id that doesn't exist in the Customers table (Orphaned records).
 
 To see the full scope of this mess, you use a Full Join.
 
+```sql
 SELECT   
     customers.name,   
-    orders.order\_id  
+    orders.order_id  
 FROM customers  
 FULL OUTER JOIN orders  
-    ON customers.id \= orders.customer\_id;
+    ON customers.id = orders.customer_id;
+```
 
-The Resulting Dataset:  
+**The Resulting Dataset:**  
 | Customer Name | Order ID | Scenario |  
 | :--- | :--- | :--- |  
 | Alice | 101 | Match: Normal transaction. |  
@@ -7024,11 +6968,11 @@ The Resulting Dataset:
 
 ### ---
 
-**3\. Strategic Use Cases**
+**3. Strategic Use Cases**
 
 You rarely use FULL OUTER JOIN for standard reporting. It is primarily used for **Data Engineering** and **Debugging**.
 
-* **Data Synchronization:** Comparing two tables (e.g., Old\_System\_Users vs. New\_System\_Users) to see which records are missing from either side during a migration.  
+* **Data Synchronization:** Comparing two tables (e.g., Old_System_Users vs. New_System_Users) to see which records are missing from either side during a migration.  
 * **Finding "Orphans":** identifying broken foreign keys or corrupted data where a child record points to a non-existent parent.  
 * **Comprehensive Metrics:** Calculating a "Total Universe" report, like listing every single Product and every single Sale, ensuring you see unsold products AND sales of discontinued products in one view.
 
@@ -7050,7 +6994,7 @@ In the previous modules, we used JOINS to connect tables side-by-side (adding co
 But what if you want to stack tables on top of each other (adding rows)?  
 This is called a **Set Operation**. It allows you to merge the results of two separate queries into one long list.
 
-### **1\. The Mechanics**
+### **1. The Mechanics**
 
 Imagine you have two separate lists of email addresses: one from "Marketing" and one from "Sales." You want a master list of all emails.
 
@@ -7062,46 +7006,50 @@ To successfully UNION two queries, they must meet strict criteria:
 
 ### ---
 
-**2\. The Critical Distinction: UNION vs. UNION ALL**
+**2. The Critical Distinction: UNION vs. UNION ALL**
 
 This is a favorite topic in technical interviews. The difference isn't just about the output; it's about **performance**.
 
 | Operator | The Logic | Performance | Use Case |
 | :---- | :---- | :---- | :---- |
-| **UNION** | **Merge \+ De-duplicate.** It combines rows and then runs a "Distinct" pass to remove any duplicates between the two sets. | **Slower.** The database must sort and scan the entire result set to find duplicates. | When you need a clean, unique list (e.g., "Show me all unique Customer IDs from both 2022 and 2023"). |
+| **UNION** | **Merge + De-duplicate.** It combines rows and then runs a "Distinct" pass to remove any duplicates between the two sets. | **Slower.** The database must sort and scan the entire result set to find duplicates. | When you need a clean, unique list (e.g., "Show me all unique Customer IDs from both 2022 and 2023"). |
 | **UNION ALL** | **Append Only.** It simply pastes the results of Query B onto the bottom of Query A. | **Faster.** No sorting or checking is performed. | When you know the data is already unique, or you *want* to see duplicates (e.g., "Log files" or "Total Transaction Volume"). |
 
-### **3\. Syntax Example**
+### **3. Syntax Example**
 
 **Scenario:** Merging "Active Customers" with "Archived Customers."
 
-\-- Syntax for UNION ALL (The "Raw Append")  
-SELECT name, email FROM active\_customers  
+```sql
+-- Syntax for UNION ALL (The "Raw Append")  
+SELECT name, email FROM active_customers  
 UNION ALL  
-SELECT name, email FROM archived\_customers;
+SELECT name, email FROM archived_customers;
+```
 
 *Result:* If "John Doe" is in both tables, he appears twice.
 
-\-- Syntax for UNION (The "Clean Merge")  
-SELECT name, email FROM active\_customers  
+```sql
+-- Syntax for UNION (The "Clean Merge")  
+SELECT name, email FROM active_customers  
 UNION  
-SELECT name, email FROM archived\_customers;
+SELECT name, email FROM archived_customers;
+```
 
 *Result:* If "John Doe" is in both tables, he appears once.
 
 ### ---
 
-**4\. Strategic Use Cases**
+**4. Strategic Use Cases**
 
 * **Data Migration:** Combining legacy data tables with new system tables during a transition.  
-* **Monthly Reporting:** If your database splits sales into jan\_sales, feb\_sales, etc., you use UNION ALL to create a compiled annual report.  
+* **Monthly Reporting:** If your database splits sales into jan_sales, feb_sales, etc., you use UNION ALL to create a compiled annual report.  
 * **Hardcoding Data:** Sometimes you need to create a temporary lookup table on the fly:
 
+```sql
   SELECT 'Q1' as Quarter, 100 as Goal  
   UNION ALL  
   SELECT 'Q2', 120  
-  ...
-
+```
 
 Class 3.4.6:
 Title: The Multiplier: CROSS JOIN
@@ -7117,25 +7065,27 @@ While most joins act as *filters* (narrowing data down based on matches), the CR
 The Logic:  
 It takes every single row from Table A and pairs it with every single row from Table B.
 
-* If Table A has 10 rows and Table B has 10 rows, the result is $10 \\times 10 \= 100$ rows.
+* If Table A has 10 rows and Table B has 10 rows, the result is $10 \\times 10 = 100$ rows.
 
-### **1\. Basic Syntax**
+### **1. Basic Syntax**
 
 Unlike other joins, a CROSS JOIN does **not** require an ON condition, because there is no matching criteria—it simply matches everything.
 
+```sql
 SELECT   
-    table1.column\_a,   
-    table2.column\_b  
+    table1.column_a,   
+    table2.column_b  
 FROM table1  
 CROSS JOIN table2;
 
 The "Inner Join" Hack:  
 You can achieve the same result by writing an INNER JOIN with a condition that is always true:  
 ... INNER JOIN table2 ON 1=1
+```
 
 ### ---
 
-**2\. Strategic Use Case: Generating Combinations**
+**2. Strategic Use Case: Generating Combinations**
 
 Why would you want to multiply rows? This is commonly used in **Retail** and **Planning**.
 
@@ -7145,13 +7095,15 @@ Imagine you are launching a t-shirt line. You have a list of Colors and a list o
 * **Table Colors:** Red, Blue (2 rows)  
 * **Table Sizes:** S, M, L (3 rows)
 
+```sql
 SELECT   
-    colors.color\_name,   
-    sizes.size\_code  
+    colors.color_name,   
+    sizes.size_code  
 FROM colors  
 CROSS JOIN sizes;
+```
 
-The Result (2 × 3 \= 6 Rows):  
+The Result (2 × 3 = 6 Rows):  
 | Color | Size |  
 | :--- | :--- |  
 | Red | S |  
@@ -7163,7 +7115,7 @@ The Result (2 × 3 \= 6 Rows):
 
 ### ---
 
-**3\.  The Performance Warning (The "Explosion")**
+**3.  The Performance Warning (The "Explosion")**
 
 This is the most dangerous join in SQL.
 
@@ -7190,7 +7142,7 @@ Sometimes, you cannot solve a problem in a single pass.
 
 This is the purpose of a **Subquery** (or Nested Query). It allows you to embed one query inside another to calculate an intermediate result that the main query relies on.
 
-### **1\. The Standard Subquery (The "Filter")**
+### **1. The Standard Subquery (The "Filter")**
 
 Most often, subqueries live inside the WHERE clause. They act as a dynamic filter.
 
@@ -7201,20 +7153,22 @@ Most often, subqueries live inside the WHERE clause. They act as a dynamic filte
 
 **Scenario:** Find customers who have placed more than 2 orders.
 
-SELECT first\_name, last\_name  
+```sql
+SELECT first_name, last_name  
 FROM customers  
 WHERE (  
-    \-- The Inner Logic: Count orders for this specific customer  
-    SELECT COUNT(\*)  
+    -- The Inner Logic: Count orders for this specific customer  
+    SELECT COUNT(*)  
     FROM orders  
-    WHERE orders.customer\_id \= customers.id  
-) \> 2;
+    WHERE orders.customer_id = customers.id  
+) > 2;
+```
 
-*Note: This specific pattern (where the inner query references the outer row) is called a **Correlated Subquery**.*
+**Note: This specific pattern (where the inner query references the outer row) is called a **Correlated Subquery**.**
 
 ### ---
 
-**2\. Derived Tables (The "Virtual Table")**
+**2. Derived Tables (The "Virtual Table")**
 
 A **Derived Table** is simply a subquery that lives in the FROM or JOIN clause. Instead of returning a single value to filter by, it creates a temporary, virtual table structure that you can join against.
 
@@ -7223,18 +7177,20 @@ Every derived table must have an alias (AS name). Without a name, the outer quer
 Refactoring the Example:  
 Instead of calculating the count row-by-row (slow), let's calculate the "High Value Customers" list first and then join it.
 
+```sql
 SELECT   
-    customers.first\_name,   
-    customers.last\_name  
+    customers.first_name,   
+    customers.last_name  
 FROM customers  
 JOIN (  
-    \-- The Derived Table: Creates a temporary list of IDs  
-    SELECT customer\_id  
+    -- The Derived Table: Creates a temporary list of IDs  
+    SELECT customer_id  
     FROM orders  
-    GROUP BY customer\_id  
-    HAVING COUNT(\*) \> 2  
-) AS high\_volume\_shoppers  \-- \<--- The Mandatory Alias  
-    ON customers.id \= high\_volume\_shoppers.customer\_id;
+    GROUP BY customer_id  
+    HAVING COUNT(*) > 2  
+) AS high_volume_shoppers  \-- \<--- The Mandatory Alias  
+    ON customers.id = high_volume_shoppers.customer_id;
+```
 
 **Why do this?**
 
@@ -7258,64 +7214,75 @@ In the previous lesson, we used Subqueries to solve complex problems. However, a
 Enter the Common Table Expression (CTE).  
 Think of a CTE as a temporary variable that holds a table. It allows you to define your logic at the top of the file, give it a name, and then reference it later in the main query.
 
-### **1\. The Syntax: WITH ... AS**
+### **1. The Syntax: WITH ... AS**
 
 A CTE is defined using the WITH clause before your main SELECT statement begins.
 
 **The Skeleton:**
 
-WITH cte\_name AS (  
-    \-- Define the temporary table logic here  
-    SELECT column\_A, column\_B  
-    FROM raw\_table  
+```sql
+WITH cte_name AS (  
+    -- Define the temporary table logic here  
+    SELECT column_A, column_B  
+    FROM raw_table  
     WHERE conditions  
 )  
-\-- Main Query  
-SELECT \* FROM cte\_name \-- Reference it like a normal table  
+```
+
+```sql
+-- Main Query  
+SELECT * FROM cte_name -- Reference it like a normal table  
 WHERE ...
+```
 
 ### ---
 
-**2\. Refactoring: From Nested to Linear**
+**2. Refactoring: From Nested to Linear**
 
 Let's revisit our "High Volume Customers" problem.
 
 The "Subquery" Way (Hard to Read):  
 You have to read from the inside out.
 
+```sql
 SELECT name FROM customers  
-JOIN (SELECT id, COUNT(\*) as cnt FROM orders GROUP BY id) AS sub  
+JOIN (SELECT id, COUNT(*) as cnt FROM orders GROUP BY id) AS sub  
 ON ...
+```
 
-The "CTE" Way (Top-Down Storytelling):  
+**The "CTE" Way (Top-Down Storytelling):**  
 You read this from top to bottom, just like a book.
 
-WITH customer\_order\_counts AS (  
-    \-- Step 1: Calculate the metrics first  
+```sql
+WITH customer_order_counts AS (  
+    -- Step 1: Calculate the metrics first  
     SELECT   
-        customer\_id,   
-        COUNT(\*) as total\_orders  
+        customer_id,   
+        COUNT(*) as total_orders  
     FROM orders  
-    WHERE order\_date \>= '2022-01-01'  
-    GROUP BY customer\_id  
+    WHERE order_date >= '2022-01-01'  
+    GROUP BY customer_id  
 )
+```
 
-\-- Step 2: Run the final report  
+```sql
+-- Step 2: Run the final report  
 SELECT   
     customers.name  
 FROM customers  
-JOIN customer\_order\_counts  
-    ON customers.id \= customer\_order\_counts.customer\_id  
-WHERE customer\_order\_counts.total\_orders \> 10;
+JOIN customer_order_counts  
+    ON customers.id = customer_order_counts.customer_id  
+WHERE customer_order_counts.total_orders > 10;
+```
 
 **Why is this better?**
 
 * **Separation of Concerns:** Step 1 (Calculation) is separated from Step 2 (Reporting).  
-* **Self-Documentation:** The name customer\_order\_counts tells the next developer exactly what that block of code does.
+* **Self-Documentation:** The name customer_order_counts tells the next developer exactly what that block of code does.
 
 ### ---
 
-**3\. CTEs vs. Subqueries: The Showdown**
+**3 CTEs vs. Subqueries: The Showdown**
 
 When should you use which?
 
@@ -7346,7 +7313,7 @@ Text Content:
 
 In standard SQL, you face a trade-off:
 
-* **SELECT \*** gives you individual rows but no summary.  
+* **SELECT** gives you individual rows but no summary.  
 * **GROUP BY** gives you a summary but destroys the individual rows.
 
 **Window Functions** break this trade-off. They allow you to look at the **individual row** and the **aggregate summary** simultaneously.
@@ -7356,15 +7323,15 @@ Imagine a "Window" (a specific set of rows) sliding over your data. For every ro
 
 ### ---
 
-**1\. The Syntax Anatomy**
+**1. The Syntax Anatomy**
 
 A Window Function is defined by the OVER clause. It tells SQL: *"Don't collapse the rows; just calculate this metric over a specific set of them."*
 
 **The Formula:**
 
-FUNCTION\_NAME(column) OVER (  
-    PARTITION BY group\_column  \-- The "Reset" Button  
-    ORDER BY sort\_column       \-- The "Sequence"  
+FUNCTION_NAME(column) OVER (  
+    PARTITION BY group_column  \-- The "Reset" Button  
+    ORDER BY sort_column       \-- The "Sequence"  
     ROWS BETWEEN ...           \-- The "Frame" size  
 )
 
@@ -7376,22 +7343,24 @@ FUNCTION\_NAME(column) OVER (
 
 ### ---
 
-**2\. Practical Example: The Running Total**
+**2. Practical Example: The Running Total**
 
 **Scenario:** Calculate the cumulative sales for each product over time.
 
 * *Table:* Sales  
 * *Requirement:* Show the daily sale AND the total sales-to-date side-by-side.
 
+```sql
 SELECT   
-    sale\_date,   
+    sale_date,   
     product,   
     amount,   
     SUM(amount) OVER (  
         PARTITION BY product   
-        ORDER BY sale\_date  
-    ) as running\_total  
+        ORDER BY sale_date  
+    ) as running_total  
 FROM sales;
+```
 
 Result:  
 | Sale Date | Product | Amount | Running Total | Logic |  
@@ -7403,7 +7372,7 @@ Result:
 
 ### ---
 
-**3\. The "Frame": Adjusting the Scope**
+**3. The "Frame": Adjusting the Scope**
 
 Sometimes you don't want a "Running Total" (Start $\\rightarrow$ Current). You want a **"Moving Average"** (e.g., Average of the last 3 days).
 
@@ -7427,7 +7396,7 @@ AVG(sales) OVER (
 
 ### ---
 
-**4\. The Toolkit: Types of Window Functions**
+**4. The Toolkit: Types of Window Functions**
 
 In interviews, you will primarily use three categories of functions:
 
@@ -7438,9 +7407,9 @@ In interviews, you will primarily use three categories of functions:
 
 **B. Ranking Functions** (Crucial for "Top N" problems)
 
-* **ROW\_NUMBER()**: Gives a unique ID (1, 2, 3, 4). No ties.  
+* **ROW_NUMBER()**: Gives a unique ID (1, 2, 3, 4). No ties.  
 * **RANK()**: Handles ties with gaps (1, 2, 2, **4**).  
-* **DENSE\_RANK()**: Handles ties without gaps (1, 2, 2, **3**).  
+* **DENSE_RANK()**: Handles ties without gaps (1, 2, 2, **3**).  
 * **NTILE(n)**: Splits data into n buckets (e.g., Quartiles).
 
 **C. Value Functions** (Time Travel)
@@ -7448,7 +7417,7 @@ In interviews, you will primarily use three categories of functions:
 * **LAG()**: Look at the *previous* row (e.g., "Compare today's sales to yesterday's").  
 * **LEAD()**: Look at the *next* row.
 
-**Next Up:** We will perform a deep dive into **Ranking**, specifically the difference between RANK and DENSE\_RANK (a guaranteed interview question).
+**Next Up:** We will perform a deep dive into **Ranking**, specifically the difference between RANK and DENSE_RANK (a guaranteed interview question).
 
 
 Class 3.5.2:
@@ -7458,7 +7427,7 @@ Content Type: text
 Duration: 500
 Order: 2
 Text Content: 
-## **Leaderboard Logic: RANK vs DENSE\_RANK**
+## **Leaderboard Logic: RANK vs DENSE_RANK**
 
 When creating leaderboards or "Top N" lists, sorting isn't enough. You often need to assign a specific numerical rank (1st, 2nd, 3rd) to each row.
 
@@ -7469,7 +7438,7 @@ But what happens when two people tie for 2nd place?
 
 SQL provides two specific window functions to handle these scenarios differently.
 
-### **1\. The Standard: RANK()**
+### **1. The Standard: RANK()**
 
 This function behaves like the Olympics. If two runners tie for Gold, they both get Gold (Rank 1), but the Silver medal (Rank 2\) is skipped. The next runner gets Bronze (Rank 3).
 
@@ -7487,7 +7456,7 @@ RANK() OVER (ORDER BY column DESC)
 
 ### ---
 
-**2\. The Condensed: DENSE\_RANK()**
+**2. The Condensed: DENSE_RANK()**
 
 This function behaves more intuitively for things like "Salary Tiers" or "Pricing Tiers." If two people tie for 1st place, the next person is simply 2nd. No numbers are ever skipped.
 
@@ -7495,7 +7464,7 @@ This function behaves more intuitively for things like "Salary Tiers" or "Pricin
 
 **Syntax:**
 
-DENSE\_RANK() OVER (ORDER BY column DESC)
+DENSE_RANK() OVER (ORDER BY column DESC)
 
 **Scenario:** Rank salespeople again.
 
@@ -7505,11 +7474,11 @@ DENSE\_RANK() OVER (ORDER BY column DESC)
 
 ### ---
 
-**3\. The Side-by-Side Comparison (Interview Reference)**
+**3. The Side-by-Side Comparison (Interview Reference)**
 
 To fully grasp the difference, look at this Sales Leaderboard:
 
-| Salesperson | Sales | RANK() | DENSE\_RANK() | ROW\_NUMBER() |
+| Salesperson | Sales | RANK() | DENSE_RANK() | ROW_NUMBER() |
 | :---- | :---- | :---- | :---- | :---- |
 | **Alice** | $1000 | 1 | 1 | 1 |
 | **Bob** | $1000 | 1 | 1 | 2 |
@@ -7519,7 +7488,7 @@ To fully grasp the difference, look at this Sales Leaderboard:
 **Interview Tip:**
 
 * Use **RANK()** if you need to know the true position relative to the population size (e.g., "Top 3 students" might actually include 5 people if there are ties, but Rank ensures you don't overshoot).  
-* Use **DENSE\_RANK()** if you need strictly consecutive numbers (e.g., "Find the 2nd highest salary").
+* Use **DENSE_RANK()** if you need strictly consecutive numbers (e.g., "Find the 2nd highest salary").
 
 **Next Up:** We will explore how to calculate year-over-year growth using LAG and LEAD.
 
@@ -7531,51 +7500,55 @@ Duration: 400
 Order: 3
 Text Content: 
 
-## **The Strict Sequencer: ROW\_NUMBER()**
+## **The Strict Sequencer: ROW_NUMBER()**
 
-While RANK and DENSE\_RANK are great for leaderboards, they have a "flaw": they allow duplicates. If two people tie for first place, they both get a "1".
+While RANK and DENSE_RANK are great for leaderboards, they have a "flaw": they allow duplicates. If two people tie for first place, they both get a "1".
 
 Sometimes, you need a strict, unique identifier for every single row, regardless of ties.
 
-* **ROW\_NUMBER()** assigns a sequential integer (1, 2, 3...) to every row in your window.  
+* **ROW_NUMBER()** assigns a sequential integer (1, 2, 3...) to every row in your window.  
 * **Key Trait:** It **never** repeats a number. If there is a tie, it arbitrarily forces one row to be \#1 and the other to be \#2.
 
-### **1\. Basic Syntax**
+### **1. Basic Syntax**
 
 The function requires an ORDER BY clause to know where to start counting.
 
+```sql
 SELECT   
-    customer\_name,  
-    total\_spend,  
-    ROW\_NUMBER() OVER (ORDER BY total\_spend DESC) as row\_id  
+    customer_name,  
+    total_spend,  
+    ROW_NUMBER() OVER (ORDER BY total_spend DESC) as row_id  
 FROM customers;
+```
 
 The Tie-Breaker Warning:  
-If two customers both spent $500, SQL will arbitrarily pick one to be Row 10 and the other to be Row 11\.
+If two customers both spent $500, SQL will arbitrarily pick one to be Row 10 and the other to be Row 11
 
-* *Fix:* To make this deterministic, add a second column to the sort: ORDER BY total\_spend DESC, customer\_id ASC.
+* **Fix:** To make this deterministic, add a second column to the sort: ORDER BY total_spend DESC, customer_id ASC.
 
 ### ---
 
-**2\. Strategic Use Case: Pagination & "Top N"**
+**2. Strategic Use Case: Pagination & "Top N"**
 
-Because ROW\_NUMBER guarantees unique counts, it is the standard tool for "Getting the top 5 results" or "Getting results 11-20 (Page 2)."
+Because ROW_NUMBER guarantees unique counts, it is the standard tool for "Getting the top 5 results" or "Getting results 11-20 (Page 2)."
 
 **Scenario:** Find the top 5 customers by sales.
 
+```sql
 WITH RankedSales AS (  
     SELECT   
-        customer\_id,   
-        total\_sales,  
-        ROW\_NUMBER() OVER (ORDER BY total\_sales DESC) as rank\_id  
-    FROM customer\_sales  
+        customer_id,   
+        total_sales,  
+        ROW_NUMBER() OVER (ORDER BY total_sales DESC) as rank_id  
+    FROM customer_sales  
 )  
-SELECT \* FROM RankedSales  
-WHERE rank\_id \<= 5;
+SELECT * FROM RankedSales  
+WHERE rank_id <= 5;
+```
 
 ### ---
 
-**3\. The Interview Super-Pattern: De-Duplication**
+**3. The Interview Super-Pattern: De-Duplication**
 
 This is one of the most common SQL interview questions: *"How do you remove duplicate rows from a table?"*
 
@@ -7583,19 +7556,21 @@ This is one of the most common SQL interview questions: *"How do you remove dupl
 
 1. Partition by the columns that *should* be unique (e.g., Email).  
 2. Order by Date (Newest first).  
-3. Keep any row where ROW\_NUMBER() \= 1\. Delete the rest.
+3. Keep any row where ROW_NUMBER() = 1 Delete the rest.
 
-SELECT \* FROM (  
+```sql
+SELECT * FROM (  
     SELECT   
         email,   
-        login\_time,  
-        ROW\_NUMBER() OVER (  
+        login_time,  
+        ROW_NUMBER() OVER (  
             PARTITION BY email   
-            ORDER BY login\_time DESC  
-        ) as entry\_id  
-    FROM user\_logs  
+            ORDER BY login_time DESC  
+        ) as entry_id  
+    FROM user_logs  
 ) as sub  
-WHERE entry\_id \= 1; \-- Keeps only the most recent login per user
+WHERE entry_id = 1; \-- Keeps only the most recent login per user
+```
 
 **This concludes the core Window Functions. We will now move on to Calculating Growth using LAG and LEAD.**
 
@@ -7609,27 +7584,27 @@ Order: 4
 Text Content: 
 ## **Time Travel: The LAG Function**
 
-In standard SQL, rows are isolated islands. Row 5 doesn't know what happened in Row 4\.  
+In standard SQL, rows are isolated islands. Row 5 doesn't know what happened in Row 4  
 But in business analysis, context is everything. You don't just want to know "Sales today"; you want to know "Sales today compared to yesterday."  
 The LAG function allows a row to look backwards and "fetch" data from a previous row.
 
-### **1\. Basic Syntax**
+### **1. Basic Syntax**
 
 LAG accesses data from a previous row in the same result set without needing a complex self-join.
 
-LAG(column\_name, offset, default\_value) OVER (ORDER BY sort\_column)
+LAG(column_name, offset, default_value) OVER (ORDER BY sort_column)
 
-* **column\_name**: The value you want to grab (e.g., revenue).  
+* **column_name**: The value you want to grab (e.g., revenue).  
 * **offset**: How far back to look? (Default is 1, i.e., "Yesterday").  
-* **default\_value**: What to return if there *is* no previous row (e.g., the very first day). Default is NULL, but usually, you want 0\.
+* **default_value**: What to return if there *is* no previous row (e.g., the very first day). Default is NULL, but usually, you want 0
 
 ### ---
 
-**2\. Applied Scenario: Day-over-Day Growth**
+**2. Applied Scenario: Day-over-Day Growth**
 
 **The Business Question:** *"Are our sales trending up or down compared to yesterday?"*
 
-Table: Daily\_Sales  
+Table: Daily_Sales  
 | Date | Sales |  
 | :--- | :--- |  
 | Jan 01 | 100 |  
@@ -7637,16 +7612,18 @@ Table: Daily\_Sales
 | Jan 03 | 125 |  
 **The Query:**
 
+```sql
 SELECT   
     date,  
-    sales as current\_sales,  
+    sales as current_sales,  
     \-- Fetch the previous row's sales  
-    LAG(sales, 1, 0) OVER (ORDER BY date) AS previous\_sales,  
+    LAG(sales, 1, 0) OVER (ORDER BY date) AS previous_sales,  
     \-- Calculate the difference immediately  
-    sales \- LAG(sales, 1, 0) OVER (ORDER BY date) AS sales\_change  
-FROM daily\_sales;
+    sales \- LAG(sales, 1, 0) OVER (ORDER BY date) AS sales_change  
+FROM daily_sales;
+```
 
-The Result:  
+**The Result:**  
 | Date | Current Sales | Previous Sales | Change | Logic |  
 | :--- | :--- | :--- | :--- | :--- |  
 | Jan 01 | 100 | 0 | 0 | (No history) |  
@@ -7655,7 +7632,7 @@ The Result:
 
 ### ---
 
-**3\. Advanced Variation: LEAD**
+**3. Advanced Variation: LEAD**
 
 While LAG looks **Backwards**, its sibling function LEAD looks **Forwards**.
 
@@ -7691,88 +7668,93 @@ Content Type: text
 Duration: 900
 Order: 1
 Text Content: 
-**1\. What's the difference between WHERE and HAVING?**  
-Solution:   
+**1. What's the difference between WHERE and HAVING?**  
+**Solution:**   
 • WHERE: Filters before aggregation.  
 • HAVING: Filters after aggregation**.**
 
-**2\. What makes OLTP different from OLAP?**
+**2. What makes OLTP different from OLAP?**
 
 Solution:   
 • OLTP (Online Transaction Processing) deals with day to day transactions which makes real time entry and retrieval of data fast.  
 • OLAP (Online Analytical Processing) is for the analysis of huge amounts of data and is more concentrating on the high integrity of the queries made and the reports developed for decision making.  
 In short: OLTP is good for processing data transactions; OLAP is good for data analysis.
 
-**3\. What is the difference between UNION and**  
+**3. What is the difference between UNION and**  
 **UNION ALL in SQL?**
 
 Solution:   
 The key difference between UNION and UNION ALL in SQL is :  
-1\. UNION : After executing two queries, the command combines the results and erases all the rows that are similar. This means there is additional activity that includes sorting and checking for duplicates of similar records.  
-2\. UNION ALL : Joins two columns/trials on same parameters and retrieves all the rows, including any rows that are duplicated. It is faster, especially due to the lack of needful check that are generally performed to confirm a record was indeed successfully added.  
+**1 UNION:** After executing two queries, the command combines the results and erases all the rows that are similar. This means there is additional activity that includes sorting and checking for duplicates of similar records.  
+**2 UNION ALL:** Joins two columns/trials on the same parameters and retrieves all the rows, including any rows that are duplicated. It is faster, especially due to the lack of needful checks that are generally performed to confirm a record was indeed successfully added.  
 When you are looking for unique output then you should go for  
 UNION while for duplicate output and when performance is also a concern you should go for UNION ALL.
 
-**4\. What are CTEs in SQL? What is a View? Difference between them, and when to use each.**
+**4. What are CTEs in SQL? What is a View? Difference between them, and when to use each.**
 
  Answer:  
 **CTE (Common Table Expression):** A temporary result set defined using WITH keyword, exists only during query execution.
 
- WITH recent\_rides AS (  
-		SELECT \* FROM rides WHERE ride\_date \>= '2025-10-01'  
+```sql
+ WITH recent_rides AS (  
+		SELECT * FROM rides WHERE ride_date >= '2025-10-01'  
 )  
-SELECT COUNT(\*) FROM recent\_rides;
+SELECT COUNT(*) FROM recent_rides;
+```
 
 **VIEW:** A stored, named query saved in the database that can be reused.
 
- CREATE VIEW city\_revenue AS  
-SELECT city, SUM(fare) AS total\_revenue FROM rides GROUP BY city;
+```sql
+ CREATE VIEW city_revenue AS  
+SELECT city, SUM(fare) AS total_revenue FROM rides GROUP BY city;
+```
 
-When to use:  
+**When to use:**  
+
  Use CTEs for one-time logical structuring; Views for repetitive use or access control.
 
-**5\. Given that the result sets of a LEFT JOIN and an INNER JOIN have the same number of rows, what does that suggest about the data?**
+**5. Given that the result sets of a LEFT JOIN and an INNER JOIN have the same number of rows, what does that suggest about the data?**
 
  Answer:  
  It suggests that all rows in the left table had matching rows in the right table.  
  Meaning, no unmatched (NULL) rows in LEFT JOIN result → the join behaved effectively like an INNER JOIN.
 
-**6\. Order of SQL Clause Execution**
+**6. Order of SQL Clause Execution**
 
 **Question:**  
  In a query with SELECT, FROM, JOIN, WHERE, GROUP BY, HAVING, ORDER BY — what is the actual backend execution order?
 
-**7\. What is DDL and DML? What is the difference?**
+**7. What is DDL and DML? What is the difference?**
 
 ANSWER \-\>  
 • DDL (Data Definition Language) is used to define the structure of the database (e.g., CREATE TABLE, ALTER TABLE, DROP TABLE).  
 • DML (Data Manipulation Language) is used to manipulate the data within the database (e.g., INSERT, UPDATE, DELETE, SELECT).
 
-**8\. What is the difference between Truncate vs Delete vs Drop?**
+**8. What is the difference between Truncate vs Delete vs Drop?**
 
 ANSWER \-\>  
 • Truncate removes all rows from a table quickly. It cannot be rolled back.  
 • Delete removes specific rows from a table based on a condition. It can be rolled back.  
 • Drop removes the entire table and its structure from the database. It cannot be rolled back.
 
-**9\. What does coalesce function do in SOL?**
+**9. What does coalesce function do in SOL?**
 
 ANSWER \-\>  
 The COALESCE function returns the first non-null value in a list of arguments.
 
-**10\. What are Window Functions or Analytical functions?**
+**10. What are Window Functions or Analytical functions?**
 
 ANSWER \-\>  
 Window functions perform calculations across a set of rows related to the current row, such as ranking, partitioning, and calculating running totals.
 
-**11\.  What is the difference between CHAR and VARCHAR2?**  
+**11.  What is the difference between CHAR and VARCHAR2?**  
 Answer
 
 * CHAR stores fixed-length data and pads extra spaces.  
 * VARCHAR2 stores variable-length data, saving storage space.
 
-**12\. What are the main types of SQL commands?**  
-Solution:  
+**12. What are the main types of SQL commands?**  
+**Solution:**  
 SQL commands are broadly classified into:
 
 DDL (Data Definition Language): CREATE, ALTER, DROP, TRUNCATE.  
@@ -7780,18 +7762,18 @@ DML (Data Manipulation Language): SELECT, INSERT, UPDATE, DELETE.
 DCL (Data Control Language): GRANT, REVOKE.  
 TCL (Transaction Control Language): COMMIT, ROLLBACK, SAVEPOINT.
 
-**13\. What is the purpose of the GROUP BY clause?**
+**13. What is the purpose of the GROUP BY clause?**
 
 Solution:   
 The GROUP BY clause is used to arrange identical data into groups. It is typically used with aggregate functions (such as COUNT, SUM, AVG) to perform calculations on each group rather than on the entire dataset.
 
-**14 What happens if you use COUNT() on NULLs?**
+**14. What happens if you use COUNT() on NULLs?**
 
 **Solution:**   
 COUNT(column) ignores NULL values and only counts non-NULL entries.  
-COUNT(\*) counts all rows, including those with NULL values in columns.
+COUNT(*) counts all rows, including those with NULL values in columns.
 
-**15\. What are the different types of joins in SQL? Explain with examples.**
+**15. What are the different types of joins in SQL? Explain with examples.**
 
 #### Types of Joins:
 
@@ -7802,18 +7784,18 @@ COUNT(\*) counts all rows, including those with NULL values in columns.
   * CROSS JOIN – Returns the Cartesian product of both tables.  
   * SELF JOIN – Joins a table to itself.
 
-**16\. What is Indexing in SQL?**
+**16. What is Indexing in SQL?**
 
 Indexing is a database optimization technique used to speed up data retrieval operations. An index is a data structure that improves the efficiency of SELECT queries by reducing the number of rows scanned.
 
-**17\. How do you replace missing data in SQL queries?**
+**17. How do you replace missing data in SQL queries?**
 
 *  Using COALESCE() Function  
 *  Using ISNULL() Function  
 * Using IFNULL() Function  
 * Using CASE WHEN Statement
 
-**18\. What is the difference between EXISTS and IN?**
+**18. What is the difference between EXISTS and IN?**
 
 * IN: Compares a column to a list of values or subquery results.  
 * EXISTS: Checks for the existence of rows in a subquery.
@@ -7825,66 +7807,74 @@ Content Type: text
 Duration: 900
 Order: 1
 Text Content: 
-**1\. Write a query to find the second highest salary without using LIMIT, OFFSET or TOP.**
+**1. Write a query to find the second highest salary without using LIMIT, OFFSET or TOP.**
 
 Solution:   
+```sql
 SELECT MAX(salary)  
 FROM employees  
-WHERE salary \< (SELECT MAX(salary) FROM employees);
+WHERE salary < (SELECT MAX(salary) FROM employees);
+```
 
-**2\. What is the difference between RANK), DENSE\_RANK), and ROW\_NUMBER)?**
+**2. What is the difference between RANK), DENSE_RANK), and ROW_NUMBER)?**
 
 Solution:   
 • RANK): Skips numbers after ties.  
-• DENSE\_RANK(): No gaps in ranking.  
-• ROW\_NUMBER): Unique sequential number regardless of ties.
+• DENSE_RANK(): No gaps in ranking.  
+• ROW_NUMBER): Unique sequential number regardless of ties.
 
-**3\. Retrieve employees who earn more than their manager.**
+**3. Retrieve employees who earn more than their manager.**
 
 Solution:   
+```sql
 SELECT e.name AS Employee, e.salary, m.name AS Manager, m. salary AS ManagerSalary  
 FROM employees e  
-JOIN employees m ON e.manager\_id \= m.id  
-WHERE e.salary \> m.salary;
+JOIN employees m ON e.manager_id = m.id  
+WHERE e.salary > m.salary;
+```
 
-**4\. How would you calculate the running total of sales for each product?**
+**4. How would you calculate the running total of sales for each product?**
 
 Solution:  
 Use a window (analytic) function: compute SUM(amount) over rows of the same product, ordered by time, accumulating from the start up to the current row. This keeps row detail while adding a running total.
 
+```sql
 SELECT  
-  product\_id,  
-  sale\_date,  
+  product_id,  
+  sale_date,  
   amount,  
   SUM(amount) OVER (  
-    PARTITION BY product\_id  
-    ORDER BY sale\_date, sale\_id          
+    PARTITION BY product_id  
+    ORDER BY sale_date, sale_id          
     ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW  
-  ) AS running\_total  
+  ) AS running_total  
 FROM sales;
+```
 
 **5. Find customers who have placed orders in 3 or more different months of 2024 and have an average order amount above ₹1500.**  
 Return the following details:  
-customer\_id, customer\_name, months\_active, and avg\_order\_amount.  
-Order the results by avg\_order\_amount in descending order.
+customer_id, customer_name, months_active, and avg_order_amount.  
+Order the results by avg_order_amount in descending order.
 
 **Table Names with Schema**  
+```sql
 CREATE TABLE customers (  
-  customer\_id   INT PRIMARY KEY,  
-  customer\_name VARCHAR(100),  
-  signup\_date   DATE  
+  customer_id   INT PRIMARY KEY,  
+  customer_name VARCHAR(100),  
+  signup_date   DATE  
 );
-
+```
+```sql
 CREATE TABLE orders (  
-  order\_id       INT PRIMARY KEY,  
-  customer\_id    INT,  
-  order\_date     DATE,  
+  order_id       INT PRIMARY KEY,  
+  customer_id    INT,  
+  order_date     DATE,  
   city           VARCHAR(100),  
-  order\_amount   DECIMAL(10,2),  
-  payment\_status VARCHAR(20),  
-  FOREIGN KEY (customer\_id) REFERENCES customers(customer\_id)  
+  order_amount   DECIMAL(10,2),  
+  payment_status VARCHAR(20),  
+  FOREIGN KEY (customer_id) REFERENCES customers(customer_id)  
 );
-
+```
 ### **Example Tables**
 
 **customers**
@@ -7901,101 +7891,127 @@ Image url : https://drive.google.com/file/d/1OZSUV8-p0zcIsZVoIRmEvvhEIxg2gtUw/vi
 
 **Solution :** 
 
-WITH monthly\_orders AS (  
+```sql
+WITH monthly_orders AS (  
   SELECT  
-    o.customer\_id,  
-    EXTRACT(MONTH FROM o.order\_date) AS month\_num,  
-    AVG(o.order\_amount) AS avg\_amt\_per\_month  
+    o.customer_id,  
+    EXTRACT(MONTH FROM o.order_date) AS month_num,  
+    AVG(o.order_amount) AS avg_amt_per_month  
   FROM orders o  
-  WHERE EXTRACT(YEAR FROM o.order\_date) \= 2024  
-  GROUP BY o.customer\_id, EXTRACT(MONTH FROM o.order\_date)  
-),  
+  WHERE EXTRACT(YEAR FROM o.order_date) = 2024  
+  GROUP BY o.customer_id, EXTRACT(MONTH FROM o.order_date)  
+),
+
 summary AS (  
   SELECT  
-    mo.customer\_id,  
-    COUNT(DISTINCT mo.month\_num) AS months\_active,  
-    AVG(mo.avg\_amt\_per\_month) AS avg\_order\_amount  
-  FROM monthly\_orders mo  
-  GROUP BY mo.customer\_id  
+    mo.customer_id,  
+    COUNT(DISTINCT mo.month_num) AS months_active,  
+    AVG(mo.avg_amt_per_month) AS avg_order_amount  
+  FROM monthly_orders mo  
+  GROUP BY mo.customer_id  
 )  
+
 SELECT  
-  c.customer\_id,  
-  c.customer\_name,  
-  s.months\_active,  
-  ROUND(s.avg\_order\_amount, 2\) AS avg\_order\_amount  
+  c.customer_id,  
+  c.customer_name,  
+  s.months_active,  
+  ROUND(s.avg_order_amount, 2\) AS avg_order_amount  
 FROM summary s  
-JOIN customers c ON c.customer\_id \= s.customer\_id  
-WHERE s.months\_active \>= 3 AND s.avg\_order\_amount \> 1500  
-ORDER BY s.avg\_order\_amount DESC;
+JOIN customers c ON c.customer_id = s.customer_id  
+WHERE s.months_active \>= 3 AND s.avg_order_amount \> 1500  
+ORDER BY s.avg_order_amount DESC;
+```
 
-**6\. Find Daily Active Users (DAU), Weekly Active Users (WAU), and ratio in 2025\.**
+**6. Find Daily Active Users (DAU), Weekly Active Users (WAU), and ratio in 2025**
 
- **Table:** orders(order\_id, user\_id, order\_date)  
+ **Table:** orders(order_id, user_id, order_date)  
 **\-- DAU**  
-SELECT DATE(order\_date) AS day, COUNT(DISTINCT user\_id) AS dau  
+```sql
+SELECT DATE(order_date) AS day, COUNT(DISTINCT user_id) AS dau  
 FROM orders  
-WHERE YEAR(order\_date) \= 2025  
-GROUP BY DATE(order\_date);
+WHERE YEAR(order_date) = 2025  
+GROUP BY DATE(order_date);
+```
 
 **\-- WAU**  
-SELECT YEARWEEK(order\_date, 1\) AS week, COUNT(DISTINCT user\_id) AS wau  
+```sql
+SELECT YEARWEEK(order_date, 1\) AS week, COUNT(DISTINCT user_id) AS wau  
 FROM orders  
-WHERE YEAR(order\_date) \= 2025  
-GROUP BY YEARWEEK(order\_date, 1);
+WHERE YEAR(order_date) = 2025  
+GROUP BY YEARWEEK(order_date, 1);
+```
 
 **\-- DAU/WAU ratio** (example: avg across weeks)  
+```sql
 WITH dau AS (  
-    SELECT YEARWEEK(order\_date, 1\) AS week, COUNT(DISTINCT user\_id) AS dau  
+    SELECT YEARWEEK(order_date, 1\) AS week, COUNT(DISTINCT user_id) AS dau  
     FROM orders  
-    WHERE YEAR(order\_date) \= 2025  
-    GROUP BY YEARWEEK(order\_date, 1), DATE(order\_date)  
+    WHERE YEAR(order_date) = 2025  
+    GROUP BY YEARWEEK(order_date, 1), DATE(order_date)  
 ),  
 wau AS (  
-    SELECT YEARWEEK(order\_date, 1\) AS week, COUNT(DISTINCT user\_id) AS wau  
-    FROM orders  
-    WHERE YEAR(order\_date) \= 2025  
-    GROUP BY YEARWEEK(order\_date, 1\)  
-)  
-SELECT w.week, AVG(d.dau) AS avg\_dau, w.wau, ROUND(AVG(d.dau)/w.wau, 2\) AS dau\_wau\_ratio  
-FROM wau w  
-JOIN dau d ON w.week \= d.week  
-GROUP BY w.week, w.wau;
+```
 
-**7\.** **% of cancelled orders later re-placed within 7 days by same user.**  
- **Table:** orders(order\_id, user\_id, order\_date, status, order\_amount)  
-WITH cancelled AS (  
-    SELECT order\_id, user\_id, order\_date  
+```sql
+    SELECT YEARWEEK(order_date, 1\) AS week, COUNT(DISTINCT user_id) AS wau  
     FROM orders  
-    WHERE status \= 'Cancelled'  
+    WHERE YEAR(order_date) = 2025  
+    GROUP BY YEARWEEK(order_date, 1\)  
+)  
+```
+
+```sql
+SELECT w.week, AVG(d.dau) AS avg_dau, w.wau, ROUND(AVG(d.dau)/w.wau, 2\) AS dau_wau_ratio  
+FROM wau w  
+JOIN dau d ON w.week = d.week  
+GROUP BY w.week, w.wau;
+```
+
+**7.** **% of cancelled orders later re-placed within 7 days by the same user.**  
+ **Table:** orders(order_id, user_id, order_date, status, order_amount)  
+```sql
+WITH cancelled AS (  
+    SELECT order_id, user_id, order_date  
+    FROM orders  
+    WHERE status = 'Cancelled'  
 ),  
+```
+
+```sql
 recovered AS (  
-    SELECT c.user\_id, c.order\_id  
+    SELECT c.user_id, c.order_id  
     FROM cancelled c  
     JOIN orders o   
-      ON o.user\_id \= c.user\_id   
-     AND o.order\_date BETWEEN c.order\_date AND DATE\_ADD(c.order\_date, INTERVAL 7 DAY)  
-     AND o.status \= 'Completed'  
+      ON o.user_id = c.user_id   
+     AND o.order_date BETWEEN c.order_date AND DATE_ADD(c.order_date, INTERVAL 7 DAY)  
+     AND o.status = 'Completed'  
 )  
-SELECT COUNT(DISTINCT r.order\_id) \* 100.0 / COUNT(DISTINCT c.order\_id) AS recovery\_pct  
+```
+
+```sql
+SELECT COUNT(DISTINCT r.order_id) * 100.0 / COUNT(DISTINCT c.order_id) AS recovery_pct  
 FROM cancelled c  
-LEFT JOIN recovered r ON c.order\_id \= r.order\_id;
+LEFT JOIN recovered r ON c.order_id = r.order_id;
+```
 
-**8.For each user, calculate the 7-day rolling average score (including the current day).**
+**8. For each user, calculate the 7-day rolling average score (including the current day).**
 
-Table : user\_activity(user\_id INT, activity\_date DATE, score INT)
+Table : user_activity(user_id INT, activity_date DATE, score INT)
 
 ### **Approach 1: Using Window Functions**
 
+```sql
 SELECT   
-    user\_id,  
-    activity\_date,  
+    user_id,  
+    activity_date,  
     score,  
     AVG(score) OVER (  
-        PARTITION BY user\_id   
-        ORDER BY activity\_date  
+        PARTITION BY user_id   
+        ORDER BY activity_date  
         ROWS BETWEEN 6 PRECEDING AND CURRENT ROW  
-    ) AS rolling\_avg\_7days  
-FROM user\_activity;
+    ) AS rolling_avg_7days  
+FROM user_activity;
+```
 
 * ROWS BETWEEN 6 PRECEDING AND CURRENT ROW → looks at current row \+ past 6 days (7 rows).
 
@@ -8003,19 +8019,21 @@ FROM user\_activity;
 
 ### **Approach 2: Using Correlated Subquery**
 
+```sql
 SELECT   
-    a.user\_id,  
-    a.activity\_date,  
+    a.user_id,  
+    a.activity_date,  
     a.score,  
     (  
         SELECT AVG(b.score)  
-        FROM user\_activity b  
-        WHERE b.user\_id \= a.user\_id  
-          AND b.activity\_date BETWEEN DATE\_SUB(a.activity\_date, INTERVAL 6 DAY) AND a.activity\_date  
-    ) AS rolling\_avg\_7days  
-FROM user\_activity a;
+        FROM user_activity b  
+        WHERE b.user_id = a.user_id  
+          AND b.activity_date BETWEEN DATE_SUB(a.activity_date, INTERVAL 6 DAY) AND a.activity_date  
+    ) AS rolling_avg_7days  
+FROM user_activity a;
+```
 
-**9\. Given the employee database with the schema shown below, write a query to fetch the top 3 earning employees, including their IDs, names and salaries.**
+**9. Given the employee database with the schema shown below, write a query to fetch the top 3 earning employees, including their IDs, names and salaries.**
 
 **employees table :**   
 Image url : https://drive.google.com/file/d/1GyqYJi2IAhHJd-s9jQMuMB--dWhtodVF/view?usp=sharing 
@@ -8026,10 +8044,11 @@ Image url : https://drive.google.com/file/d/1zddMTjKvzds_xieSF5lwR_7iFx_A6q5V/vi
 
 **Solution**
 
+```sql
 select  
   id,  
-  first\_name,  
-  last\_name,  
+  first_name,  
+  last_name,  
   salary  
 from  
   employees  
@@ -8037,67 +8056,71 @@ order by
   salary desc  
 limit  
   3;
+```
 
-**10\. You are given the following tables:**
+**10. You are given the following tables:**
 
 Image url : https://drive.google.com/file/d/1z5SS_GtsOGOwlsYUKpnezAjqMGq71_XI/view?usp=sharing 
 **Write a SQL query to isolate users who post above the overall average total posts but also have a successful post rate below the overall average.**
 
-**Your output should include the following columns: user\_id, post\_success (no. of successful posts), post\_attempt (no. of posts), post\_success\_rate. Order by decreasing success rate.**
+**Your output should include the following columns: user_id, post_success (no. of successful posts), post_attempt (no. of posts), post_success_rate. Order by decreasing success rate.**
 
 Solution : 
 
-WITH agg\_metrics AS (  
+```sql
+WITH agg_metrics AS (  
 	SELECT   
-		AVG(post\_attempt) AS avg\_posting,  
-		AVG(post\_success \* 1.0 / post\_attempt) AS avg\_success\_rate  
+		AVG(post_attempt) AS avg_posting,  
+		AVG(post_success * 1.0 / post_attempt) AS avg_success_rate  
 	FROM (  
 		SELECT  
-			p.user\_id,  
-			SUM(p.is\_successful\_post) AS post\_success,  
-			COUNT(p.is\_successful\_post) AS post\_attempt  
+			p.user_id,  
+			SUM(p.is_successful_post) AS post_success,  
+			COUNT(p.is_successful_post) AS post_attempt  
 		FROM post AS p  
 		GROUP BY 1  
 	) t1  
 )
 
 SELECT  
-	p.user\_id,  
-	SUM(p.is\_successful\_post) AS post\_success,  
-	COUNT(p.is\_successful\_post) AS post\_attempt,  
-	SUM(p.is\_successful\_post) \* 1.0 / COUNT(p.is\_successful\_post) AS post\_success\_rate  
+	p.user_id,  
+	SUM(p.is_successful_post) AS post_success,  
+	COUNT(p.is_successful_post) AS post_attempt,  
+	SUM(p.is_successful_post) * 1.0 / COUNT(p.is_successful_post) AS post_success_rate  
 FROM post AS p  
 GROUP BY 1  
-HAVING (COUNT(p.is\_successful\_post)\>= (SELECT avg\_posting FROM agg\_metrics))  
-AND (post\_success\_rate \<= (SELECT avg\_success\_rate FROM agg\_metrics))  
-ORDER BY post\_success\_rate DESC
+HAVING (COUNT(p.is_successful_post)>= (SELECT avg_posting FROM agg_metrics))  
+AND (post_success_rate <= (SELECT avg_success_rate FROM agg_metrics))  
+ORDER BY post_success_rate DESC
+```
 
-**11\. Given a binary tree, identify which nodes are leaf nodes, root nodes or inner nodes.**
+**11. Given a binary tree, identify which nodes are leaf nodes, root nodes or inner nodes.**
 
 Leaf nodes: A node with no children  
 Root nodes: A node with no parent  
 Inner nodes: A node with both children and parent nodes
 
-**You are given the following table tree\_node\_table:**
+**You are given the following table tree_node_table:**
 
 Image url : https://drive.google.com/file/d/1z9Vt_uh6QKvJrQyPrDEk2MRTrEwngI8f/view?usp=sharing 
 
-**where p\_id is the id of the parent node. Your output should contain the following columns: id, node\_types (’Root’, ‘Inner’, ‘Leaf’).**
+**where p_id is the id of the parent node. Your output should contain the following columns: id, node_types (’Root’, ‘Inner’, ‘Leaf’).**
 
 **Solution :** 
 
+```sql
 SELECT id,  
 	(CASE  
-		WHEN p\_id IS NULL  
+		WHEN p_id IS NULL  
 			THEN 'Root'  
-		WHEN p\_id IN (SELECT id FROM tree\_node\_table) AND id IN (SELECT p\_id FROM tree\_node\_table)  
+		WHEN p_id IN (SELECT id FROM tree_node_table) AND id IN (SELECT p_id FROM tree_node_table)  
 			THEN 'Inner'  
 		ELSE 'Leaf'  
-	END) node\_types  
-FROM tree\_node\_table  
+	END) node_types  
+FROM tree_node_table  
 ORDER BY id;
-
-**12\. Given the database with the schema shown below, write a SQL query to fetch the top earning employee by department, ordered by department name.**
+```
+**12. Given the database with the schema shown below, write a SQL query to fetch the top earning employee by department, ordered by department name.**
 
 Image url : https://drive.google.com/file/d/1hNtfDD2hYuV5ZOhstaU48QUHu_xNxGjn/view?usp=sharing 
 
@@ -8107,11 +8130,12 @@ Image url : https://drive.google.com/file/d/1HcHLU2CJdvW47soJ4tmjF3M-XAHM_X-d/vi
 
 Solution:
 
+```sql
 WITH t1 as (select  
-    d.name as department\_name,  
-    e.id as employee\_id,  
-    e.first\_name,  
-    e.last\_name,  
+    d.name as department_name,  
+    e.id as employee_id,  
+    e.first_name,  
+    e.last_name,  
     e.salary,  
     rank() over (partition by d.id order by e.salary desc) as rnk  
   from  
@@ -8119,130 +8143,135 @@ WITH t1 as (select
   inner join  
     departments d  
   on  
-    e.department\_id \= d.id)  
+    e.department_id = d.id)  
 select  
-  department\_name,  
-  employee\_id,  
-  first\_name,  
-  last\_name,  
+  department_name,  
+  employee_id,  
+  first_name,  
+  last_name,  
   salary  
 from t1
-
 where  
-  rnk \= 1  
+  rnk = 1  
 order by  
-  department\_name;
+  department_name;
+```
 
-**13\. You are given the following tables:**
+**13. You are given the following tables:**
 
 Image url : https://drive.google.com/file/d/1k68ST3rGw_oGiNC-aXHgNHFgccz4ceR5/view?usp=sharing 
 **Write a SQL that shows the success rate of post (%) when the user's previous post had failed.**
 
-**Your output should have the following columns: user\_id and next\_post\_sc\_rate (success rate of post when user’s previous post had failed). Order results by increasing next\_post\_sc\_rate**
+**Your output should have the following columns: user_id and next_post_sc_rate (success rate of post when user’s previous post had failed). Order results by increasing next_post_sc_rate**
 
 Solution: 
 
+```sql
 \-- Write your query here
 
 WITH ordered AS (  
   SELECT  
-    p.user\_id,  
-    p.is\_successful\_post,  
-    LAG(p.is\_successful\_post) OVER (  
-      PARTITION BY p.user\_id  
-      ORDER BY p.post\_date, p.post\_id        
-    ) AS prev\_success  
+    p.user_id,  
+    p.is_successful_post,  
+    LAG(p.is_successful_post) OVER (  
+      PARTITION BY p.user_id  
+      ORDER BY p.post_date, p.post_id        
+    ) AS prev_success  
   FROM post p  
 )  
 SELECT  
-  user\_id,  
-  ROUND(AVG(CASE WHEN is\_successful\_post THEN 1.0 ELSE 0.0 END) \* 100, 2\) AS next\_post\_sc\_rate  
+  user_id,  
+  ROUND(AVG(CASE WHEN is_successful_post THEN 1.0 ELSE 0.0 END) * 100, 2\) AS next_post_sc_rate  
 FROM ordered  
-WHERE prev\_success \= FALSE                   
-GROUP BY user\_id  
-ORDER BY next\_post\_sc\_rate ASC;
+WHERE prev_success = FALSE                   
+GROUP BY user_id  
+ORDER BY next_post_sc_rate ASC;
+```
 
-**14\. Workday, a workforce management platform, wants to measure employee compensation intricacies. Every employee is anchored within a department, and the company want to identify those who exhibit the most significant deviations from the departmental norm.**
+**14. Workday, a workforce management platform, wants to measure employee compensation intricacies. Every employee is anchored within a department, and the company want to identify those who exhibit the most significant deviations from the departmental norm.**
 
 **You are given a table employees:**
 
 Image url : https://drive.google.com/file/d/1ISxbKI8E-1WfyshJB4mZvYeMJDWAxBLC/view?usp=sharing 
 
-**Craft a SQL query that orchestrates the ranking of employees based on their divergence from the department's average salary. You should provide the employee's name, their department, individual salary, the department's average salary, and an assigned rank. This ranking corresponds to the magnitude of difference between the employee's salary and the department's average (rank 1 \= most noteworthy deviation).**
+**Craft a SQL query that orchestrates the ranking of employees based on their divergence from the department's average salary. You should provide the employee's name, their department, individual salary, the department's average salary, and an assigned rank. This ranking corresponds to the magnitude of difference between the employee's salary and the department's average (rank 1 = most noteworthy deviation).**
 
 **If two employees from the same department have salaries that deviate to the same extent, let them share the same rank.**
 
 **Solution:** 
 
+```sql
 WITH DepartmentAverages AS (  
     SELECT  
-        department\_id,  
-        AVG(salary) AS avg\_salary  
+        department_id,  
+        AVG(salary) AS avg_salary  
     FROM  
         employees  
     GROUP BY  
-        department\_id  
+        department_id  
 )  
 SELECT  
-    e.employee\_name,  
-    e.department\_id,  
+    e.employee_name,  
+    e.department_id,  
     e.salary,  
-    da.avg\_salary,  
-    DENSE\_RANK() OVER (PARTITION BY e.department\_id ORDER BY ABS(e.salary \- da.avg\_salary) DESC) AS deviation\_rank  
+    da.avg_salary,  
+    DENSE_RANK() OVER (PARTITION BY e.department_id ORDER BY ABS(e.salary \- da.avg_salary) DESC) AS deviation_rank  
 FROM  
     employees e  
 JOIN  
-    DepartmentAverages da ON e.department\_id \= da.department\_id  
+    DepartmentAverages da ON e.department_id = da.department_id  
 ORDER BY  
-    e.department\_id, deviation\_rank;
+    e.department_id, deviation_rank;
+```
 
-**15\. Amazon is a global e-commerce company that allows vendors to sell their products online to customers. Customers can order products and track their orders' status, such as 'Pending', 'Shipped', 'Delivered', etc.**
+**15. Amazon is a global e-commerce company that allows vendors to sell their products online to customers. Customers can order products and track their orders' status, such as 'Pending', 'Shipped', 'Delivered', etc.**
 
 **You're given a table, orders, with the following columns:**
 
-**order\_id (integer): a unique identifier for each order**  
-**order\_date (date): the date the order status was updated**  
+**order_id (integer): a unique identifier for each order**  
+**order_date (date): the date the order status was updated**  
 **status (string): the status of the order, e.g., 'Pending', 'Shipped', 'Delivered', etc.**  
-**Write a SQL query that returns a table with the order\_id, status, start\_date, and end\_date for each status period of a particular order. If a status is the first for that order, then the end\_date should be NULL."**
+**Write a SQL query that returns a table with the order_id, status, start_date, and end_date for each status period of a particular order. If a status is the first for that order, then the end_date should be NULL."**
 
 **Solution :** 
 
+```sql
 WITH StatusChanges AS (  
 	SELECT   
-        order\_id,  
-        order\_date,  
+        order_id,  
+        order_date,  
         status,  
-        LEAD(order\_date) OVER(PARTITION BY order\_id ORDER BY order\_date) AS next\_date,  
-        LAG(status) OVER(PARTITION BY order\_id ORDER BY order\_date) AS prev\_status  
+        LEAD(order_date) OVER(PARTITION BY order_id ORDER BY order_date) AS next_date,  
+        LAG(status) OVER(PARTITION BY order_id ORDER BY order_date) AS prev_status  
     FROM orders  
 )
-
 SELECT   
-    order\_id,  
+    order_id,  
     status,  
-    order\_date AS start\_date,  
-    next\_date AS end\_date  
+    order_date AS start_date,  
+    next_date AS end_date  
 FROM StatusChanges  
-WHERE status \!= prev\_status OR prev\_status IS NULL;
+WHERE status \!= prev_status OR prev_status IS NULL;
+```
 
-**16\. Blockchains like Bitcoin use the UTXO (Unspent Transaction Outputs) model to track ownership of coins. In this model, each transaction consumes UTXOs as inputs and creates new UTXOs as outputs. However, there can be invalid transactions where:**
+**16. Blockchains like Bitcoin use the UTXO (Unspent Transaction Outputs) model to track ownership of coins. In this model, each transaction consumes UTXOs as inputs and creates new UTXOs as outputs. However, there can be invalid transactions where:**
 
 **The sender does not own the UTXO they're trying to spend.**  
 **The same UTXO has already been used as input in another transaction.**  
 **You're given the following tables:**
 
-transactions table:  
-transaction\_id (unique identifier for each transaction)  
+**transactions table:**  
+transaction_id (unique identifier for each transaction)  
 sender (address of the person initiating the transaction)  
 timestamp (time when the transaction was created)
 
-transaction\_inputs table:  
-input\_id (unique identifier for each input within a transaction)  
-transaction\_id (foreign key referencing transactions)  
-utxo\_id (foreign key indicating which UTXO is being consumed by this input)
+**transaction_inputs table:**  
+input_id (unique identifier for each input within a transaction)  
+transaction_id (foreign key referencing transactions)  
+utxo_id (foreign key indicating which UTXO is being consumed by this input)
 
-utxo table:  
-utxo\_id (unique identifier for the UTXO)  
+**utxo table:**  
+utxo_id (unique identifier for the UTXO)  
 address (owner of the UTXO)  
 amount (amount of cryptocurrency represented by the UTXO)
 
@@ -8250,69 +8279,75 @@ amount (amount of cryptocurrency represented by the UTXO)
 
 **Solution :** 
 
+```sql
 WITH InvalidSenders AS (  
-    SELECT t.transaction\_id  
+    SELECT t.transaction_id  
     FROM transactions t  
-    JOIN transaction\_inputs ti ON t.transaction\_id \= ti.transaction\_id  
-    JOIN utxo u ON ti.utxo\_id \= u.utxo\_id  
-    WHERE t.sender \<\> u.address  
+    JOIN transaction_inputs ti ON t.transaction_id = ti.transaction_id  
+    JOIN utxo u ON ti.utxo_id = u.utxo_id  
+    WHERE t.sender <> u.address  
 ),
 
 DoubleSpends AS (  
-    SELECT ti.transaction\_id, ti.utxo\_id, ROW\_NUMBER() OVER(PARTITION BY ti.utxo\_id ORDER BY t.timestamp) AS rn  
-    FROM transaction\_inputs ti  
-    JOIN transactions t ON t.transaction\_id \= ti.transaction\_id  
+    SELECT ti.transaction_id, ti.utxo_id, ROW_NUMBER() OVER(PARTITION BY ti.utxo_id ORDER BY t.timestamp) AS rn  
+    FROM transaction_inputs ti  
+    JOIN transactions t ON t.transaction_id = ti.transaction_id  
 )
 
-SELECT transaction\_id AS InvalidTransactionId  
+SELECT transaction_id AS InvalidTransactionId  
 FROM InvalidSenders
 
 UNION
 
-SELECT transaction\_id AS InvalidTransactionId  
+SELECT transaction_id AS InvalidTransactionId  
 FROM DoubleSpends  
-WHERE rn \> 1;
+WHERE rn > 1;
+```
 
-**17\. Reddit is a social platform where users can join various communities called "subreddits". Users can subscribe to these subreddits to receive and interact with content that interests them. Each subreddit focuses on a specific topic or theme, and users can post content, comment, and upvote or downvote posts.**
+**17. Reddit is a social platform where users can join various communities called "subreddits". Users can subscribe to these subreddits to receive and interact with content that interests them. Each subreddit focuses on a specific topic or theme, and users can post content, comment, and upvote or downvote posts.**
 
 **You can make use of the following tables:**  
 Image url : https://drive.google.com/file/d/1qNL6ryGjoKwBikWVX_bFH2w09IO6zIzY/view?usp=sharing 
-**Write a SQL query that returns subreddits that have more than 3 users subscribed to them. The results should have the columns subreddit\_name and total\_users. Order the results in descending order of total users.**
+**Write a SQL query that returns subreddits that have more than 3 users subscribed to them. The results should have the columns subreddit_name and total_users. Order the results in descending order of total users.**
 
 **Solution:**
 
+```sql
 SELECT   
-    s.name AS subreddit\_name,  
-    COUNT(us.user\_id) AS total\_users  
+    s.name AS subreddit_name,  
+    COUNT(us.user_id) AS total_users  
 FROM   
     subreddit s  
 JOIN   
-    user\_subreddit us ON s.subreddit\_id \= us.subreddit\_id  
+    user_subreddit us ON s.subreddit_id = us.subreddit_id  
 GROUP BY   
-    s.subreddit\_id, s.name  
+    s.subreddit_id, s.name  
 HAVING   
-    COUNT(us.user\_id) \> 3  
+    COUNT(us.user_id) \> 3  
 ORDER BY   
-    total\_users DESC;
+    total_users DESC;
+```
 
-**18\. Write a query to report the number of users, number of transactions placed, and total order amount per month in the year 2020\.**
+**18. Write a query to report the number of users, number of transactions placed, and total order amount per month in the year 2020**
 
 Image url : https://drive.google.com/file/d/1irGR-6DOB_l5zYHidWDS2SEtoRLKntNu/view?usp=sharing 
 
 **Solution:**   
+```sql
 SELECT  
-    DATE\_FORMAT(order\_date, '%Y-%m') AS month,  
-    COUNT(DISTINCT user\_id) AS total\_users,  
-    COUNT(order\_id) AS total\_transactions,  
-    SUM(order\_amount) AS total\_order\_amount  
+    DATE_FORMAT(order_date, '%Y-%m') AS month,  
+    COUNT(DISTINCT user_id) AS total_users,  
+    COUNT(order_id) AS total_transactions,  
+    SUM(order_amount) AS total_order_amount  
 FROM orders  
-WHERE YEAR(order\_date) \= 2020  
-GROUP BY DATE\_FORMAT(order\_date, '%Y-%m')  
+WHERE YEAR(order_date) = 2020  
+GROUP BY DATE_FORMAT(order_date, '%Y-%m')  
 ORDER BY month;
+```
 
-**19\. Disney+ is a streaming platform with multiple shows and millions of subscribers. The company wishes to identify their star customers, people who are using the platform more and more over time.**
+**19. Disney+ is a streaming platform with multiple shows and millions of subscribers. The company wishes to identify their star customers, people who are using the platform more and more over time.**
 
-**You are given the table watch\_time**
+**You are given the table watch_time**
 
 Image url : https://drive.google.com/file/d/1lKj19fb65YGJioQFzDGlMPNTFPEsxmMQ/view?usp=sharing 
 
@@ -8320,110 +8355,121 @@ Image url : https://drive.google.com/file/d/1lKj19fb65YGJioQFzDGlMPNTFPEsxmMQ/vi
 
 **Solution:** 
 
-WITH lagged\_watch\_time AS (  
+```sql
+WITH lagged_watch_time AS (  
     SELECT   
-        viewer\_id,  
+        viewer_id,  
         year,  
         month,  
-        watch\_hours,  
-        LAG(watch\_hours, 1\) OVER(PARTITION BY viewer\_id ORDER BY year, month) AS prev\_watch\_hours,  
-        LAG(watch\_hours, 2\) OVER(PARTITION BY viewer\_id ORDER BY year, month) AS prev\_prev\_watch\_hours  
-    FROM watch\_time  
+        watch_hours,  
+        LAG(watch_hours, 1\) OVER(PARTITION BY viewer_id ORDER BY year, month) AS prev_watch_hours,  
+        LAG(watch_hours, 2\) OVER(PARTITION BY viewer_id ORDER BY year, month) AS prev_prev_watch_hours  
+    FROM watch_time  
 )  
-SELECT DISTINCT viewer\_id  
-FROM lagged\_watch\_time  
-WHERE watch\_hours \> prev\_watch\_hours AND prev\_watch\_hours \> prev\_prev\_watch\_hours;
 
-**20\. Blizzard Entertainment is a renowned gaming company known for its epic games like World of Warcraft, StarCraft, and Overwatch. Players from around the world compete in these games and achieve various rankings based on their performance.**
+SELECT DISTINCT viewer_id  
+FROM lagged_watch_time  
+WHERE watch_hours > prev_watch_hours AND prev_watch_hours > prev_prev_watch_hours;
+```
+
+**20. Blizzard Entertainment is a renowned gaming company known for its epic games like World of Warcraft, StarCraft, and Overwatch. Players from around the world compete in these games and achieve various rankings based on their performance.**
 
 **You are given a table named players:**
 
 Image url : https://drive.google.com/file/d/19QFAvzF_CeIsizeiwWvS9o-vS3Z9G00R/view?usp=sharing 
 
-**To encourage players to increase time spent in-game, Blizzard want to identify and reward users that just missed the leaderboards e.g. Top 3, Top 10\. Write a SQL query that returns the names, scores and ranking of the 4th, 6th, and 11th ranked players in terms of score.**
+**To encourage players to increase time spent in-game, Blizzard wants to identify and reward users that just missed the leaderboards e.g. Top 3, Top 10 Write a SQL query that returns the names, scores and ranking of the 4th, 6th, and 11th ranked players in terms of score.**
 
 **Solution:** 
 
+```sql
 WITH RankedPlayers AS (  
     SELECT   
-        player\_name,   
+        player_name,   
         score,  
         RANK() OVER (ORDER BY score DESC) as ranking  
     FROM players  
 )
 
-SELECT player\_name, score, ranking  
+SELECT player_name, score, ranking  
 FROM RankedPlayers  
 WHERE ranking IN (4, 6, 11);
+```
 
-**21  Workday provides human capital management solutions that allow businesses to manage their employees, their roles, and the reporting structures. When Workday consultants start with a new client, one of the first things they’ll do is identify the client’s organizational structure. Each department in a company might have a manager, and under each manager, there are employees reporting directly to them.**
+**21. Workday provides human capital management solutions that allow businesses to manage their employees, their roles, and the reporting structures. When Workday consultants start with a new client, one of the first things they’ll do is identify the client’s organizational structure. Each department in a company might have a manager, and under each manager, there are employees reporting directly to them.**
 
 **You're given a table, employees, with the following columns:**
 
-**emp\_id (integer): Unique identifier for each employee.**  
-**emp\_name (string): Name of the employee.**  
-**manager\_id (integer): Employee ID of the manager to whom this employee reports (can be NULL for top-level managers).**  
+**emp_id (integer): Unique identifier for each employee.**  
+**emp_name (string): Name of the employee.**  
+**manager_id (integer): Employee ID of the manager to whom this employee reports (can be NULL for top-level managers).**  
 **Write a SQL query that returns the Employee Id and Name of the managers who have a minimum of 2 employees directly reporting to them. Sort the results by the number of direct reports in descending order.**
 
-**Your output should have the following columns: manager\_employee\_id, manager\_name, number\_of\_direct\_reports**
+**Your output should have the following columns: manager_employee_id, manager_name, number_of_direct_reports**
 
 **Solution:** 
 
-SELECT e.manager\_id AS manager\_employee\_id,   
-       m.emp\_name AS manager\_name,   
-       COUNT(e.emp\_id) AS number\_of\_direct\_reports   
+```sql
+SELECT e.manager_id AS manager_employee_id,   
+       m.emp_name AS manager_name,   
+       COUNT(e.emp_id) AS number_of_direct_reports   
 FROM employees e  
-JOIN employees m ON e.manager\_id \= m.emp\_id   
-GROUP BY e.manager\_id, m.emp\_name  
-HAVING COUNT(e.emp\_id) \>= 2  
-ORDER BY number\_of\_direct\_reports DESC;
+JOIN employees m ON e.manager_id = m.emp_id   
+GROUP BY e.manager_id, m.emp_name  
+HAVING COUNT(e.emp_id) >= 2  
+ORDER BY number_of_direct_reports DESC;
+```
 
-**22\. The Environmental Protection Agency (EPA) monitors the daily temperatures of different cities to study climate change and its impact. The agency believes that extreme fluctuations in temperature, such as a sudden rise after a day of fall, can have adverse environmental effects.**
+**22. The Environmental Protection Agency (EPA) monitors the daily temperatures of different cities to study climate change and its impact. The agency believes that extreme fluctuations in temperature, such as a sudden rise after a day of fall, can have adverse environmental effects.**
 
-**You are given a table city\_temperatures, with the following columns:**
+**You are given a table city_temperatures, with the following columns:**
 
 **date (date): The date of the recorded temperature.**  
 **temperature (float): The temperature recorded on that date.**  
 **Write an SQL query to identify days when the temperature rose at least 5 degrees after falling at least 3 degrees. Return the date and the temperature of those days.**
 
 **Solution:**   
-WITH previous\_temperatures AS (  
+```sql
+WITH previous_temperatures AS (  
     SELECT   
         date,   
         temperature,  
-        LAG(temperature, 1\) OVER (ORDER BY date) AS prev\_temperature,  
-        LAG(temperature, 2\) OVER (ORDER BY date) AS prev\_prev\_temperature  
+        LAG(temperature, 1\) OVER (ORDER BY date) AS prev_temperature,  
+        LAG(temperature, 2\) OVER (ORDER BY date) AS prev_prev_temperature  
     FROM   
-        city\_temperatures  
+        city_temperatures  
 )
 
 SELECT   
     date,   
     temperature  
 FROM   
-    previous\_temperatures  
+    previous_temperatures  
 WHERE   
-    temperature \- prev\_temperature \>= 5 AND prev\_prev\_temperature \- prev\_temperature \>= 3;
+    temperature \- prev_temperature \>= 5 AND prev_prev_temperature \- prev_temperature \>= 3;
+```
 
-**23\. WhatsApp is a popular messaging platform that allows users to send and receive text messages, voice notes, and multimedia messages in real-time. Users can engage in one-on-one chats or group chats, and every message sent has a unique identifier.**
+**23. WhatsApp is a popular messaging platform that allows users to send and receive text messages, voice notes, and multimedia messages in real-time. Users can engage in one-on-one chats or group chats, and every message sent has a unique identifier.**
 
-**You're given a table, messenger\_sends, with the following columns:**
+**You're given a table, messenger_sends, with the following columns:**
 
-**date: the date the message was sent.**  
-**ts: the timestamp of when the message was sent.**  
-**sender\_id: the unique identifier for the sender of the message.**  
-**receiver\_id: the unique identifier for the receiver of the message.**  
-**message\_id: a unique identifier for each message.**  
-**Given that a conversation thread between two users A and B remains the same whether A messages B or B messages A, write a SQL query to determine how many unique conversation (unique\_conversations) threads are present in the messenger\_sends table.**
+**date:** the date the message was sent. 
+**ts:** the timestamp of when the message was sent.
+**sender_id:** the unique identifier for the sender of the message.  
+**receiver_id:** the unique identifier for the receiver of the message.  
+**message_id:** a unique identifier for each message.  
+**Given that a conversation thread between two users A and B remains the same whether A messages B or B messages A, write a SQL query to determine how many unique conversation (unique_conversations) threads are present in the messenger_sends table.**
 
 **Solution:**   
-SELECT COUNT(DISTINCT least\_value || '\_' || greatest\_value) AS unique\_conversations  
+```sql
+SELECT COUNT(DISTINCT least_value || '_' || greatest_value) AS unique_conversations  
 FROM (  
     SELECT   
-        CASE WHEN sender\_id \< receiver\_id THEN sender\_id ELSE receiver\_id END AS least\_value,  
-        CASE WHEN sender\_id \> receiver\_id THEN sender\_id ELSE receiver\_id END AS greatest\_value  
-    FROM messenger\_sends  
+        CASE WHEN sender_id < receiver_id THEN sender_id ELSE receiver_id END AS least_value,  
+        CASE WHEN sender_id > receiver_id THEN sender_id ELSE receiver_id END AS greatest_value  
+    FROM messenger_sends  
 ) AS subquery;
+```
 
 Module 4:
 Title: Analytical Problem Solving Questions
@@ -9684,7 +9730,7 @@ Most tech companies anchor their culture around a set of core values.
 ---
 
 ## Step 2: Choose Your Stories
-Select 5–10 meaningful experiences that:
+**Select 5–10 meaningful experiences that:**
 1. Made an impression on you
 2. Demonstrate at least one company value
 3. Highlight your strengths as a collaborator, analyst, or problem solver
@@ -9784,6 +9830,7 @@ Mean, median, mode
 Probability basics and rules
 Distributions (Normal, Binomial - basics)
 Variance and standard deviation
+
 
 
 

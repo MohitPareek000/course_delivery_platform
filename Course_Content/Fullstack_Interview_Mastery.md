@@ -197,9 +197,6 @@ Convert the following non-semantic structure into a semantic one:
 
 ---
 
-## Questions
-
-255804, 255805, 255806, 259490
 
 Class 1.1.2
 Title: Forms & Inputs
@@ -446,9 +443,6 @@ Given this HTML, fix the accessibility issues:
 
 ---
 
-## Questions
-
-51348, 51359, 238698, 268795, 191209
 
 Class 1.1.3
 Title: Critical Rendering Path
@@ -998,10 +992,6 @@ Effective space = `30px`
 
 ---
 
-## Questions
-
-256345, 256342, 255807, 76090, 51500, 51387
-
 
 Class 1.2.2
 Title: Cascade, Specificity & Inheritance
@@ -1369,9 +1359,6 @@ Answer: **Yes**, spans inherit color by default.
 
 ---
 
-## Questions
-
-257586, 257582, 255812, 51368, 51985, 51986
 
 Topic 1.3
 Title: Layout Systems
@@ -1729,10 +1716,6 @@ Create a layout where the last item is always pushed to the right.
 ```
 
 ---
-
-## Questions
-
-256355, 256352, 58580, 58579
 
 
 Class 1.3.2
@@ -2097,9 +2080,7 @@ Span an item across an entire row:
 }
 ```
 ---
-## Questions
 
-238699, 51917, 51916
 Topic 1.4
 Title: Responsive Design
  Order: 4
@@ -2492,8 +2473,7 @@ Make it mobile friendly:
 }
 ```
 ---
-## Questions
-259489, 59114, 256347
+
 Topic 1.5
 Title: Machine Coding UI Patterns
  Order: 5
@@ -2716,8 +2696,7 @@ Center a loader using position.
 ```
 
 ---
-## Questions
-256353, 256346
+
 
 Class 1.5.2
 Title: Responsive Cards
@@ -2973,8 +2952,7 @@ Create equal height cards using Flexbox.
 ```
 
 ---
-## Questions
-256354, 59112
+
 
 Class 1.5.3
 Title: Hamburger Menu
@@ -3631,9 +3609,6 @@ for (let i = 0; i < 3; i++) {
 ```
 
 ---
-## Questions
-
-259132, 259135, 259131, 259129, 259130, 46058
 
 
 Class 2.1.2
@@ -4009,9 +3984,6 @@ let copy = JSON.parse(JSON.stringify(user));
 
 ---
 
-## Questions
-
-61276, 259127, 186751, 259125, 259126, 259128
 
 Class 2.1.3
 Title: Functions & Execution Context
@@ -4379,9 +4351,6 @@ B
 
 ---
 
-## Questions
-
-61128, 61130, 259134, 259135, 259131, 259130, 259136
 
 
 Class 2.1.4
@@ -4757,10 +4726,6 @@ for (let i = 0; i < 3; i++) {
 
 ---
 
-## Questions
-
-90602, 259140, 259139, 259138, 186739, 186734, 186740
-
 
 
 Class 2.1.5
@@ -5123,10 +5088,6 @@ Answer: `apply`
 
 ---
 
-## Questions
-
-61280, 61331, 61143, 259144, 259143, 259142, 259141
-
 
 Class 2.1.6
 Title: this Keyword
@@ -5449,9 +5410,6 @@ Reason: arrow functions do not bind their own `this`.
 
 ---
 
-## Questions
-
-89281, 100476, 91335, 89279, 89270
 
 Topic 2.2
 Title: JS Internals
@@ -5772,10 +5730,6 @@ Then reversed as functions return.
 This topic lays the foundation for understanding execution context, event loop, promises, and async/await.
 
 ---
-
-## Questions
-
-100464, 55149, 80872, 231039, 100522, 93797, 93790, 93792
 
 
 Class 2.2.2
@@ -6158,9 +6112,7 @@ Answer: `function`
 
 ---
 
-## Questions
 
-61278, 259145, 259148, 259147, 259149, 259146
 
 
 Class 2.2.3
@@ -6559,9 +6511,6 @@ Answer: No. Static methods do not have access to instance state.
 
 ---
 
-## Questions
-
-90596, 90595, 90585, 89279, 91335
 
 Class 2.2.4:
   Title: JavaScript Core Concepts & Internals Contest
@@ -6927,9 +6876,6 @@ Explanation:
 
 ---
 
-## Questions
-
-259508, 100464, 93817, 231039, 93790, 100522
 
 
 Class 2.3.2
@@ -7330,9 +7276,6 @@ C
 
 ---
 
-## Questions
-
-93808, 93816, 93817, 259508
 
 
 Class 2.3.3
@@ -7666,9 +7609,6 @@ B
 
 ---
 
-## Questions
-
-80858, 80868, 93817, 93808
 
 
 Class 2.3.4
@@ -8059,9 +7999,6 @@ fail
 
 ---
 
-## Questions
-
-80872, 93817, 80858, 259508
 
 
 Class 2.3.5
@@ -8400,10 +8337,6 @@ Answer:
 - Choosing correctly improves performance and user experience  
 
 ---
-
-## Questions
-
-66275, 66277, 259515, 93792, 93790
 
 
 Topic 2.4
@@ -8779,10 +8712,6 @@ while (element.firstChild) {
 
 ---
 
-## Questions
-
-55127, 55133, 55126, 65296, 55151, 55148, 55147, 81343, 55150, 65297
-
 
 Class 2.4.2
 Title: Event Delegation
@@ -9108,10 +9037,6 @@ Expected:
 
 ---
 
-## Questions
-
-259517, 55151, 81344, 56086, 84477
-
 
 Class 2.4.3
 Title: LocalStorage & SessionStorage
@@ -9382,9 +9307,6 @@ No. Values are stored as strings.
 
 ---
 
-## Questions
-
-84478, 84480, 84482, 84483, 81343
 
 Class 2.4.4
 Title: Fetch API
@@ -9846,10 +9768,6 @@ Prepare conceptual answers.
 
 ---
 
-## Questions
-
-65297, 55148, 83710, 56493, 55601
-
 
 Class 2.5.2
 Title: Collapsible Sidebar
@@ -10096,9 +10014,6 @@ They do not expect:
 
 ---
 
-## Questions
-
-84579, 81788, 255365, 186740
 
 
 Class 2.5.3
@@ -10332,10 +10247,6 @@ Prepare conceptual answers.
 
 ---
 
-## Questions
-
-259515, 55148, 55601, 259140, 186735
-
 
 Class 2.5.4
 Title: Pagination
@@ -10566,9 +10477,6 @@ Prepare conceptual answers.
 
 ---
 
-## Questions
-
-js-machine-pagination
 
 Class 2.5.5:
   Title: JavaScript DOM, State & Performance Contest
@@ -21277,3 +21185,9 @@ Class 4.5.4:
     - Express routing and request handling
     - MongoDB CRUD and ID-based queries
     - Mongoose schema hooks and lifecycle
+
+
+
+
+
+
