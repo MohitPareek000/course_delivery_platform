@@ -72,7 +72,7 @@ export default function DashboardPage() {
   const userId = userSession?.userId || "";
 
   // Fetch progress from database
-  const { isClassCompleted, isLoading, refreshProgress } = useUserProgress(userId);
+  const { isClassCompleted, isLoading } = useUserProgress(userId);
 
   // Fetch user's courses from database - always fetch fresh on mount
   React.useEffect(() => {
@@ -91,12 +91,8 @@ export default function DashboardPage() {
     }
   }, [userId]);
 
-  // Refresh progress when returning to dashboard (only when userId is available)
-  React.useEffect(() => {
-    if (userId) {
-      refreshProgress();
-    }
-  }, [userId]); // Refresh when userId is available or changes
+  // Note: Progress is already fetched by useUserProgress hook when userId changes
+  // No need for separate refreshProgress call here - it would cause duplicate fetches
 
   // Track dashboard reached (only once when user session is available)
   React.useEffect(() => {

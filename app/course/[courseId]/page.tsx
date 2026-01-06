@@ -151,18 +151,17 @@ export default function CourseDetailPage() {
   const lastHighlightedClassRef = React.useRef<string | null>(null);
 
   // Fetch user progress from database
-  const { progress, isLoading: progressLoading, getClassProgress, isClassCompleted, refreshProgress } = useUserProgress(userId);
+  const { progress, isLoading: progressLoading, getClassProgress, isClassCompleted } = useUserProgress(userId);
 
   const isLoading = courseLoading || progressLoading;
 
-  // Refresh progress when returning to this page and reset scroll flag
+  // Reset scroll flag when returning to this page
   React.useEffect(() => {
     if (userId) {
-      refreshProgress();
       // Reset the auto-open flag so scrolling happens again when returning to the course page
       hasAutoOpened.current = false;
     }
-  }, [courseId, userId, refreshProgress]); // Refresh when course page is accessed
+  }, [courseId, userId]); // Reset when course page is accessed
 
   const roleIcon = course?.role ? roleIcons[course.role] : null;
   const RoleIcon = roleIcon?.icon || Briefcase;
