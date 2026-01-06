@@ -204,7 +204,8 @@ class Tracker {
 
     if (this.shouldTrack) {
       this._pushToDataLayer(eventPayload);
-      this._saveToDatabase(eventPayload); // Save to database for Metabase analytics
+      // Database tracking disabled to reduce Railway costs
+      // Analytics available via Mixpanel and GTM/Google Analytics instead
     } else {
       this._logEvent(eventPayload);
     }
