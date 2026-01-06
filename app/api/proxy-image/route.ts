@@ -1,11 +1,57 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+// Server-side image cache to prevent repeated fetches from Google Drive
+// This dramatically reduces network egress costs
+interface CachedImage {
+  buffer: ArrayBuffer;
+  contentType: string;
+  timestamp: number;
+}
+
+const imageCache = new Map<string, CachedImage>();
+const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours
+const MAX_CACHE_SIZE = 100; // Maximum number of images to cache
+
+// Clean up old cache entries periodically
+function cleanupCache() {
+  const now = Date.now();
+  for (const [key, value] of imageCache.entries()) {
+    if (now - value.timestamp > CACHE_DURATION) {
+      imageCache.delete(key);
+    }
+  }
+  // If still over limit, remove oldest entries
+  if (imageCache.size > MAX_CACHE_SIZE) {
+    const entries = Array.from(imageCache.entries());
+    entries.sort((a, b) => a[1].timestamp - b[1].timestamp);
+    const toRemove = entries.slice(0, entries.length - MAX_CACHE_SIZE);
+    toRemove.forEach(([key]) => imageCache.delete(key));
+  }
+}
+
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const imageUrl = searchParams.get('url');
 
   if (!imageUrl) {
     return new NextResponse('Missing image URL', { status: 400 });
+  }
+
+  // Create cache key from URL
+  const cacheKey = imageUrl;
+
+  // Check cache first
+  const cached = imageCache.get(cacheKey);
+  if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
+    return new NextResponse(cached.buffer, {
+      status: 200,
+      headers: {
+        'Content-Type': cached.contentType,
+        'Cache-Control': 'public, max-age=31536000, immutable',
+        'Access-Control-Allow-Origin': '*',
+        'X-Cache': 'HIT',
+      },
+    });
   }
 
   try {
@@ -17,7 +63,6 @@ export async function GET(request: NextRequest) {
 
       // Try the thumbnail format first (works for publicly shared images)
       fetchUrl = `https://lh3.googleusercontent.com/d/${fileId}`;
-      console.log('Attempting Google User Content URL:', fetchUrl);
     }
 
     // Fetch the image with proper headers and follow redirects
@@ -44,6 +89,18 @@ export async function GET(request: NextRequest) {
     // Get the image data
     const imageBuffer = await response.arrayBuffer();
 
+    // Store in cache
+    imageCache.set(cacheKey, {
+      buffer: imageBuffer,
+      contentType,
+      timestamp: Date.now(),
+    });
+
+    // Cleanup old entries periodically
+    if (imageCache.size > MAX_CACHE_SIZE * 0.9) {
+      cleanupCache();
+    }
+
     // Return the image with proper headers
     return new NextResponse(imageBuffer, {
       status: 200,
@@ -51,6 +108,7 @@ export async function GET(request: NextRequest) {
         'Content-Type': contentType,
         'Cache-Control': 'public, max-age=31536000, immutable',
         'Access-Control-Allow-Origin': '*',
+        'X-Cache': 'MISS',
       },
     });
   } catch (error) {
