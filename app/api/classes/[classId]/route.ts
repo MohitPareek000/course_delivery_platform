@@ -1,23 +1,50 @@
 import { NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { prisma } from '@/lib/prisma';
 
 export async function GET(
-  request: Request,
+  _request: Request,
   { params }: { params: { classId: string } }
 ) {
   try {
     const { classId } = params;
 
-    // Fetch the class with its topic and course information
+    // Fetch the class with its topic, course, and module information in a single query
     const classItem = await prisma.class.findUnique({
       where: { id: classId },
       include: {
         topic: {
           include: {
             module: true,
-            course: true,
+            course: {
+              include: {
+                // Get all modules and topics with classes in one query
+                modules: {
+                  orderBy: { order: 'asc' },
+                  include: {
+                    topics: {
+                      orderBy: { order: 'asc' },
+                      include: {
+                        classes: {
+                          orderBy: { order: 'asc' },
+                          select: { id: true, title: true, order: true },
+                        },
+                      },
+                    },
+                  },
+                },
+                // For courses without modules
+                topics: {
+                  where: { moduleId: null },
+                  orderBy: { order: 'asc' },
+                  include: {
+                    classes: {
+                      orderBy: { order: 'asc' },
+                      select: { id: true, title: true, order: true },
+                    },
+                  },
+                },
+              },
+            },
           },
         },
       },
@@ -30,130 +57,64 @@ export async function GET(
       );
     }
 
-    // Get all classes in the same topic for navigation
-    const topicClasses = await prisma.class.findMany({
-      where: {
-        topicId: classItem.topicId,
-      },
-      orderBy: {
-        order: 'asc',
-      },
-    });
+    const currentTopic = classItem.topic;
+    const course = currentTopic.course;
+    const moduleId = currentTopic.moduleId;
+
+    // Build a flat list of all classes in order for navigation
+    let allClasses: { id: string; title: string; order: number; topicId?: string }[] = [];
+
+    if (moduleId && course.modules.length > 0) {
+      // Course with modules - get classes from current module only for navigation
+      const currentModule = course.modules.find(m => m.id === moduleId);
+      if (currentModule) {
+        for (const topic of currentModule.topics) {
+          for (const cls of topic.classes) {
+            allClasses.push({ ...cls, topicId: topic.id });
+          }
+        }
+      }
+    } else if (course.topics.length > 0) {
+      // Course without modules
+      for (const topic of course.topics) {
+        for (const cls of topic.classes) {
+          allClasses.push({ ...cls, topicId: topic.id });
+        }
+      }
+    }
 
     // Find current class index
-    const currentIndex = topicClasses.findIndex((c) => c.id === classId);
+    const currentIndex = allClasses.findIndex((c) => c.id === classId);
 
     // Determine next and previous classes
-    let nextClass = null;
-    let previousClass = null;
+    const nextClass = currentIndex < allClasses.length - 1 ? allClasses[currentIndex + 1] : null;
+    const previousClass = currentIndex > 0 ? allClasses[currentIndex - 1] : null;
 
-    // Next class in same topic
-    if (currentIndex < topicClasses.length - 1) {
-      nextClass = topicClasses[currentIndex + 1];
-    } else {
-      // Find next topic's first class
-      const currentTopic = classItem.topic;
-      const nextTopic = await prisma.topic.findFirst({
-        where: {
-          courseId: currentTopic.courseId,
-          moduleId: currentTopic.moduleId,
-          order: currentTopic.order + 1,
-        },
-        include: {
-          classes: {
-            orderBy: { order: 'asc' },
-            take: 1,
-          },
-        },
-      });
-
-      if (nextTopic && nextTopic.classes.length > 0) {
-        nextClass = nextTopic.classes[0];
-      }
-    }
-
-    // Previous class in same topic
-    if (currentIndex > 0) {
-      previousClass = topicClasses[currentIndex - 1];
-    } else {
-      // Find previous topic's last class
-      const currentTopic = classItem.topic;
-      const previousTopic = await prisma.topic.findFirst({
-        where: {
-          courseId: currentTopic.courseId,
-          moduleId: currentTopic.moduleId,
-          order: currentTopic.order - 1,
-        },
-        include: {
-          classes: {
-            orderBy: { order: 'desc' },
-            take: 1,
-          },
-        },
-      });
-
-      if (previousTopic && previousTopic.classes.length > 0) {
-        previousClass = previousTopic.classes[0];
-      }
-    }
-
-    // Determine if this is the last class of the module
+    // Determine if this is the last class of the module/course
     let isLastClassOfModule = false;
     let isLastClassOfCourse = false;
-    const moduleId = classItem.topic.moduleId;
 
-    if (moduleId) {
-      // Get all topics in the same module
-      const moduleTopics = await prisma.topic.findMany({
-        where: { moduleId },
-        orderBy: { order: 'asc' },
-        include: {
-          classes: {
-            orderBy: { order: 'asc' },
-          },
-        },
-      });
+    if (moduleId && course.modules.length > 0) {
+      // Check if last class in module
+      isLastClassOfModule = currentIndex === allClasses.length - 1;
 
-      // Find the last class of the last topic in this module
-      const lastTopic = moduleTopics[moduleTopics.length - 1];
-      if (lastTopic && lastTopic.classes.length > 0) {
-        const lastClassOfModule = lastTopic.classes[lastTopic.classes.length - 1];
-        isLastClassOfModule = lastClassOfModule.id === classId;
-      }
-
-      // Check if this is the last module of the course
-      const courseModules = await prisma.module.findMany({
-        where: { courseId: classItem.topic.courseId },
-        orderBy: { order: 'asc' },
-      });
-
-      const lastModule = courseModules[courseModules.length - 1];
+      // Check if this is the last module
+      const lastModule = course.modules[course.modules.length - 1];
       if (lastModule && lastModule.id === moduleId && isLastClassOfModule) {
         isLastClassOfCourse = true;
       }
     } else {
-      // Course without modules - check if this is the last class of the course
-      const courseTopics = await prisma.topic.findMany({
-        where: { courseId: classItem.topic.courseId, moduleId: null },
-        orderBy: { order: 'asc' },
-        include: {
-          classes: {
-            orderBy: { order: 'asc' },
-          },
-        },
-      });
-
-      const lastTopic = courseTopics[courseTopics.length - 1];
-      if (lastTopic && lastTopic.classes.length > 0) {
-        const lastClassOfCourse = lastTopic.classes[lastTopic.classes.length - 1];
-        isLastClassOfCourse = lastClassOfCourse.id === classId;
-      }
+      // Course without modules
+      isLastClassOfCourse = currentIndex === allClasses.length - 1;
     }
+
+    // Clean up the response - don't send the full nested structure
+    const { modules: _modules, topics: _topics, ...courseData } = course;
 
     return NextResponse.json({
       class: classItem,
-      course: classItem.topic.course,
-      module: classItem.topic.module,
+      course: courseData,
+      module: currentTopic.module,
       nextClass,
       previousClass,
       isLastClassOfModule,

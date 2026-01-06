@@ -41,8 +41,6 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { userId, classId, watchedDuration, lastPosition, isCompleted } = body;
 
-    console.log('📥 API received progress data:', { userId, classId, watchedDuration, lastPosition, isCompleted });
-
     if (!userId || !classId || typeof watchedDuration !== 'number') {
       return NextResponse.json(
         { error: 'userId, classId, and watchedDuration are required' },
@@ -106,18 +104,9 @@ export async function POST(request: NextRequest) {
       create: createData,
     });
 
-    console.log('✅ Progress saved to database:', {
-      watchedDuration: progress.watchedDuration,
-      lastPosition: progress.lastPosition,
-      isCompleted: progress.isCompleted
-    });
-
     return NextResponse.json({ progress }, { status: 200 });
   } catch (error: any) {
-    console.error('Error saving progress:', error);
-    console.error('Error code:', error.code);
-    console.error('Error message:', error.message);
-    console.error('Error meta:', error.meta);
+    console.error('Error saving progress:', error?.message);
     return NextResponse.json(
       { error: 'Failed to save progress', details: error.message },
       { status: 500 }

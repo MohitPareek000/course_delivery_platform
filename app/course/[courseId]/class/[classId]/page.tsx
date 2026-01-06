@@ -78,6 +78,11 @@ export default function ClassPlayerPage() {
   const [isCompleted, setIsCompleted] = React.useState(false);
   const [progressLoading, setProgressLoading] = React.useState(false);
 
+  // Throttle progress saves - store last saved time and pending data
+  const lastSaveTimeRef = React.useRef<number>(0);
+  const pendingProgressRef = React.useRef<{watchedDuration: number; currentPosition: number; totalDuration: number} | null>(null);
+  const saveTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
+
   // Fetch progress from database on mount
   React.useEffect(() => {
     async function fetchProgress() {
@@ -152,7 +157,8 @@ export default function ClassPlayerPage() {
     }
   };
 
-  const handleProgressUpdate = async (watchedDuration: number, currentPosition: number, totalDuration: number) => {
+  // Actual save function (not throttled)
+  const saveProgressToServer = React.useCallback(async (watchedDuration: number, currentPosition: number) => {
     try {
       if (!userId) return;
 
@@ -174,7 +180,78 @@ export default function ClassPlayerPage() {
     } catch (error) {
       console.error('Error saving progress:', error);
     }
-  };
+  }, [userId, classId]);
+
+  // Throttled progress update - saves at most once every 30 seconds
+  const handleProgressUpdate = React.useCallback((watchedDuration: number, currentPosition: number, totalDuration: number) => {
+    if (!userId) return;
+
+    const now = Date.now();
+    const THROTTLE_INTERVAL = 30000; // 30 seconds
+
+    // Store the latest progress data
+    pendingProgressRef.current = { watchedDuration, currentPosition, totalDuration };
+
+    // If enough time has passed since last save, save immediately
+    if (now - lastSaveTimeRef.current >= THROTTLE_INTERVAL) {
+      lastSaveTimeRef.current = now;
+      saveProgressToServer(watchedDuration, currentPosition);
+
+      // Clear any pending timeout since we just saved
+      if (saveTimeoutRef.current) {
+        clearTimeout(saveTimeoutRef.current);
+        saveTimeoutRef.current = null;
+      }
+    } else {
+      // Schedule a save for later if not already scheduled
+      if (!saveTimeoutRef.current) {
+        const timeUntilNextSave = THROTTLE_INTERVAL - (now - lastSaveTimeRef.current);
+        saveTimeoutRef.current = setTimeout(() => {
+          if (pendingProgressRef.current) {
+            lastSaveTimeRef.current = Date.now();
+            saveProgressToServer(
+              pendingProgressRef.current.watchedDuration,
+              pendingProgressRef.current.currentPosition
+            );
+          }
+          saveTimeoutRef.current = null;
+        }, timeUntilNextSave);
+      }
+    }
+  }, [userId, saveProgressToServer]);
+
+  // Save pending progress when user leaves the page
+  React.useEffect(() => {
+    const handleBeforeUnload = () => {
+      if (pendingProgressRef.current && userId) {
+        // Use sendBeacon for reliable save on page unload
+        const data = JSON.stringify({
+          userId,
+          classId,
+          watchedDuration: Math.floor(pendingProgressRef.current.watchedDuration),
+          lastPosition: Math.floor(pendingProgressRef.current.currentPosition),
+          isCompleted: false,
+        });
+        navigator.sendBeacon('/api/progress', data);
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      // Clean up timeout on unmount
+      if (saveTimeoutRef.current) {
+        clearTimeout(saveTimeoutRef.current);
+      }
+      // Save any pending progress on unmount
+      if (pendingProgressRef.current) {
+        saveProgressToServer(
+          pendingProgressRef.current.watchedDuration,
+          pendingProgressRef.current.currentPosition
+        );
+      }
+    };
+  }, [userId, classId, saveProgressToServer]);
 
   // Show loading state
   if (dataLoading) {

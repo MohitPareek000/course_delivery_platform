@@ -25,7 +25,6 @@ export function VideoPlayer({
   className,
   courseId,
 }: VideoPlayerProps) {
-  console.log('🎬 VideoPlayer mounted with:', { initialProgress, resumePosition, classId });
 
   const videoRef = React.useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = React.useState(false);
